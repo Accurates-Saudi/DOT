@@ -15,11 +15,7 @@ import { cn } from "@/lib/utils";
 
 import { LinkedInIcon } from "./NavbarIcons";
 
-interface NavbarMobileMenuProps {
-  isElevated: boolean;
-}
-
-export function NavbarMobileMenu({ isElevated }: NavbarMobileMenuProps) {
+export function NavbarMobileMenu() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
@@ -35,9 +31,7 @@ export function NavbarMobileMenu({ isElevated }: NavbarMobileMenuProps) {
           size="icon"
           className={cn(
             "size-9 shrink-0 rounded-sm lg:hidden",
-            isElevated
-              ? "text-foreground/70 hover:bg-muted hover:text-foreground"
-              : "text-white/80 hover:bg-white/10 hover:text-white",
+            "text-foreground/70 hover:bg-muted hover:text-foreground",
           )}
           aria-label="Open menu"
         >

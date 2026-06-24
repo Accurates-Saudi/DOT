@@ -74,9 +74,8 @@ export function Navbar() {
           />
           <span
             className={cn(
-              "h-5 w-px shrink-0 sm:h-7",
+              "h-5 w-px shrink-0 bg-border/70 sm:h-7",
               transitionPresets.colors,
-              isElevated ? "bg-border" : "bg-white/25",
             )}
             aria-hidden
           />
@@ -113,18 +112,12 @@ export function Navbar() {
                   "relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] xl:px-4",
                   transitionPresets.colors,
                   "duration-300",
-                  isElevated
-                    ? cn(
-                        "text-foreground/75 hover:text-foreground",
-                        isActive && "text-foreground",
-                      )
-                    : cn(
-                        "text-white/80 hover:text-white",
-                        isActive && "text-white",
-                      ),
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300",
-                  isActive && "after:scale-x-100",
-                  !isActive && "hover:after:scale-x-100",
+                  "text-foreground/75 hover:text-foreground",
+                  isActive && "text-foreground",
+                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-300",
+                  isActive
+                    ? "after:scale-x-100 after:bg-accent"
+                    : "after:bg-foreground/40 hover:after:scale-x-100",
                 )
               }
             >
@@ -152,9 +145,7 @@ export function Navbar() {
                   "inline-flex size-9 items-center justify-center rounded-sm",
                   transitionPresets.colors,
                   "duration-300",
-                  isElevated
-                    ? "text-foreground/60 hover:bg-muted hover:text-foreground"
-                    : "text-white/70 hover:bg-white/10 hover:text-white",
+                  "text-foreground/60 hover:bg-muted hover:text-foreground",
                 )}
               >
                 <LinkedInIcon className="size-[1.125rem]" />
@@ -165,12 +156,10 @@ export function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "h-9 min-w-[5.5rem] rounded-sm px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
+                "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
                 transitionPresets.colors,
                 "duration-300",
-                isElevated
-                  ? "border-border bg-transparent text-foreground hover:bg-muted"
-                  : "border-white/35 bg-transparent text-white hover:border-white/55 hover:bg-white/10",
+                "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background",
               )}
               asChild
             >
@@ -178,7 +167,7 @@ export function Navbar() {
             </Button>
           </div>
 
-          <NavbarMobileMenu isElevated={isElevated} />
+          <NavbarMobileMenu />
         </div>
       </Container>
     </header>

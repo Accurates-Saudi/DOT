@@ -70,11 +70,13 @@ export interface PageContent {
 /** Homepage content scaffold — sections will populate this later */
 export interface HomePageContent extends PageContent {
   hero: {
+    label: ContentValue<string>;
     headline: ContentValue<string>;
+    headlineAccent: ContentValue<string>;
     subheadline: ContentValue<string>;
     ctaPrimary: LinkItem;
     ctaSecondary?: LinkItem;
-    backgroundImage?: ImageAsset;
+    backgrounds?: ImageAsset[];
   };
 }
 

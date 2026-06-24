@@ -145,3 +145,18 @@
     @apply font-semibold tracking-tight;
   }
 }
+
+@keyframes hero-ken-burns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.06);
+  }
+}
+
+@layer utilities {
+  .hero-ken-burns {
+    animation: hero-ken-burns var(--hero-slide-duration, 7s) ease-out forwards;
+  }
+}

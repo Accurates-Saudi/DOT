@@ -18,11 +18,11 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white shadow-[0_8px_32px_-20px_rgba(12,21,36,0.14)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-18px_rgba(12,21,36,0.18)]",
+        "group overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-20px_rgba(12,21,36,0.2)] sm:p-2",
         className,
       )}
     >
-      <div className="aspect-[16/10] overflow-hidden bg-[#0c1524]/[0.03]">
+      <div className="aspect-[4/3] overflow-hidden rounded-[0.75rem] sm:rounded-xl">
         <img
           src={product.image.src}
           alt={product.image.alt}
@@ -32,25 +32,21 @@ export function ProductCard({
         />
       </div>
 
-      <div className="flex flex-1 flex-col px-5 py-5 sm:px-6 sm:py-6">
-        <p className="text-[0.6875rem] font-bold tracking-[0.16em] text-[#F68E05] uppercase">
-          {product.category}
-        </p>
-
-        <h3 className="mt-2 text-base font-semibold leading-snug text-[#0c1524] sm:text-[1.0625rem]">
+      <div className="px-3 py-4 sm:px-4 sm:py-5">
+        <h3 className="text-[0.8125rem] font-bold tracking-[0.06em] text-[#0c1524] uppercase sm:text-sm">
           {product.name}
         </h3>
 
-        <p className="mt-2.5 flex-1 text-[0.8125rem] leading-[1.7] text-[#0c1524]/65 sm:text-sm">
+        <p className="mt-2 line-clamp-2 text-[0.75rem] leading-snug text-[#0c1524]/60 sm:text-xs">
           {product.description}
         </p>
 
         <Link
           to={product.href}
-          className="mt-5 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold tracking-wide text-[#0c1524] uppercase transition-colors duration-200 hover:text-[#F68E05]"
+          className="mt-3 inline-flex items-center gap-1 text-[0.6875rem] font-semibold tracking-wide text-[#0c1524] uppercase transition-colors hover:text-[#F68E05] sm:text-xs"
         >
           {viewProductLabel}
-          <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+          <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
     </article>

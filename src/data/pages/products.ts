@@ -22,30 +22,24 @@ export const productsPageContent: ProductsPageContent = {
       { label: "Home", href: "/" },
       { label: "Products" },
     ],
-    label: "Product Portfolio",
-    title: "Engineered Solutions for Demanding Operations",
+    title: "Products",
     introduction:
-      "Precision-manufactured screens, strainers, and filtration systems designed for reliability in upstream, downstream, and industrial environments.",
+      "Engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
   },
   listing: {
-    label: "Our Products",
-    heading: "Industrial Product Range",
-    subheading:
-      "Browse our portfolio of engineered solutions — each developed through rigorous design, advanced manufacturing, and field-proven performance.",
     searchPlaceholder: "Search products…",
-    emptyStateMessage: "No products match your search. Try a different term.",
+    emptyStateMessage: "No products match your search.",
     viewProductLabel: "View Product",
     items: [
       {
         id: "wire-wrapped-screens",
         slug: "wire-wrapped-screens",
         name: "Wire Wrapped Screens",
-        description:
-          "Precision-wound wire screens for sand control and filtration in oil, gas, and water well applications.",
+        description: "Sand control and filtration for well applications.",
         category: "Downhole Screens",
         image: {
           src: capEngineering,
-          alt: "Precision wire wrapped screen manufactured for downhole filtration",
+          alt: "Wire wrapped screen",
         },
         href: "/contact",
       },
@@ -53,25 +47,23 @@ export const productsPageContent: ProductsPageContent = {
         id: "premium-mesh-screens",
         slug: "premium-mesh-screens",
         name: "Premium Mesh Screens",
-        description:
-          "High-performance mesh screen systems engineered for consistent flow rates and extended service life in harsh conditions.",
+        description: "High-performance mesh for demanding conditions.",
         category: "Downhole Screens",
         image: {
           src: capQuality,
-          alt: "Premium mesh screen assembly for industrial filtration",
+          alt: "Premium mesh screen",
         },
         href: "/contact",
       },
       {
         id: "downhole-sand-control",
         slug: "downhole-sand-control",
-        name: "Downhole Sand Control Screens",
-        description:
-          "Engineered sand control solutions for production wells, designed to maximize reservoir contact and minimize formation damage.",
+        name: "Downhole Sand Control",
+        description: "Sand control solutions for production wells.",
         category: "Downhole Screens",
         image: {
           src: engineeringCad,
-          alt: "CAD design of downhole sand control screen system",
+          alt: "Downhole sand control screen",
         },
         href: "/contact",
       },
@@ -79,12 +71,11 @@ export const productsPageContent: ProductsPageContent = {
         id: "gravel-pack-screens",
         slug: "gravel-pack-screens",
         name: "Gravel Pack Screens",
-        description:
-          "Robust gravel pack screen assemblies for open-hole and cased-hole completions in challenging reservoir conditions.",
+        description: "Screen assemblies for open and cased-hole completions.",
         category: "Downhole Screens",
         image: {
           src: capManufacturing,
-          alt: "Gravel pack screen manufacturing on precision production line",
+          alt: "Gravel pack screen",
         },
         href: "/contact",
       },
@@ -92,12 +83,11 @@ export const productsPageContent: ProductsPageContent = {
         id: "process-industry-screens",
         slug: "process-industry-screens",
         name: "Process Industry Screens",
-        description:
-          "Custom-engineered screening solutions for chemical, petrochemical, and process industries requiring precise separation.",
+        description: "Screening solutions for process industries.",
         category: "Process Screens",
         image: {
           src: engineeringBg,
-          alt: "Industrial process screening equipment in manufacturing facility",
+          alt: "Process industry screen",
         },
         href: "/contact",
       },
@@ -105,12 +95,11 @@ export const productsPageContent: ProductsPageContent = {
         id: "screen-baskets",
         slug: "screen-baskets",
         name: "Screen Baskets",
-        description:
-          "Precision-manufactured screen baskets for centrifuges, separators, and industrial filtration systems to exact specifications.",
+        description: "Precision baskets for separators and filtration.",
         category: "Strainers & Baskets",
         image: {
           src: whyChooseFeatured,
-          alt: "Precision-machined screen basket component",
+          alt: "Screen basket",
         },
         href: "/contact",
       },
@@ -118,12 +107,11 @@ export const productsPageContent: ProductsPageContent = {
         id: "industrial-strainers",
         slug: "industrial-strainers",
         name: "Industrial Strainers",
-        description:
-          "Heavy-duty strainers and inline filtration devices for pipeline, refinery, and plant operations under high pressure.",
+        description: "Heavy-duty strainers for pipeline and plant use.",
         category: "Strainers & Baskets",
         image: {
           src: capInnovation,
-          alt: "Industrial strainer assemblies ready for field deployment",
+          alt: "Industrial strainer",
         },
         href: "/contact",
       },
@@ -131,38 +119,35 @@ export const productsPageContent: ProductsPageContent = {
         id: "slotted-liners",
         slug: "slotted-liners",
         name: "Slotted Liners",
-        description:
-          "Precision-cut slotted liners for well completions, offering controlled flow distribution and reliable sand exclusion.",
+        description: "Precision-cut liners for well completions.",
         category: "Downhole Screens",
         image: {
           src: engineeringCnc,
-          alt: "CNC-machined slotted liner for well completion",
+          alt: "Slotted liner",
         },
         href: "/contact",
       },
       {
         id: "screen-couplings",
         slug: "screen-couplings",
-        name: "Screen Couplings & Accessories",
-        description:
-          "Engineered couplings, adapters, and completion accessories designed for seamless integration with DOT screen systems.",
+        name: "Screen Couplings",
+        description: "Couplings and accessories for screen systems.",
         category: "Accessories",
         image: {
           src: facilityImage,
-          alt: "Screen coupling and accessory components at DOT manufacturing facility",
+          alt: "Screen couplings",
         },
         href: "/contact",
       },
       {
         id: "custom-filtration",
         slug: "custom-filtration",
-        name: "Custom Filtration Systems",
-        description:
-          "Bespoke filtration and separation solutions developed through collaborative engineering for unique operational requirements.",
+        name: "Custom Filtration",
+        description: "Bespoke filtration for unique requirements.",
         category: "Custom Engineering",
         image: {
           src: overviewHero,
-          alt: "Custom-engineered filtration system manufactured by Dynamic Oil Tools",
+          alt: "Custom filtration system",
         },
         href: "/contact",
       },

@@ -261,12 +261,7 @@ export interface AboutPageContent extends PageContent {
   engineeringManufacturing: EngineeringManufacturingContent;
 }
 
-export interface ProductsHeroContent {
-  breadcrumbs: BreadcrumbItem[];
-  label: ContentValue<string>;
-  title: ContentValue<string>;
-  introduction: ContentValue<string>;
-}
+export interface ProductsHeroContent extends AboutHeroContent {}
 
 export interface ProductItem {
   id: string;
@@ -279,9 +274,6 @@ export interface ProductItem {
 }
 
 export interface ProductsListingContent {
-  label: ContentValue<string>;
-  heading: ContentValue<string>;
-  subheading: ContentValue<string>;
   searchPlaceholder: ContentValue<string>;
   emptyStateMessage: ContentValue<string>;
   viewProductLabel: ContentValue<string>;

@@ -15,7 +15,7 @@ export const servicesPageMeta: PageMeta = {
 export const productsPageMeta: PageMeta = {
   title: "Products",
   description:
-    "High-performance oil & gas tools and equipment engineered for demanding field operations.",
+    "Explore Dynamic Oil Tools' engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
 };
 
 export const newsPageMeta: PageMeta = {

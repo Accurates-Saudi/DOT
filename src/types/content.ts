@@ -261,6 +261,45 @@ export interface AboutPageContent extends PageContent {
   engineeringManufacturing: EngineeringManufacturingContent;
 }
 
+export interface ProductsHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  label: ContentValue<string>;
+  title: ContentValue<string>;
+  introduction: ContentValue<string>;
+}
+
+export interface ProductItem {
+  id: string;
+  slug: string;
+  name: ContentValue<string>;
+  description: ContentValue<string>;
+  category: ContentValue<string>;
+  image: ImageAsset;
+  href: string;
+}
+
+export interface ProductsListingContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  subheading: ContentValue<string>;
+  searchPlaceholder: ContentValue<string>;
+  emptyStateMessage: ContentValue<string>;
+  viewProductLabel: ContentValue<string>;
+  items: ProductItem[];
+}
+
+export interface ProductsCtaContent {
+  heading: ContentValue<string>;
+  body: ContentValue<string>;
+  ctaPrimary: LinkItem;
+}
+
+export interface ProductsPageContent extends PageContent {
+  hero: ProductsHeroContent;
+  listing: ProductsListingContent;
+  cta: ProductsCtaContent;
+}
+
 export interface SiteSettings {
   companyName: string;
   legalName: string;

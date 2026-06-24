@@ -1,15 +1,16 @@
-import { Container, Section, SectionHeading } from "@/components/shared";
-import { productsPageMeta } from "@/data/pages";
+import {
+  ProductsCtaSection,
+  ProductsGrid,
+  ProductsHeroSection,
+} from "@/components/products";
+import { productsPageContent } from "@/data/pages/products";
 
 export function ProductsPage() {
   return (
-    <Section padding="lg">
-      <Container size="narrow">
-        <SectionHeading
-          title={productsPageMeta.title}
-          description={productsPageMeta.description}
-        />
-      </Container>
-    </Section>
+    <>
+      <ProductsHeroSection content={productsPageContent.hero} />
+      <ProductsGrid content={productsPageContent.listing} />
+      <ProductsCtaSection content={productsPageContent.cta} />
+    </>
   );
 }

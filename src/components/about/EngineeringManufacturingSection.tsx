@@ -120,7 +120,7 @@ export function EngineeringManufacturingSection({
       <div
         {...reveal(
           200,
-          "relative mt-14 bg-[#0c1524] sm:mt-16 lg:mt-20",
+          "relative mt-14 border-t border-[#0c1524]/8 bg-white sm:mt-16 lg:mt-20",
         )}
       >
         <Container size="wide" className="px-4 sm:px-6 lg:px-8">
@@ -131,10 +131,10 @@ export function EngineeringManufacturingSection({
                 aria-hidden
               />
               <div>
-                <h3 className="text-xl font-bold leading-snug text-white sm:text-[1.35rem] lg:text-2xl">
+                <h3 className="text-xl font-bold leading-snug text-[#0c1524] sm:text-[1.35rem] lg:text-2xl">
                   {content.cta.heading}
                 </h3>
-                <p className="mt-3 max-w-xl text-[0.875rem] leading-relaxed text-white/72 sm:text-[0.9375rem]">
+                <p className="mt-3 max-w-xl text-[0.875rem] leading-relaxed text-[#0c1524]/68 sm:text-[0.9375rem]">
                   {content.cta.body}
                 </p>
               </div>
@@ -155,7 +155,7 @@ export function EngineeringManufacturingSection({
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-sm border-[#F68E05] bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-[#F68E05] hover:bg-[#F68E05]/10"
+                className="h-12 rounded-sm border-[#0c1524]/20 bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-[#0c1524]/35 hover:bg-[#0c1524]/5"
                 asChild
               >
                 <Link to={content.cta.ctaSecondary.href}>

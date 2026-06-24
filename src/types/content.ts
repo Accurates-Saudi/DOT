@@ -291,6 +291,37 @@ export interface ProductsPageContent extends PageContent {
   cta: ProductsCtaContent;
 }
 
+export interface CatalogHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  title: ContentValue<string>;
+  introduction: ContentValue<string>;
+}
+
+export interface CatalogPdfResource {
+  href: string;
+  fileName?: string;
+}
+
+export interface CatalogItem {
+  id: string;
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+  cover: ImageAsset;
+  pdf: CatalogPdfResource;
+}
+
+export interface CatalogLibraryContent {
+  label: ContentValue<string>;
+  downloadLabel: ContentValue<string>;
+  pdfLabel: ContentValue<string>;
+  items: CatalogItem[];
+}
+
+export interface CatalogsPageContent extends PageContent {
+  hero: CatalogHeroContent;
+  library: CatalogLibraryContent;
+}
+
 export interface SpecificationRow {
   label: ContentValue<string>;
   value: ContentValue<string>;

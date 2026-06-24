@@ -1,15 +1,14 @@
-import { Container, Section, SectionHeading } from "@/components/shared";
-import { catalogsPageMeta } from "@/data/pages";
+import {
+  CatalogHeroSection,
+  CatalogLibrarySection,
+} from "@/components/catalogs";
+import { catalogsPageContent } from "@/data/pages/catalogs";
 
 export function CatalogsPage() {
   return (
-    <Section padding="lg">
-      <Container size="narrow">
-        <SectionHeading
-          title={catalogsPageMeta.title}
-          description={catalogsPageMeta.description}
-        />
-      </Container>
-    </Section>
+    <>
+      <CatalogHeroSection content={catalogsPageContent.hero} />
+      <CatalogLibrarySection content={catalogsPageContent.library} />
+    </>
   );
 }

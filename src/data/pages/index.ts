@@ -30,8 +30,4 @@ export const contactPageMeta: PageMeta = {
     "Get in touch with Dynamic Oil Tools for inquiries, partnerships, and support.",
 };
 
-export const catalogsPageMeta: PageMeta = {
-  title: "Catalogs",
-  description:
-    "Browse Dynamic Oil Tools product catalogs and technical documentation.",
-};
+export { catalogsPageContent, catalogsPageMeta } from "./catalogs";

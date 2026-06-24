@@ -524,7 +524,6 @@ export interface NewsHeroContent {
 }
 
 export interface NewsFeaturedContent {
-  label: ContentValue<string>;
   readMoreLabel: ContentValue<string>;
 }
 
@@ -551,4 +550,26 @@ export interface NewsPageContent extends PageContent {
 export interface NewsListingContent extends PageContent {
   heading: string;
   subheading?: string;
+}
+
+export interface NotFoundQuickLink {
+  id: string;
+  label: ContentValue<string>;
+  description: ContentValue<string>;
+  href: string;
+  icon: "products" | "about" | "catalogs" | "contact";
+}
+
+export interface NotFoundPageContent extends PageContent {
+  label: ContentValue<string>;
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  ctaSecondary: LinkItem;
+  quickLinksHeading: ContentValue<string>;
+  quickLinks: NotFoundQuickLink[];
+  supportHeading: ContentValue<string>;
+  supportBody: ContentValue<string>;
+  supportEmail: LinkItem;
+  supportPhone: LinkItem;
 }

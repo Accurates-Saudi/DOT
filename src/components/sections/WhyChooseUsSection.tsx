@@ -1,5 +1,5 @@
-import { ArrowRight, Calendar, Eye, Target } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Calendar } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 
 import { Container, Section } from "@/components/shared";
@@ -59,49 +59,51 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
       aria-label="Why choose us"
       className="overflow-hidden bg-white"
     >
-      <Container size="wide" className="px-0 sm:px-0 lg:px-8">
+      <Container size="full" className="max-w-none px-0">
         <div ref={sectionRef} className="flex flex-col">
-          <div className="grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.55fr)]">
+          <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.62fr)]">
             <div
               {...reveal(
                 0,
-                "relative flex flex-col justify-center bg-[#f4f3f2] px-6 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14 xl:px-12",
+                "relative flex min-h-[300px] flex-col justify-center bg-white px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[420px] lg:px-10 lg:py-14 xl:px-12",
               )}
             >
               <DotGrid
-                className="absolute bottom-6 left-6 hidden opacity-40 sm:grid sm:grid-cols-5 sm:gap-1.5 lg:bottom-8 lg:left-8"
-                dotClassName="size-1 rounded-full bg-[#0c1524]/15"
+                className="absolute bottom-7 left-7 grid grid-cols-5 gap-[5px] sm:bottom-8 sm:left-8 lg:bottom-9 lg:left-9"
+                dotClassName="size-[3px] rounded-full bg-[#0c1524]/12"
               />
 
-              <div className="relative flex items-center gap-3">
-                <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
-                <p className="text-[0.75rem] font-semibold tracking-[0.16em] text-[#0c1524]/75 uppercase sm:text-[0.8125rem]">
+              <div className="relative flex items-center gap-2.5">
+                <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
+                <p className="text-[0.6875rem] font-semibold tracking-[0.2em] text-[#0c1524]/55 uppercase sm:text-[0.75rem]">
                   {content.label}
                 </p>
               </div>
 
-              <h2 className="relative mt-5 text-[2rem] font-semibold tracking-tight text-[#0c1524] sm:text-[2.15rem] lg:text-[2.35rem] xl:text-[2.5rem]">
+              <h2 className="relative mt-5 text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.2rem] lg:text-[2.35rem] xl:text-[2.5rem]">
                 {content.heading}
               </h2>
 
               <span
-                className="relative mt-4 block h-1 w-12 rounded-full bg-[#F68E05] sm:mt-5"
+                className="relative mt-5 block h-[3px] w-11 bg-[#F68E05]"
                 aria-hidden
               />
 
-              <div className="relative mt-6 flex gap-4 sm:mt-7">
-                <span
-                  className="w-1 shrink-0 rounded-full bg-[#F68E05]"
-                  aria-hidden
-                />
-                <p className="max-w-sm text-lg font-semibold leading-snug tracking-tight text-[#0c1524] sm:text-xl lg:text-[1.35rem]">
+              <div className="relative mt-7 flex items-stretch gap-4">
+                <span className="w-[5px] shrink-0 bg-[#F68E05]" aria-hidden />
+                <p className="max-w-[15rem] text-[1.05rem] font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:max-w-[17rem] sm:text-[1.12rem] lg:text-[1.18rem]">
                   {content.subheading}
                 </p>
               </div>
             </div>
 
-            <div {...reveal(120, "relative flex flex-col lg:block lg:min-h-[420px]")}>
-              <div className="relative aspect-[16/10] w-full sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto">
+            <div
+              {...reveal(
+                80,
+                "relative flex flex-col lg:block lg:min-h-[420px]",
+              )}
+            >
+              <div className="relative aspect-[16/10] w-full sm:aspect-[5/3] lg:absolute lg:inset-0 lg:aspect-auto">
                 <img
                   src={content.featuredImage.src}
                   alt={content.featuredImage.alt}
@@ -111,37 +113,41 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                 />
               </div>
 
-              <div className="relative flex flex-col justify-center bg-[#F68E05] px-6 py-10 sm:px-8 sm:py-12 lg:absolute lg:top-0 lg:right-0 lg:bottom-0 lg:w-[42%] lg:px-8 lg:py-10 xl:px-10">
-                <h3 className="max-w-xs text-2xl font-semibold leading-tight tracking-tight text-white sm:text-[1.65rem] lg:text-[1.75rem]">
-                  {content.ctaPanel.heading}
-                </h3>
+              <div className="relative flex items-center justify-end lg:absolute lg:inset-0">
+                <div className="w-full bg-[#F68E05] px-7 py-10 sm:px-9 sm:py-11 lg:w-[46%] lg:max-w-[22.5rem] lg:px-9 lg:py-12 xl:px-10">
+                  <h3 className="text-[1.45rem] font-bold leading-[1.22] tracking-tight text-white sm:text-[1.55rem] lg:text-[1.62rem]">
+                    {content.ctaPanel.heading}
+                  </h3>
 
-                <span
-                  className="mt-4 block h-0.5 w-10 rounded-full bg-white/70"
-                  aria-hidden
-                />
+                  <span
+                    className="mt-4 block h-px w-9 bg-white/75"
+                    aria-hidden
+                  />
 
-                <div className="mt-7 flex flex-col gap-3 sm:mt-8">
-                  <Button
-                    className="group h-11 w-full justify-between rounded-sm border-transparent bg-[#0c1524] px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color] duration-300 ease-out hover:-translate-y-px hover:bg-[#0c1524]/90 sm:h-12 sm:text-[0.9375rem]"
-                    asChild
-                  >
-                    <Link to={content.ctaPanel.ctaPrimary.href}>
-                      {content.ctaPanel.ctaPrimary.label}
-                      <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
-                    </Link>
-                  </Button>
+                  <div className="mt-7 flex flex-col gap-3">
+                    <Button
+                      size="lg"
+                      className="group h-12 w-full justify-between rounded-full border-transparent bg-[#0c1524] px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color] duration-300 ease-out hover:-translate-y-px hover:bg-[#0c1524]/92 sm:px-6 sm:text-[0.9375rem]"
+                      asChild
+                    >
+                      <Link to={content.ctaPanel.ctaPrimary.href}>
+                        {content.ctaPanel.ctaPrimary.label}
+                        <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                      </Link>
+                    </Button>
 
-                  <Button
-                    variant="outline"
-                    className="group h-11 w-full justify-between rounded-sm border-white/80 bg-transparent px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-white hover:bg-white/10 sm:h-12 sm:text-[0.9375rem]"
-                    asChild
-                  >
-                    <Link to={content.ctaPanel.ctaSecondary.href}>
-                      {content.ctaPanel.ctaSecondary.label}
-                      <Calendar className="size-4" />
-                    </Link>
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="group h-12 w-full justify-between rounded-full border-white/85 bg-transparent px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-white hover:bg-white/10 sm:px-6 sm:text-[0.9375rem]"
+                      asChild
+                    >
+                      <Link to={content.ctaPanel.ctaSecondary.href}>
+                        {content.ctaPanel.ctaSecondary.label}
+                        <Calendar className="size-4 stroke-[1.75]" />
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -150,8 +156,8 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
           <div className="grid lg:grid-cols-2">
             <div
               {...reveal(
-                220,
-                "relative overflow-hidden bg-[#0c1524] px-6 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14",
+                200,
+                "relative flex min-h-[320px] flex-col overflow-hidden bg-[#0c1524] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
               )}
             >
               {content.mission.backgroundImage && (
@@ -159,24 +165,44 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                   <img
                     src={content.mission.backgroundImage.src}
                     alt=""
-                    className="absolute inset-0 size-full object-cover object-center opacity-25"
+                    className="absolute inset-0 size-full object-cover object-center opacity-28"
                     aria-hidden
                   />
                   <div
-                    className="absolute inset-0 bg-[#0c1524]/78"
+                    className="absolute inset-0 bg-[#0c1524]/84"
                     aria-hidden
                   />
                 </>
               )}
 
-              <div className="relative grid gap-6 sm:grid-cols-[auto_1fr] sm:gap-8">
-                <IconFrame icon={Target} variant="dark" />
-                <div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-white sm:text-[1.65rem]">
-                    {content.mission.title}
-                  </h3>
-                  <p className="mt-4 text-[0.9375rem] leading-[1.75] text-white/78 sm:text-base">
-                    {content.mission.body}
+              <DotGrid
+                className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
+                dotClassName="size-[3px] rounded-full bg-white/22"
+              />
+
+              <div className="relative flex flex-1 flex-col">
+                <div className="flex items-start gap-6 sm:gap-7">
+                  <IconFrame>
+                    <MissionIcon />
+                  </IconFrame>
+
+                  <div className="min-w-0 flex-1 pt-0.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
+                      <h3 className="text-[1.4rem] font-bold tracking-tight text-white sm:text-[1.5rem]">
+                        {content.mission.title}
+                      </h3>
+                    </div>
+                    <p className="mt-4 max-w-xl text-[0.9rem] leading-[1.8] text-white/76 sm:text-[0.9375rem]">
+                      {content.mission.body}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-auto flex items-center gap-2.5 pt-10 sm:pt-12">
+                  <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
+                  <p className="text-[0.625rem] font-semibold tracking-[0.22em] text-white/90 uppercase sm:text-[0.6875rem]">
+                    {content.tagline}
                   </p>
                 </div>
               </div>
@@ -184,8 +210,8 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
 
             <div
               {...reveal(
-                300,
-                "relative overflow-hidden bg-[#f4f3f2] px-6 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14",
+                280,
+                "relative flex min-h-[320px] flex-col justify-center overflow-hidden bg-[#eceae8] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
               )}
             >
               {content.vision.backgroundImage && (
@@ -193,52 +219,39 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                   <img
                     src={content.vision.backgroundImage.src}
                     alt=""
-                    className="absolute inset-0 size-full object-cover object-center opacity-20"
+                    className="absolute inset-0 size-full object-cover object-center opacity-32"
                     aria-hidden
                   />
                   <div
-                    className="absolute inset-0 bg-[#f4f3f2]/88"
+                    className="absolute inset-0 bg-[#eceae8]/88"
                     aria-hidden
                   />
                 </>
               )}
 
               <DotGrid
-                className="absolute right-6 bottom-6 hidden opacity-80 sm:grid sm:grid-cols-5 sm:gap-1.5 lg:right-8 lg:bottom-8"
-                dotClassName="size-1 rounded-full bg-[#F68E05]/55"
+                className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
+                dotClassName="size-[3px] rounded-full bg-[#F68E05]/60"
               />
 
-              <div className="relative grid gap-6 sm:grid-cols-[auto_1fr] sm:gap-8">
-                <IconFrame icon={Eye} variant="light" />
-                <div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-[#0c1524] sm:text-[1.65rem]">
-                    {content.vision.title}
-                  </h3>
-                  <p className="mt-4 text-[0.9375rem] leading-[1.75] text-[#0c1524]/72 sm:text-base">
+              <div className="relative flex items-start gap-6 sm:gap-7">
+                <IconFrame>
+                  <VisionIcon />
+                </IconFrame>
+
+                <div className="min-w-0 flex-1 pt-0.5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
+                    <h3 className="text-[1.4rem] font-bold tracking-tight text-[#0c1524] sm:text-[1.5rem]">
+                      {content.vision.title}
+                    </h3>
+                  </div>
+                  <p className="mt-4 max-w-md text-[0.9rem] leading-[1.8] text-[#0c1524]/74 sm:text-[0.9375rem]">
                     {content.vision.body}
                   </p>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div
-            {...reveal(
-              380,
-              "relative flex items-center bg-[#0c1524] px-6 py-4 sm:px-8 sm:py-5 lg:px-10",
-            )}
-          >
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
-              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-white/90 uppercase sm:text-xs">
-                {content.tagline}
-              </p>
-            </div>
-
-            <DotGrid
-              className="absolute right-6 bottom-3 hidden opacity-90 sm:grid sm:grid-cols-5 sm:gap-1.5 lg:right-10"
-              dotClassName="size-1 rounded-full bg-[#F68E05]/70"
-            />
           </div>
         </div>
       </Container>
@@ -246,24 +259,56 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
   );
 }
 
-function IconFrame({
-  icon: Icon,
-  variant,
-}: {
-  icon: typeof Target;
-  variant: "dark" | "light";
-}) {
+function IconFrame({ children }: { children: ReactNode }) {
   return (
-    <div
-      className={cn(
-        "flex size-16 shrink-0 items-center justify-center border-2 sm:size-[4.5rem]",
-        variant === "dark"
-          ? "border-[#F68E05] text-[#F68E05]"
-          : "border-[#F68E05] text-[#F68E05]",
-      )}
-    >
-      <Icon className="size-7 stroke-[1.5] sm:size-8" aria-hidden />
+    <div className="flex size-[4.25rem] shrink-0 items-center justify-center border border-[#F68E05] text-[#F68E05] sm:size-[4.75rem]">
+      {children}
     </div>
+  );
+}
+
+function MissionIcon() {
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className="size-9 sm:size-10"
+      aria-hidden
+    >
+      <circle cx="20" cy="20" r="12.5" stroke="currentColor" strokeWidth="1.1" />
+      <circle cx="20" cy="20" r="6.25" stroke="currentColor" strokeWidth="1.1" />
+      <circle cx="20" cy="20" r="1.75" fill="currentColor" />
+      <path d="M20 4.5V9.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M20 30.5V35.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M4.5 20H9.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M30.5 20H35.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function VisionIcon() {
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className="size-9 sm:size-10"
+      aria-hidden
+    >
+      <path
+        d="M6 20C10.5 12.5 14.75 9 20 9C25.25 9 29.5 12.5 34 20C29.5 27.5 25.25 31 20 31C14.75 31 10.5 27.5 6 20Z"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      <circle cx="20" cy="20" r="5.25" stroke="currentColor" strokeWidth="1.1" />
+      <circle cx="20" cy="20" r="2.25" fill="currentColor" />
+      <path
+        d="M13.5 14.5C15.25 13.25 17.25 12.5 20 12.5"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }
 

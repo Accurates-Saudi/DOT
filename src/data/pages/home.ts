@@ -124,17 +124,17 @@ export const homePageContent: HomePageContent = {
     ],
   },
   whyChooseUs: {
-    label: "Why choose us",
+    label: "Why Choose Us",
     heading: "Why Choose Us",
-    subheading: "We are a leader in the industrial market",
+    subheading: "We Are a Leader In Industrial Market",
     featuredImage: {
       src: whyChooseFeatured,
       alt: "Precision-machined industrial component manufactured by Dynamic Oil Tools",
     },
     ctaPanel: {
-      heading: "We are open for opportunities",
+      heading: "We Are Open For Opportunities!",
       ctaPrimary: { label: "View Our Works", href: "/products" },
-      ctaSecondary: { label: "Make an Appointment", href: "/contact" },
+      ctaSecondary: { label: "Make An Appointment", href: "/contact" },
     },
     mission: {
       title: "Mission",

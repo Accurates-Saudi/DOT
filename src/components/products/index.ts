@@ -4,13 +4,10 @@ export {
   type ProductContactCtaSectionProps,
 } from "./ProductContactCtaSection";
 export {
-  ProductDetailBodySection,
-  type ProductDetailBodySectionProps,
-} from "./ProductDetailBodySection";
-export {
-  ProductDetailHeroSection,
-  type ProductDetailHeroSectionProps,
-} from "./ProductDetailHeroSection";
+  ProductDetailBreadcrumb,
+  type ProductDetailBreadcrumbProps,
+} from "./ProductDetailBreadcrumb";
+export { ProductDetailView, type ProductDetailViewProps } from "./ProductDetailView";
 export { ProductSectionHeading, type ProductSectionHeadingProps } from "./ProductSectionHeading";
 export { ProductsCtaSection, type ProductsCtaSectionProps } from "./ProductsCtaSection";
 export { ProductsGrid, type ProductsGridProps } from "./ProductsGrid";

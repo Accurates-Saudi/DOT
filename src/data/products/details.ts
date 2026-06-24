@@ -10,10 +10,11 @@ import engineeringBg from "@/assets/engineering/bg.png";
 import engineeringCad from "@/assets/engineering/cad.png";
 import engineeringCnc from "@/assets/engineering/cnc.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
+import technicalDataPlaceholder from "@/assets/products/technical-data-placeholder.svg";
 
 const defaultContactCta = {
   heading: "Need Technical Assistance?",
-  body: "Our engineering team is ready to help you select the right solution for your application.",
+  body: "Our engineering team is ready to help you find the right solution for your well completion requirements.",
   ctaPrimary: { label: "Contact Us", href: "/contact" },
   ctaSecondary: { label: "Request Information", href: "/contact" },
 };
@@ -78,7 +79,10 @@ function createProductDetail(seed: ProductSeed): ProductDetailContent {
       ? {
           specifications: {
             heading: "Technical Data",
-            rows: seed.specifications,
+            image: {
+              src: technicalDataPlaceholder,
+              alt: `${seed.name} technical data table`,
+            },
           },
         }
       : {}),

@@ -331,7 +331,8 @@ export interface ProductDetailInfoContent {
 
 export interface ProductSpecificationsContent {
   heading: ContentValue<string>;
-  rows: SpecificationRow[];
+  image?: ImageAsset;
+  rows?: SpecificationRow[];
 }
 
 export interface ProductContactCtaContent {

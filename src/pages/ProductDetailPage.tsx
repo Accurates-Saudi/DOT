@@ -2,8 +2,7 @@ import { useLoaderData } from "react-router";
 
 import {
   ProductContactCtaSection,
-  ProductDetailBodySection,
-  ProductDetailHeroSection,
+  ProductDetailView,
 } from "@/components/products";
 import type { ProductDetailContent } from "@/types";
 
@@ -16,12 +15,7 @@ export function ProductDetailPage() {
 
   return (
     <>
-      <ProductDetailHeroSection content={product.hero} />
-      <ProductDetailBodySection
-        overview={product.overview}
-        info={product.info}
-        specifications={product.specifications}
-      />
+      <ProductDetailView product={product} />
       <ProductContactCtaSection content={product.contactCta} />
     </>
   );

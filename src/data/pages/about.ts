@@ -1,6 +1,6 @@
 import type { AboutPageContent } from "@/types";
 
-import aboutImage from "@/assets/about/facility.png";
+import aboutImage from "@/assets/about/overview-hero.png";
 
 export const aboutPageContent: AboutPageContent = {
   meta: {
@@ -26,7 +26,7 @@ export const aboutPageContent: AboutPageContent = {
     ],
     image: {
       src: aboutImage,
-      alt: "Dynamic Oil Tools manufacturing facility in Saudi Arabia",
+      alt: "Precision-engineered oil and gas tooling manufactured by Dynamic Oil Tools",
     },
     features: [
       {

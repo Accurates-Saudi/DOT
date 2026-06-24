@@ -11,6 +11,7 @@ import type {
   CompanyOverviewFeature,
   CompanyOverviewStat,
 } from "@/types";
+import { cn } from "@/lib/utils";
 
 const STAT_ICONS: Record<CompanyOverviewStat["icon"], LucideIcon> = {
   experience: Calendar,
@@ -21,7 +22,7 @@ const STAT_ICONS: Record<CompanyOverviewStat["icon"], LucideIcon> = {
 
 export function CompanyOverviewFeatureIcon({
   icon,
-  className = "size-8",
+  className = "size-7 sm:size-8",
 }: {
   icon: CompanyOverviewFeature["icon"];
   className?: string;
@@ -40,18 +41,26 @@ export function CompanyOverviewFeatureIcon({
 
 export function CompanyOverviewStatIcon({
   icon,
-  className = "size-9 sm:size-10",
+  className = "size-8 sm:size-9",
 }: {
   icon: CompanyOverviewStat["icon"];
   className?: string;
 }) {
   const Icon = STAT_ICONS[icon];
-  return <Icon className={className} strokeWidth={1.25} aria-hidden />;
+  return <Icon className={className} strokeWidth={1.35} aria-hidden />;
 }
 
-function IconFrame({ children }: { children: ReactNode }) {
+function FeatureIconFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="flex size-[3.25rem] shrink-0 items-center justify-center border border-[#F68E05] text-[#F68E05] sm:size-[3.5rem]">
+    <div className="flex size-12 shrink-0 items-center justify-center rounded-sm bg-[#F68E05]/10 text-[#F68E05] ring-1 ring-[#F68E05]/20 sm:size-[3.25rem]">
+      {children}
+    </div>
+  );
+}
+
+function StatIconFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex size-14 shrink-0 items-center justify-center rounded-md bg-white text-[#F68E05] shadow-[0_10px_28px_-14px_rgba(12,21,36,0.22)] ring-1 ring-[#0c1524]/6 sm:size-16">
       {children}
     </div>
   );
@@ -63,9 +72,9 @@ export function CompanyOverviewFeatureIconFrame({
   icon: CompanyOverviewFeature["icon"];
 }) {
   return (
-    <IconFrame>
+    <FeatureIconFrame>
       <CompanyOverviewFeatureIcon icon={icon} />
-    </IconFrame>
+    </FeatureIconFrame>
   );
 }
 
@@ -75,29 +84,40 @@ export function CompanyOverviewStatIconFrame({
   icon: CompanyOverviewStat["icon"];
 }) {
   return (
-    <IconFrame>
+    <StatIconFrame>
       <CompanyOverviewStatIcon icon={icon} />
-    </IconFrame>
+    </StatIconFrame>
+  );
+}
+
+export function CompanyOverviewStatDivider({
+  className,
+}: {
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "hidden w-px shrink-0 self-stretch bg-[#F68E05]/35 lg:block",
+        className,
+      )}
+      aria-hidden
+    />
   );
 }
 
 function SaudiMadeIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      className={className}
-      aria-hidden
-    >
+    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden>
       <path
-        d="M10.5 6.5h11c2.2 0 4 1.8 4 4v11c0 2.2-1.8 4-4 4h-11c-2.2 0-4-1.8-4-4v-11c0-2.2 1.8-4 4-4Z"
+        d="M11 8.5h18c2.5 0 4.5 2 4.5 4.5v14.5c0 2.5-2 4.5-4.5 4.5H11c-2.5 0-4.5-2-4.5-4.5V13c0-2.5 2-4.5 4.5-4.5Z"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
       />
       <path
-        d="M12.5 11.5c1.2-.8 2.6-1.2 4-1.2s2.8.4 4 1.2M12.5 16c1.4-.9 3.1-1.4 4.8-1.4 1.7 0 3.4.5 4.8 1.4M12.5 20.5c1.6-1 3.5-1.5 5.3-1.5s3.7.5 5.3 1.5"
+        d="M14 15c1.5-1 3.2-1.5 5-1.5s3.5.5 5 1.5M14 20c1.8-1.1 3.8-1.7 6-1.7s4.2.6 6 1.7M14 25.5c2-1.2 4.3-1.8 6.5-1.8s4.5.6 6.5 1.8"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
         strokeLinecap="round"
       />
     </svg>
@@ -106,22 +126,17 @@ function SaudiMadeIcon({ className }: { className?: string }) {
 
 function QualityDrivenIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      className={className}
-      aria-hidden
-    >
+    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden>
       <path
-        d="M16 5.5 8.5 8.5v7.2c0 4.8 3.2 9.3 7.5 10.8 4.3-1.5 7.5-6 7.5-10.8V8.5L16 5.5Z"
+        d="M20 7 10 10.5v8.8c0 5.8 4 11.2 10 13 6-1.8 10-7.2 10-13V10.5L20 7Z"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
         strokeLinejoin="round"
       />
       <path
-        d="m12.5 16 2.4 2.4L19.8 13"
+        d="m15.5 20 2.8 2.8 6.2-6.2"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -131,19 +146,14 @@ function QualityDrivenIcon({ className }: { className?: string }) {
 
 function ClientFocusedIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      className={className}
-      aria-hidden
-    >
-      <circle cx="16" cy="11" r="3.25" stroke="currentColor" strokeWidth="1.1" />
-      <circle cx="9" cy="13.5" r="2.5" stroke="currentColor" strokeWidth="1.1" />
-      <circle cx="23" cy="13.5" r="2.5" stroke="currentColor" strokeWidth="1.1" />
+    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden>
+      <circle cx="20" cy="13.5" r="4" stroke="currentColor" strokeWidth="1.35" />
+      <circle cx="11" cy="16.5" r="3" stroke="currentColor" strokeWidth="1.35" />
+      <circle cx="29" cy="16.5" r="3" stroke="currentColor" strokeWidth="1.35" />
       <path
-        d="M7.5 23.5c1.2-2.8 3.8-4.5 8.5-4.5s7.3 1.7 8.5 4.5M4.5 22.5c.8-2 2.5-3.2 4.5-3.2M27.5 22.5c-.8-2-2.5-3.2-4.5-3.2"
+        d="M9 29c1.4-3.2 4.5-5.2 11-5.2s9.6 2 11 5.2M5.5 27.5c1-2.4 3-3.8 5.5-3.8M34.5 27.5c-1-2.4-3-3.8-5.5-3.8"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
         strokeLinecap="round"
       />
     </svg>
@@ -152,25 +162,20 @@ function ClientFocusedIcon({ className }: { className?: string }) {
 
 function GlobalSupplyIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      className={className}
-      aria-hidden
-    >
-      <circle cx="16" cy="16" r="10.5" stroke="currentColor" strokeWidth="1.1" />
+    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden>
+      <circle cx="20" cy="20" r="12.5" stroke="currentColor" strokeWidth="1.35" />
       <ellipse
-        cx="16"
-        cy="16"
-        rx="4.5"
-        ry="10.5"
+        cx="20"
+        cy="20"
+        rx="5.5"
+        ry="12.5"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
       />
       <path
-        d="M5.5 16h21M7 11h18M7 21h18"
+        d="M7.5 20h25M9 14.5h22M9 25.5h22"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="1.35"
         strokeLinecap="round"
       />
     </svg>

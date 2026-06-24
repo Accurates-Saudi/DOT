@@ -158,6 +158,36 @@ export interface NewsSectionContent {
   };
 }
 
+export interface FooterContactItem {
+  type: "email" | "phone" | "address";
+  label: ContentValue<string>;
+  value: ContentValue<string>;
+  href?: string;
+}
+
+export interface FooterLinkGroup {
+  title: ContentValue<string>;
+  items: LinkItem[];
+}
+
+export interface FooterContent {
+  description: ContentValue<string>;
+  logos: {
+    dot: ImageAsset;
+    saudiMade: ImageAsset;
+  };
+  quickLinks: FooterLinkGroup;
+  services: FooterLinkGroup;
+  contact: {
+    title: ContentValue<string>;
+    items: FooterContactItem[];
+  };
+  bottomBar: {
+    legalName: ContentValue<string>;
+    legalLinks: LinkItem[];
+  };
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }

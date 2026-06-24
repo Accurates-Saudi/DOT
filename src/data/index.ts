@@ -1,3 +1,4 @@
+export { footerContent } from "./footer";
 export { footerNavigation, mainNavigation } from "./navigation";
 export { homePageContent } from "./pages/home";
 export {

@@ -98,6 +98,29 @@ export interface WhyChooseUsSectionContent {
   tagline: ContentValue<string>;
 }
 
+export interface EngineeringCapabilityStep {
+  step: ContentValue<string>;
+  title: ContentValue<string>;
+  subtitle: ContentValue<string>;
+  image: ImageAsset;
+  icon: "drafting" | "cnc";
+}
+
+export interface EngineeringFeatureItem {
+  label: ContentValue<string>;
+  icon: "engineering-tools" | "precision" | "manufacturing" | "innovation";
+}
+
+export interface EngineeringSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  bullets: ContentValue<string>[];
+  steps: EngineeringCapabilityStep[];
+  features: EngineeringFeatureItem[];
+  backgroundImage?: ImageAsset;
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -148,6 +171,7 @@ export interface HomePageContent extends PageContent {
   about: AboutSectionContent;
   services: ServicesSectionContent;
   whyChooseUs: WhyChooseUsSectionContent;
+  engineering: EngineeringSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

@@ -1,5 +1,6 @@
 import {
   AboutSection,
+  EngineeringSection,
   HeroSection,
   ServicesSection,
   WhyChooseUsSection,
@@ -13,6 +14,7 @@ export function HomePage() {
       <AboutSection content={homePageContent.about} />
       <ServicesSection content={homePageContent.services} />
       <WhyChooseUsSection content={homePageContent.whyChooseUs} />
+      <EngineeringSection content={homePageContent.engineering} />
     </>
   );
 }

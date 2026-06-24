@@ -6,6 +6,9 @@ import aboutImage from "@/assets/about/facility.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
 import whyChooseMissionBg from "@/assets/why-choose/mission-bg.png";
 import whyChooseVisionBg from "@/assets/why-choose/vision-bg.png";
+import engineeringBg from "@/assets/engineering/bg.png";
+import engineeringCad from "@/assets/engineering/cad.png";
+import engineeringCnc from "@/assets/engineering/cnc.png";
 
 export const homePageContent: HomePageContent = {
   meta: {
@@ -153,5 +156,46 @@ export const homePageContent: HomePageContent = {
       },
     },
     tagline: "Precision. Performance. Partnership.",
+  },
+  engineering: {
+    label: "R&D / Engineering Department",
+    heading: "How We",
+    headingAccent: "Work",
+    bullets: [
+      "Modeling, assembling of industrial products using various CAD softwares",
+      "FEM Engineering Analysis of industrial products",
+    ],
+    steps: [
+      {
+        step: "01",
+        title: "Designing, Modeling, & Analysis",
+        subtitle: "Autodesk Inventor Professional",
+        image: {
+          src: engineeringCad,
+          alt: "CAD modeling and engineering analysis of industrial components",
+        },
+        icon: "drafting",
+      },
+      {
+        step: "02",
+        title: "CNC machine code generator",
+        subtitle: "Inventor HSM (CAM) & Feature CAM",
+        image: {
+          src: engineeringCnc,
+          alt: "CNC machining and precision manufacturing process",
+        },
+        icon: "cnc",
+      },
+    ],
+    features: [
+      { label: "Advanced Engineering Tools", icon: "engineering-tools" },
+      { label: "Precision & Accuracy", icon: "precision" },
+      { label: "Optimized Manufacturing", icon: "manufacturing" },
+      { label: "Innovative Solutions", icon: "innovation" },
+    ],
+    backgroundImage: {
+      src: engineeringBg,
+      alt: "",
+    },
   },
 };

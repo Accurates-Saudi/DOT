@@ -3,6 +3,7 @@ export { footerNavigation, mainNavigation } from "./navigation";
 export { aboutPageContent } from "./pages/about";
 export { homePageContent } from "./pages/home";
 export { productsPageContent } from "./pages/products";
+export { productDetails, productDetailsBySlug } from "./products";
 export {
   aboutPageMeta,
   catalogsPageMeta,

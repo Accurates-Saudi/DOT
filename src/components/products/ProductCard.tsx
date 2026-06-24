@@ -42,7 +42,7 @@ export function ProductCard({
         </p>
 
         <Link
-          to={product.href}
+          to={`/products/${product.slug}`}
           className="mt-3 inline-flex items-center gap-1 text-[0.6875rem] font-semibold tracking-wide text-[#0c1524] uppercase transition-colors hover:text-[#F68E05] sm:text-xs"
         >
           {viewProductLabel}

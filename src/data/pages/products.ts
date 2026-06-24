@@ -41,7 +41,6 @@ export const productsPageContent: ProductsPageContent = {
           src: capEngineering,
           alt: "Wire wrapped screen",
         },
-        href: "/contact",
       },
       {
         id: "premium-mesh-screens",
@@ -53,7 +52,6 @@ export const productsPageContent: ProductsPageContent = {
           src: capQuality,
           alt: "Premium mesh screen",
         },
-        href: "/contact",
       },
       {
         id: "downhole-sand-control",
@@ -65,7 +63,6 @@ export const productsPageContent: ProductsPageContent = {
           src: engineeringCad,
           alt: "Downhole sand control screen",
         },
-        href: "/contact",
       },
       {
         id: "gravel-pack-screens",
@@ -77,7 +74,6 @@ export const productsPageContent: ProductsPageContent = {
           src: capManufacturing,
           alt: "Gravel pack screen",
         },
-        href: "/contact",
       },
       {
         id: "process-industry-screens",
@@ -89,7 +85,6 @@ export const productsPageContent: ProductsPageContent = {
           src: engineeringBg,
           alt: "Process industry screen",
         },
-        href: "/contact",
       },
       {
         id: "screen-baskets",
@@ -101,7 +96,6 @@ export const productsPageContent: ProductsPageContent = {
           src: whyChooseFeatured,
           alt: "Screen basket",
         },
-        href: "/contact",
       },
       {
         id: "industrial-strainers",
@@ -113,7 +107,6 @@ export const productsPageContent: ProductsPageContent = {
           src: capInnovation,
           alt: "Industrial strainer",
         },
-        href: "/contact",
       },
       {
         id: "slotted-liners",
@@ -125,7 +118,6 @@ export const productsPageContent: ProductsPageContent = {
           src: engineeringCnc,
           alt: "Slotted liner",
         },
-        href: "/contact",
       },
       {
         id: "screen-couplings",
@@ -137,7 +129,6 @@ export const productsPageContent: ProductsPageContent = {
           src: facilityImage,
           alt: "Screen couplings",
         },
-        href: "/contact",
       },
       {
         id: "custom-filtration",
@@ -149,7 +140,6 @@ export const productsPageContent: ProductsPageContent = {
           src: overviewHero,
           alt: "Custom filtration system",
         },
-        href: "/contact",
       },
     ],
   },

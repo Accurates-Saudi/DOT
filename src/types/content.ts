@@ -270,7 +270,6 @@ export interface ProductItem {
   description: ContentValue<string>;
   category: ContentValue<string>;
   image: ImageAsset;
-  href: string;
 }
 
 export interface ProductsListingContent {
@@ -290,6 +289,71 @@ export interface ProductsPageContent extends PageContent {
   hero: ProductsHeroContent;
   listing: ProductsListingContent;
   cta: ProductsCtaContent;
+}
+
+export interface SpecificationRow {
+  label: ContentValue<string>;
+  value: ContentValue<string>;
+}
+
+export interface DownloadResource {
+  id: string;
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+  fileType: ContentValue<string>;
+  href: string;
+}
+
+export interface ProductDetailHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  name: ContentValue<string>;
+  description: ContentValue<string>;
+  image: ImageAsset;
+  ctaContact: LinkItem;
+  ctaCatalog: LinkItem;
+}
+
+export interface ProductOverviewContent {
+  heading: ContentValue<string>;
+  paragraphs: ContentValue<string>[];
+  benefits: {
+    title: ContentValue<string>;
+    items: ContentValue<string>[];
+  };
+}
+
+export interface ProductSpecificationsContent {
+  heading: ContentValue<string>;
+  rows: SpecificationRow[];
+}
+
+export interface ProductGalleryContent {
+  heading: ContentValue<string>;
+  images: ImageAsset[];
+}
+
+export interface ProductDownloadsContent {
+  heading: ContentValue<string>;
+  items: DownloadResource[];
+}
+
+export interface ProductInquiryCtaContent {
+  heading: ContentValue<string>;
+  body: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  ctaSecondary: LinkItem;
+}
+
+export interface ProductDetailContent {
+  id: string;
+  slug: string;
+  meta: PageMeta;
+  hero: ProductDetailHeroContent;
+  overview: ProductOverviewContent;
+  specifications: ProductSpecificationsContent;
+  gallery: ProductGalleryContent;
+  downloads: ProductDownloadsContent;
+  inquiryCta: ProductInquiryCtaContent;
 }
 
 export interface SiteSettings {

@@ -250,10 +250,10 @@ export const homePageContent: HomePageContent = {
   },
   news: {
     label: "News & Insights",
-    heading: "Latest",
-    headingAccent: "News & Articles",
+    heading: "Industry",
+    headingAccent: "Insights & Updates",
     description:
-      "Stay updated with the latest developments, achievements, and industry insights from Dynamic Oil Tools.",
+      "Stay informed with the latest company news, industry developments, exhibitions, and announcements from Dynamic Oil Tools across the oil and gas sector.",
     viewAll: { label: "View All News", href: "/news" },
     headerImage: {
       src: newsHeader,

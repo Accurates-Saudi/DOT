@@ -2,14 +2,14 @@ import { useCallback, useEffect, useRef, useState, type PointerEvent } from "rea
 
 function getSlidesPerView(width: number) {
   if (width < 640) return 1;
-  if (width < 1024) return 2;
-  return 4;
+  if (width < 900) return 2;
+  return 3;
 }
 
 export function useNewsCarousel(itemCount: number) {
   const viewportRef = useRef<HTMLDivElement>(null);
 
-  const [slidesPerView, setSlidesPerView] = useState(4);
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
   const [dragOffset, setDragOffset] = useState(0);

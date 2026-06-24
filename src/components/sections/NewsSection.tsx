@@ -1,5 +1,5 @@
-import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Mail } from "lucide-react";
-import { useMemo, type FormEvent } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useMemo } from "react";
 import { Link } from "react-router";
 
 import { Container, Section } from "@/components/shared";
@@ -37,77 +37,43 @@ export function NewsSection({ content }: NewsSectionProps) {
     return [...leading, ...content.articles, ...trailing];
   }, [canScroll, clones, content.articles]);
 
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <Section
       id="news"
-      padding="none"
+      padding="lg"
       variant="default"
       aria-label="Latest news"
-      className="overflow-hidden bg-white py-10 sm:py-12 lg:py-14"
+      className="overflow-hidden bg-white"
     >
       <Container size="wide">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.44fr)_minmax(0,0.56fr)] lg:gap-10">
-          <div className="max-w-lg">
-            <div className="flex items-center gap-2.5">
-              <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
-              <p className="text-[0.6875rem] font-semibold tracking-[0.2em] text-[#0c1524]/55 uppercase sm:text-xs">
-                {content.label}
-              </p>
-            </div>
+        <header className="mx-auto max-w-2xl text-center">
+          <h2 className="text-[1.75rem] font-bold leading-[1.15] tracking-tight text-[#0c1524] sm:text-[2rem] lg:text-[2.15rem]">
+            {content.heading}{" "}
+            <span className="text-[#F68E05]">{content.headingAccent}</span>
+          </h2>
 
-            <h2 className="mt-4 text-[1.85rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2rem] lg:text-[2.1rem]">
-              {content.heading}{" "}
-              <span className="text-[#F68E05]">{content.headingAccent}</span>
-            </h2>
+          <span
+            className="mx-auto mt-4 block h-px w-10 bg-[#F68E05]"
+            aria-hidden
+          />
 
-            <p className="mt-4 text-[0.875rem] leading-relaxed text-[#0c1524]/65 sm:text-sm">
-              {content.description}
-            </p>
+          <p className="mx-auto mt-4 max-w-xl text-[0.875rem] leading-relaxed text-[#0c1524]/62 sm:text-sm">
+            {content.description}
+          </p>
+        </header>
 
-            <Link
-              to={content.viewAll.href}
-              className="group mt-5 inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] text-[#F68E05] uppercase transition-colors duration-200 hover:text-[#E07F04]"
-            >
-              {content.viewAll.label}
-              <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-
-          {content.headerImage && (
-            <div className="relative hidden overflow-hidden lg:block">
-              <div className="aspect-[16/9] xl:aspect-[5/3]">
-                <img
-                  src={content.headerImage.src}
-                  alt={content.headerImage.alt}
-                  className="size-full object-cover object-center lg:object-right"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div
-                className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white to-transparent"
-                aria-hidden
-              />
-            </div>
-          )}
-        </div>
-
-        <div className="relative mt-8 sm:mt-10">
+        <div className="relative mx-auto mt-8 max-w-6xl sm:mt-10">
           {canScroll && (
             <>
               <CarouselButton
                 direction="prev"
                 onClick={prev}
-                className="left-0 -translate-x-1/2"
+                className="-left-1 sm:-left-3 lg:-left-5"
               />
               <CarouselButton
                 direction="next"
                 onClick={next}
-                className="right-0 translate-x-1/2"
+                className="-right-1 sm:-right-3 lg:-right-5"
               />
             </>
           )}
@@ -115,14 +81,14 @@ export function NewsSection({ content }: NewsSectionProps) {
           <div
             ref={viewportRef}
             className={cn(
-              "overflow-hidden",
+              "overflow-hidden px-1",
               canScroll && "cursor-grab active:cursor-grabbing",
             )}
             {...(canScroll ? pointerHandlers : {})}
           >
             <div
               data-news-track
-              className="flex gap-4 sm:gap-5"
+              className="flex gap-5 sm:gap-6"
               style={{
                 transform: `translate3d(${translateX}px, 0, 0)`,
                 transition:
@@ -143,9 +109,10 @@ export function NewsSection({ content }: NewsSectionProps) {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center sm:mt-9">
+        <div className="mt-9 flex justify-center sm:mt-10">
           <Button
-            className="group h-11 rounded-full border-transparent bg-[#F68E05] px-7 text-[0.875rem] font-medium text-white shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] sm:h-12 sm:px-8"
+            size="lg"
+            className="group h-12 rounded-full border-transparent bg-[#F68E05] px-8 text-[0.9375rem] font-medium text-white shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] sm:h-[3.25rem] sm:px-10"
             asChild
           >
             <Link to={content.viewAll.href}>
@@ -153,43 +120,6 @@ export function NewsSection({ content }: NewsSectionProps) {
               <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
             </Link>
           </Button>
-        </div>
-
-        <div className="mt-8 bg-[#f3f2f1] px-5 py-5 sm:mt-10 sm:px-6 sm:py-5 lg:px-8">
-          <form
-            onSubmit={handleNewsletterSubmit}
-            className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-5"
-          >
-            <div className="flex shrink-0 items-start gap-4 lg:items-center lg:gap-5">
-              <div className="flex size-11 shrink-0 items-center justify-center bg-[#F68E05] text-white sm:size-12">
-                <Mail className="size-5" aria-hidden />
-              </div>
-              <div className="min-w-0 lg:max-w-[14rem]">
-                <p className="text-sm font-bold text-[#0c1524]">
-                  {content.newsletter.heading}
-                </p>
-                <p className="mt-1 text-[0.8125rem] leading-relaxed text-[#0c1524]/60">
-                  {content.newsletter.description}
-                </p>
-              </div>
-            </div>
-
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder={content.newsletter.placeholder}
-              className="h-11 min-w-0 flex-1 border border-[#0c1524]/10 bg-white px-4 text-sm text-[#0c1524] outline-none transition-[border-color] duration-200 placeholder:text-[#0c1524]/40 focus:border-[#F68E05]/45"
-            />
-
-            <Button
-              type="submit"
-              className="group h-11 w-full shrink-0 justify-between rounded-sm border-transparent bg-[#F68E05] px-5 text-[0.8125rem] font-semibold tracking-wide text-white uppercase transition-[background-color] duration-200 hover:bg-[#E07F04] sm:h-12 lg:w-auto lg:min-w-[10.5rem]"
-            >
-              {content.newsletter.buttonLabel}
-              <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
-            </Button>
-          </form>
         </div>
       </Container>
     </Section>
@@ -204,21 +134,21 @@ function NewsCard({
   slidesPerView: number;
 }) {
   const href = `/news/${article.slug}`;
-  const date = formatNewsDate(article.publishedAt);
+  const date = formatNewsDateParts(article.publishedAt);
   const gapCount = Math.max(slidesPerView - 1, 0);
   const slideWidth =
     slidesPerView === 1
       ? "100%"
-      : `calc((100% - ${gapCount * 1.25}rem) / ${slidesPerView})`;
+      : `calc((100% - ${gapCount * 1.5}rem) / ${slidesPerView})`;
 
   return (
     <article
       data-news-slide
-      className="group flex h-full shrink-0 flex-col overflow-hidden rounded-lg border border-[#0c1524]/5 bg-white shadow-[0_2px_12px_-6px_rgba(12,21,36,0.12)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-12px_rgba(12,21,36,0.18)]"
+      className="group flex h-full shrink-0 flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-16px_rgba(12,21,36,0.16)]"
       style={{ width: slideWidth, flexBasis: slideWidth }}
     >
-      <Link to={href} className="block overflow-hidden rounded-t-lg">
-        <div className="aspect-[16/11] overflow-hidden bg-[#f4f3f2]">
+      <Link to={href} className="relative block overflow-hidden rounded-t-xl">
+        <div className="aspect-[4/3] overflow-hidden bg-[#f4f3f2] sm:aspect-[16/11]">
           <img
             src={article.image.src}
             alt={article.image.alt}
@@ -228,15 +158,11 @@ function NewsCard({
             draggable={false}
           />
         </div>
+        <DateBadge day={date.day} month={date.month} />
       </Link>
 
-      <div className="flex flex-1 flex-col px-4 pb-5 pt-4 sm:px-5">
-        <div className="flex items-center gap-1.5 text-[0.75rem] text-[#0c1524]/52">
-          <Calendar className="size-3.5 shrink-0 text-[#F68E05]" aria-hidden />
-          <time dateTime={article.publishedAt}>{date}</time>
-        </div>
-
-        <h3 className="mt-3 min-h-[2.75rem] text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:min-h-[3rem] sm:text-base">
+      <div className="flex flex-1 flex-col px-5 pb-6 pt-5">
+        <h3 className="text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:text-base">
           <Link
             to={href}
             className="line-clamp-2 transition-colors duration-200 hover:text-[#F68E05]"
@@ -245,19 +171,35 @@ function NewsCard({
           </Link>
         </h3>
 
-        <p className="mt-2.5 line-clamp-3 flex-1 text-[0.8125rem] leading-relaxed text-[#0c1524]/58">
+        <p className="mt-3 line-clamp-3 flex-1 text-[0.8125rem] leading-relaxed text-[#0c1524]/58 sm:text-sm">
           {article.excerpt}
         </p>
 
         <Link
           to={href}
-          className="group/link mt-4 inline-flex items-center gap-2 text-[0.75rem] font-semibold tracking-[0.1em] text-[#F68E05] uppercase transition-colors duration-200 hover:text-[#E07F04]"
+          className="group/link mt-5 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] transition-colors duration-200 hover:text-[#E07F04]"
         >
           Read More
-          <ArrowRight className="size-3.5 transition-transform duration-300 ease-out group-hover/link:translate-x-0.5" />
+          <span
+            className="inline-block transition-transform duration-300 ease-out group-hover/link:translate-x-1"
+            aria-hidden
+          >
+            →
+          </span>
         </Link>
       </div>
     </article>
+  );
+}
+
+function DateBadge({ day, month }: { day: string; month: string }) {
+  return (
+    <div className="absolute left-4 top-4 flex min-w-[2.6rem] flex-col items-center rounded-md bg-[#F68E05] px-2 py-1.5 text-white shadow-[0_4px_14px_-6px_rgba(246,142,5,0.7)]">
+      <span className="text-sm font-bold leading-none">{day}</span>
+      <span className="mt-0.5 text-[0.625rem] font-semibold uppercase leading-none">
+        {month}
+      </span>
+    </div>
   );
 }
 
@@ -278,7 +220,7 @@ function CarouselButton({
       aria-label={direction === "prev" ? "Previous news" : "Next news"}
       onClick={onClick}
       className={cn(
-        "absolute top-[38%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/6 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.28)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_8px_24px_-10px_rgba(12,21,36,0.32)] active:scale-95 sm:size-10",
+        "absolute top-[32%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.25)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_8px_24px_-10px_rgba(12,21,36,0.3)] active:scale-95 sm:size-10",
         className,
       )}
     >
@@ -287,10 +229,10 @@ function CarouselButton({
   );
 }
 
-function formatNewsDate(isoDate: string) {
-  return new Date(isoDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+function formatNewsDateParts(isoDate: string) {
+  const date = new Date(isoDate);
+  return {
+    day: date.toLocaleDateString("en-US", { day: "2-digit" }),
+    month: date.toLocaleDateString("en-US", { month: "short" }),
+  };
 }

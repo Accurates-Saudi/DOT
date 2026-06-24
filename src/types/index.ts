@@ -8,6 +8,8 @@ export type {
 export { CMS_CAPABILITIES } from "./cms";
 
 export type {
+  AboutSectionContent,
+  AboutServiceItem,
   ContentFieldMeta,
   ContentValue,
   HeroSlide,

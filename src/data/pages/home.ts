@@ -2,6 +2,7 @@ import type { HomePageContent } from "@/types";
 
 import heroBg1 from "@/assets/hero/hero-1.png";
 import heroBg2 from "@/assets/hero/hero-2.png";
+import aboutImage from "@/assets/about/facility.png";
 
 export const homePageContent: HomePageContent = {
   meta: {
@@ -39,5 +40,37 @@ export const homePageContent: HomePageContent = {
         },
       },
     ],
+  },
+  about: {
+    servicesBanner: {
+      title:
+        "Factory of Technical Services for Industries — Advanced manufacturing & engineering",
+      items: [
+        { label: "Industrial Maintenance", icon: "maintenance" },
+        { label: "Petroleum Solutions", icon: "petroleum" },
+        { label: "Technical Engineering", icon: "engineering" },
+        { label: "Plant Support Services", icon: "plant" },
+      ],
+      thumbnail: {
+        src: heroBg1,
+        alt: "DOT industrial operations overview",
+      },
+    },
+    label: "Who we are",
+    heading: "Driven by precision.",
+    headingAccent: "Built for performance.",
+    body: [
+      "Dynamic Oil Tools is a Saudi industrial manufacturer specializing in oil & gas equipment, engineering services, advanced manufacturing, machining, and product treatments.",
+      "We combine technical expertise with disciplined production to deliver tools and solutions that perform reliably in demanding field environments.",
+    ],
+    ctaPrimary: { label: "More About Us", href: "/about" },
+    ctaVideo: { label: "Watch Our Video", href: "/about" },
+    media: {
+      image: {
+        src: aboutImage,
+        alt: "Dynamic Oil Tools manufacturing facility and industrial operations",
+      },
+      showPlayButton: true,
+    },
   },
 };

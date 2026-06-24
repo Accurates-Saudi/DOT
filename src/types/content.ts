@@ -36,6 +36,30 @@ export interface HeroSlide {
   background: ImageAsset;
 }
 
+export interface AboutServiceItem {
+  label: ContentValue<string>;
+  icon: "maintenance" | "petroleum" | "engineering" | "plant";
+}
+
+export interface AboutSectionContent {
+  servicesBanner?: {
+    title: ContentValue<string>;
+    items: AboutServiceItem[];
+    thumbnail?: ImageAsset;
+  };
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  body: ContentValue<string>[];
+  ctaPrimary: LinkItem;
+  ctaVideo?: LinkItem;
+  media: {
+    image: ImageAsset;
+    videoUrl?: string;
+    showPlayButton?: boolean;
+  };
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -83,6 +107,7 @@ export interface HomePageContent extends PageContent {
     slides: HeroSlide[];
     intervalMs?: number;
   };
+  about: AboutSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

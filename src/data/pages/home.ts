@@ -14,6 +14,7 @@ import cert5 from "@/assets/certificates/cert-5.png";
 import newsArticle1 from "@/assets/news/article-1.png";
 import newsArticle2 from "@/assets/news/article-2.png";
 import newsArticle3 from "@/assets/news/article-3.png";
+import newsArticle4 from "@/assets/news/article-4.png";
 import newsHeader from "@/assets/news/header.png";
 import engineeringBg from "@/assets/engineering/bg.png";
 
@@ -252,34 +253,35 @@ export const homePageContent: HomePageContent = {
     heading: "Latest",
     headingAccent: "News & Articles",
     description:
-      "Stay updated with the latest developments, industry events, exhibitions, and announcements from Dynamic Oil Tools.",
+      "Stay updated with the latest developments, achievements, and industry insights from Dynamic Oil Tools.",
     viewAll: { label: "View All News", href: "/news" },
     headerImage: {
       src: newsHeader,
       alt: "Dynamic Oil Tools manufacturing facility",
     },
-    featured: {
-      id: "adipec-2025",
-      slug: "adipec-2025-exhibition",
-      title: "Dynamic Oil Tools showcases advanced manufacturing at ADIPEC 2025",
-      excerpt:
-        "Our team presented precision-engineered oil and gas solutions to industry partners, highlighting DOT's commitment to quality, innovation, and Saudi-made manufacturing excellence.",
-      category: "Exhibition",
-      publishedAt: "2025-05-28",
-      image: {
-        src: newsArticle1,
-        alt: "DOT team at ADIPEC industry exhibition",
-      },
-    },
     articles: [
+      {
+        id: "adipec-2025",
+        slug: "adipec-2025-exhibition",
+        title:
+          "Dynamic Oil Tools showcases advanced manufacturing at ADIPEC 2025",
+        excerpt:
+          "Our team presented precision-engineered oil and gas solutions to industry partners, highlighting DOT's commitment to quality, innovation, and Saudi-made manufacturing excellence.",
+        category: "Exhibition",
+        publishedAt: "2025-05-28",
+        image: {
+          src: newsArticle1,
+          alt: "DOT team at ADIPEC industry exhibition",
+        },
+      },
       {
         id: "partnership-aramco",
         slug: "strategic-partnership-announcement",
         title: "DOT strengthens strategic partnerships in the energy sector",
         excerpt:
-          "Building on long-term relationships with leading operators and service companies across the region.",
+          "Building on long-term relationships with leading operators and service companies across the region to deliver reliable field-ready solutions.",
         category: "Corporate",
-        publishedAt: "2025-04-15",
+        publishedAt: "2025-05-20",
         image: {
           src: newsArticle2,
           alt: "Corporate partnership signing ceremony",
@@ -290,19 +292,32 @@ export const homePageContent: HomePageContent = {
         slug: "manufacturing-capacity-expansion",
         title: "Manufacturing capacity expansion supports growing demand",
         excerpt:
-          "New machining and treatment capabilities enhance our ability to deliver high-performance tools at scale.",
+          "New machining and treatment capabilities enhance our ability to deliver high-performance tools at scale for demanding oil and gas operations.",
         category: "Operations",
-        publishedAt: "2025-03-04",
+        publishedAt: "2025-05-12",
         image: {
           src: newsArticle3,
           alt: "Expanded DOT manufacturing operations",
+        },
+      },
+      {
+        id: "product-launch",
+        slug: "new-downhole-tool-line",
+        title: "New downhole tool line engineered for high-pressure environments",
+        excerpt:
+          "DOT introduces an expanded portfolio of precision-manufactured downhole tools designed for durability, performance, and field reliability.",
+        category: "Product",
+        publishedAt: "2025-05-05",
+        image: {
+          src: newsArticle4,
+          alt: "DOT downhole tools product line",
         },
       },
     ],
     newsletter: {
       heading: "Stay Informed",
       description:
-        "Subscribe to receive company news, product updates, and industry insights from Dynamic Oil Tools.",
+        "Subscribe to our newsletter for the latest updates, industry insights, and company news.",
       placeholder: "Enter your email",
       buttonLabel: "Subscribe",
     },

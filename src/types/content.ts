@@ -149,7 +149,6 @@ export interface NewsSectionContent {
   description: ContentValue<string>;
   viewAll: LinkItem;
   headerImage?: ImageAsset;
-  featured: NewsArticlePreview;
   articles: NewsArticlePreview[];
   newsletter: {
     heading: ContentValue<string>;

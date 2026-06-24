@@ -1,5 +1,6 @@
 import {
   AboutSection,
+  CertificatesSection,
   EngineeringSection,
   HeroSection,
   ServicesSection,
@@ -15,6 +16,7 @@ export function HomePage() {
       <ServicesSection content={homePageContent.services} />
       <WhyChooseUsSection content={homePageContent.whyChooseUs} />
       <EngineeringSection content={homePageContent.engineering} />
+      <CertificatesSection content={homePageContent.certificates} />
     </>
   );
 }

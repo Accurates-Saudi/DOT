@@ -6,6 +6,11 @@ import aboutImage from "@/assets/about/facility.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
 import whyChooseMissionBg from "@/assets/why-choose/mission-bg.png";
 import whyChooseVisionBg from "@/assets/why-choose/vision-bg.png";
+import cert1 from "@/assets/certificates/cert-1.png";
+import cert2 from "@/assets/certificates/cert-2.png";
+import cert3 from "@/assets/certificates/cert-3.png";
+import cert4 from "@/assets/certificates/cert-4.png";
+import cert5 from "@/assets/certificates/cert-5.png";
 import engineeringBg from "@/assets/engineering/bg.png";
 
 export const homePageContent: HomePageContent = {
@@ -188,5 +193,54 @@ export const homePageContent: HomePageContent = {
       src: engineeringBg,
       alt: "",
     },
+  },
+  certificates: {
+    heading: "Our",
+    headingAccent: "Certificates",
+    subheading: "Recognized Globally",
+    autoplayDelayMs: 2000,
+    transitionMs: 800,
+    items: [
+      {
+        id: "api-spec-4f",
+        title: "API Spec 4F Certificate of Registration",
+        image: {
+          src: cert1,
+          alt: "API Spec 4F Certificate of Registration",
+        },
+      },
+      {
+        id: "api-spec-7-1",
+        title: "API Spec 7-1 Certificate of Registration",
+        image: {
+          src: cert2,
+          alt: "API Spec 7-1 Certificate of Registration",
+        },
+      },
+      {
+        id: "api-spec-11b",
+        title: "API Spec 11B Certificate of Registration",
+        image: {
+          src: cert3,
+          alt: "API Spec 11B Certificate of Registration",
+        },
+      },
+      {
+        id: "api-spec-16a",
+        title: "API Spec 16A Certificate of Registration",
+        image: {
+          src: cert4,
+          alt: "API Spec 16A Certificate of Registration",
+        },
+      },
+      {
+        id: "api-spec-19c",
+        title: "API Spec 19C Certificate of Registration",
+        image: {
+          src: cert5,
+          alt: "API Spec 19C Certificate of Registration",
+        },
+      },
+    ],
   },
 };

@@ -117,6 +117,21 @@ export interface EngineeringSectionContent {
   backgroundImage?: ImageAsset;
 }
 
+export interface CertificateItem {
+  id: string;
+  title?: ContentValue<string>;
+  image: ImageAsset;
+}
+
+export interface CertificatesSectionContent {
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  subheading: ContentValue<string>;
+  items: CertificateItem[];
+  autoplayDelayMs?: number;
+  transitionMs?: number;
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -168,6 +183,7 @@ export interface HomePageContent extends PageContent {
   services: ServicesSectionContent;
   whyChooseUs: WhyChooseUsSectionContent;
   engineering: EngineeringSectionContent;
+  certificates: CertificatesSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

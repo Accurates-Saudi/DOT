@@ -10,6 +10,8 @@ export { CMS_CAPABILITIES } from "./cms";
 export type {
   AboutSectionContent,
   AboutServiceItem,
+  CertificateItem,
+  CertificatesSectionContent,
   ContentFieldMeta,
   ContentValue,
   EngineeringCapabilityStep,

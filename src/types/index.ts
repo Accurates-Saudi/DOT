@@ -13,7 +13,6 @@ export type {
   ContentFieldMeta,
   ContentValue,
   EngineeringCapabilityStep,
-  EngineeringFeatureItem,
   EngineeringSectionContent,
   HeroSlide,
   HomePageContent,

@@ -101,23 +101,19 @@ export interface WhyChooseUsSectionContent {
 export interface EngineeringCapabilityStep {
   step: ContentValue<string>;
   title: ContentValue<string>;
-  subtitle: ContentValue<string>;
-  image: ImageAsset;
-  icon: "drafting" | "cnc";
-}
-
-export interface EngineeringFeatureItem {
-  label: ContentValue<string>;
-  icon: "engineering-tools" | "precision" | "manufacturing" | "innovation";
+  description: ContentValue<string>;
+  tag: ContentValue<string>;
+  icon: "modeling" | "cnc";
 }
 
 export interface EngineeringSectionContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
   headingAccent: ContentValue<string>;
+  headingSuffix: ContentValue<string>;
+  intro: ContentValue<string>;
   bullets: ContentValue<string>[];
   steps: EngineeringCapabilityStep[];
-  features: EngineeringFeatureItem[];
   backgroundImage?: ImageAsset;
 }
 

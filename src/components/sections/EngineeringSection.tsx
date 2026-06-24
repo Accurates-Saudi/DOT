@@ -1,16 +1,12 @@
-import { ChevronsRight } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import { Container, Section } from "@/components/shared";
 import type {
   EngineeringCapabilityStep,
-  EngineeringFeatureItem,
   EngineeringSectionContent,
 } from "@/types";
 import { cn } from "@/lib/utils";
-
-const HEX_CLIP =
-  "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)";
 
 export interface EngineeringSectionProps {
   content: EngineeringSectionContent;
@@ -61,7 +57,7 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
   return (
     <Section
       id="engineering"
-      padding="lg"
+      padding="md"
       variant="default"
       aria-label="Engineering and R&D"
       className="relative overflow-hidden bg-white"
@@ -71,36 +67,38 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
           <img
             src={content.backgroundImage.src}
             alt=""
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] w-full object-cover object-center opacity-[0.07]"
+            className="pointer-events-none absolute inset-0 size-full object-cover object-center opacity-[0.09]"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-white/95 to-white/88"
+            className="pointer-events-none absolute inset-0 bg-white/72"
             aria-hidden
           />
         </>
       )}
 
-      <DotGrid
-        className="absolute top-8 left-6 hidden opacity-80 sm:grid sm:grid-cols-5 sm:gap-1.5 lg:left-10 lg:top-10"
-        dotClassName="size-[3px] rounded-full bg-[#0c1524]/10"
-      />
-      <DotGrid
-        className="absolute top-8 right-6 hidden opacity-80 sm:grid sm:grid-cols-5 sm:gap-1.5 lg:right-10 lg:top-10"
-        dotClassName="size-[3px] rounded-full bg-[#0c1524]/10"
+      <BlueprintArt className="absolute top-16 left-0 hidden w-36 opacity-[0.14] lg:block xl:w-44" />
+      <BlueprintArt
+        className="absolute top-16 right-0 hidden w-36 scale-x-[-1] opacity-[0.14] lg:block xl:w-44"
+        mirrored
       />
 
       <Container size="wide" className="relative">
-        <div ref={sectionRef} className="flex flex-col gap-8 sm:gap-9 lg:gap-10">
-          <header {...reveal(0, "mx-auto max-w-3xl text-center")}>
-            <p className="text-[0.6875rem] font-semibold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
+        <div ref={sectionRef} className="flex flex-col gap-7 sm:gap-8 lg:gap-9">
+          <header {...reveal(0, "mx-auto max-w-2xl text-center")}>
+            <p className="text-[0.6875rem] font-bold tracking-[0.18em] text-[#F68E05] uppercase sm:text-xs">
               {content.label}
             </p>
 
-            <h2 className="mt-3 text-[1.85rem] font-bold tracking-tight text-[#0c1524] sm:text-[2.1rem] lg:text-[2.25rem]">
+            <h2 className="mt-2.5 text-[1.75rem] font-bold tracking-tight text-[#0c1524] sm:text-[2rem] lg:text-[2.15rem]">
               {content.heading}{" "}
-              <span className="text-[#F68E05]">{content.headingAccent}</span>
+              <span className="text-[#F68E05]">{content.headingAccent}</span>{" "}
+              {content.headingSuffix}
             </h2>
+
+            <p className="mx-auto mt-3 max-w-xl text-[0.8125rem] leading-relaxed text-[#0c1524]/68 sm:mt-4 sm:text-sm">
+              {content.intro}
+            </p>
 
             <ul className="mt-4 space-y-1.5 sm:mt-5">
               {content.bullets.map((bullet) => (
@@ -109,9 +107,11 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
                   className="flex items-start justify-center gap-2.5 text-[0.8125rem] leading-relaxed text-[#0c1524]/68 sm:text-sm"
                 >
                   <span
-                    className="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-[#F68E05]"
+                    className="mt-[0.4rem] flex size-3.5 shrink-0 items-center justify-center rounded-full bg-[#F68E05]"
                     aria-hidden
-                  />
+                  >
+                    <span className="size-1 rounded-full bg-white" />
+                  </span>
                   <span>{bullet}</span>
                 </li>
               ))}
@@ -121,286 +121,167 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
           {stepOne && stepTwo && (
             <div
               {...reveal(
-                100,
-                "mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 xl:gap-8",
+                120,
+                "relative mx-auto w-full max-w-3xl lg:max-w-4xl",
               )}
             >
-              <CapabilityStep
-                step={stepOne}
-                stepPosition="left"
-                className="lg:justify-end"
+              <div
+                className="absolute top-[2.15rem] right-[calc(25%+2.125rem)] left-[calc(25%+2.125rem)] hidden border-t border-dashed border-[#F68E05]/55 lg:block"
+                aria-hidden
               />
 
-              <div
-                className="hidden items-center justify-center gap-1.5 text-[#0c1524]/18 lg:flex"
-                aria-hidden
-              >
-                <span className="size-1.5 rounded-full bg-[#F68E05]/80" />
-                <ChevronsRight className="size-7 stroke-[1.5]" />
-                <span className="size-1.5 rounded-full bg-[#F68E05]/80" />
+              <div className="grid gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-8 xl:gap-12">
+                <ProcessStep step={stepOne} />
+                <ProcessStep step={stepTwo} />
               </div>
-
-              <div
-                className="flex items-center justify-center gap-1.5 text-[#0c1524]/18 lg:hidden"
-                aria-hidden
-              >
-                <span className="size-1.5 rounded-full bg-[#F68E05]/80" />
-                <ChevronsRight className="size-6 rotate-90 stroke-[1.5]" />
-                <span className="size-1.5 rounded-full bg-[#F68E05]/80" />
-              </div>
-
-              <CapabilityStep
-                step={stepTwo}
-                stepPosition="right"
-                className="lg:justify-start"
-              />
             </div>
           )}
-
-          <div
-            {...reveal(
-              220,
-              "mx-auto w-full max-w-5xl rounded-2xl bg-[#0c1524] px-4 py-5 sm:px-6 sm:py-6 lg:rounded-[1.35rem] lg:px-8",
-            )}
-          >
-            <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
-              {content.features.map((feature, index) => (
-                <li
-                  key={feature.label}
-                  className={cn(
-                    "flex items-center gap-3 sm:gap-3.5",
-                    index > 0 &&
-                      "lg:border-l lg:border-white/12 lg:pl-6 xl:pl-8",
-                  )}
-                >
-                  <FeatureHexIcon icon={feature.icon} />
-                  <span className="text-[0.8125rem] font-medium leading-snug text-white sm:text-sm">
-                    {feature.label}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </Container>
     </Section>
   );
 }
 
-function CapabilityStep({
-  step,
-  stepPosition,
-  className,
-}: {
-  step: EngineeringCapabilityStep;
-  stepPosition: "left" | "right";
-  className?: string;
-}) {
+function ProcessStep({ step }: { step: EngineeringCapabilityStep }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center",
-        stepPosition === "left" ? "lg:flex-row" : "lg:flex-row-reverse",
-        className,
-      )}
-    >
-      <div
-        className={cn(
-          "mb-3 hidden items-center lg:mb-0 lg:flex",
-          stepPosition === "left" ? "mr-3 xl:mr-4" : "ml-3 xl:ml-4",
-        )}
-        aria-hidden
-      >
-        <StepIndicator label={step.step} />
-        <span className="h-px w-8 bg-[#0c1524]/12 xl:w-10" />
-      </div>
-
-      <div className="flex w-full max-w-[15.5rem] flex-col items-center sm:max-w-[16.5rem]">
-        <p className="mb-2 text-xs font-medium tracking-wide text-[#0c1524]/40 lg:hidden">
+    <div className="flex flex-col items-center text-center">
+      <div className="relative flex flex-col items-center">
+        <span
+          className="pointer-events-none absolute -top-1 left-1/2 -translate-x-1/2 text-[3.25rem] font-bold leading-none text-[#0c1524]/[0.07] sm:text-[3.75rem]"
+          aria-hidden
+        >
           {step.step}
-        </p>
+        </span>
 
-        <HexagonFrame icon={step.icon}>
-          <img
-            src={step.image.src}
-            alt={step.image.alt}
-            className="size-full object-cover object-center"
-            loading="lazy"
-            decoding="async"
-          />
-        </HexagonFrame>
+        <div className="relative flex size-[4.25rem] items-center justify-center rounded-2xl bg-[#F68E05] text-white shadow-[0_10px_28px_-12px_rgba(246,142,5,0.55)] sm:size-[4.5rem]">
+          {step.icon === "modeling" ? <ModelingIcon /> : <CncCodeIcon />}
+        </div>
 
-        <div className="mt-4 w-full text-center sm:mt-5">
-          <span
-            className="mx-auto block h-px w-8 bg-[#F68E05]"
-            aria-hidden
-          />
-          <h3 className="mt-3 text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:text-base">
-            {step.title}
-          </h3>
-          <p className="mt-1 text-[0.75rem] leading-relaxed text-[#0c1524]/55 sm:text-[0.8125rem]">
-            {step.subtitle}
-          </p>
+        <div className="mt-2 flex flex-col items-center" aria-hidden>
+          <span className="h-3 w-px bg-[#F68E05]/70" />
+          <span className="mt-1 size-2 rounded-full bg-[#F68E05]" />
         </div>
       </div>
-    </div>
-  );
-}
 
-function HexagonFrame({
-  children,
-  icon,
-}: {
-  children: ReactNode;
-  icon: EngineeringCapabilityStep["icon"];
-}) {
-  return (
-    <div className="relative mx-auto aspect-[0.88] w-full max-w-[15.5rem] sm:max-w-[16.5rem]">
-      <div
-        className="absolute inset-[5px] overflow-hidden sm:inset-[6px]"
-        style={{ clipPath: HEX_CLIP }}
-      >
-        {children}
-      </div>
+      <h3 className="mt-5 text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:text-base">
+        {step.title}
+      </h3>
 
-      <svg
-        viewBox="0 0 200 228"
-        className="pointer-events-none absolute inset-0 size-full"
-        aria-hidden
-      >
-        <polygon
-          points="50,6 150,6 194,114 150,222 50,222 6,114"
-          fill="none"
-          stroke="#F68E05"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <p className="mt-2 max-w-[17rem] text-[0.8125rem] leading-relaxed text-[#0c1524]/62 sm:max-w-xs sm:text-sm">
+        {step.description}
+      </p>
 
-      <div className="absolute bottom-2 left-3 z-10 flex size-9 items-center justify-center rounded-full bg-[#0c1524] text-[#F68E05] sm:bottom-3 sm:left-4 sm:size-10">
-        {icon === "drafting" ? <DraftingIcon /> : <CncIcon />}
+      <div className="mt-4 inline-flex items-center gap-2.5 rounded-full bg-white px-4 py-2 shadow-[0_6px_24px_-10px_rgba(12,21,36,0.18)] sm:mt-5 sm:px-5 sm:py-2.5">
+        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#F68E05] text-white">
+          <Check className="size-3 stroke-[2.5]" aria-hidden />
+        </span>
+        <span className="text-[0.75rem] font-medium text-[#0c1524]/82 sm:text-[0.8125rem]">
+          {step.tag}
+        </span>
       </div>
     </div>
   );
 }
 
-function StepIndicator({ label }: { label: string }) {
+function ModelingIcon() {
   return (
-    <div className="flex size-9 items-center justify-center rounded-full border border-[#0c1524]/12 bg-[#f4f3f2] text-xs font-semibold text-[#0c1524]/45 xl:size-10">
-      {label}
-    </div>
-  );
-}
-
-function FeatureHexIcon({ icon }: { icon: EngineeringFeatureItem["icon"] }) {
-  return (
-    <div className="relative size-9 shrink-0 sm:size-10">
-      <svg
-        viewBox="0 0 40 46"
-        className="absolute inset-0 size-full text-[#F68E05]"
-        aria-hidden
-      >
-        <polygon
-          points="10,2 30,2 38,23 30,44 10,44 2,23"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <div className="flex size-full items-center justify-center text-[#F68E05]">
-        {icon === "engineering-tools" && <CubeIcon />}
-        {icon === "precision" && <TargetIcon />}
-        {icon === "manufacturing" && <GearIcon />}
-        {icon === "innovation" && <InnovationIcon />}
-      </div>
-    </div>
-  );
-}
-
-function DraftingIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4 sm:size-[1.125rem]" aria-hidden>
-      <path d="M5 19L16 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M16 8L19 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <circle cx="5" cy="19" r="2" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M12 5L16 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CncIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4 sm:size-[1.125rem]" aria-hidden>
-      <rect x="4" y="10" width="16" height="8" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M8 10V7H16V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M12 14V16" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <circle cx="12" cy="14" r="1.25" fill="currentColor" />
-    </svg>
-  );
-}
-
-function CubeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
-      <path d="M12 4L20 8.5V15.5L12 20L4 15.5V8.5L12 4Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-      <path d="M12 4V20" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M4 8.5L12 13L20 8.5" stroke="currentColor" strokeWidth="1.3" />
-    </svg>
-  );
-}
-
-function TargetIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
-      <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="1.3" />
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.3" />
-      <circle cx="12" cy="12" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function GearIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.3" />
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      className="size-7 sm:size-8"
+      aria-hidden
+    >
       <path
-        d="M12 3V5M12 19V21M3 12H5M19 12H21M5.6 5.6L7 7M17 17L18.4 18.4M5.6 18.4L7 17M17 7L18.4 5.6"
+        d="M8 22L14 10H20L26 22"
         stroke="currentColor"
-        strokeWidth="1.3"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11 22H23"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="21" cy="13" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M23.5 15.5L25.5 17.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
         strokeLinecap="round"
       />
     </svg>
   );
 }
 
-function InnovationIcon() {
+function CncCodeIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      className="size-7 sm:size-8"
+      aria-hidden
+    >
       <path
-        d="M9 18H15M10 21H14M12 3C9.5 3 7.5 5 7.5 7.5C7.5 9.2 8.3 10.7 9.5 11.7C10.2 12.3 10.5 13.2 10.5 14V16H13.5V14C13.5 13.2 13.8 12.3 14.5 11.7C15.7 10.7 16.5 9.2 16.5 7.5C16.5 5 14.5 3 12 3Z"
+        d="M11 24H21M13 27H19M16 7C12.5 7 10 9.5 10 13C10 15.2 11.1 17.1 12.7 18.2C13.4 18.7 13.8 19.5 13.8 20.4V22H18.2V20.4C18.2 19.5 18.6 18.7 19.3 18.2C20.9 17.1 22 15.2 22 13C22 9.5 19.5 7 16 7Z"
         stroke="currentColor"
-        strokeWidth="1.3"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="12" cy="8" r="1" fill="currentColor" />
+      <circle cx="16" cy="12.5" r="1.25" fill="currentColor" />
+      <path
+        d="M14.5 10.5C15.2 9.9 16.1 9.5 17 9.5"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-function DotGrid({
-  className,
-  dotClassName,
-}: {
-  className?: string;
-  dotClassName: string;
-}) {
+function BlueprintArt({ className }: { className?: string; mirrored?: boolean }) {
   return (
-    <div className={className} aria-hidden>
-      {Array.from({ length: 25 }).map((_, index) => (
-        <span key={index} className={dotClassName} />
-      ))}
-    </div>
+    <svg
+      viewBox="0 0 180 220"
+      fill="none"
+      className={className}
+      aria-hidden
+    >
+      <circle
+        cx="90"
+        cy="72"
+        r="42"
+        stroke="#0c1524"
+        strokeWidth="1"
+        strokeDasharray="4 4"
+      />
+      <circle cx="90" cy="72" r="28" stroke="#0c1524" strokeWidth="0.75" />
+      <path
+        d="M48 72H132M90 30V114"
+        stroke="#0c1524"
+        strokeWidth="0.75"
+        strokeDasharray="3 3"
+      />
+      <rect
+        x="34"
+        y="138"
+        width="112"
+        height="52"
+        stroke="#0c1524"
+        strokeWidth="0.75"
+      />
+      <path
+        d="M34 158H146M68 138V190M112 138V190"
+        stroke="#0c1524"
+        strokeWidth="0.75"
+      />
+      <path
+        d="M62 124H118"
+        stroke="#0c1524"
+        strokeWidth="0.75"
+        strokeDasharray="2 2"
+      />
+    </svg>
   );
 }

@@ -20,4 +20,5 @@ export const productsPageMeta: PageMeta = {
 
 export { catalogsPageContent, catalogsPageMeta } from "./catalogs";
 export { contactPageContent, contactPageMeta } from "./contact";
-export { newsPageContent, newsPageMeta } from "./news";
+export { newsDetailCta, newsPageContent, newsPageMeta } from "./news";
+export { notFoundPageContent, notFoundPageMeta } from "./not-found";

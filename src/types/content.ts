@@ -504,7 +504,27 @@ export interface HomePageContent extends PageContent {
   news: NewsSectionContent;
 }
 
-/** News article scaffold for future CMS news management */
+/** Full news article — CMS-ready corporate update */
+export interface NewsArticleDetail {
+  id: string;
+  slug: string;
+  title: ContentValue<string>;
+  excerpt: ContentValue<string>;
+  category: ContentValue<string>;
+  publishedAt: string;
+  image: ImageAsset;
+  content: ContentValue<string>[];
+  gallery?: ImageAsset[];
+  meta: PageMeta;
+}
+
+export interface NewsDetailCtaContent {
+  heading: ContentValue<string>;
+  body: ContentValue<string>;
+  ctaPrimary: LinkItem;
+}
+
+/** @deprecated Use NewsArticleDetail */
 export interface NewsArticle {
   id: string;
   slug: string;

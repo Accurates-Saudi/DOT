@@ -14,6 +14,8 @@ export default [
     route("products/:slug", "routes/products.$slug.tsx"),
     route("catalogs", "routes/catalogs.tsx"),
     route("news", "routes/news.tsx"),
+    route("news/:slug", "routes/news.$slug.tsx"),
     route("contact", "routes/contact.tsx"),
+    route("*", "routes/$.tsx"),
   ]),
 ] satisfies RouteConfig;

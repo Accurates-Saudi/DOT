@@ -26,4 +26,10 @@ export const newsPageContent: NewsPageContent = {
   },
 };
 
+export const newsDetailCta = {
+  heading: "Need More Information?",
+  body: "Contact our team for project inquiries, technical support, and company updates.",
+  ctaPrimary: { label: "Contact Our Team", href: "/contact" },
+} as const;
+
 export const newsPageMeta = newsPageContent.meta;

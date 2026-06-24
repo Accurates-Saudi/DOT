@@ -8,6 +8,8 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { MainLayout } from "@/components/layout";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 import { seoDefaults, siteSettings } from "@/data";
 import "./app.css";
 
@@ -43,11 +45,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "Page Not Found" : "Error";
-    details =
-      error.status === 404
-        ? "The page you are looking for does not exist."
-        : error.statusText || details;
+    if (error.status === 404) {
+      return (
+        <MainLayout>
+          <NotFoundPage />
+        </MainLayout>
+      );
+    }
+
+    message = "Error";
+    details = error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

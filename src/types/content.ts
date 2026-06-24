@@ -75,6 +75,29 @@ export interface ServicesSectionContent {
   items: ServiceItem[];
 }
 
+export interface WhyChooseUsSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  subheading: ContentValue<string>;
+  featuredImage: ImageAsset;
+  ctaPanel: {
+    heading: ContentValue<string>;
+    ctaPrimary: LinkItem;
+    ctaSecondary: LinkItem;
+  };
+  mission: {
+    title: ContentValue<string>;
+    body: ContentValue<string>;
+    backgroundImage?: ImageAsset;
+  };
+  vision: {
+    title: ContentValue<string>;
+    body: ContentValue<string>;
+    backgroundImage?: ImageAsset;
+  };
+  tagline: ContentValue<string>;
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -124,6 +147,7 @@ export interface HomePageContent extends PageContent {
   };
   about: AboutSectionContent;
   services: ServicesSectionContent;
+  whyChooseUs: WhyChooseUsSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

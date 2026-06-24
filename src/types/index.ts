@@ -25,4 +25,5 @@ export type {
   ServiceItem,
   ServicesSectionContent,
   SiteSettings,
+  WhyChooseUsSectionContent,
 } from "./content";

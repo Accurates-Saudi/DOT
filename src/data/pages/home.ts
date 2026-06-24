@@ -3,6 +3,9 @@ import type { HomePageContent } from "@/types";
 import heroBg1 from "@/assets/hero/hero-1.png";
 import heroBg2 from "@/assets/hero/hero-2.png";
 import aboutImage from "@/assets/about/facility.png";
+import whyChooseFeatured from "@/assets/why-choose/featured.png";
+import whyChooseMissionBg from "@/assets/why-choose/mission-bg.png";
+import whyChooseVisionBg from "@/assets/why-choose/vision-bg.png";
 
 export const homePageContent: HomePageContent = {
   meta: {
@@ -119,5 +122,36 @@ export const homePageContent: HomePageContent = {
         href: "/services",
       },
     ],
+  },
+  whyChooseUs: {
+    label: "Why choose us",
+    heading: "Why Choose Us",
+    subheading: "We are a leader in the industrial market",
+    featuredImage: {
+      src: whyChooseFeatured,
+      alt: "Precision-machined industrial component manufactured by Dynamic Oil Tools",
+    },
+    ctaPanel: {
+      heading: "We are open for opportunities",
+      ctaPrimary: { label: "View Our Works", href: "/products" },
+      ctaSecondary: { label: "Make an Appointment", href: "/contact" },
+    },
+    mission: {
+      title: "Mission",
+      body: "Delivering cutting-edge products to our customers through our continuously innovative facility. Supporting our clients with technically advanced and cost-efficient solutions.",
+      backgroundImage: {
+        src: whyChooseMissionBg,
+        alt: "",
+      },
+    },
+    vision: {
+      title: "Vision",
+      body: "DOT aims to be a global leader focused on manufacturing high-quality, market-oriented, and state-of-the-art products for the oil and gas industry.",
+      backgroundImage: {
+        src: whyChooseVisionBg,
+        alt: "",
+      },
+    },
+    tagline: "Precision. Performance. Partnership.",
   },
 };

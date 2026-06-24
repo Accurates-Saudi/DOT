@@ -7,6 +7,7 @@ import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBrea
 import { ProductSectionHeading } from "@/components/products/ProductSectionHeading";
 import { TriangleBulletList } from "@/components/products/TriangleBulletList";
 import type { ProductDetailContent } from "@/types";
+import { cn } from "@/lib/utils";
 
 export interface ProductDetailViewProps {
   product: ProductDetailContent;
@@ -21,7 +22,7 @@ function InfoColumn({
 }) {
   return (
     <div>
-      <h3 className="text-[0.6875rem] font-bold tracking-[0.12em] text-[#0c1524] uppercase sm:text-[0.75rem]">
+      <h3 className="text-[0.6875rem] font-bold tracking-[0.1em] text-[#0c1524] uppercase sm:text-[0.75rem]">
         {title}
       </h3>
       <TriangleBulletList items={items} className="mt-2.5" compact />
@@ -41,19 +42,24 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       aria-label="Product detail"
       className="bg-white"
     >
-      <Container size="wide" className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-        <ProductDetailBreadcrumb items={hero.breadcrumbs} />
+      {/* Breadcrumb strip */}
+      <div className="border-b border-[#0c1524]/8 bg-[#f5f4f2]">
+        <Container size="wide" className="px-4 py-3.5 sm:px-6 lg:px-8">
+          <ProductDetailBreadcrumb items={hero.breadcrumbs} />
+        </Container>
+      </div>
 
-        <div className="mt-5 grid gap-10 lg:mt-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(300px,0.92fr)] lg:items-start lg:gap-x-14 xl:gap-x-16">
-          {/* Left column */}
-          <div>
+      <Container size="wide" className="px-4 py-8 sm:px-6 sm:py-9 lg:px-8 lg:py-10">
+        {/* Row 1 — Hero: text left, image right */}
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+          <div className="max-w-lg">
             <p className="text-[0.6875rem] font-bold tracking-[0.22em] text-[#F68E05] uppercase">
               {hero.category}
             </p>
             <h1 className="mt-2 text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.35rem] lg:text-[2.5rem]">
               {hero.name}
             </h1>
-            <p className="mt-3 max-w-md text-[0.875rem] leading-[1.65] text-[#0c1524]/70 sm:text-[0.9375rem] sm:leading-[1.7]">
+            <p className="mt-3 text-[0.875rem] leading-[1.65] text-[#0c1524]/70 sm:text-[0.9375rem]">
               {hero.introduction}
             </p>
             <Button
@@ -65,16 +71,32 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                 {hero.ctaContact.label}
               </Link>
             </Button>
+          </div>
 
-            <div className="mt-10 lg:mt-12">
-              <ProductSectionHeading title={overview.heading} />
-              <TriangleBulletList
-                items={overview.paragraphs}
-                className="mt-4 max-w-xl"
-              />
-            </div>
+          <div className="flex items-center justify-center lg:justify-end">
+            <img
+              src={hero.image.src}
+              alt={hero.image.alt}
+              className="max-h-[220px] w-full max-w-[480px] object-contain sm:max-h-[260px] lg:max-h-[300px] lg:max-w-none xl:max-h-[320px]"
+            />
+          </div>
+        </div>
 
-            <div className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-5 lg:mt-10">
+        {/* Row 2 — Details: overview + lists left, technical data right */}
+        <div
+          className={cn(
+            "mt-10 grid gap-10 lg:mt-12 lg:items-start lg:gap-x-12 xl:mt-14 xl:gap-x-16",
+            hasTechnicalData && "lg:grid-cols-2",
+          )}
+        >
+          <div>
+            <ProductSectionHeading title={overview.heading} />
+            <TriangleBulletList
+              items={overview.paragraphs}
+              className="mt-4 max-w-2xl"
+            />
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-4 lg:mt-9 lg:gap-5">
               {infoColumns.map((column) => (
                 <InfoColumn
                   key={column.title}
@@ -85,27 +107,16 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             </div>
           </div>
 
-          {/* Right column */}
-          <div className="lg:pt-1">
-            <div className="flex justify-center lg:justify-end">
+          {hasTechnicalData && specifications?.image && (
+            <div className="lg:max-w-none">
+              <ProductSectionHeading title={specifications.heading} />
               <img
-                src={hero.image.src}
-                alt={hero.image.alt}
-                className="max-h-[240px] w-full max-w-[420px] object-contain sm:max-h-[280px] lg:max-h-[320px] lg:max-w-none xl:max-h-[360px]"
+                src={specifications.image.src}
+                alt={specifications.image.alt}
+                className="mt-4 w-full min-w-0 border border-[#0c1524]/10"
               />
             </div>
-
-            {hasTechnicalData && specifications?.image && (
-              <div className="mt-8 lg:mt-10">
-                <ProductSectionHeading title={specifications.heading} />
-                <img
-                  src={specifications.image.src}
-                  alt={specifications.image.alt}
-                  className="mt-4 w-full border border-[#0c1524]/10"
-                />
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </Container>
     </Section>

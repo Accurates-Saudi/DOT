@@ -81,8 +81,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           >
             <Button
               size="lg"
-              variant="accent"
-              className="group h-12 rounded-full px-6 text-[0.9375rem] font-medium shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-10px_rgba(0,0,0,0.45)] active:translate-y-0 active:shadow-none"
+              className="group h-12 rounded-full border-transparent bg-[#F68E05] px-6 text-[0.9375rem] font-medium text-white shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#E07F04] hover:shadow-[0_10px_28px_-10px_rgba(246,142,5,0.45)] active:translate-y-0 active:shadow-none"
               asChild
             >
               <Link to={content.ctaPrimary.href}>
@@ -95,7 +94,7 @@ export function HeroSection({ content }: HeroSectionProps) {
               <Button
                 variant="outline"
                 size="lg"
-                className="group h-12 rounded-full border-white/30 bg-white/5 px-6 text-[0.9375rem] font-medium text-white backdrop-blur-[2px] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_10px_28px_-12px_rgba(0,0,0,0.35)] active:translate-y-0"
+                className="group h-12 rounded-full border-white bg-transparent px-6 text-[0.9375rem] font-medium text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-[#0c1524] active:translate-y-0"
                 asChild
               >
                 <Link to={content.ctaSecondary.href}>

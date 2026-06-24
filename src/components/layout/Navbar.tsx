@@ -24,6 +24,7 @@ export function Navbar() {
   });
 
   const isElevated = !isHome || isScrolled;
+  const isHeroState = !isElevated;
 
   return (
     <header
@@ -74,8 +75,10 @@ export function Navbar() {
           />
           <span
             className={cn(
-              "h-5 w-px shrink-0 bg-border/70 sm:h-7",
+              "h-5 w-px shrink-0 sm:h-7",
               transitionPresets.colors,
+              "duration-300",
+              isHeroState ? "bg-white/25" : "bg-border/70",
             )}
             aria-hidden
           />
@@ -112,12 +115,22 @@ export function Navbar() {
                   "relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] xl:px-4",
                   transitionPresets.colors,
                   "duration-300",
-                  "text-foreground/75 hover:text-foreground",
-                  isActive && "text-foreground",
+                  isHeroState
+                    ? cn(
+                        "text-white/80 hover:text-white",
+                        isActive && "text-white",
+                      )
+                    : cn(
+                        "text-foreground/75 hover:text-foreground",
+                        isActive && "text-foreground",
+                      ),
                   "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-300",
                   isActive
                     ? "after:scale-x-100 after:bg-accent"
-                    : "after:bg-foreground/40 hover:after:scale-x-100",
+                    : cn(
+                        "hover:after:scale-x-100",
+                        isHeroState ? "after:bg-white/40" : "after:bg-foreground/40",
+                      ),
                 )
               }
             >
@@ -145,7 +158,9 @@ export function Navbar() {
                   "inline-flex size-9 items-center justify-center rounded-sm",
                   transitionPresets.colors,
                   "duration-300",
-                  "text-foreground/60 hover:bg-muted hover:text-foreground",
+                  isHeroState
+                    ? "text-white hover:bg-white/10"
+                    : "text-foreground/60 hover:bg-muted hover:text-foreground",
                 )}
               >
                 <LinkedInIcon className="size-[1.125rem]" />
@@ -159,7 +174,9 @@ export function Navbar() {
                 "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
                 transitionPresets.colors,
                 "duration-300",
-                "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background",
+                isHeroState
+                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white/10"
+                  : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background",
               )}
               asChild
             >
@@ -167,7 +184,7 @@ export function Navbar() {
             </Button>
           </div>
 
-          <NavbarMobileMenu />
+          <NavbarMobileMenu isHeroState={isHeroState} />
         </div>
       </Container>
     </header>

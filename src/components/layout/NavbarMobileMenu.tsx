@@ -11,11 +11,16 @@ import {
 } from "@/components/ui/sheet";
 import { mainNavigation } from "@/data/navigation";
 import { siteSettings } from "@/data/site";
+import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 import { LinkedInIcon } from "./NavbarIcons";
 
-export function NavbarMobileMenu() {
+interface NavbarMobileMenuProps {
+  isHeroState?: boolean;
+}
+
+export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
@@ -31,7 +36,11 @@ export function NavbarMobileMenu() {
           size="icon"
           className={cn(
             "size-9 shrink-0 rounded-sm lg:hidden",
-            "text-foreground/70 hover:bg-muted hover:text-foreground",
+            transitionPresets.colors,
+            "duration-300",
+            isHeroState
+              ? "text-white hover:bg-white/10 hover:text-white"
+              : "text-foreground/70 hover:bg-muted hover:text-foreground",
           )}
           aria-label="Open menu"
         >

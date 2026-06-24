@@ -3,6 +3,7 @@ import {
   CertificatesSection,
   EngineeringSection,
   HeroSection,
+  NewsSection,
   ServicesSection,
   WhyChooseUsSection,
 } from "@/components/sections";
@@ -17,6 +18,7 @@ export function HomePage() {
       <WhyChooseUsSection content={homePageContent.whyChooseUs} />
       <EngineeringSection content={homePageContent.engineering} />
       <CertificatesSection content={homePageContent.certificates} />
+      <NewsSection content={homePageContent.news} />
     </>
   );
 }

@@ -22,6 +22,8 @@ export type {
   LinkItem,
   NavItem,
   NewsArticle,
+  NewsArticlePreview,
+  NewsSectionContent,
   NewsListingContent,
   PageContent,
   PageMeta,

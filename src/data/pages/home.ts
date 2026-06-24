@@ -11,6 +11,10 @@ import cert2 from "@/assets/certificates/cert-2.png";
 import cert3 from "@/assets/certificates/cert-3.png";
 import cert4 from "@/assets/certificates/cert-4.png";
 import cert5 from "@/assets/certificates/cert-5.png";
+import newsArticle1 from "@/assets/news/article-1.png";
+import newsArticle2 from "@/assets/news/article-2.png";
+import newsArticle3 from "@/assets/news/article-3.png";
+import newsHeader from "@/assets/news/header.png";
 import engineeringBg from "@/assets/engineering/bg.png";
 
 export const homePageContent: HomePageContent = {
@@ -242,5 +246,65 @@ export const homePageContent: HomePageContent = {
         },
       },
     ],
+  },
+  news: {
+    label: "News & Insights",
+    heading: "Latest",
+    headingAccent: "News & Articles",
+    description:
+      "Stay updated with the latest developments, industry events, exhibitions, and announcements from Dynamic Oil Tools.",
+    viewAll: { label: "View All News", href: "/news" },
+    headerImage: {
+      src: newsHeader,
+      alt: "Dynamic Oil Tools manufacturing facility",
+    },
+    featured: {
+      id: "adipec-2025",
+      slug: "adipec-2025-exhibition",
+      title: "Dynamic Oil Tools showcases advanced manufacturing at ADIPEC 2025",
+      excerpt:
+        "Our team presented precision-engineered oil and gas solutions to industry partners, highlighting DOT's commitment to quality, innovation, and Saudi-made manufacturing excellence.",
+      category: "Exhibition",
+      publishedAt: "2025-05-28",
+      image: {
+        src: newsArticle1,
+        alt: "DOT team at ADIPEC industry exhibition",
+      },
+    },
+    articles: [
+      {
+        id: "partnership-aramco",
+        slug: "strategic-partnership-announcement",
+        title: "DOT strengthens strategic partnerships in the energy sector",
+        excerpt:
+          "Building on long-term relationships with leading operators and service companies across the region.",
+        category: "Corporate",
+        publishedAt: "2025-04-15",
+        image: {
+          src: newsArticle2,
+          alt: "Corporate partnership signing ceremony",
+        },
+      },
+      {
+        id: "facility-expansion",
+        slug: "manufacturing-capacity-expansion",
+        title: "Manufacturing capacity expansion supports growing demand",
+        excerpt:
+          "New machining and treatment capabilities enhance our ability to deliver high-performance tools at scale.",
+        category: "Operations",
+        publishedAt: "2025-03-04",
+        image: {
+          src: newsArticle3,
+          alt: "Expanded DOT manufacturing operations",
+        },
+      },
+    ],
+    newsletter: {
+      heading: "Stay Informed",
+      description:
+        "Subscribe to receive company news, product updates, and industry insights from Dynamic Oil Tools.",
+      placeholder: "Enter your email",
+      buttonLabel: "Subscribe",
+    },
   },
 };

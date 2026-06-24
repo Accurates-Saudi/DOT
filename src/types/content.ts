@@ -132,6 +132,33 @@ export interface CertificatesSectionContent {
   transitionMs?: number;
 }
 
+export interface NewsArticlePreview {
+  id: string;
+  slug: string;
+  title: ContentValue<string>;
+  excerpt: ContentValue<string>;
+  category: ContentValue<string>;
+  publishedAt: string;
+  image: ImageAsset;
+}
+
+export interface NewsSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  description: ContentValue<string>;
+  viewAll: LinkItem;
+  headerImage?: ImageAsset;
+  featured: NewsArticlePreview;
+  articles: NewsArticlePreview[];
+  newsletter: {
+    heading: ContentValue<string>;
+    description: ContentValue<string>;
+    placeholder: ContentValue<string>;
+    buttonLabel: ContentValue<string>;
+  };
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -184,6 +211,7 @@ export interface HomePageContent extends PageContent {
   whyChooseUs: WhyChooseUsSectionContent;
   engineering: EngineeringSectionContent;
   certificates: CertificatesSectionContent;
+  news: NewsSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

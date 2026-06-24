@@ -171,7 +171,7 @@ export function Navbar() {
               className={cn(
                 "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em] transition-[color,background-color,border-color,transform] duration-250 ease-out",
                 isHeroState
-                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white/10 active:scale-[0.98]"
+                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white hover:text-[#0c1524] active:scale-[0.98]"
                   : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background active:scale-[0.98]",
               )}
               asChild

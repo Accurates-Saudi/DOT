@@ -43,7 +43,7 @@ export function HeroSection({ content }: HeroSectionProps) {
             )}
           >
             <span className="h-px w-8 bg-accent" aria-hidden />
-            <p className="text-[0.8125rem] font-medium tracking-[0.14em] text-muted-foreground">
+            <p className="text-[0.8125rem] font-medium tracking-[0.14em] text-white/55">
               {content.label}
             </p>
           </div>
@@ -51,7 +51,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           <h1
             id="hero-heading"
             className={cn(
-              "mt-5 text-[2rem] leading-[1.12] font-semibold tracking-tight text-foreground sm:text-5xl lg:mt-6 lg:text-[3.25rem] lg:leading-[1.08] xl:text-[3.5rem]",
+              "mt-5 text-[2rem] leading-[1.12] font-semibold tracking-tight text-white sm:text-5xl lg:mt-6 lg:text-[3.25rem] lg:leading-[1.08] xl:text-[3.5rem]",
               !prefersReducedMotion &&
                 "animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-both",
             )}
@@ -64,7 +64,7 @@ export function HeroSection({ content }: HeroSectionProps) {
 
           <p
             className={cn(
-              "mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mt-6",
+              "mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:mt-6",
               !prefersReducedMotion &&
                 "animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300 fill-mode-both",
             )}
@@ -82,12 +82,12 @@ export function HeroSection({ content }: HeroSectionProps) {
             <Button
               size="lg"
               variant="accent"
-              className="group h-12 rounded-full px-6 text-[0.9375rem] font-medium shadow-none hover:shadow-none"
+              className="group h-12 rounded-full px-6 text-[0.9375rem] font-medium shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-10px_rgba(0,0,0,0.45)] active:translate-y-0 active:shadow-none"
               asChild
             >
               <Link to={content.ctaPrimary.href}>
                 {content.ctaPrimary.label}
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
               </Link>
             </Button>
 
@@ -95,12 +95,12 @@ export function HeroSection({ content }: HeroSectionProps) {
               <Button
                 variant="outline"
                 size="lg"
-                className="group h-12 rounded-full border-border/80 bg-background/70 px-6 text-[0.9375rem] font-medium backdrop-blur-[2px] hover:bg-background"
+                className="group h-12 rounded-full border-white/30 bg-white/5 px-6 text-[0.9375rem] font-medium text-white backdrop-blur-[2px] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_10px_28px_-12px_rgba(0,0,0,0.35)] active:translate-y-0"
                 asChild
               >
                 <Link to={content.ctaSecondary.href}>
                   {content.ctaSecondary.label}
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
                 </Link>
               </Button>
             )}

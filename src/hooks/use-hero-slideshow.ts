@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 
 const DEFAULT_INTERVAL_MS = 7000;
-const DEFAULT_FADE_MS = 2000;
+const DEFAULT_FADE_MS = 2500;
 
 export interface UseHeroSlideshowOptions {
   slideCount: number;

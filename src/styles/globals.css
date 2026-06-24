@@ -151,12 +151,14 @@
     transform: scale(1);
   }
   100% {
-    transform: scale(1.06);
+    transform: scale(1.09);
   }
 }
 
 @layer utilities {
   .hero-ken-burns {
-    animation: hero-ken-burns var(--hero-slide-duration, 7s) ease-out forwards;
+    animation: hero-ken-burns var(--hero-slide-duration, 5.5s) ease-in-out infinite
+      alternate;
+    will-change: transform;
   }
 }

@@ -18,11 +18,6 @@ export const productsPageMeta: PageMeta = {
     "Explore Dynamic Oil Tools' engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
 };
 
-export const newsPageMeta: PageMeta = {
-  title: "News",
-  description:
-    "Latest news, updates, and announcements from Dynamic Oil Tools.",
-};
-
 export { catalogsPageContent, catalogsPageMeta } from "./catalogs";
 export { contactPageContent, contactPageMeta } from "./contact";
+export { newsPageContent, newsPageMeta } from "./news";

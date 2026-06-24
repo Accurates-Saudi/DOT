@@ -516,6 +516,44 @@ export interface NewsArticle {
   tags?: string[];
 }
 
+export interface NewsHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  label: ContentValue<string>;
+  title: ContentValue<string>;
+  introduction: ContentValue<string>;
+}
+
+export interface NewsFeaturedContent {
+  readMoreLabel: ContentValue<string>;
+}
+
+export interface NewsGridContent {
+  label: ContentValue<string>;
+  readMoreLabel: ContentValue<string>;
+  itemsPerPage: number;
+}
+
+export interface PaginationMeta {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+export interface NewsPaginationContent {
+  previousLabel: ContentValue<string>;
+  nextLabel: ContentValue<string>;
+  pageLabel: ContentValue<string>;
+}
+
+export interface NewsPageContent extends PageContent {
+  hero: NewsHeroContent;
+  featured: NewsFeaturedContent;
+  grid: NewsGridContent;
+  pagination: NewsPaginationContent;
+}
+
+/** @deprecated Use NewsPageContent */
 export interface NewsListingContent extends PageContent {
   heading: string;
   subheading?: string;

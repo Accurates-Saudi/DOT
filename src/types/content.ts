@@ -524,6 +524,7 @@ export interface NewsHeroContent {
 }
 
 export interface NewsFeaturedContent {
+  label: ContentValue<string>;
   readMoreLabel: ContentValue<string>;
 }
 

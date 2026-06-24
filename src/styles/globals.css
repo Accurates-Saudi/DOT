@@ -194,4 +194,26 @@
   .hero-enter-delay-4 {
     animation-delay: 270ms;
   }
+
+  @keyframes news-grid-item-enter {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .news-grid-item-enter {
+    animation: news-grid-item-enter 0.55s cubic-bezier(0.4, 0, 0.2, 1)
+      var(--news-stagger, 0ms) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .news-grid-item-enter {
+      animation: none;
+    }
+  }
 }

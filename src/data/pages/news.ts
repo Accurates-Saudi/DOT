@@ -17,6 +17,7 @@ export const newsPageContent: NewsPageContent = {
       "Stay informed about our latest projects, exhibitions, company updates and engineering developments.",
   },
   featured: {
+    label: "Featured",
     readMoreLabel: "Read More",
   },
   grid: {

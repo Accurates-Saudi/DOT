@@ -89,18 +89,18 @@ export function EngineeringManufacturingSection({
             {content.capabilities.map((capability) => (
               <li
                 key={capability.id}
-                className="overflow-hidden bg-white shadow-[0_8px_30px_-18px_rgba(12,21,36,0.18)] ring-1 ring-[#0c1524]/6"
+                className="group overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-20px_rgba(12,21,36,0.2)] sm:p-2"
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden rounded-[0.75rem] sm:rounded-xl">
                   <img
                     src={capability.image.src}
                     alt={capability.image.alt}
-                    className="size-full object-cover object-center transition-transform duration-500 ease-out hover:scale-[1.02]"
+                    className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                     loading="lazy"
                     decoding="async"
                   />
                 </div>
-                <div className="px-5 py-6 sm:px-5 sm:py-6 lg:px-5 lg:py-7">
+                <div className="px-4 py-5 sm:px-5 sm:py-6">
                   <div className="flex items-center gap-2.5 text-[#F68E05]">
                     <CapabilityIcon icon={capability.icon} className="size-5" />
                     <h3 className="text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase sm:text-sm">

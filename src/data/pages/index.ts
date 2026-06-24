@@ -24,10 +24,5 @@ export const newsPageMeta: PageMeta = {
     "Latest news, updates, and announcements from Dynamic Oil Tools.",
 };
 
-export const contactPageMeta: PageMeta = {
-  title: "Contact",
-  description:
-    "Get in touch with Dynamic Oil Tools for inquiries, partnerships, and support.",
-};
-
 export { catalogsPageContent, catalogsPageMeta } from "./catalogs";
+export { contactPageContent, contactPageMeta } from "./contact";

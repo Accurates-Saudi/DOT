@@ -322,6 +322,80 @@ export interface CatalogsPageContent extends PageContent {
   library: CatalogLibraryContent;
 }
 
+export interface ContactHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  label: ContentValue<string>;
+  title: ContentValue<string>;
+  introduction: ContentValue<string>;
+}
+
+export interface ContactInfoItem {
+  id: string;
+  type: "phone" | "email" | "address" | "hours";
+  label: ContentValue<string>;
+  value: ContentValue<string>;
+  href?: string;
+}
+
+export interface ContactInfoContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  items: ContactInfoItem[];
+}
+
+export interface ContactFormFieldLabels {
+  name: ContentValue<string>;
+  company: ContentValue<string>;
+  email: ContentValue<string>;
+  phone: ContentValue<string>;
+  subject: ContentValue<string>;
+  message: ContentValue<string>;
+}
+
+export interface ContactFormContent {
+  heading: ContentValue<string>;
+  description?: ContentValue<string>;
+  fields: ContactFormFieldLabels;
+  placeholders?: Partial<ContactFormFieldLabels>;
+  submitLabel: ContentValue<string>;
+}
+
+export interface ContactMainSectionContent {
+  info: ContactInfoContent;
+  form: ContactFormContent;
+}
+
+export interface ContactLocationContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  address: ContentValue<string>;
+  mapPlaceholderLabel: ContentValue<string>;
+  /** Google Maps embed URL — leave empty to show placeholder until configured */
+  mapEmbedUrl?: string;
+}
+
+export interface ContactEngineeringCtaContent {
+  heading: ContentValue<string>;
+  body: ContentValue<string>;
+  ctaPrimary: LinkItem;
+}
+
+export interface ContactPageContent extends PageContent {
+  hero: ContactHeroContent;
+  main: ContactMainSectionContent;
+  location: ContactLocationContent;
+  engineeringCta: ContactEngineeringCtaContent;
+}
+
+export interface ContactFormValues {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
 export interface SpecificationRow {
   label: ContentValue<string>;
   value: ContentValue<string>;

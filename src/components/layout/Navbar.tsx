@@ -10,6 +10,9 @@ import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
+import { NavbarMobileMenu } from "./NavbarMobileMenu";
+import { LinkedInIcon } from "./NavbarIcons";
+
 const SCROLL_THRESHOLD = 40;
 
 export function Navbar() {
@@ -37,21 +40,23 @@ export function Navbar() {
         as="div"
         size="wide"
         className={cn(
-          "flex items-center justify-between",
+          "flex items-center justify-between gap-3",
           transitionPresets.default,
           "duration-500",
-          isElevated ? "h-[4.25rem] lg:h-[4.75rem]" : "h-[4.75rem] lg:h-20",
+          isElevated
+            ? "h-16 lg:h-[4.25rem] xl:h-[4.75rem]"
+            : "h-16 lg:h-20",
         )}
       >
         <Link
           to="/"
           className={cn(
-            "group flex shrink-0 items-center",
+            "group flex min-w-0 shrink items-center",
             transitionPresets.transform,
             "duration-500 ease-out",
             isElevated
-              ? "-translate-x-1 gap-3 lg:-translate-x-1.5 lg:gap-3.5"
-              : "translate-x-0 gap-2.5 lg:gap-3",
+              ? "gap-1.5 sm:gap-2 lg:-translate-x-1 lg:gap-3 xl:-translate-x-1.5 xl:gap-3.5"
+              : "translate-x-0 gap-1.5 sm:gap-2 lg:gap-3",
           )}
           aria-label={`${siteSettings.companyName} — Home`}
         >
@@ -59,15 +64,17 @@ export function Navbar() {
             src={dotLogo}
             alt="Dynamic Oil Tools"
             className={cn(
-              "w-auto object-contain",
+              "w-auto max-w-[5.5rem] object-contain sm:max-w-none",
               transitionPresets.default,
               "duration-500",
-              isElevated ? "h-8 lg:h-9" : "h-9 lg:h-10",
+              isElevated
+                ? "h-7 sm:h-8 lg:h-8 xl:h-9"
+                : "h-7 sm:h-8 lg:h-9 xl:h-10",
             )}
           />
           <span
             className={cn(
-              "hidden h-7 w-px sm:block",
+              "h-5 w-px shrink-0 sm:h-7",
               transitionPresets.colors,
               isElevated ? "bg-border" : "bg-white/25",
             )}
@@ -77,10 +84,12 @@ export function Navbar() {
             src={saudiMadeLogo}
             alt="Saudi Made"
             className={cn(
-              "hidden w-auto object-contain sm:block",
+              "w-auto max-w-[4.5rem] shrink-0 object-contain sm:max-w-none",
               transitionPresets.default,
               "duration-500",
-              isElevated ? "h-7 lg:h-8" : "h-8 lg:h-9",
+              isElevated
+                ? "h-6 sm:h-7 lg:h-7 xl:h-8"
+                : "h-6 sm:h-7 lg:h-8 xl:h-9",
             )}
           />
         </Link>
@@ -132,55 +141,46 @@ export function Navbar() {
             isElevated ? "gap-2.5 lg:gap-3" : "gap-2 lg:gap-2.5",
           )}
         >
-          {siteSettings.social.linkedin && (
-            <a
-              href={siteSettings.social.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Dynamic Oil Tools on LinkedIn"
+          <div className="hidden items-center gap-2.5 lg:flex lg:gap-3">
+            {siteSettings.social.linkedin && (
+              <a
+                href={siteSettings.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dynamic Oil Tools on LinkedIn"
+                className={cn(
+                  "inline-flex size-9 items-center justify-center rounded-sm",
+                  transitionPresets.colors,
+                  "duration-300",
+                  isElevated
+                    ? "text-foreground/60 hover:bg-muted hover:text-foreground"
+                    : "text-white/70 hover:bg-white/10 hover:text-white",
+                )}
+              >
+                <LinkedInIcon className="size-[1.125rem]" />
+              </a>
+            )}
+
+            <Button
+              variant="outline"
+              size="sm"
               className={cn(
-                "inline-flex size-9 items-center justify-center rounded-sm",
+                "h-9 min-w-[5.5rem] rounded-sm px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
                 transitionPresets.colors,
                 "duration-300",
                 isElevated
-                  ? "text-foreground/60 hover:bg-muted hover:text-foreground"
-                  : "text-white/70 hover:bg-white/10 hover:text-white",
+                  ? "border-border bg-transparent text-foreground hover:bg-muted"
+                  : "border-white/35 bg-transparent text-white hover:border-white/55 hover:bg-white/10",
               )}
+              asChild
             >
-              <LinkedInIcon className="size-[1.125rem]" />
-            </a>
-          )}
+              <Link to="/login">Login</Link>
+            </Button>
+          </div>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn(
-              "h-9 min-w-[5.5rem] rounded-sm px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
-              transitionPresets.colors,
-              "duration-300",
-              isElevated
-                ? "border-border bg-transparent text-foreground hover:bg-muted"
-                : "border-white/35 bg-transparent text-white hover:border-white/55 hover:bg-white/10",
-            )}
-            asChild
-          >
-            <Link to="/login">Login</Link>
-          </Button>
+          <NavbarMobileMenu isElevated={isElevated} />
         </div>
       </Container>
     </header>
-  );
-}
-
-function LinkedInIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden
-      className={className}
-    >
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.063 2.063 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
   );
 }

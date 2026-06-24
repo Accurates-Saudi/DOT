@@ -19,7 +19,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       <main
         className={cn(
           "flex-1",
-          !isHome && "pt-[4.25rem] lg:pt-[4.75rem]",
+          !isHome && "pt-16 lg:pt-[4.25rem] xl:pt-[4.75rem]",
         )}
       >
         {children}

@@ -94,7 +94,7 @@ export function HeroContent({
             >
               <Button
                 size="lg"
-                className="group h-12 rounded-full border-transparent bg-[#F68E05] px-6 text-[0.9375rem] font-medium text-white shadow-none transition-[transform,background-color,box-shadow] duration-250 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_8px_24px_-10px_rgba(246,142,5,0.4)] active:translate-y-0 active:shadow-none"
+                className="group h-12 rounded-full border-transparent bg-white px-6 text-[0.9375rem] font-medium text-[#0c1524] shadow-[0_4px_20px_-6px_rgba(0,0,0,0.25)] transition-[transform,background-color,color,box-shadow] duration-250 ease-out hover:-translate-y-px hover:bg-[#F68E05] hover:text-white hover:shadow-[0_8px_24px_-10px_rgba(246,142,5,0.4)] active:translate-y-0"
                 asChild
               >
                 <Link to={slide.ctaPrimary.href}>

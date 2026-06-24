@@ -73,4 +73,51 @@ export const homePageContent: HomePageContent = {
       showPlayButton: true,
     },
   },
+  services: {
+    heading: "What We",
+    headingAccent: "Can Offer",
+    ctaPrimary: { label: "Explore Services", href: "/services" },
+    items: [
+      {
+        id: "oil-gas-equipment",
+        title: "Oil & Gas Equipment",
+        description:
+          "Precision-manufactured tools and equipment for upstream and downstream operations, built to withstand demanding field conditions.",
+        icon: "oil-gas",
+        href: "/services",
+      },
+      {
+        id: "process-industry-screens",
+        title: "Process Industry Screens",
+        description:
+          "Engineered screening solutions for process industries, designed for efficiency, durability, and consistent performance.",
+        icon: "process",
+        href: "/services",
+      },
+      {
+        id: "downhole-screens",
+        title: "Downhole Screens",
+        description:
+          "High-performance downhole screen systems for sand control and filtration in oil, gas, and water well applications.",
+        icon: "downhole",
+        href: "/services",
+      },
+      {
+        id: "screen-baskets-strainers",
+        title: "Screen Baskets & Strainers",
+        description:
+          "Custom screen baskets and strainers manufactured to precise specifications for industrial separation and filtration.",
+        icon: "strainers",
+        href: "/services",
+      },
+      {
+        id: "product-treatments",
+        title: "Product Treatments",
+        description:
+          "Specialized surface treatments and finishing processes that enhance product durability, corrosion resistance, and service life.",
+        icon: "treatments",
+        href: "/services",
+      },
+    ],
+  },
 };

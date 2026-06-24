@@ -22,5 +22,7 @@ export type {
   PageContent,
   PageMeta,
   SeoDefaults,
+  ServiceItem,
+  ServicesSectionContent,
   SiteSettings,
 } from "./content";

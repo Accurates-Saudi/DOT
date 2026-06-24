@@ -60,6 +60,21 @@ export interface AboutSectionContent {
   };
 }
 
+export interface ServiceItem {
+  id: string;
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+  icon: "oil-gas" | "process" | "downhole" | "strainers" | "treatments";
+  href?: string;
+}
+
+export interface ServicesSectionContent {
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  items: ServiceItem[];
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -108,6 +123,7 @@ export interface HomePageContent extends PageContent {
     intervalMs?: number;
   };
   about: AboutSectionContent;
+  services: ServicesSectionContent;
 }
 
 /** News article scaffold for future CMS news management */

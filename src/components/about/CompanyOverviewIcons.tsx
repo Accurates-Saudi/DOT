@@ -52,7 +52,7 @@ export function CompanyOverviewStatIcon({
 
 function FeatureIconFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="flex size-12 shrink-0 items-center justify-center rounded-sm bg-[#F68E05]/10 text-[#F68E05] ring-1 ring-[#F68E05]/20 sm:size-[3.25rem]">
+    <div className="flex size-[3.25rem] shrink-0 items-center justify-center border border-[#F68E05] text-[#F68E05] sm:size-14">
       {children}
     </div>
   );
@@ -60,7 +60,7 @@ function FeatureIconFrame({ children }: { children: ReactNode }) {
 
 function StatIconFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="flex size-14 shrink-0 items-center justify-center rounded-md bg-white text-[#F68E05] shadow-[0_10px_28px_-14px_rgba(12,21,36,0.22)] ring-1 ring-[#0c1524]/6 sm:size-16">
+    <div className="flex size-14 shrink-0 items-center justify-center rounded-sm border border-[#F68E05]/70 bg-white text-[#F68E05] sm:size-[3.75rem]">
       {children}
     </div>
   );
@@ -98,7 +98,7 @@ export function CompanyOverviewStatDivider({
   return (
     <span
       className={cn(
-        "hidden w-px shrink-0 self-stretch bg-[#F68E05]/35 lg:block",
+        "hidden w-px shrink-0 self-stretch bg-[#F68E05]/40 lg:block",
         className,
       )}
       aria-hidden

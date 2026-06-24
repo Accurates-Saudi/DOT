@@ -14,6 +14,8 @@ export type {
   AboutServiceItem,
   BreadcrumbItem,
   CompanyOverviewContent,
+  CompanyOverviewFeature,
+  CompanyOverviewStat,
   EngineeringManufacturingCapability,
   EngineeringManufacturingContent,
   CertificateItem,

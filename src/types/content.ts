@@ -209,10 +209,27 @@ export interface AboutHeroContent {
   introduction: ContentValue<string>;
 }
 
+export interface CompanyOverviewFeature {
+  id: string;
+  icon: "saudi-made" | "quality-driven" | "client-focused" | "global-supply";
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+}
+
+export interface CompanyOverviewStat {
+  id: string;
+  icon: "experience" | "facility" | "professionals" | "countries";
+  value: ContentValue<string>;
+  label: ContentValue<string>;
+}
+
 export interface CompanyOverviewContent {
+  label: ContentValue<string>;
   heading: ContentValue<string>;
   body: ContentValue<string>[];
   image: ImageAsset;
+  features: CompanyOverviewFeature[];
+  stats: CompanyOverviewStat[];
 }
 
 export interface EngineeringManufacturingCapability {

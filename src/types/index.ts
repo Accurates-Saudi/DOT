@@ -54,7 +54,6 @@ export type {
   NewsGridContent,
   NewsHeroContent,
   NewsPageContent,
-  NewsPaginationContent,
   NewsSectionContent,
   PaginationMeta,
   NewsListingContent,

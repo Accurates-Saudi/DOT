@@ -530,7 +530,7 @@ export interface NewsFeaturedContent {
 export interface NewsGridContent {
   label: ContentValue<string>;
   readMoreLabel: ContentValue<string>;
-  itemsPerPage: number;
+  viewMoreLabel: ContentValue<string>;
 }
 
 export interface PaginationMeta {
@@ -540,17 +540,10 @@ export interface PaginationMeta {
   itemsPerPage: number;
 }
 
-export interface NewsPaginationContent {
-  previousLabel: ContentValue<string>;
-  nextLabel: ContentValue<string>;
-  pageLabel: ContentValue<string>;
-}
-
 export interface NewsPageContent extends PageContent {
   hero: NewsHeroContent;
   featured: NewsFeaturedContent;
   grid: NewsGridContent;
-  pagination: NewsPaginationContent;
 }
 
 /** @deprecated Use NewsPageContent */

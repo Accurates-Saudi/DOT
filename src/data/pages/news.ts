@@ -22,12 +22,7 @@ export const newsPageContent: NewsPageContent = {
   grid: {
     label: "Latest News",
     readMoreLabel: "Read More",
-    itemsPerPage: 3,
-  },
-  pagination: {
-    previousLabel: "Previous",
-    nextLabel: "Next",
-    pageLabel: "Page",
+    viewMoreLabel: "View More",
   },
 };
 

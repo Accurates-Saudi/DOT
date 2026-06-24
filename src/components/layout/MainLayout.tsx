@@ -1,17 +1,29 @@
 import type { ReactNode } from "react";
+import { useLocation } from "react-router";
 
 import { Footer } from "./Footer";
-import { Header } from "./Header";
+import { Navbar } from "./Navbar";
+import { cn } from "@/lib/utils";
 
 export interface MainLayoutProps {
   children: ReactNode;
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <div className="flex min-h-svh flex-col">
-      <Header />
-      <main className="flex-1">{children}</main>
+      <Navbar />
+      <main
+        className={cn(
+          "flex-1",
+          !isHome && "pt-[4.25rem] lg:pt-[4.75rem]",
+        )}
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   );

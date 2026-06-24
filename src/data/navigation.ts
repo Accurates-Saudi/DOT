@@ -2,11 +2,10 @@ import type { NavItem } from "@/types";
 
 export const mainNavigation: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
+  { label: "About Us", href: "/about" },
   { label: "Products", href: "/products" },
-  { label: "News", href: "/news" },
-  { label: "Contact", href: "/contact" },
+  { label: "Catalogs", href: "/catalogs" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export const footerNavigation: {
@@ -15,9 +14,9 @@ export const footerNavigation: {
 } = {
   company: [
     { label: "About Us", href: "/about" },
-    { label: "Services", href: "/services" },
     { label: "Products", href: "/products" },
-    { label: "Contact", href: "/contact" },
+    { label: "Catalogs", href: "/catalogs" },
+    { label: "Contact Us", href: "/contact" },
   ],
   resources: [{ label: "News", href: "/news" }],
 };

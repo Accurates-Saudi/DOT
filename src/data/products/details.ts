@@ -12,9 +12,10 @@ import engineeringCnc from "@/assets/engineering/cnc.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
 
 const defaultContactCta = {
-  heading: "Need More Technical Information?",
-  body: "Our engineering team is available to discuss specifications, applications, and custom requirements.",
+  heading: "Need Technical Assistance?",
+  body: "Our engineering team is ready to help you select the right solution for your application.",
   ctaPrimary: { label: "Contact Us", href: "/contact" },
+  ctaSecondary: { label: "Request Information", href: "/contact" },
 };
 
 interface ProductSeed {
@@ -24,11 +25,22 @@ interface ProductSeed {
   name: string;
   introduction: string;
   image: { src: string; alt: string };
-  overview: string;
+  overview: string | string[];
   applications: string[];
   features: string[];
   benefits: string[];
   specifications?: SpecificationRow[];
+}
+
+function normalizeOverview(overview: string | string[]): string[] {
+  if (Array.isArray(overview)) return overview;
+
+  const sentences = overview
+    .match(/[^.!?]+[.!?]+/g)
+    ?.map((sentence) => sentence.trim())
+    .filter(Boolean);
+
+  return sentences?.length ? sentences : [overview];
 }
 
 function createProductDetail(seed: ProductSeed): ProductDetailContent {
@@ -44,6 +56,7 @@ function createProductDetail(seed: ProductSeed): ProductDetailContent {
       breadcrumbs: [
         { label: "Home", href: "/" },
         { label: "Products", href: "/products" },
+        { label: seed.category, href: "/products" },
         { label: seed.name },
       ],
       category: seed.category,
@@ -54,7 +67,7 @@ function createProductDetail(seed: ProductSeed): ProductDetailContent {
     },
     overview: {
       heading: "Overview",
-      body: seed.overview,
+      paragraphs: normalizeOverview(seed.overview),
     },
     info: {
       applications: { title: "Applications", items: seed.applications },
@@ -64,7 +77,7 @@ function createProductDetail(seed: ProductSeed): ProductDetailContent {
     ...(seed.specifications?.length
       ? {
           specifications: {
-            heading: "Technical Specifications",
+            heading: "Technical Data",
             rows: seed.specifications,
           },
         }

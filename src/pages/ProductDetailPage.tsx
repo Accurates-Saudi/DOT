@@ -2,30 +2,26 @@ import { useLoaderData } from "react-router";
 
 import {
   ProductContactCtaSection,
+  ProductDetailBodySection,
   ProductDetailHeroSection,
-  ProductInfoSection,
-  ProductOverviewSection,
-  ProductSpecificationsSection,
-  RelatedProductsSection,
 } from "@/components/products";
-import type { ProductDetailContent, ProductItem } from "@/types";
+import type { ProductDetailContent } from "@/types";
 
 interface ProductDetailLoaderData {
   product: ProductDetailContent;
-  relatedProducts: ProductItem[];
 }
 
 export function ProductDetailPage() {
-  const { product, relatedProducts } =
-    useLoaderData() as ProductDetailLoaderData;
+  const { product } = useLoaderData() as ProductDetailLoaderData;
 
   return (
     <>
       <ProductDetailHeroSection content={product.hero} />
-      <ProductOverviewSection content={product.overview} />
-      <ProductInfoSection content={product.info} />
-      <ProductSpecificationsSection content={product.specifications} />
-      <RelatedProductsSection products={relatedProducts} />
+      <ProductDetailBodySection
+        overview={product.overview}
+        info={product.info}
+        specifications={product.specifications}
+      />
       <ProductContactCtaSection content={product.contactCta} />
     </>
   );

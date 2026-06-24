@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   className?: string;
+  highlightLast?: boolean;
 }
 
-export function Breadcrumb({ items, className }: BreadcrumbProps) {
+export function Breadcrumb({ items, className, highlightLast }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb" className={className}>
       <ol className="flex flex-wrap items-center gap-1.5 text-sm">
@@ -29,7 +30,11 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
                   aria-current={isLast ? "page" : undefined}
                   className={cn(
                     "font-medium",
-                    isLast ? "text-foreground" : "text-muted-foreground",
+                    isLast && highlightLast
+                      ? "text-[#F68E05]"
+                      : isLast
+                        ? "text-foreground"
+                        : "text-muted-foreground",
                   )}
                 >
                   {item.label}

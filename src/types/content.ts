@@ -315,7 +315,7 @@ export interface ProductDetailHeroContent {
 
 export interface ProductOverviewContent {
   heading: ContentValue<string>;
-  body: ContentValue<string>;
+  paragraphs: ContentValue<string>[];
 }
 
 export interface ProductInfoColumn {
@@ -338,6 +338,7 @@ export interface ProductContactCtaContent {
   heading: ContentValue<string>;
   body: ContentValue<string>;
   ctaPrimary: LinkItem;
+  ctaSecondary?: LinkItem;
 }
 
 export interface ProductDetailContent {

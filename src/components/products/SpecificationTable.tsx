@@ -10,26 +10,42 @@ export function SpecificationTable({ rows, className }: SpecificationTableProps)
   return (
     <div
       className={cn(
-        "overflow-x-auto rounded-2xl border border-[#0c1524]/10 bg-white",
+        "overflow-x-auto rounded-sm border border-[#0c1524]/10",
         className,
       )}
     >
-      <table className="w-full min-w-[28rem] border-collapse text-left">
+      <table className="w-full min-w-[16rem] border-collapse text-left text-[0.75rem] sm:text-[0.8125rem]">
+        <thead>
+          <tr className="bg-[#F68E05]">
+            <th
+              scope="col"
+              className="px-4 py-2.5 font-bold tracking-wide text-white uppercase sm:px-5 sm:py-3"
+            >
+              Specification
+            </th>
+            <th
+              scope="col"
+              className="px-4 py-2.5 font-bold tracking-wide text-white uppercase sm:px-5 sm:py-3"
+            >
+              Details
+            </th>
+          </tr>
+        </thead>
         <tbody>
           {rows.map((row, index) => (
             <tr
               key={row.label}
               className={cn(
-                index !== rows.length - 1 && "border-b border-[#0c1524]/8",
+                index % 2 === 0 ? "bg-white" : "bg-[#0c1524]/[0.03]",
               )}
             >
               <th
                 scope="row"
-                className="w-[36%] bg-[#0c1524]/[0.02] px-5 py-3.5 text-[0.8125rem] font-semibold text-[#0c1524] sm:px-6 sm:py-4"
+                className="border-t border-[#0c1524]/8 px-4 py-2.5 font-semibold text-[#0c1524] sm:px-5 sm:py-3"
               >
                 {row.label}
               </th>
-              <td className="px-5 py-3.5 text-[0.8125rem] leading-relaxed text-[#0c1524]/70 sm:px-6 sm:py-4">
+              <td className="border-t border-[#0c1524]/8 px-4 py-2.5 leading-relaxed text-[#0c1524]/70 sm:px-5 sm:py-3">
                 {row.value}
               </td>
             </tr>

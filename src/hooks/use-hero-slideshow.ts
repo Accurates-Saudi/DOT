@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 
-const DEFAULT_INTERVAL_MS = 7000;
-const DEFAULT_FADE_MS = 2500;
+export const HERO_SLIDE_INTERVAL_MS = 7000;
+export const HERO_SLIDE_FADE_MS = 2000;
+export const HERO_KEN_BURNS_MS = 4600;
 
 export interface UseHeroSlideshowOptions {
   slideCount: number;
@@ -13,7 +14,7 @@ export interface UseHeroSlideshowOptions {
 
 export function useHeroSlideshow({
   slideCount,
-  intervalMs = DEFAULT_INTERVAL_MS,
+  intervalMs = HERO_SLIDE_INTERVAL_MS,
   enabled = true,
 }: UseHeroSlideshowOptions) {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -37,7 +38,7 @@ export function useHeroSlideshow({
   return {
     activeIndex,
     prefersReducedMotion,
-    fadeDurationMs: prefersReducedMotion ? 0 : DEFAULT_FADE_MS,
+    fadeDurationMs: prefersReducedMotion ? 0 : HERO_SLIDE_FADE_MS,
     shouldAnimate,
   };
 }

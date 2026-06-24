@@ -1,22 +1,24 @@
 import type { CSSProperties } from "react";
-import type { ImageAsset } from "@/types";
-import { useHeroSlideshow } from "@/hooks";
-import { cn } from "@/lib/utils";
 
-const KEN_BURNS_DURATION_MS = 5500;
+import type { ImageAsset } from "@/types";
+import { HERO_KEN_BURNS_MS } from "@/hooks/use-hero-slideshow";
+import { cn } from "@/lib/utils";
 
 interface HeroBackgroundProps {
   images: ImageAsset[];
-  intervalMs?: number;
+  activeIndex: number;
+  fadeDurationMs: number;
+  shouldAnimate: boolean;
+  prefersReducedMotion: boolean;
 }
 
-export function HeroBackground({ images, intervalMs = 7000 }: HeroBackgroundProps) {
-  const { activeIndex, prefersReducedMotion, fadeDurationMs, shouldAnimate } =
-    useHeroSlideshow({
-      slideCount: images.length,
-      intervalMs,
-    });
-
+export function HeroBackground({
+  images,
+  activeIndex,
+  fadeDurationMs,
+  shouldAnimate,
+  prefersReducedMotion,
+}: HeroBackgroundProps) {
   if (images.length === 0) {
     return (
       <div
@@ -53,8 +55,8 @@ export function HeroBackground({ images, intervalMs = 7000 }: HeroBackgroundProp
               style={
                 shouldAnimate
                   ? ({
-                      "--hero-slide-duration": `${KEN_BURNS_DURATION_MS}ms`,
-                      animationDelay: `${index * 1.75}s`,
+                      "--hero-slide-duration": `${HERO_KEN_BURNS_MS}ms`,
+                      animationDelay: `${index * 1.5}s`,
                     } as CSSProperties)
                   : undefined
               }

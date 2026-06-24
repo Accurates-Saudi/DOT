@@ -112,19 +112,17 @@ export function Navbar() {
               end={item.href === "/"}
               className={({ isActive }) =>
                 cn(
-                  "relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] xl:px-4",
-                  transitionPresets.colors,
-                  "duration-300",
+                  "relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-[color,opacity] duration-250 ease-out xl:px-4",
                   isHeroState
                     ? cn(
-                        "text-white/80 hover:text-white",
+                        "text-white/75 hover:text-white",
                         isActive && "text-white",
                       )
                     : cn(
-                        "text-foreground/75 hover:text-foreground",
+                        "text-foreground/70 hover:text-foreground",
                         isActive && "text-foreground",
                       ),
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-300",
+                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-250 after:ease-out",
                   isActive
                     ? "after:scale-x-100 after:bg-accent"
                     : cn(
@@ -159,8 +157,8 @@ export function Navbar() {
                   transitionPresets.colors,
                   "duration-300",
                   isHeroState
-                    ? "text-white hover:bg-white/10"
-                    : "text-foreground/60 hover:bg-muted hover:text-foreground",
+                    ? "text-white transition-[color,background-color] duration-250 ease-out hover:bg-white/10"
+                    : "text-foreground/60 transition-[color,background-color] duration-250 ease-out hover:bg-muted hover:text-foreground",
                 )}
               >
                 <LinkedInIcon className="size-[1.125rem]" />
@@ -171,12 +169,10 @@ export function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
-                transitionPresets.colors,
-                "duration-300",
+                "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em] transition-[color,background-color,border-color,transform] duration-250 ease-out",
                 isHeroState
-                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white/10"
-                  : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background",
+                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white/10 active:scale-[0.98]"
+                  : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background active:scale-[0.98]",
               )}
               asChild
             >

@@ -26,6 +26,16 @@ export interface LinkItem {
   external?: boolean;
 }
 
+export interface HeroSlide {
+  label: ContentValue<string>;
+  headline: ContentValue<string>;
+  headlineAccent: ContentValue<string>;
+  subheadline: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  ctaSecondary?: LinkItem;
+  background: ImageAsset;
+}
+
 export interface NavItem extends LinkItem {
   children?: NavItem[];
 }
@@ -70,13 +80,8 @@ export interface PageContent {
 /** Homepage content scaffold — sections will populate this later */
 export interface HomePageContent extends PageContent {
   hero: {
-    label: ContentValue<string>;
-    headline: ContentValue<string>;
-    headlineAccent: ContentValue<string>;
-    subheadline: ContentValue<string>;
-    ctaPrimary: LinkItem;
-    ctaSecondary?: LinkItem;
-    backgrounds?: ImageAsset[];
+    slides: HeroSlide[];
+    intervalMs?: number;
   };
 }
 

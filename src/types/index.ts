@@ -10,6 +10,7 @@ export { CMS_CAPABILITIES } from "./cms";
 export type {
   ContentFieldMeta,
   ContentValue,
+  HeroSlide,
   HomePageContent,
   ImageAsset,
   LinkItem,

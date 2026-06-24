@@ -1,3 +1,4 @@
+export { useNewsCarousel } from "./use-news-carousel";
 export { useCertificatesCarousel } from "./use-certificates-carousel";
 export { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 export { useScrollThreshold } from "./use-scroll-threshold";

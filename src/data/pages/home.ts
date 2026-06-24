@@ -313,6 +313,32 @@ export const homePageContent: HomePageContent = {
           alt: "DOT downhole tools product line",
         },
       },
+      {
+        id: "quality-certification",
+        slug: "api-quality-management-renewal",
+        title: "DOT renews API quality management certification standards",
+        excerpt:
+          "Continued certification reflects our disciplined manufacturing processes and commitment to international oil and gas quality benchmarks.",
+        category: "Quality",
+        publishedAt: "2025-04-22",
+        image: {
+          src: newsArticle2,
+          alt: "API quality certification renewal",
+        },
+      },
+      {
+        id: "industry-summit",
+        slug: "saudi-energy-summit-2025",
+        title: "DOT participates in Saudi Energy Summit 2025",
+        excerpt:
+          "Industry leaders gathered to discuss manufacturing innovation, localization, and long-term partnerships across the energy value chain.",
+        category: "Event",
+        publishedAt: "2025-04-10",
+        image: {
+          src: newsArticle3,
+          alt: "Saudi Energy Summit participation",
+        },
+      },
     ],
     newsletter: {
       heading: "Stay Informed",

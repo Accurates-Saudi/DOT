@@ -234,14 +234,25 @@ export interface CompanyOverviewContent {
 
 export interface EngineeringManufacturingCapability {
   id: string;
+  icon: "engineering" | "manufacturing" | "quality" | "innovation";
   title: ContentValue<string>;
   description: ContentValue<string>;
+  image: ImageAsset;
+}
+
+export interface EngineeringManufacturingCta {
+  heading: ContentValue<string>;
+  body: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  ctaSecondary: LinkItem;
 }
 
 export interface EngineeringManufacturingContent {
+  label: ContentValue<string>;
   heading: ContentValue<string>;
-  subheading?: ContentValue<string>;
+  subheading: ContentValue<string>;
   capabilities: EngineeringManufacturingCapability[];
+  cta: EngineeringManufacturingCta;
 }
 
 export interface AboutPageContent extends PageContent {

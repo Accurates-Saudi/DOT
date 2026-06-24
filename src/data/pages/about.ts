@@ -1,6 +1,10 @@
 import type { AboutPageContent } from "@/types";
 
 import aboutImage from "@/assets/about/overview-hero.png";
+import capEngineering from "@/assets/about/capabilities/engineering.png";
+import capInnovation from "@/assets/about/capabilities/innovation.png";
+import capManufacturing from "@/assets/about/capabilities/manufacturing.png";
+import capQuality from "@/assets/about/capabilities/quality.png";
 
 export const aboutPageContent: AboutPageContent = {
   meta: {
@@ -85,24 +89,61 @@ export const aboutPageContent: AboutPageContent = {
     ],
   },
   engineeringManufacturing: {
-    heading: "Engineering & Manufacturing Excellence",
-    subheading: "Key capabilities and industrial strengths placeholder.",
+    label: "Our Capabilities",
+    heading: "What We Do Best",
+    subheading:
+      "We combine engineering expertise, advanced manufacturing and rigorous quality control to deliver reliable solutions that perform in the toughest conditions.",
     capabilities: [
       {
-        id: "capability-1",
-        title: "Capability placeholder",
-        description: "Technical expertise placeholder.",
+        id: "engineering-excellence",
+        icon: "engineering",
+        title: "Engineering Excellence",
+        description:
+          "Advanced design, simulation and technical expertise to develop high-performance solutions.",
+        image: {
+          src: capEngineering,
+          alt: "Engineering blueprints and precision metal components",
+        },
       },
       {
-        id: "capability-2",
-        title: "Capability placeholder",
-        description: "Industrial strength placeholder.",
+        id: "advanced-manufacturing",
+        icon: "manufacturing",
+        title: "Advanced Manufacturing",
+        description:
+          "State-of-the-art production capabilities ensuring precision, efficiency and scalability.",
+        image: {
+          src: capManufacturing,
+          alt: "Advanced laser cutting and manufacturing process",
+        },
       },
       {
-        id: "capability-3",
-        title: "Capability placeholder",
-        description: "Manufacturing excellence placeholder.",
+        id: "quality-assurance",
+        icon: "quality",
+        title: "Quality Assurance",
+        description:
+          "Strict quality control processes ensuring reliability, compliance and long-term performance.",
+        image: {
+          src: capQuality,
+          alt: "Quality inspection of industrial filtration equipment",
+        },
+      },
+      {
+        id: "continuous-innovation",
+        icon: "innovation",
+        title: "Continuous Innovation",
+        description:
+          "Ongoing R&D and process improvement to meet evolving industry demands.",
+        image: {
+          src: capInnovation,
+          alt: "Finished industrial pipes ready for deployment",
+        },
       },
     ],
+    cta: {
+      heading: "Looking for Engineering Solutions?",
+      body: "Partner with DOT for reliable, efficient and high-performance solutions built for your toughest challenges.",
+      ctaPrimary: { label: "Contact Us", href: "/contact" },
+      ctaSecondary: { label: "View Products", href: "/products" },
+    },
   },
 };

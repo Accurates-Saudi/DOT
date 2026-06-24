@@ -18,6 +18,7 @@ export type {
   CompanyOverviewStat,
   EngineeringManufacturingCapability,
   EngineeringManufacturingContent,
+  EngineeringManufacturingCta,
   CertificateItem,
   CertificatesSectionContent,
   ContentFieldMeta,

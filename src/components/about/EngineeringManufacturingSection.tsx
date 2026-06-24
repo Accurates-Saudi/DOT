@@ -1,5 +1,12 @@
-import { Container, Section, SectionHeading } from "@/components/shared";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
+
+import { CapabilityIcon } from "@/components/about/CapabilitiesIcons";
+import { Container, Section } from "@/components/shared";
+import { Button } from "@/components/ui";
 import type { EngineeringManufacturingContent } from "@/types";
+import { cn } from "@/lib/utils";
 
 export interface EngineeringManufacturingSectionProps {
   content: EngineeringManufacturingContent;
@@ -8,35 +15,158 @@ export interface EngineeringManufacturingSectionProps {
 export function EngineeringManufacturingSection({
   content,
 }: EngineeringManufacturingSectionProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.06, rootMargin: "0px 0px -4% 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const reveal = (delayMs: number, className?: string) => ({
+    className: cn(
+      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
+      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+      className,
+    ),
+    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
+  });
+
   return (
     <Section
       id="engineering-manufacturing"
-      variant="muted"
-      padding="lg"
-      aria-label="Engineering and manufacturing excellence"
+      padding="none"
+      aria-label="Engineering and manufacturing capabilities"
+      className="overflow-hidden bg-white"
     >
-      <Container>
-        <SectionHeading
-          title={content.heading}
-          description={content.subheading}
-        />
+      <Container size="wide" className="px-4 sm:px-6 lg:px-8">
+        <div ref={sectionRef}>
+          <header
+            {...reveal(
+              0,
+              "mx-auto max-w-3xl px-2 pt-14 text-center sm:pt-16 lg:pt-20",
+            )}
+          >
+            <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
+              {content.label}
+            </p>
+            <h2 className="mt-4 text-[2rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2.35rem] lg:text-[2.5rem]">
+              {content.heading}
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-[0.9375rem] leading-[1.75] text-[#0c1524]/68 sm:text-base lg:text-[1.0625rem]">
+              {content.subheading}
+            </p>
+          </header>
 
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {content.capabilities.map((capability) => (
-            <li
-              key={capability.id}
-              className="rounded-lg border border-dashed border-border bg-background p-6"
-            >
-              <h3 className="text-lg font-semibold text-foreground">
-                {capability.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {capability.description}
-              </p>
-            </li>
-          ))}
-        </ul>
+          <ul
+            {...reveal(
+              100,
+              "mt-10 grid gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-4 lg:gap-5 xl:gap-6",
+            )}
+          >
+            {content.capabilities.map((capability) => (
+              <li
+                key={capability.id}
+                className="overflow-hidden bg-white shadow-[0_8px_30px_-18px_rgba(12,21,36,0.18)] ring-1 ring-[#0c1524]/6"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={capability.image.src}
+                    alt={capability.image.alt}
+                    className="size-full object-cover object-center transition-transform duration-500 ease-out hover:scale-[1.02]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="px-5 py-6 sm:px-5 sm:py-6 lg:px-5 lg:py-7">
+                  <div className="flex items-center gap-2.5 text-[#F68E05]">
+                    <CapabilityIcon icon={capability.icon} className="size-5" />
+                    <h3 className="text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase sm:text-sm">
+                      {capability.title}
+                    </h3>
+                  </div>
+                  <p className="mt-3 text-[0.8125rem] leading-[1.7] text-[#0c1524]/65 sm:text-sm">
+                    {capability.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Container>
+
+      <div
+        {...reveal(
+          200,
+          "relative mt-14 bg-[#0c1524] sm:mt-16 lg:mt-20",
+        )}
+      >
+        <Container size="wide" className="px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-8 py-10 sm:py-11 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-12 xl:py-14">
+            <div className="flex gap-5 lg:max-w-2xl lg:gap-6">
+              <span
+                className="w-1 shrink-0 self-stretch bg-[#F68E05]"
+                aria-hidden
+              />
+              <div>
+                <h3 className="text-xl font-bold leading-snug text-white sm:text-[1.35rem] lg:text-2xl">
+                  {content.cta.heading}
+                </h3>
+                <p className="mt-3 max-w-xl text-[0.875rem] leading-relaxed text-white/72 sm:text-[0.9375rem]">
+                  {content.cta.body}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:shrink-0">
+              <Button
+                size="lg"
+                className="h-12 rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)]"
+                asChild
+              >
+                <Link to={content.cta.ctaPrimary.href}>
+                  {content.cta.ctaPrimary.label}
+                  <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                </Link>
+              </Button>
+
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-sm border-[#F68E05] bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-[#F68E05] hover:bg-[#F68E05]/10"
+                asChild
+              >
+                <Link to={content.cta.ctaSecondary.href}>
+                  {content.cta.ctaSecondary.label}
+                  <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </div>
     </Section>
   );
 }

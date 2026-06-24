@@ -1,15 +1,18 @@
-import { Container, Section, SectionHeading } from "@/components/shared";
-import { aboutPageMeta } from "@/data/pages";
+import {
+  AboutHeroSection,
+  CompanyOverviewSection,
+  EngineeringManufacturingSection,
+} from "@/components/about";
+import { aboutPageContent } from "@/data/pages/about";
 
 export function AboutPage() {
   return (
-    <Section padding="lg">
-      <Container size="narrow">
-        <SectionHeading
-          title={aboutPageMeta.title}
-          description={aboutPageMeta.description}
-        />
-      </Container>
-    </Section>
+    <>
+      <AboutHeroSection content={aboutPageContent.hero} />
+      <CompanyOverviewSection content={aboutPageContent.companyOverview} />
+      <EngineeringManufacturingSection
+        content={aboutPageContent.engineeringManufacturing}
+      />
+    </>
   );
 }

@@ -198,6 +198,41 @@ export interface PageMeta {
   ogImage?: string;
 }
 
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export interface AboutHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  title: ContentValue<string>;
+  introduction: ContentValue<string>;
+}
+
+export interface CompanyOverviewContent {
+  heading: ContentValue<string>;
+  body: ContentValue<string>[];
+  image: ImageAsset;
+}
+
+export interface EngineeringManufacturingCapability {
+  id: string;
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+}
+
+export interface EngineeringManufacturingContent {
+  heading: ContentValue<string>;
+  subheading?: ContentValue<string>;
+  capabilities: EngineeringManufacturingCapability[];
+}
+
+export interface AboutPageContent extends PageContent {
+  hero: AboutHeroContent;
+  companyOverview: CompanyOverviewContent;
+  engineeringManufacturing: EngineeringManufacturingContent;
+}
+
 export interface SiteSettings {
   companyName: string;
   legalName: string;

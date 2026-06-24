@@ -8,8 +8,14 @@ export type {
 export { CMS_CAPABILITIES } from "./cms";
 
 export type {
+  AboutHeroContent,
+  AboutPageContent,
   AboutSectionContent,
   AboutServiceItem,
+  BreadcrumbItem,
+  CompanyOverviewContent,
+  EngineeringManufacturingCapability,
+  EngineeringManufacturingContent,
   CertificateItem,
   CertificatesSectionContent,
   ContentFieldMeta,

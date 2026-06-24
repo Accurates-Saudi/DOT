@@ -1,6 +1,6 @@
 import type { Route } from "./+types/products.$slug";
 import { ProductDetailPage } from "@/pages/ProductDetailPage";
-import { getProductBySlug } from "@/lib/products";
+import { getProductBySlug, getRelatedProducts } from "@/lib/products";
 import { seoDefaults } from "@/data/site";
 
 export function loader({ params }: Route.LoaderArgs) {
@@ -10,7 +10,10 @@ export function loader({ params }: Route.LoaderArgs) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  return { product };
+  return {
+    product,
+    relatedProducts: getRelatedProducts(params.slug),
+  };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {

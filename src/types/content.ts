@@ -306,20 +306,27 @@ export interface DownloadResource {
 
 export interface ProductDetailHeroContent {
   breadcrumbs: BreadcrumbItem[];
+  category: ContentValue<string>;
   name: ContentValue<string>;
-  description: ContentValue<string>;
+  introduction: ContentValue<string>;
   image: ImageAsset;
   ctaContact: LinkItem;
-  ctaCatalog: LinkItem;
 }
 
 export interface ProductOverviewContent {
   heading: ContentValue<string>;
-  paragraphs: ContentValue<string>[];
-  benefits: {
-    title: ContentValue<string>;
-    items: ContentValue<string>[];
-  };
+  body: ContentValue<string>;
+}
+
+export interface ProductInfoColumn {
+  title: ContentValue<string>;
+  items: ContentValue<string>[];
+}
+
+export interface ProductDetailInfoContent {
+  applications: ProductInfoColumn;
+  features: ProductInfoColumn;
+  benefits: ProductInfoColumn;
 }
 
 export interface ProductSpecificationsContent {
@@ -327,33 +334,22 @@ export interface ProductSpecificationsContent {
   rows: SpecificationRow[];
 }
 
-export interface ProductGalleryContent {
-  heading: ContentValue<string>;
-  images: ImageAsset[];
-}
-
-export interface ProductDownloadsContent {
-  heading: ContentValue<string>;
-  items: DownloadResource[];
-}
-
-export interface ProductInquiryCtaContent {
+export interface ProductContactCtaContent {
   heading: ContentValue<string>;
   body: ContentValue<string>;
   ctaPrimary: LinkItem;
-  ctaSecondary: LinkItem;
 }
 
 export interface ProductDetailContent {
   id: string;
   slug: string;
+  category: ContentValue<string>;
   meta: PageMeta;
   hero: ProductDetailHeroContent;
   overview: ProductOverviewContent;
-  specifications: ProductSpecificationsContent;
-  gallery: ProductGalleryContent;
-  downloads: ProductDownloadsContent;
-  inquiryCta: ProductInquiryCtaContent;
+  info: ProductDetailInfoContent;
+  specifications?: ProductSpecificationsContent;
+  contactCta: ProductContactCtaContent;
 }
 
 export interface SiteSettings {

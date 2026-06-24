@@ -10,11 +10,11 @@ export function SpecificationTable({ rows, className }: SpecificationTableProps)
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white",
+        "overflow-x-auto rounded-2xl border border-[#0c1524]/10 bg-white",
         className,
       )}
     >
-      <table className="w-full text-left text-sm">
+      <table className="w-full min-w-[28rem] border-collapse text-left">
         <tbody>
           {rows.map((row, index) => (
             <tr
@@ -25,11 +25,11 @@ export function SpecificationTable({ rows, className }: SpecificationTableProps)
             >
               <th
                 scope="row"
-                className="w-[38%] px-5 py-4 text-[0.8125rem] font-semibold text-[#0c1524] sm:px-6 sm:py-4"
+                className="w-[36%] bg-[#0c1524]/[0.02] px-5 py-3.5 text-[0.8125rem] font-semibold text-[#0c1524] sm:px-6 sm:py-4"
               >
                 {row.label}
               </th>
-              <td className="px-5 py-4 text-[0.8125rem] leading-relaxed text-[#0c1524]/68 sm:px-6 sm:py-4">
+              <td className="px-5 py-3.5 text-[0.8125rem] leading-relaxed text-[#0c1524]/70 sm:px-6 sm:py-4">
                 {row.value}
               </td>
             </tr>

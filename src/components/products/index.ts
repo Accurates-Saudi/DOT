@@ -1,22 +1,13 @@
-export { DownloadCard, type DownloadCardProps } from "./DownloadCard";
 export { ProductCard, type ProductCardProps } from "./ProductCard";
+export {
+  ProductContactCtaSection,
+  type ProductContactCtaSectionProps,
+} from "./ProductContactCtaSection";
 export {
   ProductDetailHeroSection,
   type ProductDetailHeroSectionProps,
 } from "./ProductDetailHeroSection";
-export {
-  ProductDownloadsSection,
-  type ProductDownloadsSectionProps,
-} from "./ProductDownloadsSection";
-export { ProductGallery, type ProductGalleryProps } from "./ProductGallery";
-export {
-  ProductGallerySection,
-  type ProductGallerySectionProps,
-} from "./ProductGallerySection";
-export {
-  ProductInquiryCtaSection,
-  type ProductInquiryCtaSectionProps,
-} from "./ProductInquiryCtaSection";
+export { ProductInfoSection, type ProductInfoSectionProps } from "./ProductInfoSection";
 export {
   ProductOverviewSection,
   type ProductOverviewSectionProps,
@@ -28,6 +19,10 @@ export {
 export { ProductsCtaSection, type ProductsCtaSectionProps } from "./ProductsCtaSection";
 export { ProductsGrid, type ProductsGridProps } from "./ProductsGrid";
 export { ProductsHeroSection, type ProductsHeroSectionProps } from "./ProductsHeroSection";
+export {
+  RelatedProductsSection,
+  type RelatedProductsSectionProps,
+} from "./RelatedProductsSection";
 export {
   SpecificationTable,
   type SpecificationTableProps,

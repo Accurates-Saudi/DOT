@@ -5,8 +5,8 @@ import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 const RESUME_AUTOPLAY_MS = 2500;
 
 function getSlidesPerView(width: number) {
-  if (width < 640) return 1;
-  if (width < 1024) return 2;
+  if (width < 420) return 1;
+  if (width < 620) return 2;
   return 3;
 }
 

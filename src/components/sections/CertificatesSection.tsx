@@ -50,8 +50,8 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
       className="overflow-hidden bg-white py-10 sm:py-12 lg:py-14"
     >
       <Container size="wide">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.3fr)_minmax(0,0.7fr)] lg:gap-10 xl:gap-12">
-          <div className="max-w-xs lg:max-w-none">
+        <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.26fr)_minmax(0,0.74fr)] md:gap-8 lg:gap-10">
+          <div className="max-w-xs md:max-w-none">
             <h2 className="text-[1.75rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2rem] lg:text-[2.15rem]">
               {content.heading}
               <span className="block text-[#F68E05]">{content.headingAccent}</span>
@@ -100,7 +100,7 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
             >
               <div
                 data-certificate-track
-                className="flex gap-4 sm:gap-5"
+                className="flex gap-3"
                 style={{
                   transform: `translate3d(${translateX}px, 0, 0)`,
                   transition:
@@ -133,12 +133,12 @@ function CertificateCard({
   item: CertificateItem;
   slidesPerView: number;
 }) {
+  const gapCount = Math.max(slidesPerView - 1, 0);
+  const gapTotal = gapCount * 0.75;
   const slideWidth =
     slidesPerView === 1
       ? "100%"
-      : slidesPerView === 2
-        ? "calc((100% - 1.25rem) / 2)"
-        : "calc((100% - 2.5rem) / 3)";
+      : `calc((100% - ${gapTotal}rem) / ${slidesPerView})`;
 
   return (
     <article
@@ -147,8 +147,8 @@ function CertificateCard({
       style={{ width: slideWidth, flexBasis: slideWidth }}
       aria-label={item.title ?? item.image.alt}
     >
-      <div className="overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white p-2 shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] transition-[transform,box-shadow] duration-300 ease-out group-hover:scale-[1.015] group-hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.28)] sm:p-2.5">
-        <div className="aspect-[5/3.2] overflow-hidden bg-[#faf9f8]">
+      <div className="overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] transition-[transform,box-shadow] duration-300 ease-out group-hover:scale-[1.015] group-hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.28)] sm:p-2">
+        <div className="aspect-[5/3] overflow-hidden bg-[#faf9f8]">
           <img
             src={item.image.src}
             alt={item.image.alt}

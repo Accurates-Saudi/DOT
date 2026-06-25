@@ -76,8 +76,16 @@ export function AboutSection({ content }: AboutSectionProps) {
       padding="xl"
       variant="default"
       aria-label="About us"
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-[#fcfcfb]"
     >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#ffffff_0%,#f9f8f7_48%,#ffffff_100%)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_55%_at_50%_-5%,rgba(12,21,36,0.028),transparent_68%)]"
+        aria-hidden
+      />
       <AboutBackgroundArt />
 
       <Container size="wide" className="relative">
@@ -89,26 +97,26 @@ export function AboutSection({ content }: AboutSectionProps) {
                 "grid gap-5 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:gap-8",
               )}
             >
-              <div className="flex h-full flex-col justify-center rounded-2xl bg-[#f6f5f4] px-6 py-4 sm:px-7 sm:py-5 lg:rounded-3xl lg:px-8 lg:py-5">
-                <h3 className="max-w-xl text-base font-semibold leading-snug tracking-tight text-[#0c1524] sm:text-lg lg:text-[1.2rem] lg:leading-[1.35]">
+              <div className="flex h-full flex-col justify-center rounded-2xl border border-[#0c1524]/[0.07] bg-gradient-to-br from-white via-[#fdfcfb] to-[#f6f4f2] px-6 py-3 shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:px-7 sm:py-3.5 lg:rounded-3xl lg:px-8 lg:py-4">
+                <h3 className="max-w-xl text-base font-bold leading-[1.3] tracking-tight text-[#0c1524] sm:text-lg lg:text-[1.25rem]">
                   {servicesBanner.title}
                 </h3>
 
-                <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:mt-4 sm:flex sm:items-start sm:justify-between sm:gap-x-4 lg:mt-5">
+                <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-3.5 sm:mt-3 sm:flex sm:items-start sm:justify-between sm:gap-x-4 lg:mt-3.5">
                   {servicesBanner.items.map((item) => {
                     const Icon = SERVICE_ICONS[item.icon];
                     return (
                       <li
                         key={item.label}
-                        className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center"
+                        className="flex min-w-0 flex-1 flex-col items-center gap-1 text-center"
                       >
-                        <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#0c1524]/75 sm:size-[3.25rem] lg:size-14">
+                        <span className="flex size-[3.25rem] shrink-0 items-center justify-center rounded-full border border-[#0c1524]/10 bg-gradient-to-b from-white to-[#f8f7f6] text-[#0c1524]/80 shadow-[0_2px_8px_-2px_rgba(12,21,36,0.1)] sm:size-14 lg:size-[3.75rem]">
                           <Icon
-                            className="size-6 stroke-[1.5] lg:size-7"
+                            className="size-[1.375rem] stroke-[1.6] sm:size-7 lg:size-[1.85rem]"
                             aria-hidden
                           />
                         </span>
-                        <span className="text-[0.8125rem] font-semibold leading-tight text-[#0c1524] sm:text-sm">
+                        <span className="max-w-[6.5rem] text-[0.8125rem] font-bold leading-[1.2] tracking-tight text-[#0c1524]/90 sm:max-w-none sm:text-sm">
                           {item.label}
                         </span>
                       </li>
@@ -118,8 +126,8 @@ export function AboutSection({ content }: AboutSectionProps) {
               </div>
 
               {servicesBanner.thumbnail && (
-                <div className="flex h-full overflow-hidden rounded-2xl bg-[#f6f5f4] shadow-[0_12px_40px_-24px_rgba(12,21,36,0.18)] lg:rounded-3xl">
-                  <div className="aspect-[2/1] w-full sm:aspect-[5/2.5] lg:aspect-auto lg:h-full lg:min-h-0">
+                <div className="flex h-full overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] lg:rounded-3xl">
+                  <div className="aspect-[2.15/1] w-full sm:aspect-[5/2.65] lg:aspect-auto lg:h-full lg:min-h-0">
                     <img
                       src={servicesBanner.thumbnail.src}
                       alt={servicesBanner.thumbnail.alt}

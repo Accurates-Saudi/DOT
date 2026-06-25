@@ -19,7 +19,8 @@ const imageModules = import.meta.glob<ImageModule>(
   { eager: true, import: "default" },
 );
 
-const SPEC_IMAGE_PATTERN = /specification/i;
+/** Matches specification, common typos (e.g. specificcation), and spec-table filenames */
+const SPEC_IMAGE_PATTERN = /specif[a-z]*cat/i;
 const LINEAR_RANGE_IMAGE_PATTERN = /linear[\s_-]?range/i;
 
 function pickSpecificationImage(
@@ -160,6 +161,7 @@ export function loadProductRecordsFromAssets(): ProductRecord[] {
         id: slugifyFolderName(folderName),
         slug: slugifyFolderName(folderName),
         category: parsed.category,
+        ...(parsed.subcategory ? { subcategory: parsed.subcategory } : {}),
         name: parsed.name,
         listingTeaser: firstSentence(introduction),
         introduction,

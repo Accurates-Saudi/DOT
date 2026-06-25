@@ -498,7 +498,10 @@ export interface ProductSpecificationsInput {
 export interface ProductRecord {
   id: string;
   slug: string;
+  /** Top-level family used for listing groups */
   category: ContentValue<string>;
+  /** Optional detail label (e.g. Sand Control, Oil & Gas Industry) */
+  subcategory?: ContentValue<string>;
   name: ContentValue<string>;
   introduction: ContentValue<string>;
   /** Short blurb for listing cards; falls back to introduction when omitted */

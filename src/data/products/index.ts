@@ -9,4 +9,4 @@ export {
   toProductItem,
 } from "./factory";
 export { loadProductRecordsFromAssets } from "./loadFromAssets";
-export { parseProductContent, slugifyFolderName } from "./parseContent";
+export { parseProductContent, slugifyFolderName, LISTING_CATEGORY_ORDER, sortListingCategories } from "./parseContent";

@@ -53,6 +53,7 @@ function buildSpecifications(
 
 export function createProductDetail(record: ProductRecord): ProductDetailContent {
   const specifications = buildSpecifications(record);
+  const heroCategory = record.subcategory ?? record.category;
 
   return {
     id: record.id,
@@ -67,10 +68,10 @@ export function createProductDetail(record: ProductRecord): ProductDetailContent
       breadcrumbs: [
         { label: "Home", href: "/" },
         { label: "Products", href: "/products" },
-        { label: record.category, href: "/products" },
+        { label: heroCategory, href: "/products" },
         { label: record.name },
       ],
-      category: record.category,
+      category: heroCategory,
       name: record.name,
       introduction: record.introduction,
       image: record.image,

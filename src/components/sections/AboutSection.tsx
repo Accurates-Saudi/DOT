@@ -86,26 +86,29 @@ export function AboutSection({ content }: AboutSectionProps) {
             <div
               {...reveal(
                 0,
-                "grid gap-5 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8",
+                "grid gap-5 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:gap-8",
               )}
             >
-              <div className="rounded-2xl bg-[#f6f5f4] px-5 py-6 sm:px-7 sm:py-8 lg:rounded-3xl lg:px-9 lg:py-9">
-                <h3 className="max-w-xl text-lg font-semibold leading-snug tracking-tight text-[#0c1524] sm:text-xl lg:text-[1.35rem] lg:leading-[1.35]">
+              <div className="flex h-full flex-col justify-center rounded-2xl bg-[#f6f5f4] px-6 py-4 sm:px-7 sm:py-5 lg:rounded-3xl lg:px-8 lg:py-5">
+                <h3 className="max-w-xl text-base font-semibold leading-snug tracking-tight text-[#0c1524] sm:text-lg lg:text-[1.2rem] lg:leading-[1.35]">
                   {servicesBanner.title}
                 </h3>
 
-                <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-6 lg:mt-8">
+                <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:mt-4 sm:flex sm:items-start sm:justify-between sm:gap-x-4 lg:mt-5">
                   {servicesBanner.items.map((item) => {
                     const Icon = SERVICE_ICONS[item.icon];
                     return (
                       <li
                         key={item.label}
-                        className="flex flex-col items-center gap-2.5 text-center"
+                        className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center"
                       >
-                        <span className="flex size-11 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#0c1524]/70">
-                          <Icon className="size-5 stroke-[1.5]" aria-hidden />
+                        <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#0c1524]/75 sm:size-[3.25rem] lg:size-14">
+                          <Icon
+                            className="size-6 stroke-[1.5] lg:size-7"
+                            aria-hidden
+                          />
                         </span>
-                        <span className="text-xs leading-snug font-medium text-[#0c1524]/65 sm:text-[0.8125rem]">
+                        <span className="text-[0.8125rem] font-semibold leading-tight text-[#0c1524] sm:text-sm">
                           {item.label}
                         </span>
                       </li>
@@ -115,8 +118,8 @@ export function AboutSection({ content }: AboutSectionProps) {
               </div>
 
               {servicesBanner.thumbnail && (
-                <div className="overflow-hidden rounded-2xl bg-[#f6f5f4] shadow-[0_12px_40px_-24px_rgba(12,21,36,0.18)] lg:rounded-3xl">
-                  <div className="aspect-[16/10] sm:aspect-[5/3] lg:h-full lg:min-h-[220px]">
+                <div className="flex h-full overflow-hidden rounded-2xl bg-[#f6f5f4] shadow-[0_12px_40px_-24px_rgba(12,21,36,0.18)] lg:rounded-3xl">
+                  <div className="aspect-[2/1] w-full sm:aspect-[5/2.5] lg:aspect-auto lg:h-full lg:min-h-0">
                     <img
                       src={servicesBanner.thumbnail.src}
                       alt={servicesBanner.thumbnail.alt}

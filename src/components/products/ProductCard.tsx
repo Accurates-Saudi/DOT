@@ -24,11 +24,11 @@ export function ProductCard({
       )}
     >
       <article>
-        <div className="aspect-[4/3] overflow-hidden rounded-[0.75rem] sm:rounded-xl">
+        <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[0.75rem] bg-[#f8f7f6] sm:rounded-xl">
           <img
             src={product.image.src}
             alt={product.image.alt}
-            className="img-zoom-hover size-full object-cover object-center"
+            className="img-zoom-hover size-full object-contain object-center p-2 sm:p-3"
             loading="lazy"
             decoding="async"
           />

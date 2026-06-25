@@ -77,11 +77,11 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             </Button>
           </div>
 
-          <div className="flex items-center justify-center lg:justify-end">
+          <div className="flex w-full items-center justify-center">
             <img
               src={hero.image.src}
               alt={hero.image.alt}
-              className="max-h-[220px] w-full max-w-[480px] object-contain sm:max-h-[260px] lg:max-h-[300px] lg:max-w-none xl:max-h-[320px]"
+              className="h-auto w-auto max-h-[min(26rem,58vh)] max-w-full object-contain object-center sm:max-h-[min(28rem,62vh)] lg:max-h-[min(32rem,68vh)]"
             />
           </div>
         </div>

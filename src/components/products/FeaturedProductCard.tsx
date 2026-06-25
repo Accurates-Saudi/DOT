@@ -31,11 +31,11 @@ export function FeaturedProductCard({
       style={{ width: slideWidth, flexBasis: slideWidth }}
     >
       <div className="card-hover group/card flex h-full flex-col overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white shadow-[0_10px_36px_-24px_rgba(12,21,36,0.14)] hover:shadow-[0_14px_38px_-22px_rgba(12,21,36,0.17)]">
-        <div className="aspect-[4/3] overflow-hidden bg-[#f8f7f6]">
+        <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-[#f8f7f6]">
           <img
             src={product.image.src}
             alt={product.image.alt}
-            className="img-zoom-hover size-full object-cover object-center"
+            className="img-zoom-hover size-full object-contain object-center p-3 sm:p-4"
             loading="lazy"
             decoding="async"
             draggable={false}

@@ -2,10 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { Button } from "@/components/ui/button";
-import {
-  cookieCategoryDefinitions,
-  cookieConsentCopy,
-} from "@/data/cookie-consent";
+import { useCookieConsentCopy } from "@/i18n/content/hooks";
 import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import {
@@ -29,6 +26,7 @@ export function CookiePreferencesModal() {
     acceptAll,
     rejectNonEssential,
   } = useCookieConsent();
+  const copy = useCookieConsentCopy();
   const prefersReducedMotion = usePrefersReducedMotion();
   const titleId = useId();
   const descriptionId = useId();
@@ -85,19 +83,19 @@ export function CookiePreferencesModal() {
               id={titleId}
               className="text-lg font-semibold tracking-tight text-[#0c1524] sm:text-xl"
             >
-              {cookieConsentCopy.modal.title}
+              {copy.modal.title}
             </DialogPrimitive.Title>
             <DialogPrimitive.Description
               id={descriptionId}
               className="mt-2 text-sm leading-relaxed text-[#0c1524]/68"
             >
-              {cookieConsentCopy.modal.description}
+              {copy.modal.description}
             </DialogPrimitive.Description>
           </div>
 
           <div className="flex-1 overflow-y-auto px-5 py-4 sm:px-6">
             <ul className="space-y-3">
-              {cookieCategoryDefinitions.map((category) => {
+              {copy.categories.map((category) => {
                 const isRequired = category.required === true;
                 const enabled =
                   category.id === "necessary"
@@ -151,7 +149,7 @@ export function CookiePreferencesModal() {
               className="h-11 flex-1 rounded-full px-5 text-sm font-medium sm:min-w-[9rem] sm:flex-none"
               onClick={handleSave}
             >
-              {cookieConsentCopy.modal.save}
+              {copy.modal.save}
             </Button>
             <Button
               type="button"
@@ -163,7 +161,7 @@ export function CookiePreferencesModal() {
                 acceptAll();
               }}
             >
-              {cookieConsentCopy.modal.acceptAll}
+              {copy.modal.acceptAll}
             </Button>
             <Button
               type="button"
@@ -175,7 +173,7 @@ export function CookiePreferencesModal() {
                 rejectNonEssential();
               }}
             >
-              {cookieConsentCopy.modal.rejectNonEssential}
+              {copy.modal.rejectNonEssential}
             </Button>
           </div>
 

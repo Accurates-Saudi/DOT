@@ -3,9 +3,11 @@ import {
   ProductsGrid,
   ProductsHeroSection,
 } from "@/components/products";
-import { productsPageContent } from "@/data/pages/products";
+import { useProductsPageContent } from "@/i18n/content/hooks";
 
 export function ProductsPage() {
+  const productsPageContent = useProductsPageContent();
+
   return (
     <>
       <ProductsHeroSection content={productsPageContent.hero} />

@@ -1,15 +1,21 @@
 import type { Route } from "./+types/products";
 import { ProductsPage } from "@/pages";
-import { productsPageMeta } from "@/data/pages";
-import { seoDefaults } from "@/data/site";
+import { buildProductsContent } from "@/i18n/content";
+import { createPageMeta } from "@/i18n/meta";
+import { getLocaleRouteData } from "@/i18n/route-data";
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    {
-      title: seoDefaults.titleTemplate.replace("%s", productsPageMeta.title),
-    },
-    { name: "description", content: productsPageMeta.description },
-  ];
+export function meta({ matches }: Route.MetaArgs) {
+  const localeData = getLocaleRouteData(matches);
+  if (!localeData) return [];
+
+  const content = buildProductsContent(localeData.messages, localeData.locale);
+
+  return createPageMeta({
+    title: content.meta.title,
+    description: content.meta.description,
+    pathname: `/${localeData.locale}/products`,
+    locale: localeData.locale,
+  });
 }
 
 export default function Products() {

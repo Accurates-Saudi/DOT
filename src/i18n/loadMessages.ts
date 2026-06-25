@@ -3,7 +3,7 @@ import type { TranslationMessages } from "./types";
 
 const messageLoaders: Record<
   Locale,
-  () => Promise<{ default: TranslationMessages }>
+  () => Promise<{ default: Record<string, unknown> }>
 > = {
   en: () => import("./locales/en.json"),
   ar: () => import("./locales/ar.json"),
@@ -16,7 +16,7 @@ export async function loadMessages(locale: Locale): Promise<TranslationMessages>
   if (cached) return cached;
 
   const module = await messageLoaders[locale]();
-  const messages = module.default;
+  const messages = module.default as TranslationMessages;
   messageCache.set(locale, messages);
   return messages;
 }

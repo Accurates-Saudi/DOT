@@ -60,7 +60,7 @@ export function ProductsGrid({ content, className }: ProductsGridProps) {
   const [query, setQuery] = useState("");
 
   const categoryOrder = useMemo(() => {
-    const order = [...LISTING_CATEGORY_ORDER];
+    const order: string[] = [...LISTING_CATEGORY_ORDER];
     for (const item of content.items) {
       if (!order.includes(item.category)) {
         order.push(item.category);

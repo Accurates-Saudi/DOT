@@ -3,11 +3,13 @@ export {
   isRtlLocale,
   isValidLocale,
   localeCookieName,
+  localeHtmlLang,
   localeLabels,
   localeStorageKey,
   locales,
   type Locale,
 } from "./config";
+export { FallbackI18nProvider } from "./fallback-provider";
 export { I18nProvider, useI18nContext } from "./provider";
 export {
   useDirection,

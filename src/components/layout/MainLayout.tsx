@@ -13,7 +13,7 @@ export interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const isHome = /\/(en|ar)\/?$/.test(location.pathname);
 
   useScrollToTop();
 

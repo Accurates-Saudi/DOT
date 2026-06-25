@@ -3,11 +3,14 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+@import "@fontsource-variable/noto-sans-arabic";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-arabic: "Noto Sans Arabic Variable", "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {
@@ -457,4 +460,40 @@
 
 .trusted-partners-marquee:hover .trusted-partners-marquee-track {
   animation-play-state: paused;
+}
+
+/* RTL layout support */
+html[dir="rtl"] {
+  font-family: var(--font-arabic);
+}
+
+html[dir="rtl"] body {
+  text-align: start;
+}
+
+html[dir="rtl"] .text-link-arrow .link-arrow,
+html[dir="rtl"] .group\/card .group-hover\/card\:translate-x-0\.5 {
+  transform: scaleX(-1);
+}
+
+html[dir="rtl"] [class*="origin-left"] {
+  transform-origin: right;
+}
+
+html[dir="rtl"] .trusted-partners-marquee-track {
+  animation-direction: reverse;
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  text-align: start;
+}
+
+html {
+  transition: opacity 0.15s ease;
+}
+
+html.locale-switching body {
+  opacity: 0.98;
 }

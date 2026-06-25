@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { LocalizedLink } from "@/components/i18n";
 
 import type { NewsArticlePreview } from "@/types";
 import { cn } from "@/lib/utils";
@@ -42,26 +42,26 @@ export function NewsCard({
           : undefined
       }
     >
-      <Link to={href} className="relative block overflow-hidden rounded-t-xl">
+      <LocalizedLink to={href} className="relative block overflow-hidden rounded-t-xl">
         <NewsArticleImage image={article.image} variant="card" />
         <NewsDateBadge day={date.day} month={date.month} />
-      </Link>
+      </LocalizedLink>
 
       <div className="flex flex-1 flex-col px-5 pb-6 pt-5">
         <h3 className="text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:text-base">
-          <Link
+          <LocalizedLink
             to={href}
             className="text-link-hover line-clamp-2 hover:text-[#F68E05]"
           >
             {article.title}
-          </Link>
+          </LocalizedLink>
         </h3>
 
         <p className="mt-3 line-clamp-3 flex-1 text-[0.8125rem] leading-relaxed text-[#0c1524]/58 sm:text-sm">
           {article.excerpt}
         </p>
 
-        <Link
+        <LocalizedLink
           to={href}
           className="text-link-hover text-link-arrow group/link mt-5 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] hover:text-[#E07F04]"
         >
@@ -69,7 +69,7 @@ export function NewsCard({
           <span className="link-arrow" aria-hidden>
             →
           </span>
-        </Link>
+        </LocalizedLink>
       </div>
     </article>
   );

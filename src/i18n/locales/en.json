@@ -14,12 +14,30 @@
   },
   "nav": {
     "items": [
-      { "label": "Home", "href": "/" },
-      { "label": "About Us", "href": "/about" },
-      { "label": "Products", "href": "/products" },
-      { "label": "Catalogs", "href": "/catalogs" },
-      { "label": "News", "href": "/news" },
-      { "label": "Contact Us", "href": "/contact" }
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About Us",
+        "href": "/about"
+      },
+      {
+        "label": "Products",
+        "href": "/products"
+      },
+      {
+        "label": "Catalogs",
+        "href": "/catalogs"
+      },
+      {
+        "label": "News",
+        "href": "/news"
+      },
+      {
+        "label": "Contact Us",
+        "href": "/contact"
+      }
     ],
     "login": "Login",
     "linkedIn": "LinkedIn",
@@ -43,22 +61,55 @@
     "quickLinks": {
       "title": "Quick Links",
       "items": [
-        { "label": "Home", "href": "/" },
-        { "label": "About Us", "href": "/about" },
-        { "label": "Products", "href": "/products" },
-        { "label": "Catalogs", "href": "/catalogs" },
-        { "label": "News", "href": "/news" },
-        { "label": "Contact Us", "href": "/contact" }
+        {
+          "label": "Home",
+          "href": "/"
+        },
+        {
+          "label": "About Us",
+          "href": "/about"
+        },
+        {
+          "label": "Products",
+          "href": "/products"
+        },
+        {
+          "label": "Catalogs",
+          "href": "/catalogs"
+        },
+        {
+          "label": "News",
+          "href": "/news"
+        },
+        {
+          "label": "Contact Us",
+          "href": "/contact"
+        }
       ]
     },
     "services": {
       "title": "Services",
       "items": [
-        { "label": "Oil & Gas Equipment", "href": "/services" },
-        { "label": "Process Industry Screens", "href": "/services" },
-        { "label": "Downhole Screens", "href": "/services" },
-        { "label": "Screen Baskets & Strainers", "href": "/services" },
-        { "label": "Product Treatments", "href": "/services" }
+        {
+          "label": "Oil & Gas Equipment",
+          "href": "/services"
+        },
+        {
+          "label": "Process Industry Screens",
+          "href": "/services"
+        },
+        {
+          "label": "Downhole Screens",
+          "href": "/services"
+        },
+        {
+          "label": "Screen Baskets & Strainers",
+          "href": "/services"
+        },
+        {
+          "label": "Product Treatments",
+          "href": "/services"
+        }
       ]
     },
     "contact": {
@@ -86,8 +137,14 @@
     "bottomBar": {
       "legalName": "Dynamic Oil Tools Co.",
       "legalLinks": [
-        { "label": "Privacy Policy", "href": "/privacy" },
-        { "label": "Terms & Conditions", "href": "/terms" },
+        {
+          "label": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "label": "Terms & Conditions",
+          "href": "/terms"
+        },
         {
           "label": "Cookie Preferences",
           "href": "#cookie-preferences",
@@ -172,8 +229,14 @@
             "headline": "Engineered for Demanding Operations.",
             "headlineAccent": "Built in Saudi Arabia.",
             "subheadline": "Precision machining, downhole equipment, and engineered manufacturing solutions designed to deliver reliability, quality, and performance for the global oil & gas industry.",
-            "ctaPrimary": { "label": "Explore Products", "href": "/products" },
-            "ctaSecondary": { "label": "About DOT", "href": "/about" },
+            "ctaPrimary": {
+              "label": "Explore Products",
+              "href": "/products"
+            },
+            "ctaSecondary": {
+              "label": "About DOT",
+              "href": "/about"
+            },
             "background": {
               "alt": "Industrial oil and gas facility with pipeline infrastructure at golden hour"
             }
@@ -183,8 +246,14 @@
             "headline": "Precision Solutions.",
             "headlineAccent": "Trusted in the Field.",
             "subheadline": "From advanced machining and screen manufacturing to repair, refurbishment, and premium connection services, DOT supports operators with dependable solutions built for demanding environments.",
-            "ctaPrimary": { "label": "Our Services", "href": "/products" },
-            "ctaSecondary": { "label": "Contact Us", "href": "/contact" },
+            "ctaPrimary": {
+              "label": "Our Services",
+              "href": "/products"
+            },
+            "ctaSecondary": {
+              "label": "Contact Us",
+              "href": "/contact"
+            },
             "background": {
               "alt": "Advanced manufacturing and refinery operations at sunset"
             }
@@ -195,10 +264,18 @@
         "servicesBanner": {
           "title": "Engineering Excellence for Oil & Gas\nManufacturing • Machining • Industrial Services",
           "items": [
-            { "label": "Precision\nMachining" },
-            { "label": "Downhole\nEquipment" },
-            { "label": "Engineering\nServices" },
-            { "label": "Plant\nSupport" }
+            {
+              "label": "Precision\nMachining"
+            },
+            {
+              "label": "Downhole\nEquipment"
+            },
+            {
+              "label": "Engineering\nServices"
+            },
+            {
+              "label": "Plant\nSupport"
+            }
           ],
           "thumbnail": {
             "alt": "Dynamic Oil Tools operations"
@@ -211,13 +288,22 @@
           "Dynamic Oil Tools (DOT) is a Saudi-based manufacturer specializing in precision machining, oil & gas equipment, engineering services, advanced manufacturing, and product treatments",
           "We combine engineering expertise with world-class manufacturing capabilities to deliver reliable, high-performance solutions that meet the demands of the global energy industry."
         ],
-        "ctaPrimary": { "label": "About DOT", "href": "/about" },
-        "ctaVideo": { "label": "Watch Our Video", "href": "#about-video" }
+        "ctaPrimary": {
+          "label": "About DOT",
+          "href": "/about"
+        },
+        "ctaVideo": {
+          "label": "Watch Our Video",
+          "href": "#about-video"
+        }
       },
       "services": {
         "heading": "What We",
         "headingAccent": "Can Offer",
-        "ctaPrimary": { "label": "Explore Services", "href": "/products" },
+        "ctaPrimary": {
+          "label": "Explore Services",
+          "href": "/products"
+        },
         "items": [
           {
             "title": "Oil & Gas Equipment",
@@ -276,8 +362,14 @@
         },
         "ctaPanel": {
           "heading": "We Are Open For Opportunities!",
-          "ctaPrimary": { "label": "View Our Works", "href": "/products" },
-          "ctaSecondary": { "label": "Make An Appointment", "href": "/contact" }
+          "ctaPrimary": {
+            "label": "View Our Works",
+            "href": "/products"
+          },
+          "ctaSecondary": {
+            "label": "Make An Appointment",
+            "href": "/contact"
+          }
         },
         "mission": {
           "title": "Mission",
@@ -315,7 +407,10 @@
         "heading": "Featured Products",
         "description": "A selection of engineered screens, strainers, and filtration solutions built for demanding oil & gas and industrial applications.",
         "viewProductLabel": "View Product",
-        "exploreAll": { "label": "Explore All Products", "href": "/products" }
+        "exploreAll": {
+          "label": "Explore All Products",
+          "href": "/products"
+        }
       },
       "certificates": {
         "heading": "Our",
@@ -359,7 +454,10 @@
         "heading": "Industry",
         "headingAccent": "Insights & Updates",
         "description": "Stay informed with the latest company news, industry developments, exhibitions, and announcements from Dynamic Oil Tools across the oil and gas sector.",
-        "viewAll": { "label": "View All News", "href": "/news" },
+        "viewAll": {
+          "label": "View All News",
+          "href": "/news"
+        },
         "headerImage": {
           "alt": "Dynamic Oil Tools manufacturing facility"
         },
@@ -381,8 +479,13 @@
       },
       "hero": {
         "breadcrumbs": [
-          { "label": "Home", "href": "/" },
-          { "label": "About Us" }
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "About Us"
+          }
         ],
         "title": "About Us",
         "introduction": "Dynamic Oil Tools is a Saudi industrial manufacturing company serving the oil & gas and energy industries.",
@@ -478,8 +581,14 @@
         "cta": {
           "heading": "Looking for Engineering Solutions?",
           "body": "Partner with DOT for reliable, efficient and high-performance solutions built for your toughest challenges.",
-          "ctaPrimary": { "label": "Contact Us", "href": "/contact" },
-          "ctaSecondary": { "label": "View Products", "href": "/products" }
+          "ctaPrimary": {
+            "label": "Contact Us",
+            "href": "/contact"
+          },
+          "ctaSecondary": {
+            "label": "View Products",
+            "href": "/products"
+          }
         }
       }
     },
@@ -490,8 +599,13 @@
       },
       "hero": {
         "breadcrumbs": [
-          { "label": "Home", "href": "/" },
-          { "label": "Products" }
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Products"
+          }
         ],
         "title": "Products",
         "introduction": "Engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
@@ -507,7 +621,10 @@
       "cta": {
         "heading": "Need a custom engineering solution?",
         "body": "Contact our team.",
-        "ctaPrimary": { "label": "Contact Us", "href": "/contact" }
+        "ctaPrimary": {
+          "label": "Contact Us",
+          "href": "/contact"
+        }
       }
     },
     "contact": {
@@ -517,8 +634,13 @@
       },
       "hero": {
         "breadcrumbs": [
-          { "label": "Home", "href": "/" },
-          { "label": "Contact Us" }
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Contact Us"
+          }
         ],
         "label": "Contact Us",
         "title": "Get in Touch",
@@ -583,7 +705,10 @@
       "engineeringCta": {
         "heading": "Need Technical Support?",
         "body": "Our engineering team is ready to assist with product selection, specifications, and custom solutions.",
-        "ctaPrimary": { "label": "Contact Our Team", "href": "#contact-form" }
+        "ctaPrimary": {
+          "label": "Contact Our Team",
+          "href": "#contact-form"
+        }
       }
     },
     "catalogs": {
@@ -593,8 +718,13 @@
       },
       "hero": {
         "breadcrumbs": [
-          { "label": "Home", "href": "/" },
-          { "label": "Catalogs" }
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Catalogs"
+          }
         ],
         "title": "Catalogs & Resources",
         "introduction": "Access our technical documentation, product catalogs, and company profiles. Download PDF resources for engineering reference, procurement, and project planning.",
@@ -645,8 +775,13 @@
       },
       "hero": {
         "breadcrumbs": [
-          { "label": "Home", "href": "/" },
-          { "label": "News" }
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "News"
+          }
         ],
         "label": "News & Updates",
         "title": "News & Updates",
@@ -666,7 +801,10 @@
       "detailCta": {
         "heading": "Need More Information?",
         "body": "Contact our team for project inquiries, technical support, and company updates.",
-        "ctaPrimary": { "label": "Contact Our Team", "href": "/contact" }
+        "ctaPrimary": {
+          "label": "Contact Our Team",
+          "href": "/contact"
+        }
       }
     },
     "notFound": {
@@ -731,14 +869,38 @@
     "heading": "Trusted by Industry Leaders",
     "description": "Engineering precision. Manufacturing excellence. Delivering reliable oilfield solutions for clients across multiple industries and international markets.",
     "logos": [
-      { "name": "Apex Energy", "alt": "Apex Energy" },
-      { "name": "Gulf Industrial", "alt": "Gulf Industrial" },
-      { "name": "Petroline", "alt": "Petroline" },
-      { "name": "Meridian Drilling", "alt": "Meridian Drilling" },
-      { "name": "Orinoco Fields", "alt": "Orinoco Fields" },
-      { "name": "Steel Basin Co.", "alt": "Steel Basin Co." },
-      { "name": "Horizon Petroleum", "alt": "Horizon Petroleum" },
-      { "name": "Titan Well Services", "alt": "Titan Well Services" }
+      {
+        "name": "Apex Energy",
+        "alt": "Apex Energy"
+      },
+      {
+        "name": "Gulf Industrial",
+        "alt": "Gulf Industrial"
+      },
+      {
+        "name": "Petroline",
+        "alt": "Petroline"
+      },
+      {
+        "name": "Meridian Drilling",
+        "alt": "Meridian Drilling"
+      },
+      {
+        "name": "Orinoco Fields",
+        "alt": "Orinoco Fields"
+      },
+      {
+        "name": "Steel Basin Co.",
+        "alt": "Steel Basin Co."
+      },
+      {
+        "name": "Horizon Petroleum",
+        "alt": "Horizon Petroleum"
+      },
+      {
+        "name": "Titan Well Services",
+        "alt": "Titan Well Services"
+      }
     ]
   },
   "productsCatalog": {
@@ -752,10 +914,824 @@
     "contactCta": {
       "heading": "Need Technical Assistance?",
       "body": "Our engineering team is ready to help you find the right solution for your well completion requirements.",
-      "ctaPrimary": { "label": "Contact Us", "href": "/contact" },
-      "ctaSecondary": { "label": "Request Information", "href": "/contact" }
+      "ctaPrimary": {
+        "label": "Contact Us",
+        "href": "/contact"
+      },
+      "ctaSecondary": {
+        "label": "Request Information",
+        "href": "/contact"
+      }
     },
-    "items": {}
+    "items": {
+      "centrifuge-baskets": {
+        "name": "Centrifuge Baskets",
+        "category": "",
+        "introduction": "Centrifuge Baskets",
+        "listingTeaser": "Centrifuge Baskets",
+        "overview": [
+          "Centrifuge Baskets"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Centrifuge Baskets",
+          "description": "Centrifuge Baskets"
+        }
+      },
+      "centrifuge-screen-baskets": {
+        "name": "Centrifuge Screen Baskets",
+        "category": "",
+        "introduction": "Centrifuge Screen Baskets",
+        "listingTeaser": "Centrifuge Screen Baskets",
+        "overview": [
+          "Centrifuge Screen Baskets"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Centrifuge Screen Baskets",
+          "description": "Centrifuge Screen Baskets"
+        }
+      },
+      "collectordistribution-screen": {
+        "name": "CollectorDistribution Screen",
+        "category": "",
+        "introduction": "CollectorDistribution Screen",
+        "listingTeaser": "CollectorDistribution Screen",
+        "overview": [
+          "CollectorDistribution Screen"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "CollectorDistribution Screen",
+          "description": "CollectorDistribution Screen"
+        }
+      },
+      "dynamiclink-screen-liner": {
+        "name": "DynamicLink Screen Liner",
+        "category": "",
+        "introduction": "DynamicLink Screen Liner",
+        "listingTeaser": "DynamicLink Screen Liner",
+        "overview": [
+          "DynamicLink Screen Liner"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "meta": {
+          "title": "DynamicLink Screen Liner",
+          "description": "DynamicLink Screen Liner"
+        }
+      },
+      "filter-nozzle": {
+        "name": "Filter Nozzle",
+        "category": "",
+        "introduction": "Filter Nozzle",
+        "listingTeaser": "Filter Nozzle",
+        "overview": [
+          "Filter Nozzle"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Filter Nozzle",
+          "description": "Filter Nozzle"
+        }
+      },
+      "fit-to-base-screen-joint-with-passive-or-active-control-device": {
+        "name": "Fit To Base Screen Joint with Passive or Active Control Device",
+        "category": "",
+        "introduction": "The basepipe is machined to accommodate different kinds of active or passive flow control valves.",
+        "listingTeaser": "The basepipe is machined to accommodate different kinds of active or passive flow control valves.",
+        "overview": [
+          "The basepipe is machined to accommodate different kinds of active or passive flow control valves.",
+          "The screen is then wrapped as per client specifications directly on the pipe.",
+          "Rings and covers are manufactured with high precision as per clients request, then assembled and welded into the basepipe."
+        ],
+        "applications": [
+          "Suitable for flow control applications with or without sand control.",
+          "Suitable for vertical, deviated and horizontal completions."
+        ],
+        "features": [
+          "No elastomers, all-welded construction.",
+          "Simple construction.",
+          "Robust design."
+        ],
+        "benefits": [
+          "Installations with flow control devices.",
+          "Optimized flow performance into the basepipe.",
+          "Control of unwanted water/gas production.",
+          "Can be re-configured to fit other applications."
+        ],
+        "meta": {
+          "title": "Fit To Base Screen Joint with Passive or Active Control Device",
+          "description": "The basepipe is machined to accommodate different kinds of active or passive flow control valves."
+        }
+      },
+      "fit-to-base-screen-on-perforated-basepipe": {
+        "name": "Fit To Base Screen on Perforated Basepipe",
+        "category": "",
+        "introduction": "This product consists of a wire wrapped screen on a perforated base pipe up to 7”OD & 39ft length.",
+        "listingTeaser": "This product consists of a wire wrapped screen on a perforated base pipe up to 7”OD & 39ft length.",
+        "overview": [
+          "This product consists of a wire wrapped screen on a perforated base pipe up to 7”OD & 39ft length.",
+          "The screen can be manufactured up to a total length of 28ft (8.5 meters) on the pipe. Meanwhile the joint is perforated casing with a 39ft (12 meters) bed length - 8 spindle drilling machine.",
+          "The DOT standard spiral and staggered perforation patterns use Ø 3/8” and Ø 1/2” diameter holes, to create the client’s required open area. Upon request, custom hole sizes can be drilled in any number and / or pattern. Every joint perforated by DOT well screen is deburred internally and externally.",
+          "The size, grade and weight of the base pipe are manufactured as per API casing/tubing specification."
+        ],
+        "applications": [
+          "Oil and Gas wells.",
+          "Sand control completions.",
+          "Thermal applications, including heavy-oil and steam assisted wells."
+        ],
+        "features": [
+          "Available in basepipe sizes ranging from 2 7/8 to 7 in. No requirement for welding on basepipe (screen wire is shrink-fitted to basepipe).",
+          "Coherent, harmonious, and precise slot opening.",
+          "Slot opening from 50 micron up to 2000 micron."
+        ],
+        "benefits": [
+          "Longer laminar flow preventing erosion.",
+          "Improved flow efficiency into basepipe.",
+          "Longer well life and optimized production."
+        ],
+        "meta": {
+          "title": "Fit To Base Screen on Perforated Basepipe",
+          "description": "This product consists of a wire wrapped screen on a perforated base pipe up to 7”OD & 39ft length."
+        }
+      },
+      "fit-to-base-screen-on-perforated-basepipe-1": {
+        "name": "Fit To Base Screen on Perforated Basepipe 1",
+        "category": "",
+        "introduction": "This product consists of a wire wrapped screen on a perforated base pipe up to Ø 7”-39ft length.",
+        "listingTeaser": "This product consists of a wire wrapped screen on a perforated base pipe up to Ø 7”-39ft length.",
+        "overview": [
+          "This product consists of a wire wrapped screen on a perforated base pipe up to Ø 7”-39ft length.",
+          "The screen can be manufactured up to a total length of 8.5 meters on the pipe. Meanwhile the perforated liner or pre-perforated casing is manufactured with a 12m bed length - 8 spindle Drilling machine.",
+          "The DOT standard spiral and staggered perforation patterns use Ø 3/8” and Ø 1/2” diameter holes, to create the client’s required open area. Upon request, custom hole sizes can be drilled in any number and / or pattern. Every joint perforated by DOT well screen is deburred internally and externally.",
+          "The size, grade and weight of the base pipe are manufactured as per API casing/tubing specification."
+        ],
+        "applications": [
+          "Groundwater Wells"
+        ],
+        "features": [
+          "Available in base pipe sizes ranging from 2 7/8 to 7 in.",
+          "No requirement for welding on base pipe (screen wire is shrink- fitted to base pipe).",
+          "Slot opening from 50 micron up to 2000 micron, which can be customized based on well specifications.",
+          "Customized material grades 304/316L/904/Duplex/Alloy 625."
+        ],
+        "benefits": [
+          "Improved water flow efficiency into base pipe.",
+          "Optimized inflaw peformance.",
+          "Longer well life and optimized production"
+        ],
+        "meta": {
+          "title": "Fit To Base Screen on Perforated Basepipe 1",
+          "description": "This product consists of a wire wrapped screen on a perforated base pipe up to Ø 7”-39ft length."
+        }
+      },
+      "flat-panels": {
+        "name": "Flat Panels",
+        "category": "",
+        "introduction": "Flat Panels",
+        "listingTeaser": "Flat Panels",
+        "overview": [
+          "Flat Panels"
+        ],
+        "applications": [
+          "Coal",
+          "Potash",
+          "Salt",
+          "Sand",
+          "Pulp",
+          "Paper",
+          "Other Chemicals",
+          "Process Industry Screens",
+          "Mining and Mineral Processes",
+          "Flat Panels",
+          "Advantages",
+          "High abrasion and corrosion resistance",
+          "High temperature resistance",
+          "Balanced and self-supporting",
+          "Low pressure drop",
+          "High durability",
+          "Easy Installation",
+          "No-clogging structure"
+        ],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Flat Panels",
+          "description": "Flat Panels"
+        }
+      },
+      "flat-sieves": {
+        "name": "Flat Sieves",
+        "category": "",
+        "introduction": "Flat Sieves",
+        "listingTeaser": "Flat Sieves",
+        "overview": [
+          "Flat Sieves"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Flat Sieves",
+          "description": "Flat Sieves"
+        }
+      },
+      "inline-surface-filter": {
+        "name": "Inline Surface Filter",
+        "category": "",
+        "introduction": "Inline Surface Filter",
+        "listingTeaser": "Inline Surface Filter",
+        "overview": [
+          "Inline Surface Filter"
+        ],
+        "applications": [
+          "Protection of pumps, Valves etc.",
+          "Standard coiled tubing.",
+          "Abrasive pumping",
+          "Process Industry Screens",
+          "Oil & Gas Industry",
+          "Inline Surface Filter",
+          "Advantages",
+          "Consistency of viscosity and smoothness",
+          "The highest levels of product security",
+          "Designed to allow fluids to pass, but traps debris",
+          "High abrasion and corrosion resistance",
+          "High temperature resistance",
+          "Easy to install and replace",
+          "High filtering efficiency without clogging"
+        ],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Inline Surface Filter",
+          "description": "Inline Surface Filter"
+        }
+      },
+      "open-hole-system": {
+        "name": "Open hole System",
+        "category": "",
+        "introduction": "The DynamicLink Screen Liner open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control.",
+        "listingTeaser": "The DynamicLink Screen Liner open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells.",
+        "overview": [
+          "The DynamicLink Screen Liner open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control.",
+          "The DynamicLink no base pipe screen is robust yet lightweight. It is suitable for high mechanical loads, short radius wellbores, and wells with high rate gas flow conditions. It can also be used with or instead of current completion systems. While conventional sand screens are affected by high inflow velocity of gas or liquid, DynamicLink screens feature specially engineered profiles that force inflow to be distributed more uniformly over a longer length of screens compared with that of conventional screens. This reduces velocity and eliminates erosion hot spots through laminar flow regimes without the need to choke production."
+        ],
+        "applications": [
+          "Groundwater Wells"
+        ],
+        "features": [
+          "No Base Pipe - No Flow restriction",
+          "Robust design - resistance to plugging",
+          "Suitability for Short - Radius well profiles"
+        ],
+        "benefits": [
+          "Higher reservoir drainage",
+          "Low laminar flow preventing erosion",
+          "Longer well life and optimized production",
+          "Resists plugging"
+        ],
+        "meta": {
+          "title": "Open hole System",
+          "description": "The DynamicLink Screen Liner open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control."
+        }
+      },
+      "openhole-system": {
+        "name": "Openhole System",
+        "category": "",
+        "introduction": "The DynamicLink Screen open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control.",
+        "listingTeaser": "The DynamicLink Screen open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells.",
+        "overview": [
+          "The DynamicLink Screen open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control.",
+          "The DynamicLink no base pipe screen is robust yet lightweight. It is suitable for high mechanical loads, short radius wellbores, and wells with high rate gas flow conditions. It can also be used with or instead of current completion systems.",
+          "Whereas conventional sand screens are affected by high inflow velocity of gas or liquid, DynamicLink screens feature specially engineered profiles that force inflow to be distributed more uniformly over a longer length of screens compared with that of conventional screens. This reduces velocity and eliminates erosion hot spots through laminar flow regimes without the need to choke production."
+        ],
+        "applications": [
+          "Onshore and Offshore wells.",
+          "Stand-alone completions.",
+          "High Rate Gas environment.",
+          "Thermal applications, including heavy-oil and steam assisted wells."
+        ],
+        "features": [
+          "No Base Pipe - Minimal Flow restriction.",
+          "Robust design.",
+          "Suitability for Short- Radius well profiles.",
+          "Ability to clear / stimulate through entire joint."
+        ],
+        "benefits": [
+          "Higher reservoir drainage.",
+          "Longer Laminar flow preventing erosion.",
+          "Longer well life and optimized production."
+        ],
+        "meta": {
+          "title": "Openhole System",
+          "description": "The DynamicLink Screen open hole system is a profile wire screen completion system, designed to achieve laminar flow conditions primarily in long horizontal wells. The profile wire design helps maximize sand free production that resists damage and erosion for effective, long term sand control."
+        }
+      },
+      "process-industry-screens": {
+        "name": "Process Industry Screens",
+        "category": "",
+        "introduction": "DOT offers profile wire screens for several different applications. Each profile wire screen product is custom designed to suit the specific requirements of the customer and provides high-performance solutions.",
+        "listingTeaser": "DOT offers profile wire screens for several different applications.",
+        "overview": [
+          "DOT offers profile wire screens for several different applications. Each profile wire screen product is custom designed to suit the specific requirements of the customer and provides high-performance solutions.",
+          "Some of the applications where profile wire screens can be found are:"
+        ],
+        "applications": [
+          "Mining and Mineral Processes.",
+          "Water Treatment Processes.",
+          "Food and Beverage Industry.",
+          "Chemical and Pharmaceutical Industry.",
+          "Oil & Gas Industry.",
+          "Benefits & Features",
+          "Wide range of profile wires are available to suit most systems.",
+          "Low maintenance costs: Separation at the screen surface which can be easily cleaned by scraping or back washing",
+          "Maximum process output: Precise and continuous slot openings resulting in accurate separation without loss off media.",
+          "Low operational costs: Large open area with an effective flow, high yield and a low pressure drop (dP).",
+          "Chemical and thermal resistant: A variety of corrosion resistant stainless-steel materials and many exotic alloys suitable for high temperatures and pressures.",
+          "Long life: Welded at each intersection creating a strong and durable screen."
+        ],
+        "features": [],
+        "benefits": [],
+        "meta": {
+          "title": "Process Industry Screens",
+          "description": "DOT offers profile wire screens for several different applications. Each profile wire screen product is custom designed to suit the specific requirements of the customer and provides high-performance solutions."
+        }
+      },
+      "resin-traps-with-housing": {
+        "name": "Resin Traps with Housing",
+        "category": "",
+        "introduction": "Resin Traps with Housing",
+        "listingTeaser": "Resin Traps with Housing",
+        "overview": [
+          "Resin Traps with Housing"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Resin Traps with Housing",
+          "description": "Resin Traps with Housing"
+        }
+      },
+      "screen-baskets": {
+        "name": "Screen Baskets",
+        "category": "",
+        "introduction": "Screen Baskets",
+        "listingTeaser": "Screen Baskets",
+        "overview": [
+          "Screen Baskets"
+        ],
+        "applications": [
+          "Food processes",
+          "Brewing Processes",
+          "Sugar Processes",
+          "Corn Wet Milling",
+          "Fruit extraction",
+          "Coffee and cacao processes",
+          "Process Industry Screens",
+          "Food and Beverage Industry",
+          "Screen Baskets",
+          "Advantages",
+          "Strong and durable",
+          "Wide range of profile wire is available to suit most systems",
+          "Smooth surface and long service life",
+          "Easy of replacement will reduce downtime",
+          "Easy to clean and backwash",
+          "High abrasion and corrosion resistance"
+        ],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Screen Baskets",
+          "description": "Screen Baskets"
+        }
+      },
+      "screen-jacket-on-perforated-base-pipe": {
+        "name": "Screen Jacket on Perforated Base Pipe",
+        "category": "",
+        "introduction": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+        "listingTeaser": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+        "overview": [
+          "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+          "The screen can be manufactured up to a total length of 10 m, from corrosion resistant materials.",
+          "The perforated liner or pre-perforated casing is manufactured with a 12m (39ft) bed length, 8 spindle Drilling machine.",
+          "The DOT standard spiral and staggered perforation patterns use Ø 3/8” and Ø 1/2” diameter holes, to create the client’s required open area. Upon request, custom hole sizes can be drilled in any number and any pattern. Every joint perforated is deburred internally and externally.",
+          "The size, grade and weight of the base pipe are manufactured as per API casing/tubing specification.",
+          "The screen jacket is fully pickled and passivated for maximum corrosion resistance."
+        ],
+        "applications": [
+          "Groundwater Wells"
+        ],
+        "features": [
+          "Welded rings isolate jacket from mechanical loads on base pipe",
+          "Available in base pipe sizes from 2 7/8 to 7 in.",
+          "Multiple unique surface and support wire profile options",
+          "Slot opening from 50 micron up to 2000 micron, which can be customized based on well specifications.",
+          "Customized material grades 304/316L/904/Duplex/Alloy 625."
+        ],
+        "benefits": [
+          "Low laminar flow preventing erosion",
+          "Optimized inflow performance",
+          "Improved water flow efficiency into base pipe",
+          "Longer well life and optimized production"
+        ],
+        "meta": {
+          "title": "Screen Jacket on Perforated Base Pipe",
+          "description": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length."
+        }
+      },
+      "screen-jacket-on-perforated-basepipe": {
+        "name": "Screen Jacket on Perforated Basepipe",
+        "category": "",
+        "introduction": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+        "listingTeaser": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+        "overview": [
+          "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length.",
+          "The screen can be manufactured up to a total length of 33ft (10 m), from corrosion resistant materials.",
+          "The perforated joint is perforated with a 39ft (12m) bed length, 8 spindle Drilling machine.",
+          "The DOT standard spiral and staggered perforation patterns use Ø 3/8” and Ø 1/2” diameter holes, to create the client’s required open area. Upon request, custom hole sizes can be drilled in any number and any pattern. Every joint perforated is deburred internally and externally.",
+          "The screen jacket is fully pickled and passivated for maximum corrosion resistance."
+        ],
+        "applications": [
+          "Oil and Gas wells.",
+          "Sand control completions.",
+          "Installations with Inflow or injection control devices.",
+          "Thermal applications, including heavy-oil and steam assisted wells."
+        ],
+        "features": [
+          "Available in base pipe sizes from 2 7/8 to 7 in.",
+          "Coherent, harmonious, and precise slot opening.",
+          "Slot opening from 50 micron up to 2000 micron.",
+          "Customized material grades 304/316L/904/Duplex/Alloy 625."
+        ],
+        "benefits": [
+          "Longer laminar flow preventing erosion.",
+          "Improved flow efficiency into basepipe.",
+          "Longer well life and optimized production."
+        ],
+        "meta": {
+          "title": "Screen Jacket on Perforated Basepipe",
+          "description": "This wire wrapped screen jacket is installed on a perforated base pipe up to Ø 7”- 39ft length."
+        }
+      },
+      "screen-support-grids": {
+        "name": "Screen Support Grids",
+        "category": "",
+        "introduction": "Screen Support Grids",
+        "listingTeaser": "Screen Support Grids",
+        "overview": [
+          "Screen Support Grids"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Screen Support Grids",
+          "description": "Screen Support Grids"
+        }
+      },
+      "sea-water-intake-screens": {
+        "name": "Sea Water Intake Screens",
+        "category": "",
+        "introduction": "Sea Water Intake Screens",
+        "listingTeaser": "Sea Water Intake Screens",
+        "overview": [
+          "Sea Water Intake Screens"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Sea Water Intake Screens",
+          "description": "Sea Water Intake Screens"
+        }
+      },
+      "sieve-bends": {
+        "name": "Sieve Bends",
+        "category": "",
+        "introduction": "Sieve Bends",
+        "listingTeaser": "Sieve Bends",
+        "overview": [
+          "Sieve Bends"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Sieve Bends",
+          "description": "Sieve Bends"
+        }
+      },
+      "strainers": {
+        "name": "Strainers",
+        "category": "",
+        "introduction": "Strainers",
+        "listingTeaser": "Strainers",
+        "overview": [
+          "Strainers"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Strainers",
+          "description": "Strainers"
+        }
+      },
+      "well-test-screen": {
+        "name": "Well Test Screen",
+        "category": "",
+        "introduction": "Well Test Screen",
+        "listingTeaser": "Well Test Screen",
+        "overview": [
+          "Well Test Screen"
+        ],
+        "applications": [],
+        "features": [],
+        "benefits": [],
+        "specifications": {
+          "heading": "Technical Data",
+          "rows": [
+            {
+              "label": "Materials",
+              "value": "All grades of stainless steel, duplex, super duplex, alloy, etc."
+            },
+            {
+              "label": "Sizes",
+              "value": "In accordance to client's requirement."
+            },
+            {
+              "label": "Slot ranges",
+              "value": "50 microns and above"
+            }
+          ]
+        },
+        "meta": {
+          "title": "Well Test Screen",
+          "description": "Well Test Screen"
+        }
+      }
+    }
   },
-  "newsArticles": {}
+  "newsArticles": {
+    "1": {
+      "title": "TENARIS VISIT Dynamic Oil Tools was visited by team from Tenaris Feb 2020",
+      "excerpt": "TENARIS VISIT Dynamic Oil Tools was visited by team from Tenaris Feb 2020",
+      "category": "Corporate",
+      "content": [
+        "TENARIS VISIT Dynamic Oil Tools was visited by team from Tenaris Feb 2020",
+        "June 19, 2022",
+        "We are the leading manufacturer of pipes and related services for the worlds energy industry and certain other industrial applications. Our manufacturing system integrates steelmaking, pipe rolling and forming, heat treatment, threading and finishing across 16 countries. We also have an R&D network focused on enhancing our product portfolio and improving our production processes. Our team, based in more than 30 countries worldwide, is united by a passion for excellence in everything we do."
+      ],
+      "meta": {
+        "title": "TENARIS VISIT Dynamic Oil Tools was visited by team from Tenaris Feb 2020",
+        "description": "TENARIS VISIT Dynamic Oil Tools was visited by team from Tenaris Feb 2020"
+      }
+    },
+    "2": {
+      "title": "SABIC CONFERENCE: Dynamic Oil Tools attended SABIC CONFERENCE 2020",
+      "excerpt": "SABIC CONFERENCE: Dynamic Oil Tools attended SABIC CONFERENCE 2020",
+      "category": "Event",
+      "content": [
+        "SABIC CONFERENCE: Dynamic Oil Tools attended SABIC CONFERENCE 2020",
+        "June 19, 2022",
+        "The largest and most profitable non-oil company in the Middle East and one of the world’s five largest petrochemicals manufacturers, SABIC is a public company based in Riyadh, Saudi Arabia. 70% of the Company’s shares are owned by the Saudi Arabian government, with the remaining 30% held by private investors in Saudi Arabia and other countries of the Gulf Cooperation Council."
+      ],
+      "meta": {
+        "title": "SABIC CONFERENCE: Dynamic Oil Tools attended SABIC CONFERENCE 2020",
+        "description": "SABIC CONFERENCE: Dynamic Oil Tools attended SABIC CONFERENCE 2020"
+      }
+    }
+  }
 }

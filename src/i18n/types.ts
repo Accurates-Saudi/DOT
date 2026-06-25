@@ -1,6 +1,12 @@
 import type { Locale } from "./config";
 
-export type TranslationValue = string | TranslationMessages;
+export type TranslationValue =
+  | string
+  | number
+  | boolean
+  | null
+  | TranslationValue[]
+  | TranslationMessages;
 
 export interface TranslationMessages {
   [key: string]: TranslationValue;

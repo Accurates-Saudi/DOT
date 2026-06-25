@@ -4,9 +4,11 @@ import {
   ContactLocationSection,
   ContactMainSection,
 } from "@/components/contact";
-import { contactPageContent } from "@/data/pages/contact";
+import { useContactPageContent } from "@/i18n/content/hooks";
 
 export function ContactPage() {
+  const contactPageContent = useContactPageContent();
+
   return (
     <>
       <ContactHeroSection content={contactPageContent.hero} />

@@ -69,8 +69,8 @@ export function AboutSection({ content }: AboutSectionProps) {
   const { media, servicesBanner } = content;
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoId =
-    media.videoId ?? getYouTubeVideoId(media.videoUrl);
-  const showVideoPlayer = Boolean(videoId && media.showPlayButton);
+    media?.videoId ?? getYouTubeVideoId(media?.videoUrl);
+  const showVideoPlayer = Boolean(videoId && media?.showPlayButton);
 
   return (
     <Section

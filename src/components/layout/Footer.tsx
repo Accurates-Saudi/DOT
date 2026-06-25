@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Link } from "react-router";
 
+import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
-import { footerContent } from "@/data/footer";
+import { useFooterContent } from "@/i18n/content/hooks";
+import { useTranslation } from "@/i18n/hooks";
 import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import type { FooterContactItem, FooterContent, LinkItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -19,7 +20,10 @@ const CONTACT_ICONS: Record<FooterContactItem["type"], LucideIcon> = {
   address: MapPin,
 };
 
-export function Footer({ content = footerContent }: FooterProps) {
+export function Footer({ content: contentProp }: FooterProps) {
+  const defaultContent = useFooterContent();
+  const content = contentProp ?? defaultContent;
+  const { t } = useTranslation("seo");
   const year = new Date().getFullYear();
 
   return (
@@ -100,7 +104,7 @@ export function Footer({ content = footerContent }: FooterProps) {
 
         <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:pt-7">
           <p className="text-[0.8125rem] text-white/55">
-            &copy; {year} {content.bottomBar.legalName}. All rights reserved.
+            &copy; {year} {content.bottomBar.legalName}. {t("rightsReserved")}
           </p>
 
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -190,8 +194,8 @@ function FooterLink({
   }
 
   return (
-    <Link to={item.href} className={linkClassName}>
+    <LocalizedLink to={item.href} className={linkClassName}>
       {item.label}
-    </Link>
+    </LocalizedLink>
   );
 }

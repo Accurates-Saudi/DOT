@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router";
+import { LocalizedLink } from "@/components/i18n";
 
 import type { ProductItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   return (
-    <Link
+    <LocalizedLink
       to={`/products/${product.slug}`}
       className={cn(
         "group/card card-hover block overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] hover:shadow-[0_14px_40px_-22px_rgba(12,21,36,0.18)] sm:p-2",
@@ -49,6 +49,6 @@ export function ProductCard({
           </span>
         </div>
       </article>
-    </Link>
+    </LocalizedLink>
   );
 }

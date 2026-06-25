@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui/button";
-import { cookieConsentCopy } from "@/data/cookie-consent";
+import { useCookieConsentCopy } from "@/i18n/content/hooks";
 import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ export function CookieBanner() {
     rejectNonEssential,
     openPreferences,
   } = useCookieConsent();
+  const copy = useCookieConsentCopy();
   const prefersReducedMotion = usePrefersReducedMotion();
   const bannerRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,7 @@ export function CookieBanner() {
       ref={bannerRef}
       tabIndex={-1}
       role="region"
-      aria-label="Cookie consent"
+      aria-label={copy.regionAria}
       className={cn(
         "pointer-events-none fixed inset-x-0 bottom-0 z-[60] outline-none",
         !prefersReducedMotion &&
@@ -44,11 +45,11 @@ export function CookieBanner() {
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
                 <p className="text-[0.6875rem] font-bold tracking-[0.18em] text-[#F68E05] uppercase sm:text-xs">
-                  {cookieConsentCopy.banner.title}
+                  {copy.banner.title}
                 </p>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-[#0c1524]/72 sm:text-[0.9375rem]">
-                {cookieConsentCopy.banner.description}
+                {copy.banner.description}
               </p>
             </div>
 
@@ -60,7 +61,7 @@ export function CookieBanner() {
                 className="h-11 rounded-full px-5 text-sm font-medium"
                 onClick={acceptAll}
               >
-                {cookieConsentCopy.banner.acceptAll}
+                {copy.banner.acceptAll}
               </Button>
               <Button
                 type="button"
@@ -69,7 +70,7 @@ export function CookieBanner() {
                 className="h-11 rounded-full px-5 text-sm font-medium"
                 onClick={rejectNonEssential}
               >
-                {cookieConsentCopy.banner.rejectNonEssential}
+                {copy.banner.rejectNonEssential}
               </Button>
               <Button
                 type="button"
@@ -78,7 +79,7 @@ export function CookieBanner() {
                 className="h-11 rounded-full px-5 text-sm font-medium text-[#0c1524]/80"
                 onClick={openPreferences}
               >
-                {cookieConsentCopy.banner.customize}
+                {copy.banner.customize}
               </Button>
             </div>
           </div>

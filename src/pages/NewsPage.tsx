@@ -3,15 +3,29 @@ import {
   NewsGridSection,
   NewsHeroSection,
 } from "@/components/news";
-import { newsPageContent } from "@/data/pages/news";
 import {
-  getFeaturedNewsArticle,
-  getNewsArticlesExcludingFeatured,
-} from "@/lib/news";
+  useI18n,
+} from "@/i18n/hooks";
+import {
+  useNewsPageContent,
+} from "@/i18n/content/hooks";
+import {
+  getLocalizedFeaturedNews,
+  getLocalizedNewsExcludingFeatured,
+} from "@/i18n/content";
+import { useMemo } from "react";
 
 export function NewsPage() {
-  const featuredArticle = getFeaturedNewsArticle();
-  const articles = getNewsArticlesExcludingFeatured();
+  const newsPageContent = useNewsPageContent();
+  const { messages } = useI18n();
+  const featuredArticle = useMemo(
+    () => getLocalizedFeaturedNews(messages),
+    [messages],
+  );
+  const articles = useMemo(
+    () => getLocalizedNewsExcludingFeatured(messages),
+    [messages],
+  );
 
   return (
     <>

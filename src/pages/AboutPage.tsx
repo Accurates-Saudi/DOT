@@ -3,9 +3,11 @@ import {
   CompanyOverviewSection,
   EngineeringManufacturingSection,
 } from "@/components/about";
-import { aboutPageContent } from "@/data/pages/about";
+import { useAboutPageContent } from "@/i18n/content/hooks";
 
 export function AboutPage() {
+  const aboutPageContent = useAboutPageContent();
+
   return (
     <>
       <AboutHeroSection content={aboutPageContent.hero} />

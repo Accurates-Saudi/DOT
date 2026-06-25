@@ -1,14 +1,17 @@
-import { Link, NavLink, useLocation } from "react-router";
-
-import dotLogo from "@/assets/logos/dot.webp";
-import saudiMadeLogo from "@/assets/logos/saudi-made.png";
+import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui";
-import { mainNavigation } from "@/data/navigation";
+import { LanguageSwitcher } from "@/components/i18n";
+import { useMainNavigation, useSiteCopy } from "@/i18n/content/hooks";
+import { useDirection } from "@/i18n/hooks";
+import { useTranslation } from "@/i18n/hooks";
 import { siteSettings } from "@/data/site";
 import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
+import dotLogo from "@/assets/logos/dot.webp";
+import saudiMadeLogo from "@/assets/logos/saudi-made.png";
+import { NavLink, useLocation } from "react-router";
 
 import { NavbarMobileMenu } from "./NavbarMobileMenu";
 import { LinkedInIcon } from "./NavbarIcons";
@@ -17,7 +20,11 @@ const SCROLL_THRESHOLD = 40;
 
 export function Navbar() {
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const mainNavigation = useMainNavigation();
+  const site = useSiteCopy();
+  const direction = useDirection();
+  const { t } = useTranslation("nav");
+  const isHome = /\/(en|ar)\/?$/.test(location.pathname);
   const isScrolled = useScrollThreshold({
     threshold: SCROLL_THRESHOLD,
     enabled: isHome,
@@ -49,21 +56,26 @@ export function Navbar() {
             : "h-16 lg:h-20",
         )}
       >
-        <Link
+        <LocalizedLink
           to="/"
           className={cn(
             "group flex min-w-0 shrink items-center",
             transitionPresets.transform,
             "duration-500 ease-out",
             isElevated
-              ? "gap-1.5 sm:gap-2 lg:-translate-x-1 lg:gap-3 xl:-translate-x-1.5 xl:gap-3.5"
+              ? cn(
+                  "gap-1.5 sm:gap-2 lg:gap-3",
+                  direction === "rtl"
+                    ? "lg:translate-x-1 xl:translate-x-1.5"
+                    : "lg:-translate-x-1 xl:-translate-x-1.5",
+                )
               : "translate-x-0 gap-1.5 sm:gap-2 lg:gap-3",
           )}
-          aria-label={`${siteSettings.companyName} — Home`}
+          aria-label={`${site.companyName} — Home`}
         >
           <img
             src={dotLogo}
-            alt="Dynamic Oil Tools"
+            alt={site.companyName}
             className={cn(
               "w-auto max-w-[5.5rem] object-contain sm:max-w-none",
               transitionPresets.default,
@@ -94,7 +106,7 @@ export function Navbar() {
                 : "h-6 sm:h-7 lg:h-8 xl:h-9",
             )}
           />
-        </Link>
+        </LocalizedLink>
 
         <nav
           className={cn(
@@ -103,13 +115,13 @@ export function Navbar() {
             "duration-500",
             isElevated ? "gap-0.5 xl:gap-1" : "gap-0",
           )}
-          aria-label="Main navigation"
+          aria-label={t("mainAria")}
         >
           {mainNavigation.map((item) => (
             <NavLink
               key={item.href}
               to={item.href}
-              end={item.href === "/"}
+              end={/\/(en|ar)$/.test(item.href)}
               className={({ isActive }) =>
                 cn(
                   "nav-link-underline relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-4",
@@ -122,7 +134,7 @@ export function Navbar() {
                         "text-foreground/70 hover:text-accent",
                         isActive && "text-foreground",
                       ),
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0",
+                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 rtl:after:origin-right",
                   isActive
                     ? "after:scale-x-100 after:bg-accent"
                     : cn(
@@ -148,12 +160,14 @@ export function Navbar() {
           )}
         >
           <div className="hidden items-center gap-2.5 lg:flex lg:gap-3">
+            <LanguageSwitcher isHeroState={isHeroState} />
+
             {siteSettings.social.linkedin && (
               <a
                 href={siteSettings.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Dynamic Oil Tools on LinkedIn"
+                aria-label={t("linkedInAria")}
                 className={cn(
                   "inline-flex size-9 items-center justify-center rounded-sm",
                   transitionPresets.colors,
@@ -173,10 +187,11 @@ export function Navbar() {
               className="h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]"
               asChild
             >
-              <Link to="/login">Login</Link>
+              <LocalizedLink to="/login">{t("login")}</LocalizedLink>
             </Button>
           </div>
 
+          <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />
           <NavbarMobileMenu isHeroState={isHeroState} />
         </div>
       </Container>

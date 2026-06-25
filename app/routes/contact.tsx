@@ -1,15 +1,21 @@
 import type { Route } from "./+types/contact";
 import { ContactPage } from "@/pages";
-import { contactPageMeta } from "@/data/pages";
-import { seoDefaults } from "@/data/site";
+import { buildContactContent } from "@/i18n/content";
+import { createPageMeta } from "@/i18n/meta";
+import { getLocaleRouteData } from "@/i18n/route-data";
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    {
-      title: seoDefaults.titleTemplate.replace("%s", contactPageMeta.title),
-    },
-    { name: "description", content: contactPageMeta.description },
-  ];
+export function meta({ matches }: Route.MetaArgs) {
+  const localeData = getLocaleRouteData(matches);
+  if (!localeData) return [];
+
+  const content = buildContactContent(localeData.messages, localeData.locale);
+
+  return createPageMeta({
+    title: content.meta.title,
+    description: content.meta.description,
+    pathname: `/${localeData.locale}/contact`,
+    locale: localeData.locale,
+  });
 }
 
 export default function Contact() {

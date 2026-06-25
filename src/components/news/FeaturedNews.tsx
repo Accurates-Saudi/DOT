@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { LocalizedLink } from "@/components/i18n";
 
 import { Container, Section } from "@/components/shared";
 import type { NewsArticlePreview, NewsFeaturedContent } from "@/types";
@@ -24,7 +24,7 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
     >
       <Container>
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-          <Link
+          <LocalizedLink
             to={href}
             className="group relative block overflow-hidden rounded-xl lg:col-span-7"
           >
@@ -34,23 +34,23 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
               priority
             />
             <NewsDateBadge day={date.day} month={date.month} />
-          </Link>
+          </LocalizedLink>
 
           <div className="flex flex-col justify-center lg:col-span-5">
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-[#0c1524] sm:text-[1.75rem] lg:text-[2rem]">
-              <Link
+              <LocalizedLink
                 to={href}
                 className="transition-colors duration-200 hover:text-[#F68E05]"
               >
                 {article.title}
-              </Link>
+              </LocalizedLink>
             </h2>
 
             <p className="mt-4 text-base leading-relaxed text-[#0c1524]/62 sm:text-[1.0625rem]">
               {article.excerpt}
             </p>
 
-            <Link
+            <LocalizedLink
               to={href}
               className="text-link-hover text-link-arrow group/link mt-7 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] hover:text-[#E07F04]"
             >
@@ -58,7 +58,7 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
               <span className="link-arrow" aria-hidden>
                 →
               </span>
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
       </Container>

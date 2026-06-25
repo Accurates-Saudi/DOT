@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router";
+import { LocalizedLink } from "@/components/i18n";
 
 import type { ProductItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -51,13 +51,13 @@ export function FeaturedProductCard({
             {product.name}
           </h3>
 
-          <Link
+          <LocalizedLink
             to={`/products/${product.slug}`}
             className="text-link-hover text-link-arrow mt-auto inline-flex items-center gap-1.5 pt-5 text-[0.8125rem] font-semibold text-[#0c1524] hover:text-[#F68E05] sm:text-sm"
           >
             {viewProductLabel}
             <ArrowRight className="size-3.5" />
-          </Link>
+          </LocalizedLink>
         </div>
       </div>
     </article>

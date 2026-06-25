@@ -1,10 +1,9 @@
-import {
-  CatalogHeroSection,
-  CatalogLibrarySection,
-} from "@/components/catalogs";
-import { catalogsPageContent } from "@/data/pages/catalogs";
+import { CatalogHeroSection, CatalogLibrarySection } from "@/components/catalogs";
+import { useCatalogsPageContent } from "@/i18n/content/hooks";
 
 export function CatalogsPage() {
+  const catalogsPageContent = useCatalogsPageContent();
+
   return (
     <>
       <CatalogHeroSection content={catalogsPageContent.hero} />

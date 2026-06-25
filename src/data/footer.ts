@@ -65,6 +65,11 @@ export const footerContent: FooterContent = {
     legalLinks: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms & Conditions", href: "/terms" },
+      {
+        label: "Cookie Preferences",
+        href: "#cookie-preferences",
+        action: "cookie-preferences",
+      },
     ],
   },
 };

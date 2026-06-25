@@ -8,6 +8,15 @@ export type {
 export { CMS_CAPABILITIES } from "./cms";
 
 export type {
+  CookieCategory,
+  CookieCategoryDefinition,
+  CookieConsentChoices,
+  OptionalCookieCategory,
+  StoredCookieConsent,
+} from "./cookie-consent";
+export { COOKIE_CATEGORIES, COOKIE_CONSENT_VERSION } from "./cookie-consent";
+
+export type {
   AboutHeroContent,
   AboutPageContent,
   AboutSectionContent,

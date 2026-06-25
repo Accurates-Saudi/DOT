@@ -8,6 +8,7 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { CookieConsentProvider } from "@/contexts/cookie-consent-context";
 import { MainLayout } from "@/components/layout";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { seoDefaults, siteSettings } from "@/data";
@@ -27,7 +28,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <CookieConsentProvider>
+          {children}
+        </CookieConsentProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

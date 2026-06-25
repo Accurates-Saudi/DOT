@@ -26,6 +26,8 @@ export interface LinkItem {
   label: string;
   href: string;
   external?: boolean;
+  /** In-app action instead of navigation */
+  action?: "cookie-preferences";
 }
 
 export interface HeroSlide {

@@ -5,6 +5,7 @@ import { Link } from "react-router";
 
 import { Container } from "@/components/shared";
 import { footerContent } from "@/data/footer";
+import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import type { FooterContactItem, FooterContent, LinkItem } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -156,10 +157,24 @@ function FooterLink({
   item: LinkItem;
   className?: string;
 }) {
+  const { openPreferences } = useCookieConsent();
+
   const linkClassName = cn(
     "text-link-hover text-[0.875rem] text-white/68 hover:text-[#F68E05]",
     className,
   );
+
+  if (item.action === "cookie-preferences") {
+    return (
+      <button
+        type="button"
+        onClick={openPreferences}
+        className={cn(linkClassName, "cursor-pointer bg-transparent text-left")}
+      >
+        {item.label}
+      </button>
+    );
+  }
 
   if (item.external) {
     return (

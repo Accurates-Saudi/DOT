@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useLocation } from "react-router";
 
+import { CookieConsentUI } from "@/components/cookie-consent";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
@@ -28,6 +29,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         {children}
       </main>
       <Footer />
+      <CookieConsentUI />
     </div>
   );
 }

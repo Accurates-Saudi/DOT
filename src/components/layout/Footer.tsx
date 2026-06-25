@@ -134,8 +134,8 @@ function FooterLinkColumn({
     <div className={className}>
       <FooterColumnTitle>{title}</FooterColumnTitle>
       <ul className="mt-5 space-y-2.5">
-        {items.map((item) => (
-          <li key={item.href}>
+        {items.map((item, index) => (
+          <li key={`${item.label}-${index}`}>
             <FooterLink item={item} />
           </li>
         ))}

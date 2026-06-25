@@ -1,4 +1,8 @@
 export { AboutSection, type AboutSectionProps } from "./AboutSection";
+export {
+  CompanyStatisticsSection,
+  type CompanyStatisticsSectionProps,
+} from "./CompanyStatisticsSection";
 export { CertificatesSection, type CertificatesSectionProps } from "./CertificatesSection";
 export { HeroBackground } from "./HeroBackground";
 export { HeroContent } from "./HeroContent";

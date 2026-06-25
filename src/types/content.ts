@@ -75,6 +75,19 @@ export interface ServicesSectionContent {
   items: ServiceItem[];
 }
 
+export interface CompanyStatisticItem {
+  id: string;
+  value: number;
+  suffix?: string;
+  label: ContentValue<string>;
+  icon: "experience" | "projects" | "clients" | "countries";
+}
+
+export interface CompanyStatisticsSectionContent {
+  backgroundImage: ImageAsset;
+  items: CompanyStatisticItem[];
+}
+
 export interface WhyChooseUsSectionContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
@@ -498,6 +511,7 @@ export interface HomePageContent extends PageContent {
   };
   about: AboutSectionContent;
   services: ServicesSectionContent;
+  companyStatistics: CompanyStatisticsSectionContent;
   whyChooseUs: WhyChooseUsSectionContent;
   engineering: EngineeringSectionContent;
   certificates: CertificatesSectionContent;

@@ -5,6 +5,7 @@ import { newsArticles } from "@/data/news/articles";
 import heroBg1 from "@/assets/hero/hero-1.png";
 import heroBg2 from "@/assets/hero/hero-2.png";
 import aboutImage from "@/assets/about/facility.png";
+import statisticsBg from "@/assets/about/overview-hero.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
 import whyChooseMissionBg from "@/assets/why-choose/mission-bg.png";
 import whyChooseVisionBg from "@/assets/why-choose/vision-bg.png";
@@ -129,6 +130,35 @@ export const homePageContent: HomePageContent = {
           "Specialized surface treatments and finishing processes that enhance product durability, corrosion resistance, and service life.",
         icon: "treatments",
         href: "/services",
+      },
+    ],
+  },
+  companyStatistics: {
+    backgroundImage: {
+      src: statisticsBg,
+      alt: "Dynamic Oil Tools industrial manufacturing facility",
+    },
+    items: [
+      {
+        id: "years-experience",
+        value: 24,
+        suffix: "+",
+        label: "Years Experience",
+        icon: "experience",
+      },
+      {
+        id: "projects-completed",
+        value: 100,
+        suffix: "+",
+        label: "Projects",
+        icon: "projects",
+      },
+      {
+        id: "clients-worldwide",
+        value: 50,
+        suffix: "+",
+        label: "Clients",
+        icon: "clients",
       },
     ],
   },

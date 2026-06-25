@@ -145,6 +145,17 @@ export interface CertificatesSectionContent {
   transitionMs?: number;
 }
 
+export interface FeaturedProductsSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  description: ContentValue<string>;
+  viewProductLabel: ContentValue<string>;
+  exploreAll: LinkItem;
+  items: ProductItem[];
+  autoplayDelayMs?: number;
+  transitionMs?: number;
+}
+
 export interface NewsArticlePreview {
   id: string;
   slug: string;
@@ -514,6 +525,7 @@ export interface HomePageContent extends PageContent {
   companyStatistics: CompanyStatisticsSectionContent;
   whyChooseUs: WhyChooseUsSectionContent;
   engineering: EngineeringSectionContent;
+  featuredProducts: FeaturedProductsSectionContent;
   certificates: CertificatesSectionContent;
   news: NewsSectionContent;
 }

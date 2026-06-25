@@ -1,6 +1,7 @@
 export { useCountUp } from "./use-count-up";
 export { useParallaxTransform } from "./use-parallax-transform";
 export { useNewsCarousel } from "./use-news-carousel";
+export { useFeaturedProductsCarousel } from "./use-featured-products-carousel";
 export { useCertificatesCarousel } from "./use-certificates-carousel";
 export { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 export { useScrollThreshold } from "./use-scroll-threshold";

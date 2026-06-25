@@ -2,6 +2,8 @@ import type { HomePageContent } from "@/types";
 
 import { newsArticles } from "@/data/news/articles";
 
+import { productsPageContent } from "./products";
+
 import heroBg1 from "@/assets/hero/hero-1.png";
 import heroBg2 from "@/assets/hero/hero-2.png";
 import aboutImage from "@/assets/about/facility.png";
@@ -226,6 +228,17 @@ export const homePageContent: HomePageContent = {
       src: engineeringBg,
       alt: "",
     },
+  },
+  featuredProducts: {
+    label: "Our Products",
+    heading: "Featured Products",
+    description:
+      "A selection of engineered screens, strainers, and filtration solutions built for demanding oil & gas and industrial applications.",
+    viewProductLabel: "View Product",
+    exploreAll: { label: "Explore All Products", href: "/products" },
+    autoplayDelayMs: 2500,
+    transitionMs: 700,
+    items: productsPageContent.listing.items.slice(0, 8),
   },
   certificates: {
     heading: "Our",

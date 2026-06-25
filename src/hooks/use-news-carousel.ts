@@ -1,4 +1,13 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
+
+const DRAG_THRESHOLD_PX = 8;
 
 function getSlidesPerView(width: number) {
   if (width < 640) return 1;
@@ -18,7 +27,10 @@ export function useNewsCarousel(itemCount: number) {
 
   const indexRef = useRef(0);
   const dragStartXRef = useRef(0);
+  const dragStartYRef = useRef(0);
   const dragOffsetRef = useRef(0);
+  const activePointerIdRef = useRef<number | null>(null);
+  const suppressClickRef = useRef(false);
 
   const clones = slidesPerView;
   const canScroll = itemCount > slidesPerView;
@@ -106,39 +118,67 @@ export function useNewsCarousel(itemCount: number) {
     return () => observer.disconnect();
   }, [measure, itemCount, slidesPerView]);
 
+  const resetPointerState = useCallback(() => {
+    activePointerIdRef.current = null;
+    dragOffsetRef.current = 0;
+    setDragOffset(0);
+    setIsDragging(false);
+  }, []);
+
   const onPointerDown = useCallback(
     (event: PointerEvent<HTMLDivElement>) => {
-      if (!canScroll) return;
+      if (!canScroll || event.button !== 0) return;
 
-      setIsDragging(true);
-      setIsAnimating(false);
+      activePointerIdRef.current = event.pointerId;
       dragStartXRef.current = event.clientX;
+      dragStartYRef.current = event.clientY;
       dragOffsetRef.current = 0;
-      setDragOffset(0);
-      event.currentTarget.setPointerCapture(event.pointerId);
+      suppressClickRef.current = false;
     },
     [canScroll],
   );
 
   const onPointerMove = useCallback(
     (event: PointerEvent<HTMLDivElement>) => {
-      if (!isDragging || !canScroll) return;
+      if (!canScroll || activePointerIdRef.current !== event.pointerId) {
+        return;
+      }
 
-      const delta = event.clientX - dragStartXRef.current;
-      dragOffsetRef.current = delta;
-      setDragOffset(delta);
+      const deltaX = event.clientX - dragStartXRef.current;
+      const deltaY = event.clientY - dragStartYRef.current;
+
+      if (!isDragging) {
+        if (Math.abs(deltaX) < DRAG_THRESHOLD_PX) return;
+        if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+        setIsDragging(true);
+        setIsAnimating(false);
+        event.currentTarget.setPointerCapture(event.pointerId);
+      }
+
+      dragOffsetRef.current = deltaX;
+      setDragOffset(deltaX);
     },
     [canScroll, isDragging],
   );
 
   const finishDrag = useCallback(() => {
-    if (!isDragging || !canScroll) return;
+    if (!canScroll) return;
+
+    if (!isDragging) {
+      resetPointerState();
+      return;
+    }
 
     setIsDragging(false);
     setIsAnimating(true);
 
     const threshold = slideStride * 0.18;
     const delta = dragOffsetRef.current;
+
+    if (Math.abs(delta) >= DRAG_THRESHOLD_PX) {
+      suppressClickRef.current = true;
+    }
 
     if (delta <= -threshold) {
       next();
@@ -148,7 +188,17 @@ export function useNewsCarousel(itemCount: number) {
       setDragOffset(0);
       dragOffsetRef.current = 0;
     }
-  }, [canScroll, isDragging, next, prev, slideStride]);
+
+    activePointerIdRef.current = null;
+  }, [canScroll, isDragging, next, prev, resetPointerState, slideStride]);
+
+  const onClickCapture = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    if (suppressClickRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClickRef.current = false;
+    }
+  }, []);
 
   const translateX = canScroll ? -(index * slideStride) + dragOffset : 0;
 
@@ -168,6 +218,7 @@ export function useNewsCarousel(itemCount: number) {
       onPointerMove,
       onPointerUp: finishDrag,
       onPointerCancel: finishDrag,
+      onClickCapture,
     },
   };
-}
+};

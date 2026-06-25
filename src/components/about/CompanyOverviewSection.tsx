@@ -7,6 +7,7 @@ import {
   CompanyOverviewStatIconFrame,
 } from "@/components/about/CompanyOverviewIcons";
 import { useCountUp, usePrefersReducedMotion } from "@/hooks";
+import { useNumberFormat } from "@/i18n/hooks";
 import type { CompanyOverviewContent, CompanyOverviewStat } from "@/types";
 import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
@@ -192,6 +193,7 @@ function CompanyOverviewStatEntry({
   isVisible: boolean;
   prefersReducedMotion: boolean;
 }) {
+  const { formatNumber } = useNumberFormat();
   const count = useCountUp({
     target: stat.value,
     isActive: isVisible,
@@ -212,7 +214,7 @@ function CompanyOverviewStatEntry({
       <CompanyOverviewStatIconFrame icon={stat.icon} />
       <div className="min-w-0">
         <p className="text-[1.875rem] font-bold leading-none tracking-tight text-[#F68E05] sm:text-[2rem] lg:text-[2.15rem]">
-          <span className="tabular-nums">{count.toLocaleString()}</span>
+          <span className="tabular-nums">{formatNumber(count)}</span>
           {stat.suffix && <span>{stat.suffix}</span>}
         </p>
         <p className="mt-2 text-[0.8125rem] font-semibold leading-snug text-[#0c1524]/72 sm:text-sm">

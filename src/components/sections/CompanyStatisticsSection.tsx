@@ -4,6 +4,7 @@ import type { Ref } from "react";
 
 import { Container, ParallaxBackgroundImage, Section } from "@/components/shared";
 import { useCountUp, useScrollReveal } from "@/hooks";
+import { useNumberFormat } from "@/i18n/hooks";
 import { useParallaxTransform } from "@/hooks/use-parallax-transform";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { getRevealProps } from "@/lib/animations";
@@ -99,6 +100,7 @@ function StatisticEntry({
   prefersReducedMotion: boolean;
   revealDelay: number;
 }) {
+  const { formatNumber } = useNumberFormat();
   const Icon = STAT_ICONS[item.icon];
   const count = useCountUp({
     target: item.value,
@@ -119,7 +121,7 @@ function StatisticEntry({
       </span>
 
       <p className="mt-4 text-[2.35rem] font-bold leading-none tracking-tight text-white sm:mt-5 sm:text-[2.65rem] lg:text-[2.85rem]">
-        <span className="tabular-nums">{count}</span>
+        <span className="tabular-nums">{formatNumber(count)}</span>
         {item.suffix && (
           <span className="text-[#F68E05]">{item.suffix}</span>
         )}

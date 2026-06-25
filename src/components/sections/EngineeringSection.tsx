@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Container, Section } from "@/components/shared";
+import { useNumberFormat } from "@/i18n/hooks";
 import type {
   EngineeringCapabilityStep,
   EngineeringSectionContent,
@@ -138,6 +139,8 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
 }
 
 function ProcessStep({ step }: { step: EngineeringCapabilityStep }) {
+  const { formatNumericText } = useNumberFormat();
+
   return (
     <div className="flex flex-col items-center text-center">
       <div className="relative flex flex-col items-center">
@@ -145,7 +148,7 @@ function ProcessStep({ step }: { step: EngineeringCapabilityStep }) {
           className="pointer-events-none absolute -top-1 left-1/2 -translate-x-1/2 text-[3.25rem] font-bold leading-none text-[#0c1524]/[0.07] sm:text-[3.75rem]"
           aria-hidden
         >
-          {step.step}
+          {formatNumericText(step.step)}
         </span>
 
         <div className="relative flex size-[4.25rem] items-center justify-center rounded-2xl bg-[#F68E05] text-white shadow-[0_10px_28px_-12px_rgba(246,142,5,0.55)] sm:size-[4.5rem]">

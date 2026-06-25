@@ -10,6 +10,7 @@ import { Link } from "react-router";
 
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
+import { useNumberFormat } from "@/i18n/hooks";
 import type { NotFoundPageContent, NotFoundQuickLink } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -50,6 +51,9 @@ function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
 }
 
 export function NotFoundSection({ content }: NotFoundSectionProps) {
+  const { formatNumericText } = useNumberFormat();
+  const errorCode = formatNumericText("404");
+
   return (
     <>
       <Section
@@ -77,7 +81,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
           className="pointer-events-none absolute -right-8 top-1/2 -translate-y-1/2 select-none text-[clamp(8rem,22vw,16rem)] font-bold leading-none tracking-tighter text-white/[0.03]"
           aria-hidden
         >
-          404
+          {errorCode}
         </div>
 
         <Container className="relative z-10 px-4 sm:px-6 lg:px-8">
@@ -93,7 +97,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               className="mt-6 text-[clamp(4.5rem,14vw,7.5rem)] font-bold leading-none tracking-tight text-white/90"
               aria-hidden
             >
-              404
+              {errorCode}
             </p>
 
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem] lg:leading-tight">
@@ -187,7 +191,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               >
                 <a href={content.supportPhone.href}>
                   <Phone className="size-4" aria-hidden />
-                  {content.supportPhone.label}
+                  {formatNumericText(content.supportPhone.label)}
                 </a>
               </Button>
               <Button

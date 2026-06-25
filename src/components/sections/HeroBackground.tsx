@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 
 import type { ImageAsset } from "@/types";
 import { HERO_KEN_BURNS_MS } from "@/hooks/use-hero-slideshow";
+import { useNumberFormat } from "@/i18n/hooks";
 import { cn } from "@/lib/utils";
 
 interface HeroBackgroundProps {
@@ -19,6 +20,8 @@ export function HeroBackground({
   shouldAnimate,
   prefersReducedMotion,
 }: HeroBackgroundProps) {
+  const { formatNumber } = useNumberFormat();
+
   if (images.length === 0) {
     return (
       <div
@@ -71,7 +74,7 @@ export function HeroBackground({
       <p className="sr-only" aria-live="polite">
         {prefersReducedMotion
           ? "Background slideshow paused"
-          : `Showing slide ${activeIndex + 1} of ${images.length}`}
+          : `Showing slide ${formatNumber(activeIndex + 1)} of ${formatNumber(images.length)}`}
       </p>
     </div>
   );

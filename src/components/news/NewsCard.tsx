@@ -1,4 +1,5 @@
 import { LocalizedLink } from "@/components/i18n";
+import { useNumberFormat } from "@/i18n/hooks";
 
 import type { NewsArticlePreview } from "@/types";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ export function NewsCard({
   slidesPerView,
   className,
 }: NewsCardProps) {
+  const { formatNewsDateParts } = useNumberFormat();
   const href = `/news/${article.slug}`;
   const date = formatNewsDateParts(article.publishedAt);
   const gapCount = slidesPerView ? Math.max(slidesPerView - 1, 0) : 0;
@@ -84,20 +86,4 @@ export function NewsDateBadge({ day, month }: { day: string; month: string }) {
       </span>
     </div>
   );
-}
-
-export function formatNewsDateParts(isoDate: string) {
-  const date = new Date(isoDate);
-  return {
-    day: date.toLocaleDateString("en-US", { day: "2-digit" }),
-    month: date.toLocaleDateString("en-US", { month: "short" }),
-  };
-}
-
-export function formatNewsDate(isoDate: string) {
-  return new Date(isoDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
 }

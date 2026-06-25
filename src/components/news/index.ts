@@ -1,6 +1,6 @@
 export { NewsArticleImage, type NewsArticleImageProps } from "./NewsArticleImage";
 export { FeaturedNews, type FeaturedNewsProps } from "./FeaturedNews";
-export { NewsCard, formatNewsDate, formatNewsDateParts, type NewsCardProps } from "./NewsCard";
+export { NewsCard, type NewsCardProps } from "./NewsCard";
 export { NewsCarousel, type NewsCarouselProps } from "./NewsCarousel";
 export {
   NewsContactCtaSection,

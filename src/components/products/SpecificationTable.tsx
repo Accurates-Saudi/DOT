@@ -1,4 +1,5 @@
 import type { SpecificationRow } from "@/types";
+import { useNumberFormat } from "@/i18n/hooks";
 import { cn } from "@/lib/utils";
 
 export interface SpecificationTableProps {
@@ -7,6 +8,8 @@ export interface SpecificationTableProps {
 }
 
 export function SpecificationTable({ rows, className }: SpecificationTableProps) {
+  const { formatNumericText } = useNumberFormat();
+
   return (
     <div
       className={cn(
@@ -43,10 +46,10 @@ export function SpecificationTable({ rows, className }: SpecificationTableProps)
                 scope="row"
                 className="border-t border-[#0c1524]/8 px-4 py-2.5 font-semibold text-[#0c1524] sm:px-5 sm:py-3"
               >
-                {row.label}
+                {formatNumericText(row.label)}
               </th>
               <td className="border-t border-[#0c1524]/8 px-4 py-2.5 leading-relaxed text-[#0c1524]/70 sm:px-5 sm:py-3">
-                {row.value}
+                {formatNumericText(row.value)}
               </td>
             </tr>
           ))}

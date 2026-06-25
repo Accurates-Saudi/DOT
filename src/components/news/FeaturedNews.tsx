@@ -3,7 +3,9 @@ import { LocalizedLink } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import type { NewsArticlePreview, NewsFeaturedContent } from "@/types";
 
-import { formatNewsDateParts, NewsDateBadge } from "./NewsCard";
+import { useNumberFormat } from "@/i18n/hooks";
+
+import { NewsDateBadge } from "./NewsCard";
 import { NewsArticleImage } from "./NewsArticleImage";
 
 export interface FeaturedNewsProps {
@@ -12,6 +14,7 @@ export interface FeaturedNewsProps {
 }
 
 export function FeaturedNews({ article, content }: FeaturedNewsProps) {
+  const { formatNewsDateParts } = useNumberFormat();
   const href = `/news/${article.slug}`;
   const date = formatNewsDateParts(article.publishedAt);
 

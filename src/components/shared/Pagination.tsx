@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 
+import { useNumberFormat } from "@/i18n/hooks";
 import { cn } from "@/lib/utils";
 
 export interface PaginationProps {
@@ -29,6 +30,8 @@ export function Pagination({
   pageLabel = "Page",
   className,
 }: PaginationProps) {
+  const { formatNumber } = useNumberFormat();
+
   if (totalPages <= 1) return null;
 
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -58,10 +61,10 @@ export function Pagination({
             <PaginationLink
               to={buildPageHref(basePath, page)}
               isActive={page === currentPage}
-              aria-label={`${pageLabel} ${page}`}
+              aria-label={`${pageLabel} ${formatNumber(page)}`}
               aria-current={page === currentPage ? "page" : undefined}
             >
-              {page}
+              {formatNumber(page)}
             </PaginationLink>
           </li>
         ))}

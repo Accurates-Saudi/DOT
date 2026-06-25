@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react";
 import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { useFooterContent } from "@/i18n/content/hooks";
-import { useTranslation } from "@/i18n/hooks";
+import { useNumberFormat, useTranslation } from "@/i18n/hooks";
 import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import type { FooterContactItem, FooterContent, LinkItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ export function Footer({ content: contentProp }: FooterProps) {
   const defaultContent = useFooterContent();
   const content = contentProp ?? defaultContent;
   const { t } = useTranslation("seo");
+  const { formatNumber, formatNumericText } = useNumberFormat();
   const year = new Date().getFullYear();
 
   return (
@@ -77,7 +78,7 @@ export function Footer({ content: contentProp }: FooterProps) {
                         {item.label}
                       </span>
                       <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
-                        {item.value}
+                        {formatNumericText(item.value)}
                       </span>
                     </span>
                   </>
@@ -104,7 +105,7 @@ export function Footer({ content: contentProp }: FooterProps) {
 
         <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:pt-7">
           <p className="text-[0.8125rem] text-white/55">
-            &copy; {year} {content.bottomBar.legalName}. {t("rightsReserved")}
+            &copy; {formatNumber(year)} {content.bottomBar.legalName}. {t("rightsReserved")}
           </p>
 
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">

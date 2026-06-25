@@ -2,6 +2,7 @@ import { Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui";
+import { useNumberFormat } from "@/i18n/hooks";
 import type { ContactFormContent, ContactFormValues } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ export function ContactForm({
   isSubmitting = false,
   className,
 }: ContactFormProps) {
+  const { formatNumericText } = useNumberFormat();
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -49,6 +51,16 @@ export function ContactForm({
   }
 
   const placeholders = content.placeholders ?? {};
+  const localizedPlaceholders = {
+    name: placeholders.name,
+    company: placeholders.company,
+    email: placeholders.email,
+    phone: placeholders.phone
+      ? formatNumericText(placeholders.phone)
+      : undefined,
+    subject: placeholders.subject,
+    message: placeholders.message,
+  };
 
   return (
     <div
@@ -76,7 +88,7 @@ export function ContactForm({
           <FormField
             id="contact-name"
             label={content.fields.name}
-            placeholder={placeholders.name}
+            placeholder={localizedPlaceholders.name}
             value={values.name}
             onChange={(value) => updateField("name", value)}
             autoComplete="name"
@@ -85,7 +97,7 @@ export function ContactForm({
           <FormField
             id="contact-company"
             label={content.fields.company}
-            placeholder={placeholders.company}
+            placeholder={localizedPlaceholders.company}
             value={values.company}
             onChange={(value) => updateField("company", value)}
             autoComplete="organization"
@@ -97,7 +109,7 @@ export function ContactForm({
             id="contact-email"
             label={content.fields.email}
             type="email"
-            placeholder={placeholders.email}
+            placeholder={localizedPlaceholders.email}
             value={values.email}
             onChange={(value) => updateField("email", value)}
             autoComplete="email"
@@ -107,7 +119,7 @@ export function ContactForm({
             id="contact-phone"
             label={content.fields.phone}
             type="tel"
-            placeholder={placeholders.phone}
+            placeholder={localizedPlaceholders.phone}
             value={values.phone}
             onChange={(value) => updateField("phone", value)}
             autoComplete="tel"
@@ -117,7 +129,7 @@ export function ContactForm({
         <FormField
           id="contact-subject"
           label={content.fields.subject}
-          placeholder={placeholders.subject}
+          placeholder={localizedPlaceholders.subject}
           value={values.subject}
           onChange={(value) => updateField("subject", value)}
           required
@@ -136,7 +148,7 @@ export function ContactForm({
             rows={5}
             value={values.message}
             onChange={(event) => updateField("message", event.target.value)}
-            placeholder={placeholders.message}
+            placeholder={localizedPlaceholders.message}
             required
             className={cn(
               inputClassName,

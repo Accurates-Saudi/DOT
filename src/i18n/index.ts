@@ -17,8 +17,17 @@ export {
   useI18n,
   useLocale,
   useLocalizedPath,
+  useNumberFormat,
   useTranslation,
 } from "./hooks";
+export {
+  formatDate,
+  formatNewsDate,
+  formatNewsDateParts,
+  formatNumber,
+  formatNumericText,
+  formatStatisticValue,
+} from "./format-numbers";
 export { loadMessages, preloadMessages } from "./loadMessages";
 export {
   buildAlternateLinks,

@@ -1,5 +1,13 @@
 import { useMemo } from "react";
 
+import {
+  formatDate,
+  formatNewsDate,
+  formatNewsDateParts,
+  formatNumber,
+  formatNumericText,
+  formatStatisticValue,
+} from "./format-numbers";
 import { useI18nContext } from "./provider";
 import type { TranslateFn } from "./types";
 
@@ -32,4 +40,24 @@ export function useTranslation(namespace?: string): {
   }, [baseT, namespace]);
 
   return { t, locale };
+}
+
+export function useNumberFormat() {
+  const { locale } = useI18nContext();
+
+  return useMemo(
+    () => ({
+      locale,
+      formatNumber: (value: number) => formatNumber(value, locale),
+      formatNumericText: (text: string) => formatNumericText(text, locale),
+      formatStatisticValue: (value: number, suffix?: string) =>
+        formatStatisticValue(value, suffix, locale),
+      formatDate: (isoDate: string, options: Intl.DateTimeFormatOptions) =>
+        formatDate(isoDate, locale, options),
+      formatNewsDate: (isoDate: string) => formatNewsDate(isoDate, locale),
+      formatNewsDateParts: (isoDate: string) =>
+        formatNewsDateParts(isoDate, locale),
+    }),
+    [locale],
+  );
 }

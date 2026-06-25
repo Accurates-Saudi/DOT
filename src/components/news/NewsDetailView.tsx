@@ -1,8 +1,8 @@
 import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBreadcrumb";
 import { Container, Section } from "@/components/shared";
+import { useNumberFormat } from "@/i18n/hooks";
 import type { NewsArticleDetail } from "@/types";
 
-import { formatNewsDate } from "./NewsCard";
 import { NewsArticleImage } from "./NewsArticleImage";
 import { NewsDetailContent } from "./NewsDetailContent";
 import { NewsImageGallery } from "./NewsImageGallery";
@@ -12,6 +12,7 @@ export interface NewsDetailViewProps {
 }
 
 export function NewsDetailView({ article }: NewsDetailViewProps) {
+  const { formatNewsDate } = useNumberFormat();
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "News", href: "/news" },

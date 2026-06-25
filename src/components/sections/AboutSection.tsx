@@ -14,6 +14,11 @@ import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { AboutSectionContent, AboutServiceItem } from "@/types";
 import { getRevealProps } from "@/lib/animations";
+import {
+  getYouTubeEmbedUrl,
+  getYouTubeThumbnail,
+  getYouTubeVideoId,
+} from "@/lib/youtube";
 import { cn } from "@/lib/utils";
 
 const SERVICE_ICONS: Record<AboutServiceItem["icon"], LucideIcon> = {
@@ -62,8 +67,10 @@ export function AboutSection({ content }: AboutSectionProps) {
     getRevealProps(isVisible, delayMs, className);
 
   const { media, servicesBanner } = content;
-  const videoHref = media.videoUrl ?? content.ctaVideo?.href;
-  const playIsLink = media.showPlayButton && videoHref;
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoId =
+    media.videoId ?? getYouTubeVideoId(media.videoUrl);
+  const showVideoPlayer = Boolean(videoId && media.showPlayButton);
 
   return (
     <Section
@@ -134,11 +141,11 @@ export function AboutSection({ content }: AboutSectionProps) {
               </div>
 
               {servicesBanner.thumbnail && (
-                <div className="h-[13rem] overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
+                <div className="flex h-[13rem] items-center justify-center overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] bg-[#f3f1ee] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
                   <img
                     src={servicesBanner.thumbnail.src}
                     alt={servicesBanner.thumbnail.alt}
-                    className="size-full object-cover object-center"
+                    className="size-full object-contain object-center"
                     loading="lazy"
                     decoding="async"
                   />
@@ -149,39 +156,17 @@ export function AboutSection({ content }: AboutSectionProps) {
 
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
             <div {...reveal(servicesBanner ? 100 : 0)}>
-              <div className="rounded-2xl bg-white p-2 shadow-[0_20px_60px_-28px_rgba(12,21,36,0.22)] sm:rounded-3xl sm:p-2.5 lg:rounded-[1.75rem] lg:p-3">
-                <div className="group relative aspect-[16/11] overflow-hidden rounded-xl sm:rounded-2xl lg:aspect-[5/4] lg:rounded-[1.35rem]">
-                  <img
-                    src={media.image.src}
-                    alt={media.image.alt}
-                    className="img-zoom-hover size-full object-cover object-center"
-                    loading="lazy"
-                    decoding="async"
-                  />
-
-                  {media.showPlayButton && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      {playIsLink ? (
-                        <a
-                          href={videoHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label="Play company video"
-                          className="play-button size-[4.5rem] sm:size-20"
-                        >
-                          <Play className="size-7 fill-current pl-1 sm:size-8" />
-                        </a>
-                      ) : (
-                        <span
-                          className="play-button size-[4.5rem] sm:size-20"
-                          aria-hidden
-                        >
-                          <Play className="size-7 fill-current pl-1 sm:size-8" />
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
+              <div
+                id="about-video"
+                className="rounded-2xl bg-white p-2 shadow-[0_20px_60px_-28px_rgba(12,21,36,0.22)] sm:rounded-3xl sm:p-2.5 lg:rounded-[1.75rem] lg:p-3"
+              >
+                <AboutVideoPlayer
+                  videoId={videoId}
+                  fallbackImage={media.image}
+                  isPlaying={isVideoPlaying}
+                  onPlay={() => setIsVideoPlaying(true)}
+                  showPlayButton={showVideoPlayer}
+                />
               </div>
             </div>
 
@@ -239,16 +224,17 @@ export function AboutSection({ content }: AboutSectionProps) {
                   </Link>
                 </Button>
 
-                {content.ctaVideo && (
-                  <Link
-                    to={content.ctaVideo.href}
+                {content.ctaVideo && showVideoPlayer && (
+                  <button
+                    type="button"
+                    onClick={() => setIsVideoPlaying(true)}
                     className="group/play inline-flex items-center gap-3.5 text-[0.9375rem] font-medium text-[#0c1524] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:text-[var(--dot-navy)]"
                   >
                     <span className="play-button-inline size-11 shrink-0 sm:size-12">
                       <Play className="size-4 fill-current pl-0.5" />
                     </span>
                     {content.ctaVideo.label}
-                  </Link>
+                  </button>
                 )}
               </div>
             </div>
@@ -256,6 +242,68 @@ export function AboutSection({ content }: AboutSectionProps) {
         </div>
       </Container>
     </Section>
+  );
+}
+
+function AboutVideoPlayer({
+  videoId,
+  fallbackImage,
+  isPlaying,
+  onPlay,
+  showPlayButton,
+}: {
+  videoId?: string;
+  fallbackImage?: { src: string; alt: string };
+  isPlaying: boolean;
+  onPlay: () => void;
+  showPlayButton: boolean;
+}) {
+  const posterSrc = videoId
+    ? getYouTubeThumbnail(videoId)
+    : fallbackImage?.src;
+  const posterAlt = fallbackImage?.alt ?? "Company video thumbnail";
+
+  return (
+    <div className="relative aspect-[16/11] overflow-hidden rounded-xl sm:rounded-2xl lg:aspect-[5/4] lg:rounded-[1.35rem]">
+      {isPlaying && videoId ? (
+        <iframe
+          title="Dynamic Oil Tools company video"
+          src={getYouTubeEmbedUrl(videoId, true)}
+          className="absolute inset-0 size-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      ) : (
+        <>
+          {posterSrc && (
+            <img
+              src={posterSrc}
+              alt={posterAlt}
+              className={cn(
+                "size-full object-cover object-center",
+                videoId && "bg-[#0c1524]",
+              )}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+
+          {showPlayButton && videoId && (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#0c1524]/10">
+              <button
+                type="button"
+                onClick={onPlay}
+                aria-label="Play company video"
+                className="play-button size-[4.5rem] sm:size-20"
+              >
+                <Play className="size-7 fill-current pl-1 sm:size-8" />
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 

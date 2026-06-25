@@ -1,6 +1,8 @@
 import type { ImageAsset } from "@/types";
 import { cn } from "@/lib/utils";
 
+import { NewsArticleImage } from "./NewsArticleImage";
+
 export interface NewsImageGalleryProps {
   images: ImageAsset[];
   className?: string;
@@ -12,9 +14,12 @@ export function NewsImageGallery({ images, className }: NewsImageGalleryProps) {
   return (
     <section
       aria-label="Additional images"
-      className={cn("mt-8 border-t border-[#0c1524]/8 pt-8 sm:mt-9 sm:pt-9", className)}
+      className={cn(
+        "mt-8 border-t border-[#0c1524]/8 pt-8 sm:mt-10 sm:pt-9",
+        className,
+      )}
     >
-      <div className="mb-5 flex items-center gap-3">
+      <div className="mb-5 flex items-center gap-3 sm:mb-6">
         <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
         <h2 className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
           Gallery
@@ -32,15 +37,7 @@ export function NewsImageGallery({ images, className }: NewsImageGalleryProps) {
       >
         {images.map((image, index) => (
           <li key={`${image.src}-${index}`}>
-            <div className="overflow-hidden rounded-xl bg-[#f4f3f2]">
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="aspect-[4/3] w-full object-cover object-center"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+            <NewsArticleImage image={image} variant="gallery" />
           </li>
         ))}
       </ul>

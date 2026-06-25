@@ -3,6 +3,7 @@ import { Container, Section } from "@/components/shared";
 import type { NewsArticleDetail } from "@/types";
 
 import { formatNewsDate } from "./NewsCard";
+import { NewsArticleImage } from "./NewsArticleImage";
 import { NewsDetailContent } from "./NewsDetailContent";
 import { NewsImageGallery } from "./NewsImageGallery";
 
@@ -30,35 +31,43 @@ export function NewsDetailView({ article }: NewsDetailViewProps) {
         </Container>
       </div>
 
-      <Container size="narrow" className="px-4 py-8 sm:px-6 sm:py-9 lg:py-10">
-        <header className="space-y-4">
-          <time
-            dateTime={article.publishedAt}
-            className="block text-[0.6875rem] font-semibold tracking-[0.1em] text-[#0c1524]/45 uppercase"
-          >
-            {formatNewsDate(article.publishedAt)}
-          </time>
+      <Container size="narrow" className="px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
+        <article className="mx-auto max-w-3xl">
+          <header className="border-b border-[#0c1524]/8 pb-7 sm:pb-8">
+            <p className="text-[0.6875rem] font-bold tracking-[0.22em] text-[#F68E05] uppercase">
+              {article.category}
+            </p>
 
-          <h1 className="text-2xl font-semibold leading-tight tracking-tight text-[#0c1524] sm:text-[1.75rem] lg:text-[2rem]">
-            {article.title}
-          </h1>
+            <time
+              dateTime={article.publishedAt}
+              className="mt-3 block text-[0.6875rem] font-semibold tracking-[0.1em] text-[#0c1524]/45 uppercase"
+            >
+              {formatNewsDate(article.publishedAt)}
+            </time>
 
-          <div className="overflow-hidden rounded-xl bg-[#f4f3f2]">
-            <img
-              src={article.image.src}
-              alt={article.image.alt}
-              className="aspect-[16/10] w-full object-cover object-center sm:aspect-[16/9]"
-              loading="eager"
-              decoding="async"
+            <h1 className="mt-3 text-[1.625rem] font-bold leading-[1.2] tracking-tight text-[#0c1524] sm:text-[1.875rem] lg:text-[2.125rem]">
+              {article.title}
+            </h1>
+
+            <p className="mt-4 border-l-2 border-[#F68E05] pl-4 text-[0.9375rem] leading-relaxed text-[#0c1524]/72 sm:text-base">
+              {article.excerpt}
+            </p>
+          </header>
+
+          <figure className="mt-7 sm:mt-8">
+            <NewsArticleImage
+              image={article.image}
+              variant="detail"
+              priority
             />
-          </div>
-        </header>
+          </figure>
 
-        <NewsDetailContent paragraphs={article.content} />
+          <NewsDetailContent paragraphs={article.content} />
 
-        {article.gallery && article.gallery.length > 0 && (
-          <NewsImageGallery images={article.gallery} />
-        )}
+          {article.gallery && article.gallery.length > 0 && (
+            <NewsImageGallery images={article.gallery} />
+          )}
+        </article>
       </Container>
     </Section>
   );

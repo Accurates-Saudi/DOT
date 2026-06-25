@@ -4,6 +4,7 @@ import { Container, Section } from "@/components/shared";
 import type { NewsArticlePreview, NewsFeaturedContent } from "@/types";
 
 import { formatNewsDateParts, NewsDateBadge } from "./NewsCard";
+import { NewsArticleImage } from "./NewsArticleImage";
 
 export interface FeaturedNewsProps {
   article: NewsArticlePreview;
@@ -27,15 +28,11 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
             to={href}
             className="group relative block overflow-hidden rounded-xl lg:col-span-7"
           >
-            <div className="aspect-[16/10] overflow-hidden bg-[#f4f3f2] lg:aspect-[16/9]">
-              <img
-                src={article.image.src}
-                alt={article.image.alt}
-                className="img-zoom-hover size-full object-cover object-center"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
+            <NewsArticleImage
+              image={article.image}
+              variant="featured"
+              priority
+            />
             <NewsDateBadge day={date.day} month={date.month} />
           </Link>
 

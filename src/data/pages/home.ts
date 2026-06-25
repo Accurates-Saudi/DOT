@@ -7,7 +7,7 @@ import { productsPageContent } from "./products";
 
 import heroBg1 from "@/assets/hero/hero-1.png";
 import heroBg2 from "@/assets/hero/hero-2.png";
-import aboutImage from "@/assets/about/facility.png";
+import aboutPhoto from "@/assets/about/about.jpg";
 import statisticsBg from "@/assets/about/overview-hero.png";
 import whyChooseFeatured from "@/assets/why-choose/featured.png";
 import whyChooseMissionBg from "@/assets/why-choose/mission-bg.png";
@@ -30,26 +30,26 @@ export const homePageContent: HomePageContent = {
     intervalMs: 7000,
     slides: [
       {
-        label: "Engineered for excellence",
-        headline: "Engineering performance.",
-        headlineAccent: "Powering energy.",
+        label: "Precision Manufacturing for Oil & Gas",
+        headline: "Engineered for Demanding Operations.",
+        headlineAccent: "Built in Saudi Arabia.",
         subheadline:
-          "Advanced manufacturing and precision solutions for the global oil and gas industry.",
-        ctaPrimary: { label: "Explore Our Solutions", href: "/products" },
-        ctaSecondary: { label: "Learn More About Us", href: "/about" },
+          "Precision machining, downhole equipment, and engineered manufacturing solutions designed to deliver reliability, quality, and performance for the global oil & gas industry.",
+        ctaPrimary: { label: "Explore Products", href: "/products" },
+        ctaSecondary: { label: "About DOT", href: "/about" },
         background: {
           src: heroBg1,
           alt: "Industrial oil and gas facility with pipeline infrastructure at golden hour",
         },
       },
       {
-        label: "Built for demanding operations",
-        headline: "Precision tools.",
-        headlineAccent: "Proven in the field.",
+        label: "Engineering • Manufacturing • Services",
+        headline: "Precision Solutions.",
+        headlineAccent: "Trusted in the Field.",
         subheadline:
-          "High-performance oil & gas equipment manufactured in Saudi Arabia for reliability under pressure.",
-        ctaPrimary: { label: "View Our Products", href: "/products" },
-        ctaSecondary: { label: "Contact Our Team", href: "/contact" },
+          "From advanced machining and screen manufacturing to repair, refurbishment, and premium connection services, DOT supports operators with dependable solutions built for demanding environments.",
+        ctaPrimary: { label: "Our Services", href: "/products" },
+        ctaSecondary: { label: "Contact Us", href: "/contact" },
         background: {
           src: heroBg2,
           alt: "Advanced manufacturing and refinery operations at sunset",
@@ -60,79 +60,76 @@ export const homePageContent: HomePageContent = {
   about: {
     servicesBanner: {
       title:
-        "Factory of Technical Services for Industries\nAdvanced manufacturing & engineering",
+        "Engineering Excellence for Oil & Gas\nManufacturing • Machining • Industrial Services",
       items: [
-        { label: "Industrial\nMaintenance", icon: "maintenance" },
-        { label: "Petroleum\nSolutions", icon: "petroleum" },
-        { label: "Technical\nEngineering", icon: "engineering" },
-        { label: "Plant Support\nServices", icon: "plant" },
+        { label: "Precision\nMachining", icon: "maintenance" },
+        { label: "Downhole\nEquipment", icon: "petroleum" },
+        { label: "Engineering\nServices", icon: "engineering" },
+        { label: "Plant\nSupport", icon: "plant" },
       ],
       thumbnail: {
-        src: heroBg1,
-        alt: "DOT industrial operations overview",
+        src: aboutPhoto,
+        alt: "Dynamic Oil Tools operations",
       },
     },
     label: "Who we are",
-    heading: "Driven by precision.",
-    headingAccent: "Built for performance.",
+    heading: "Driven by Precision.",
+    headingAccent: "Built for Performance.",
     body: [
-      "Dynamic Oil Tools is a Saudi industrial manufacturer specializing in oil & gas equipment, engineering services, advanced manufacturing, machining, and product treatments.",
-      "We combine technical expertise with disciplined production to deliver tools and solutions that perform reliably in demanding field environments.",
+      "Dynamic Oil Tools (DOT) is a Saudi-based manufacturer specializing in precision machining, oil & gas equipment, engineering services, advanced manufacturing, and product treatments",
+      "We combine engineering expertise with world-class manufacturing capabilities to deliver reliable, high-performance solutions that meet the demands of the global energy industry.",
     ],
-    ctaPrimary: { label: "More About Us", href: "/about" },
-    ctaVideo: { label: "Watch Our Video", href: "/about" },
+    ctaPrimary: { label: "About DOT", href: "/about" },
+    ctaVideo: { label: "Watch Our Video", href: "#about-video" },
     media: {
-      image: {
-        src: aboutImage,
-        alt: "Dynamic Oil Tools manufacturing facility and industrial operations",
-      },
+      videoId: "yarNwqOcXKU",
       showPlayButton: true,
     },
   },
   services: {
     heading: "What We",
     headingAccent: "Can Offer",
-    ctaPrimary: { label: "Explore Services", href: "/services" },
+    ctaPrimary: { label: "Explore Services", href: "/products" },
     items: [
       {
         id: "oil-gas-equipment",
         title: "Oil & Gas Equipment",
         description:
-          "Precision-manufactured tools and equipment for upstream and downstream operations, built to withstand demanding field conditions.",
+          "Precision-engineered downhole and surface equipment manufactured to meet the demanding requirements of upstream and downstream oil & gas operations.",
         icon: "oil-gas",
-        href: "/services",
+        href: "/products",
       },
       {
         id: "process-industry-screens",
         title: "Process Industry Screens",
         description:
-          "Engineered screening solutions for process industries, designed for efficiency, durability, and consistent performance.",
+          "High-performance screening solutions designed for efficient separation, filtration, and long-term reliability across industrial processing applications.",
         icon: "process",
-        href: "/services",
+        href: "/products",
       },
       {
         id: "downhole-screens",
         title: "Downhole Screens",
         description:
-          "High-performance downhole screen systems for sand control and filtration in oil, gas, and water well applications.",
+          "Advanced sand control screen systems engineered to maximize production, improve well performance, and extend operational life.",
         icon: "downhole",
-        href: "/services",
+        href: "/products",
       },
       {
         id: "screen-baskets-strainers",
         title: "Screen Baskets & Strainers",
         description:
-          "Custom screen baskets and strainers manufactured to precise specifications for industrial separation and filtration.",
+          "Custom-manufactured baskets and strainers built for accurate filtration, high flow efficiency, and dependable industrial performance.",
         icon: "strainers",
-        href: "/services",
+        href: "/products",
       },
       {
         id: "product-treatments",
         title: "Product Treatments",
         description:
-          "Specialized surface treatments and finishing processes that enhance product durability, corrosion resistance, and service life.",
+          "Specialized surface treatments including hardbanding, laser cladding, and premium finishing services to improve durability, wear resistance, and equipment life.",
         icon: "treatments",
-        href: "/services",
+        href: "/products",
       },
     ],
   },
@@ -144,7 +141,7 @@ export const homePageContent: HomePageContent = {
     items: [
       {
         id: "years-experience",
-        value: 24,
+        value: 8,
         suffix: "+",
         label: "Years Experience",
         icon: "experience",
@@ -166,7 +163,7 @@ export const homePageContent: HomePageContent = {
     ],
   },
   whyChooseUs: {
-    label: "Why Choose Us",
+    label: "",
     heading: "Why Choose Us",
     subheading: "We Are a Leader In Industrial Market",
     featuredImage: {
@@ -202,17 +199,16 @@ export const homePageContent: HomePageContent = {
     headingAccent: "We",
     headingSuffix: "Work",
     intro:
-      "Our engineering process combines advanced design, simulation, and precision manufacturing to deliver reliable and high-performance solutions.",
+      "Our engineering team combines advanced design, simulation, and precision manufacturing to develop reliable oil & gas solutions that meet demanding industry standards.",
     bullets: [
-      "Modeling, assembling of industrial products using various CAD softwares",
-      "FEM Engineering Analysis of industrial products",
+      
     ],
     steps: [
       {
         step: "01",
         title: "Designing, Modeling & Analysis",
         description:
-          "We utilize industry-leading CAD tools to design and model industrial components with accuracy and efficiency.",
+          "Every solution begins with precision engineering. Using advanced CAD software and engineering analysis, our team develops optimized designs tailored to customer requirements and operational performance.",
         tag: "Autodesk Inventor Professional",
         icon: "modeling",
       },
@@ -220,7 +216,7 @@ export const homePageContent: HomePageContent = {
         step: "02",
         title: "CNC Machine Code Generator",
         description:
-          "We generate precise CNC codes using advanced CAM software to ensure seamless manufacturing.",
+          "Approved designs are transformed into high-quality components through advanced CNC machining and CAM programming, ensuring consistent accuracy, repeatability, and manufacturing efficiency.",
         tag: "Inventor HSM (CAM) & Feature CAM",
         icon: "cnc",
       },

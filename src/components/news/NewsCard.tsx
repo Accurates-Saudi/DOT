@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import type { NewsArticlePreview } from "@/types";
 import { cn } from "@/lib/utils";
 
+import { NewsArticleImage } from "./NewsArticleImage";
+
 export interface NewsCardProps {
   article: NewsArticlePreview;
   readMoreLabel?: string;
@@ -41,16 +43,7 @@ export function NewsCard({
       }
     >
       <Link to={href} className="relative block overflow-hidden rounded-t-xl">
-        <div className="aspect-[4/3] overflow-hidden bg-[#f4f3f2] sm:aspect-[16/11]">
-          <img
-            src={article.image.src}
-            alt={article.image.alt}
-            className="img-zoom-hover size-full object-cover object-center"
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-          />
-        </div>
+        <NewsArticleImage image={article.image} variant="card" />
         <NewsDateBadge day={date.day} month={date.month} />
       </Link>
 

@@ -54,7 +54,8 @@ export interface AboutSectionContent {
   ctaPrimary: LinkItem;
   ctaVideo?: LinkItem;
   media: {
-    image: ImageAsset;
+    image?: ImageAsset;
+    videoId?: string;
     videoUrl?: string;
     showPlayButton?: boolean;
   };

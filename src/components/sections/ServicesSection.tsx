@@ -158,7 +158,7 @@ function ServiceEntry({
   revealDelay: number;
   isVisible: boolean;
 }) {
-  const Icon = SERVICE_ICONS[item.icon];
+  const Icon = SERVICE_ICONS[item.icon] ?? Factory;
 
   const content = (
     <>

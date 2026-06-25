@@ -1,3 +1,4 @@
+export { CarouselLtrScope } from "./CarouselLtrScope";
 export { Breadcrumb, type BreadcrumbProps } from "./Breadcrumb";
 export { PageHeroSection, type PageHeroSectionProps } from "./PageHeroSection";
 export {

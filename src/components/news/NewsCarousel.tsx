@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
 
+import { CarouselLtrScope } from "@/components/shared";
 import { useCarouselKeyboard, useNewsCarousel } from "@/hooks";
 import type { NewsArticlePreview } from "@/types";
 import { cn } from "@/lib/utils";
@@ -50,7 +51,7 @@ export function NewsCarousel({
   }, [articles, canScroll, clones]);
 
   return (
-    <div className={cn("relative mx-auto max-w-6xl", className)}>
+    <CarouselLtrScope className={cn("relative mx-auto max-w-6xl", className)}>
       {canScroll && (
         <>
           <NewsCarouselButton
@@ -96,7 +97,7 @@ export function NewsCarousel({
           ))}
         </div>
       </div>
-    </div>
+    </CarouselLtrScope>
   );
 }
 

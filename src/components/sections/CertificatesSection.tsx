@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
 
-import { Container, Section } from "@/components/shared";
+import { Container, CarouselLtrScope, Section } from "@/components/shared";
 import { useCarouselKeyboard, useCertificatesCarousel, useScrollReveal } from "@/hooks";
 import type { CertificateItem, CertificatesSectionContent } from "@/types";
 import { cn } from "@/lib/utils";
@@ -80,6 +80,7 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
           </div>
 
           <div {...revealProps(120, "relative min-w-0")}>
+            <CarouselLtrScope className="relative">
             {canScroll && (
               <>
                 <CarouselButton
@@ -131,6 +132,7 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
                 ))}
               </div>
             </div>
+            </CarouselLtrScope>
           </div>
         </div>
       </Container>

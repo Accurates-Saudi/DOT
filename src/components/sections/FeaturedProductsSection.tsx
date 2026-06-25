@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Link } from "react-router";
 
 import { FeaturedProductCard } from "@/components/products/FeaturedProductCard";
-import { Container, Section } from "@/components/shared";
+import { CarouselLtrScope, Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { useCarouselKeyboard, useFeaturedProductsCarousel, useScrollReveal } from "@/hooks";
 import type { FeaturedProductsSectionContent } from "@/types";
@@ -82,6 +82,7 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
         </header>
 
         <div {...revealProps(280, "relative mt-8 min-w-0 sm:mt-10")}>
+          <CarouselLtrScope className="relative">
           {canScroll && (
             <>
               <CarouselButton
@@ -134,6 +135,7 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
               ))}
             </div>
           </div>
+          </CarouselLtrScope>
         </div>
 
         <div {...revealProps(360, "mt-10 flex justify-center sm:mt-12")}>

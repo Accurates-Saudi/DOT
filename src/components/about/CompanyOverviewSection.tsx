@@ -6,7 +6,8 @@ import {
   CompanyOverviewStatDivider,
   CompanyOverviewStatIconFrame,
 } from "@/components/about/CompanyOverviewIcons";
-import type { CompanyOverviewContent } from "@/types";
+import { useCountUp, usePrefersReducedMotion } from "@/hooks";
+import type { CompanyOverviewContent, CompanyOverviewStat } from "@/types";
 import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
@@ -16,15 +17,14 @@ export interface CompanyOverviewSectionProps {
 
 export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const element = sectionRef.current;
     if (!element) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
 
     if (prefersReducedMotion) {
       setIsVisible(true);
@@ -43,7 +43,30 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const element = statsRef.current;
+    if (!element) return;
+
+    if (prefersReducedMotion) {
+      setStatsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [prefersReducedMotion]);
 
   const reveal = (delayMs: number, className?: string) =>
     getRevealProps(isVisible, delayMs, className);
@@ -62,10 +85,10 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
         <div
           {...reveal(
             0,
-            "relative w-full lg:w-[42%] xl:w-[44%] lg:shrink-0",
+            "relative w-full lg:w-[42%] xl:w-[44%] lg:shrink-0 lg:self-stretch",
           )}
         >
-          <div className="relative min-h-[280px] sm:min-h-[340px] lg:absolute lg:inset-0 lg:min-h-0">
+          <div className="relative aspect-[5/4] w-full overflow-hidden bg-[#ece9e5] sm:aspect-[4/3] lg:absolute lg:inset-0 lg:aspect-auto lg:min-h-0">
             <span
               className="absolute inset-y-0 left-0 z-10 w-1 bg-[#F68E05]"
               aria-hidden
@@ -76,10 +99,6 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
               className="size-full object-cover object-center"
               loading="lazy"
               decoding="async"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-[#0c1524]/15 via-transparent to-transparent"
-              aria-hidden
             />
           </div>
         </div>
@@ -140,35 +159,67 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
         </div>
       </div>
 
-      <div className="border-t border-[#0c1524]/6 bg-[#f0eeeb]">
+      <div
+        ref={statsRef}
+        className="border-t border-[#0c1524]/6 bg-[#f0eeeb]"
+      >
         <Container size="wide" className="px-4 sm:px-6 lg:px-8">
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:items-stretch">
             {content.stats.map((stat, index) => (
-              <li
+              <CompanyOverviewStatEntry
                 key={stat.id}
-                className={cn(
-                  "flex flex-1 items-center gap-5 py-8 sm:gap-6 sm:py-9 lg:px-4 lg:py-10 xl:px-6",
-                  index >= 2 && "border-t border-[#0c1524]/8 sm:border-t",
-                  index % 2 === 1 && "sm:border-l sm:border-[#0c1524]/8",
-                  index > 0 && "lg:border-0",
-                )}
-              >
-                {index > 0 && <CompanyOverviewStatDivider />}
-                <CompanyOverviewStatIconFrame icon={stat.icon} />
-                <div className="min-w-0">
-                  <p className="text-[1.875rem] font-bold leading-none tracking-tight text-[#F68E05] sm:text-[2rem] lg:text-[2.15rem]">
-                    {stat.value}
-                  </p>
-                  <p className="mt-2 text-[0.8125rem] font-semibold leading-snug text-[#0c1524]/72 sm:text-sm">
-                    {stat.label}
-                  </p>
-                </div>
-              </li>
+                stat={stat}
+                index={index}
+                isVisible={statsVisible}
+                prefersReducedMotion={prefersReducedMotion}
+              />
             ))}
           </ul>
         </Container>
       </div>
     </Section>
+  );
+}
+
+function CompanyOverviewStatEntry({
+  stat,
+  index,
+  isVisible,
+  prefersReducedMotion,
+}: {
+  stat: CompanyOverviewStat;
+  index: number;
+  isVisible: boolean;
+  prefersReducedMotion: boolean;
+}) {
+  const count = useCountUp({
+    target: stat.value,
+    isActive: isVisible,
+    disabled: prefersReducedMotion,
+    durationMs: 2000,
+  });
+
+  return (
+    <li
+      className={cn(
+        "flex flex-1 items-center gap-5 py-8 sm:gap-6 sm:py-9 lg:px-4 lg:py-10 xl:px-6",
+        index >= 2 && "border-t border-[#0c1524]/8 sm:border-t",
+        index % 2 === 1 && "sm:border-l sm:border-[#0c1524]/8",
+        index > 0 && "lg:border-0",
+      )}
+    >
+      {index > 0 && <CompanyOverviewStatDivider />}
+      <CompanyOverviewStatIconFrame icon={stat.icon} />
+      <div className="min-w-0">
+        <p className="text-[1.875rem] font-bold leading-none tracking-tight text-[#F68E05] sm:text-[2rem] lg:text-[2.15rem]">
+          <span className="tabular-nums">{count.toLocaleString()}</span>
+          {stat.suffix && <span>{stat.suffix}</span>}
+        </p>
+        <p className="mt-2 text-[0.8125rem] font-semibold leading-snug text-[#0c1524]/72 sm:text-sm">
+          {stat.label}
+        </p>
+      </div>
+    </li>
   );
 }
 

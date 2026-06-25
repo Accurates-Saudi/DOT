@@ -56,6 +56,7 @@ export function PageHeroSection({
           src={background.src}
           targetRef={targetRef as Ref<HTMLImageElement>}
           priority
+          objectPosition={background.objectPosition ?? "58% center"}
         />
 
         <div

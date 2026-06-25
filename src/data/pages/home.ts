@@ -137,6 +137,7 @@ export const homePageContent: HomePageContent = {
     backgroundImage: {
       src: statisticsBg,
       alt: "Dynamic Oil Tools industrial manufacturing facility",
+      objectPosition: "center center",
     },
     items: [
       {

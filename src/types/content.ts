@@ -18,6 +18,8 @@ export interface ImageAsset {
   alt: string;
   width?: number;
   height?: number;
+  /** CSS object-position for background / cover images (e.g. "center", "60% center") */
+  objectPosition?: string;
 }
 
 export interface LinkItem {
@@ -258,7 +260,8 @@ export interface CompanyOverviewFeature {
 export interface CompanyOverviewStat {
   id: string;
   icon: "experience" | "facility" | "professionals" | "countries";
-  value: ContentValue<string>;
+  value: number;
+  suffix?: string;
   label: ContentValue<string>;
 }
 

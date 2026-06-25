@@ -54,6 +54,7 @@ export function CompanyStatisticsSection({
         <ParallaxBackgroundImage
           src={content.backgroundImage.src}
           targetRef={targetRef as Ref<HTMLImageElement>}
+          objectPosition={content.backgroundImage.objectPosition}
         />
 
         <div

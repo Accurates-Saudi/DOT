@@ -159,12 +159,12 @@ function CertificateCard({
       style={{ width: slideWidth, flexBasis: slideWidth }}
       aria-label={item.title ?? item.image.alt}
     >
-      <div className="card-hover overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] hover:shadow-[0_6px_20px_-14px_rgba(12,21,36,0.24)] sm:p-2">
-        <div className="aspect-[5/3] overflow-hidden bg-[#faf9f8]">
+      <div className="card-hover overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] hover:shadow-[0_6px_20px_-14px_rgba(12,21,36,0.24)]">
+        <div className="aspect-[4/3] overflow-hidden bg-white">
           <img
             src={item.image.src}
             alt={item.image.alt}
-            className="img-zoom-hover size-full object-contain object-center"
+            className="img-zoom-hover size-full object-cover object-center"
             loading="lazy"
             decoding="async"
             draggable={false}

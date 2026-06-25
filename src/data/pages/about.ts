@@ -1,6 +1,7 @@
 import type { AboutPageContent } from "@/types";
 
-import aboutImage from "@/assets/about/overview-hero.png";
+import aboutHeroImage from "@/assets/about/overview-hero.png";
+import facilityImage from "@/assets/about/facility.png";
 import capEngineering from "@/assets/about/capabilities/engineering.png";
 import capInnovation from "@/assets/about/capabilities/innovation.png";
 import capManufacturing from "@/assets/about/capabilities/manufacturing.png";
@@ -21,8 +22,9 @@ export const aboutPageContent: AboutPageContent = {
     introduction:
       "Dynamic Oil Tools is a Saudi industrial manufacturing company serving the oil & gas and energy industries.",
     backgroundImage: {
-      src: aboutImage,
+      src: aboutHeroImage,
       alt: "Dynamic Oil Tools industrial manufacturing facility",
+      objectPosition: "58% center",
     },
   },
   companyOverview: {
@@ -33,8 +35,8 @@ export const aboutPageContent: AboutPageContent = {
       "Built on a strong engineering foundation, we combine advanced manufacturing capabilities with a commitment to reliability, quality, and client-focused service — delivering products that perform in the field and support long-term operational efficiency.",
     ],
     image: {
-      src: aboutImage,
-      alt: "Precision-engineered oil and gas tooling manufactured by Dynamic Oil Tools",
+      src: facilityImage,
+      alt: "Dynamic Oil Tools manufacturing facility in Saudi Arabia",
     },
     features: [
       {
@@ -69,25 +71,29 @@ export const aboutPageContent: AboutPageContent = {
       {
         id: "experience",
         icon: "experience",
-        value: "20+",
+        value: 8,
+        suffix: "+",
         label: "Years of Experience",
       },
       {
         id: "facility",
         icon: "facility",
-        value: "25,000+",
+        value: 25000,
+        suffix: "+",
         label: "m² Manufacturing Facility",
       },
       {
         id: "professionals",
         icon: "professionals",
-        value: "150+",
+        value: 100,
+        suffix: "+",
         label: "Skilled Professionals",
       },
       {
         id: "countries",
         icon: "countries",
-        value: "30+",
+        value: 30,
+        suffix: "+",
         label: "Countries Served",
       },
     ],

@@ -4,12 +4,15 @@ export interface ParallaxBackgroundImageProps {
   src: string;
   targetRef: Ref<HTMLImageElement>;
   priority?: boolean;
+  /** Focal point when the image is cropped — useful for ultra-wide panoramas */
+  objectPosition?: string;
 }
 
 export function ParallaxBackgroundImage({
   src,
   targetRef,
   priority = false,
+  objectPosition = "center",
 }: ParallaxBackgroundImageProps) {
   return (
     <div
@@ -22,7 +25,8 @@ export function ParallaxBackgroundImage({
         alt=""
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
-        className="absolute left-0 w-full min-h-[170%] object-cover object-center will-change-transform -top-[35%]"
+        className="absolute top-1/2 left-1/2 h-[125%] w-auto min-w-full max-w-none -translate-x-1/2 -translate-y-1/2 object-cover will-change-transform"
+        style={{ objectPosition }}
       />
     </div>
   );

@@ -141,11 +141,11 @@ export function AboutSection({ content }: AboutSectionProps) {
               </div>
 
               {servicesBanner.thumbnail && (
-                <div className="flex h-[13rem] items-center justify-center overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] bg-[#f3f1ee] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
+                <div className="h-[13rem] overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
                   <img
                     src={servicesBanner.thumbnail.src}
                     alt={servicesBanner.thumbnail.alt}
-                    className="size-full object-contain object-center"
+                    className="size-full object-cover object-center"
                     loading="lazy"
                     decoding="async"
                   />

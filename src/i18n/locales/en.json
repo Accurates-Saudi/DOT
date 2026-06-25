@@ -1,0 +1,761 @@
+{
+  "site": {
+    "companyName": "Dynamic Oil Tools",
+    "legalName": "Dynamic Oil Tools Co.",
+    "tagline": "Precision Engineering for Oil & Gas",
+    "description": "Saudi industrial manufacturing company delivering high-performance oil & gas tools and equipment for the energy sector."
+  },
+  "seo": {
+    "defaultDescription": "Saudi industrial manufacturing company delivering high-performance oil & gas tools and equipment for the energy sector.",
+    "rightsReserved": "All rights reserved.",
+    "returnHome": "Return to Homepage",
+    "errorTitle": "Something Went Wrong",
+    "errorDetails": "An unexpected error occurred while loading this page. Please try again or return to the homepage."
+  },
+  "nav": {
+    "items": [
+      { "label": "Home", "href": "/" },
+      { "label": "About Us", "href": "/about" },
+      { "label": "Products", "href": "/products" },
+      { "label": "Catalogs", "href": "/catalogs" },
+      { "label": "News", "href": "/news" },
+      { "label": "Contact Us", "href": "/contact" }
+    ],
+    "login": "Login",
+    "linkedIn": "LinkedIn",
+    "openMenu": "Open menu",
+    "mobileMenuTitle": "Navigation menu",
+    "mainAria": "Main navigation",
+    "mobileAria": "Mobile navigation",
+    "homeAria": "Dynamic Oil Tools — Home",
+    "linkedInAria": "Dynamic Oil Tools on LinkedIn"
+  },
+  "footer": {
+    "description": "Saudi industrial manufacturing company delivering high-performance oil & gas tools and equipment for the energy sector.",
+    "logos": {
+      "dot": {
+        "alt": "Dynamic Oil Tools"
+      },
+      "saudiMade": {
+        "alt": "Saudi Made"
+      }
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "items": [
+        { "label": "Home", "href": "/" },
+        { "label": "About Us", "href": "/about" },
+        { "label": "Products", "href": "/products" },
+        { "label": "Catalogs", "href": "/catalogs" },
+        { "label": "News", "href": "/news" },
+        { "label": "Contact Us", "href": "/contact" }
+      ]
+    },
+    "services": {
+      "title": "Services",
+      "items": [
+        { "label": "Oil & Gas Equipment", "href": "/services" },
+        { "label": "Process Industry Screens", "href": "/services" },
+        { "label": "Downhole Screens", "href": "/services" },
+        { "label": "Screen Baskets & Strainers", "href": "/services" },
+        { "label": "Product Treatments", "href": "/services" }
+      ]
+    },
+    "contact": {
+      "title": "Contact Information",
+      "items": [
+        {
+          "type": "email",
+          "label": "Email",
+          "value": "info@dynamicoiltools.com",
+          "href": "mailto:info@dynamicoiltools.com"
+        },
+        {
+          "type": "phone",
+          "label": "Phone",
+          "value": "+966 (13) 8041290",
+          "href": "tel:+966138041290"
+        },
+        {
+          "type": "address",
+          "label": "Address",
+          "value": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia"
+        }
+      ]
+    },
+    "bottomBar": {
+      "legalName": "Dynamic Oil Tools Co.",
+      "legalLinks": [
+        { "label": "Privacy Policy", "href": "/privacy" },
+        { "label": "Terms & Conditions", "href": "/terms" },
+        {
+          "label": "Cookie Preferences",
+          "href": "#cookie-preferences",
+          "action": "cookie-preferences"
+        }
+      ]
+    }
+  },
+  "cookie": {
+    "banner": {
+      "title": "We value your privacy",
+      "description": "We use cookies to improve your experience, analyze site traffic, and support our marketing efforts. You can accept all cookies, reject non-essential cookies, or customize your preferences.",
+      "acceptAll": "Accept All",
+      "rejectNonEssential": "Reject Non-Essential",
+      "customize": "Customize Preferences"
+    },
+    "modal": {
+      "title": "Cookie Preferences",
+      "description": "Manage how Dynamic Oil Tools uses cookies and similar technologies. Necessary cookies are always active because they are required for the website to function.",
+      "save": "Save Preferences",
+      "acceptAll": "Accept All",
+      "rejectNonEssential": "Reject Non-Essential"
+    },
+    "categories": {
+      "necessary": {
+        "label": "Necessary",
+        "description": "Required for core site functionality such as security, network management, and accessibility. These cannot be disabled.",
+        "required": true
+      },
+      "analytics": {
+        "label": "Analytics",
+        "description": "Help us understand how visitors interact with our website so we can improve performance and content."
+      },
+      "marketing": {
+        "label": "Marketing",
+        "description": "Used to deliver relevant advertisements and measure the effectiveness of our marketing campaigns."
+      },
+      "preferences": {
+        "label": "Preferences",
+        "description": "Remember your settings and choices to provide a more personalized experience on future visits."
+      }
+    },
+    "regionAria": "Cookie consent"
+  },
+  "map": {
+    "placeName": "Dynamic Oil Tools",
+    "address": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia",
+    "embedUrl": "https://www.google.com/maps?q=25.9235182,49.9488192&hl=en&z=17&output=embed",
+    "mapsUrl": "https://maps.app.goo.gl/Drv9WZHNdiHDiLdFA",
+    "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=25.9235182,49.9488192",
+    "directionsLabel": "Directions",
+    "viewLargerMapLabel": "View larger map"
+  },
+  "language": {
+    "label": "Language",
+    "switchTo": "Switch to {{locale}}",
+    "current": "English"
+  },
+  "common": {
+    "home": "Home",
+    "breadcrumbAria": "Breadcrumb",
+    "pagination": {
+      "aria": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    },
+    "readMore": "Read More",
+    "viewMore": "View More",
+    "contactUs": "Contact Us"
+  },
+  "pages": {
+    "home": {
+      "meta": {
+        "title": "Home",
+        "description": "Dynamic Oil Tools — Saudi industrial manufacturing and oil & gas solutions built for reliability and performance."
+      },
+      "hero": {
+        "slides": [
+          {
+            "label": "Precision Manufacturing for Oil & Gas",
+            "headline": "Engineered for Demanding Operations.",
+            "headlineAccent": "Built in Saudi Arabia.",
+            "subheadline": "Precision machining, downhole equipment, and engineered manufacturing solutions designed to deliver reliability, quality, and performance for the global oil & gas industry.",
+            "ctaPrimary": { "label": "Explore Products", "href": "/products" },
+            "ctaSecondary": { "label": "About DOT", "href": "/about" },
+            "background": {
+              "alt": "Industrial oil and gas facility with pipeline infrastructure at golden hour"
+            }
+          },
+          {
+            "label": "Engineering • Manufacturing • Services",
+            "headline": "Precision Solutions.",
+            "headlineAccent": "Trusted in the Field.",
+            "subheadline": "From advanced machining and screen manufacturing to repair, refurbishment, and premium connection services, DOT supports operators with dependable solutions built for demanding environments.",
+            "ctaPrimary": { "label": "Our Services", "href": "/products" },
+            "ctaSecondary": { "label": "Contact Us", "href": "/contact" },
+            "background": {
+              "alt": "Advanced manufacturing and refinery operations at sunset"
+            }
+          }
+        ]
+      },
+      "about": {
+        "servicesBanner": {
+          "title": "Engineering Excellence for Oil & Gas\nManufacturing • Machining • Industrial Services",
+          "items": [
+            { "label": "Precision\nMachining" },
+            { "label": "Downhole\nEquipment" },
+            { "label": "Engineering\nServices" },
+            { "label": "Plant\nSupport" }
+          ],
+          "thumbnail": {
+            "alt": "Dynamic Oil Tools operations"
+          }
+        },
+        "label": "Who we are",
+        "heading": "Driven by Precision.",
+        "headingAccent": "Built for Performance.",
+        "body": [
+          "Dynamic Oil Tools (DOT) is a Saudi-based manufacturer specializing in precision machining, oil & gas equipment, engineering services, advanced manufacturing, and product treatments",
+          "We combine engineering expertise with world-class manufacturing capabilities to deliver reliable, high-performance solutions that meet the demands of the global energy industry."
+        ],
+        "ctaPrimary": { "label": "About DOT", "href": "/about" },
+        "ctaVideo": { "label": "Watch Our Video", "href": "#about-video" }
+      },
+      "services": {
+        "heading": "What We",
+        "headingAccent": "Can Offer",
+        "ctaPrimary": { "label": "Explore Services", "href": "/products" },
+        "items": [
+          {
+            "title": "Oil & Gas Equipment",
+            "description": "Precision-engineered downhole and surface equipment manufactured to meet the demanding requirements of upstream and downstream oil & gas operations.",
+            "href": "/products"
+          },
+          {
+            "title": "Process Industry Screens",
+            "description": "High-performance screening solutions designed for efficient separation, filtration, and long-term reliability across industrial processing applications.",
+            "href": "/products"
+          },
+          {
+            "title": "Downhole Screens",
+            "description": "Advanced sand control screen systems engineered to maximize production, improve well performance, and extend operational life.",
+            "href": "/products"
+          },
+          {
+            "title": "Screen Baskets & Strainers",
+            "description": "Custom-manufactured baskets and strainers built for accurate filtration, high flow efficiency, and dependable industrial performance.",
+            "href": "/products"
+          },
+          {
+            "title": "Product Treatments",
+            "description": "Specialized surface treatments including hardbanding, laser cladding, and premium finishing services to improve durability, wear resistance, and equipment life.",
+            "href": "/products"
+          }
+        ]
+      },
+      "companyStatistics": {
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools industrial manufacturing facility"
+        },
+        "items": [
+          {
+            "value": 8,
+            "suffix": "+",
+            "label": "Years Experience"
+          },
+          {
+            "value": 100,
+            "suffix": "+",
+            "label": "Projects"
+          },
+          {
+            "value": 50,
+            "suffix": "+",
+            "label": "Clients"
+          }
+        ]
+      },
+      "whyChooseUs": {
+        "heading": "Why Choose Us",
+        "subheading": "We Are a Leader In Industrial Market",
+        "featuredImage": {
+          "alt": "Precision-machined industrial component manufactured by Dynamic Oil Tools"
+        },
+        "ctaPanel": {
+          "heading": "We Are Open For Opportunities!",
+          "ctaPrimary": { "label": "View Our Works", "href": "/products" },
+          "ctaSecondary": { "label": "Make An Appointment", "href": "/contact" }
+        },
+        "mission": {
+          "title": "Mission",
+          "body": "Delivering cutting-edge products to our customers through our continuously innovative facility. Supporting our clients with technically advanced and cost-efficient solutions."
+        },
+        "vision": {
+          "title": "Vision",
+          "body": "DOT aims to be a global leader focused on manufacturing high-quality, market-oriented, and state-of-the-art products for the oil and gas industry."
+        },
+        "tagline": "Precision. Performance. Partnership."
+      },
+      "engineering": {
+        "label": "R&D / Engineering Department",
+        "heading": "How",
+        "headingAccent": "We",
+        "headingSuffix": "Work",
+        "intro": "Our engineering team combines advanced design, simulation, and precision manufacturing to develop reliable oil & gas solutions that meet demanding industry standards.",
+        "steps": [
+          {
+            "step": "01",
+            "title": "Designing, Modeling & Analysis",
+            "description": "Every solution begins with precision engineering. Using advanced CAD software and engineering analysis, our team develops optimized designs tailored to customer requirements and operational performance.",
+            "tag": "Autodesk Inventor Professional"
+          },
+          {
+            "step": "02",
+            "title": "CNC Machine Code Generator",
+            "description": "Approved designs are transformed into high-quality components through advanced CNC machining and CAM programming, ensuring consistent accuracy, repeatability, and manufacturing efficiency.",
+            "tag": "Inventor HSM (CAM) & Feature CAM"
+          }
+        ]
+      },
+      "featuredProducts": {
+        "label": "Our Products",
+        "heading": "Featured Products",
+        "description": "A selection of engineered screens, strainers, and filtration solutions built for demanding oil & gas and industrial applications.",
+        "viewProductLabel": "View Product",
+        "exploreAll": { "label": "Explore All Products", "href": "/products" }
+      },
+      "certificates": {
+        "heading": "Our",
+        "headingAccent": "Certificates",
+        "subheading": "Recognized Globally",
+        "items": [
+          {
+            "title": "API Spec 4F Certificate of Registration",
+            "image": {
+              "alt": "API Spec 4F Certificate of Registration"
+            }
+          },
+          {
+            "title": "API Spec 7-1 Certificate of Registration",
+            "image": {
+              "alt": "API Spec 7-1 Certificate of Registration"
+            }
+          },
+          {
+            "title": "API Spec 11B Certificate of Registration",
+            "image": {
+              "alt": "API Spec 11B Certificate of Registration"
+            }
+          },
+          {
+            "title": "API Spec 16A Certificate of Registration",
+            "image": {
+              "alt": "API Spec 16A Certificate of Registration"
+            }
+          },
+          {
+            "title": "API Spec 19C Certificate of Registration",
+            "image": {
+              "alt": "API Spec 19C Certificate of Registration"
+            }
+          }
+        ]
+      },
+      "news": {
+        "label": "News & Insights",
+        "heading": "Industry",
+        "headingAccent": "Insights & Updates",
+        "description": "Stay informed with the latest company news, industry developments, exhibitions, and announcements from Dynamic Oil Tools across the oil and gas sector.",
+        "viewAll": { "label": "View All News", "href": "/news" },
+        "headerImage": {
+          "alt": "Dynamic Oil Tools manufacturing facility"
+        },
+        "locationMap": {
+          "title": "Our Location"
+        },
+        "newsletter": {
+          "heading": "Stay Informed",
+          "description": "Subscribe to our newsletter for the latest updates, industry insights, and company news.",
+          "placeholder": "Enter your email",
+          "buttonLabel": "Subscribe"
+        }
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "About",
+        "description": "Learn about Dynamic Oil Tools — our mission, capabilities, and commitment to Saudi industrial excellence."
+      },
+      "hero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "About Us" }
+        ],
+        "title": "About Us",
+        "introduction": "Dynamic Oil Tools is a Saudi industrial manufacturing company serving the oil & gas and energy industries.",
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools industrial manufacturing facility"
+        }
+      },
+      "companyOverview": {
+        "label": "Company Overview",
+        "heading": "Who We Are",
+        "body": [
+          "DOT is a Saudi-based manufacturer of high-performance screens, strainers, and filtration solutions engineered for demanding oil & gas and industrial applications.",
+          "Built on a strong engineering foundation, we combine advanced manufacturing capabilities with a commitment to reliability, quality, and client-focused service — delivering products that perform in the field and support long-term operational efficiency."
+        ],
+        "image": {
+          "alt": "Dynamic Oil Tools manufacturing facility in Saudi Arabia"
+        },
+        "features": [
+          {
+            "title": "Saudi Made",
+            "description": "Proudly designed and manufactured in Saudi Arabia."
+          },
+          {
+            "title": "Quality Driven",
+            "description": "Committed to the highest quality standards across every process."
+          },
+          {
+            "title": "Client Focused",
+            "description": "Building long-term partnerships through trust and reliability."
+          },
+          {
+            "title": "Global Supply",
+            "description": "Serving clients across the globe with consistent performance."
+          }
+        ],
+        "stats": [
+          {
+            "value": 8,
+            "suffix": "+",
+            "label": "Years of Experience"
+          },
+          {
+            "value": 25000,
+            "suffix": "+",
+            "label": "m² Manufacturing Facility"
+          },
+          {
+            "value": 100,
+            "suffix": "+",
+            "label": "Skilled Professionals"
+          },
+          {
+            "value": 30,
+            "suffix": "+",
+            "label": "Countries Served"
+          }
+        ]
+      },
+      "engineeringManufacturing": {
+        "label": "Our Capabilities",
+        "heading": "What We Do Best",
+        "subheading": "We combine engineering expertise, advanced manufacturing and rigorous quality control to deliver reliable solutions that perform in the toughest conditions.",
+        "capabilities": [
+          {
+            "title": "Engineering Excellence",
+            "description": "Advanced design, simulation and technical expertise to develop high-performance solutions.",
+            "image": {
+              "alt": "Engineering blueprints and precision metal components"
+            }
+          },
+          {
+            "title": "Advanced Manufacturing",
+            "description": "State-of-the-art production capabilities ensuring precision, efficiency and scalability.",
+            "image": {
+              "alt": "Advanced laser cutting and manufacturing process"
+            }
+          },
+          {
+            "title": "Quality Assurance",
+            "description": "Strict quality control processes ensuring reliability, compliance and long-term performance.",
+            "image": {
+              "alt": "Quality inspection of industrial filtration equipment"
+            }
+          },
+          {
+            "title": "Continuous Innovation",
+            "description": "Ongoing R&D and process improvement to meet evolving industry demands.",
+            "image": {
+              "alt": "Finished industrial pipes ready for deployment"
+            }
+          }
+        ],
+        "cta": {
+          "heading": "Looking for Engineering Solutions?",
+          "body": "Partner with DOT for reliable, efficient and high-performance solutions built for your toughest challenges.",
+          "ctaPrimary": { "label": "Contact Us", "href": "/contact" },
+          "ctaSecondary": { "label": "View Products", "href": "/products" }
+        }
+      }
+    },
+    "products": {
+      "meta": {
+        "title": "Products",
+        "description": "Explore Dynamic Oil Tools' engineered screens, strainers, and filtration solutions for oil & gas and industrial applications."
+      },
+      "hero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "Products" }
+        ],
+        "title": "Products",
+        "introduction": "Engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools industrial manufacturing facility"
+        }
+      },
+      "listing": {
+        "searchPlaceholder": "Search products…",
+        "emptyStateMessage": "No products match your search.",
+        "viewProductLabel": "View Product"
+      },
+      "cta": {
+        "heading": "Need a custom engineering solution?",
+        "body": "Contact our team.",
+        "ctaPrimary": { "label": "Contact Us", "href": "/contact" }
+      }
+    },
+    "contact": {
+      "meta": {
+        "title": "Contact",
+        "description": "Get in touch with Dynamic Oil Tools for engineering support, product inquiries, and partnership opportunities."
+      },
+      "hero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "Contact Us" }
+        ],
+        "label": "Contact Us",
+        "title": "Get in Touch",
+        "introduction": "Reach out to our engineering and manufacturing team for product inquiries, technical support, and partnership opportunities.",
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools industrial manufacturing facility"
+        }
+      },
+      "main": {
+        "info": {
+          "label": "Company Information",
+          "heading": "How to Reach Us",
+          "items": [
+            {
+              "label": "Phone Number",
+              "value": "+966 (13) 8041290",
+              "href": "tel:+966138041290"
+            },
+            {
+              "label": "Email Address",
+              "value": "info@dynamicoiltools.com",
+              "href": "mailto:info@dynamicoiltools.com"
+            },
+            {
+              "label": "Office Location",
+              "value": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia"
+            },
+            {
+              "label": "Working Hours",
+              "value": "Sunday – Thursday: 8:00 AM – 5:00 PM"
+            }
+          ]
+        },
+        "form": {
+          "heading": "Send an Inquiry",
+          "description": "Complete the form below and our team will respond to your request promptly.",
+          "fields": {
+            "name": "Name",
+            "company": "Company Name",
+            "email": "Email",
+            "phone": "Phone",
+            "subject": "Subject",
+            "message": "Message"
+          },
+          "placeholders": {
+            "name": "Your full name",
+            "company": "Company or organization",
+            "email": "you@company.com",
+            "phone": "+966 (13) 8041290",
+            "subject": "Brief subject line",
+            "message": "Describe your inquiry or project requirements"
+          },
+          "submitLabel": "Send Inquiry"
+        }
+      },
+      "location": {
+        "label": "Our Location",
+        "heading": "Visit Our Facility",
+        "address": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia",
+        "mapPlaceholderLabel": "Google Maps embed"
+      },
+      "engineeringCta": {
+        "heading": "Need Technical Support?",
+        "body": "Our engineering team is ready to assist with product selection, specifications, and custom solutions.",
+        "ctaPrimary": { "label": "Contact Our Team", "href": "#contact-form" }
+      }
+    },
+    "catalogs": {
+      "meta": {
+        "title": "Catalogs",
+        "description": "Download Dynamic Oil Tools product catalogs, technical brochures, and company profiles."
+      },
+      "hero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "Catalogs" }
+        ],
+        "title": "Catalogs & Resources",
+        "introduction": "Access our technical documentation, product catalogs, and company profiles. Download PDF resources for engineering reference, procurement, and project planning.",
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools industrial manufacturing facility"
+        }
+      },
+      "library": {
+        "label": "Document Library",
+        "downloadLabel": "Download PDF",
+        "pdfLabel": "PDF",
+        "items": [
+          {
+            "title": "Corporate Profile",
+            "description": "Company overview covering Dynamic Oil Tools' capabilities, facilities, and commitment to Saudi industrial excellence.",
+            "cover": {
+              "alt": "Corporate Profile catalog cover"
+            }
+          },
+          {
+            "title": "Ground Water Screens",
+            "description": "Technical catalog for groundwater well screens, slot configurations, and filtration applications.",
+            "cover": {
+              "alt": "Ground Water Screens catalog cover"
+            }
+          },
+          {
+            "title": "Oil and Gas Equipment",
+            "description": "Engineered downhole screens, sand control systems, and oil & gas production equipment.",
+            "cover": {
+              "alt": "Oil and Gas Equipment catalog cover"
+            }
+          },
+          {
+            "title": "Process Industry Screens",
+            "description": "Industrial screens and strainers for process plants, refineries, and utility filtration systems.",
+            "cover": {
+              "alt": "Process Industry Screens catalog cover"
+            }
+          }
+        ]
+      }
+    },
+    "news": {
+      "meta": {
+        "title": "News",
+        "description": "Company news, exhibitions, project updates, and industry activities from Dynamic Oil Tools."
+      },
+      "hero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "News" }
+        ],
+        "label": "News & Updates",
+        "title": "News & Updates",
+        "introduction": "Stay informed about our latest projects, exhibitions, company updates and engineering developments.",
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools news and company updates"
+        }
+      },
+      "featured": {
+        "readMoreLabel": "Read More"
+      },
+      "grid": {
+        "label": "Latest News",
+        "readMoreLabel": "Read More",
+        "viewMoreLabel": "View More"
+      },
+      "detailCta": {
+        "heading": "Need More Information?",
+        "body": "Contact our team for project inquiries, technical support, and company updates.",
+        "ctaPrimary": { "label": "Contact Our Team", "href": "/contact" }
+      }
+    },
+    "notFound": {
+      "meta": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for could not be found. Return to Dynamic Oil Tools or explore our products and services."
+      },
+      "label": "Error 404",
+      "title": "Page Not Found",
+      "description": "The page you requested may have been moved, removed, or is temporarily unavailable. Use the links below to continue browsing our engineering solutions and product catalog.",
+      "ctaPrimary": {
+        "label": "Return to Homepage",
+        "href": "/"
+      },
+      "ctaSecondary": {
+        "label": "Contact Support",
+        "href": "/contact"
+      },
+      "quickLinksHeading": "Explore Our Site",
+      "quickLinks": [
+        {
+          "label": "Products",
+          "description": "Engineered screens, strainers, and filtration solutions.",
+          "href": "/products"
+        },
+        {
+          "label": "About Us",
+          "description": "Our mission, capabilities, and manufacturing expertise.",
+          "href": "/about"
+        },
+        {
+          "label": "Catalogs",
+          "description": "Download technical catalogs and product documentation.",
+          "href": "/catalogs"
+        },
+        {
+          "label": "Contact Us",
+          "description": "Reach our engineering team for inquiries and support.",
+          "href": "/contact"
+        }
+      ],
+      "supportHeading": "Need immediate assistance?",
+      "supportBody": "Our engineering and sales teams are available to help with product specifications, technical support, and partnership inquiries.",
+      "supportEmail": {
+        "label": "Email Us",
+        "href": "mailto:info@dynamicoiltools.com"
+      },
+      "supportPhone": {
+        "label": "Call Us",
+        "href": "tel:+966138041290"
+      }
+    },
+    "services": {
+      "meta": {
+        "title": "Services",
+        "description": "Industrial manufacturing, engineering, and oil & gas services from Dynamic Oil Tools."
+      }
+    }
+  },
+  "trustedPartners": {
+    "label": "Trusted Worldwide",
+    "heading": "Trusted by Industry Leaders",
+    "description": "Engineering precision. Manufacturing excellence. Delivering reliable oilfield solutions for clients across multiple industries and international markets.",
+    "logos": [
+      { "name": "Apex Energy", "alt": "Apex Energy" },
+      { "name": "Gulf Industrial", "alt": "Gulf Industrial" },
+      { "name": "Petroline", "alt": "Petroline" },
+      { "name": "Meridian Drilling", "alt": "Meridian Drilling" },
+      { "name": "Orinoco Fields", "alt": "Orinoco Fields" },
+      { "name": "Steel Basin Co.", "alt": "Steel Basin Co." },
+      { "name": "Horizon Petroleum", "alt": "Horizon Petroleum" },
+      { "name": "Titan Well Services", "alt": "Titan Well Services" }
+    ]
+  },
+  "productsCatalog": {
+    "sections": {
+      "overview": "Overview",
+      "applications": "Applications",
+      "features": "Features",
+      "benefits": "Benefits",
+      "technicalData": "Technical Data"
+    },
+    "contactCta": {
+      "heading": "Need Technical Assistance?",
+      "body": "Our engineering team is ready to help you find the right solution for your well completion requirements.",
+      "ctaPrimary": { "label": "Contact Us", "href": "/contact" },
+      "ctaSecondary": { "label": "Request Information", "href": "/contact" }
+    },
+    "items": {}
+  },
+  "newsArticles": {}
+}

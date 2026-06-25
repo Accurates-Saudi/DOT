@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
+    "@fontsource-variable/noto-sans-arabic": "^5.2.10",
     "@react-router/node": "8.0.0",
     "@react-router/serve": "8.0.0",
     "class-variance-authority": "^0.7.1",

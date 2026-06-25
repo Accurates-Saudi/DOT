@@ -130,7 +130,7 @@
         {
           "type": "address",
           "label": "العنوان",
-          "value": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia"
+          "value": "المدينة الصناعية الثالثة، القطاع الثاني، المبنى 7، الدمام، المملكة العربية السعودية"
         }
       ]
     },
@@ -666,11 +666,11 @@
             },
             {
               "label": "موقع المكتب",
-              "value": "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia"
+              "value": "المدينة الصناعية الثالثة، القطاع الثاني، المبنى 7، الدمام، المملكة العربية السعودية"
             },
             {
               "label": "ساعات العمل",
-              "value": "Sunday – Thursday: 8:00 AM – 5:00 PM"
+              "value": "الأحد – الخميس: ٨:٠٠ ص – ٥:٠٠ م"
             }
           ]
         },

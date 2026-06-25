@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import type { TranslationMessages } from "@/i18n/types";
 import type { ContactPageContent } from "@/types";
+import type { MapLocationContent } from "@/types";
 
 import { formatPhoneHref, siteSettings } from "@/data/site";
 
@@ -21,6 +22,10 @@ export function buildContactPageContent(
   );
   const page = pages.contact;
   const { contact } = siteSettings;
+  const mapMessages = getMessagesSection<Partial<MapLocationContent>>(
+    messages,
+    "map",
+  );
 
   return {
     meta: page.meta,
@@ -44,9 +49,7 @@ export function buildContactPageContent(
               ? contact.phone
               : item.type === "email"
                 ? contact.email
-                : item.type === "address"
-                  ? `${contact.address}, ${contact.city}, ${contact.country}`
-                  : item.value,
+                : item.value,
           href:
             item.type === "phone"
               ? formatPhoneHref(contact.phone)
@@ -61,6 +64,7 @@ export function buildContactPageContent(
       ...page.location,
       map: {
         ...dotMapLocation,
+        ...mapMessages,
         address: page.location.address,
       },
     },

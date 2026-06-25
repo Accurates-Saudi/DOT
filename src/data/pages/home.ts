@@ -1,5 +1,6 @@
 import type { HomePageContent } from "@/types";
 
+import { dotMapLocation } from "@/data/map";
 import { newsArticles } from "@/data/news/articles";
 
 import { productsPageContent } from "./products";
@@ -303,9 +304,7 @@ export const homePageContent: HomePageContent = {
     articles: newsArticles,
     locationMap: {
       title: "Our Location",
-      embedUrl:
-        "https://www.google.com/maps?q=25.9235182,49.9488192&hl=en&z=17&output=embed",
-      mapsUrl: "https://maps.app.goo.gl/Drv9WZHNdiHDiLdFA",
+      ...dotMapLocation,
     },
     newsletter: {
       heading: "Stay Informed",

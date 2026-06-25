@@ -69,18 +69,8 @@ export function NewsSection({ content }: NewsSectionProps) {
               embedUrl={content.locationMap.embedUrl}
               title="Dynamic Oil Tools location"
               variant="banner"
+              info={content.locationMap}
             />
-
-            <p className="mt-4 text-center">
-              <a
-                href={content.locationMap.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[0.8125rem] font-medium text-[#0c1524]/65 transition-colors duration-200 hover:text-[#F68E05] sm:text-sm"
-              >
-                Open in Google Maps
-              </a>
-            </p>
           </div>
         )}
       </Container>

@@ -50,6 +50,7 @@ export type {
   HomePageContent,
   ImageAsset,
   LinkItem,
+  MapLocationContent,
   NavItem,
   NewsArticle,
   NewsArticleDetail,

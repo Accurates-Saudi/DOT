@@ -166,6 +166,16 @@ export interface NewsArticlePreview {
   image: ImageAsset;
 }
 
+export interface MapLocationContent {
+  placeName: ContentValue<string>;
+  address: ContentValue<string>;
+  embedUrl: string;
+  mapsUrl: string;
+  directionsUrl?: string;
+  directionsLabel?: ContentValue<string>;
+  viewLargerMapLabel?: ContentValue<string>;
+}
+
 export interface NewsSectionContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
@@ -174,9 +184,7 @@ export interface NewsSectionContent {
   viewAll: LinkItem;
   headerImage?: ImageAsset;
   articles: NewsArticlePreview[];
-  locationMap?: {
-    embedUrl: string;
-    mapsUrl: string;
+  locationMap?: MapLocationContent & {
     title?: ContentValue<string>;
   };
   newsletter: {
@@ -399,7 +407,8 @@ export interface ContactLocationContent {
   heading: ContentValue<string>;
   address: ContentValue<string>;
   mapPlaceholderLabel: ContentValue<string>;
-  /** Google Maps embed URL — leave empty to show placeholder until configured */
+  map?: MapLocationContent;
+  /** @deprecated Use map.embedUrl */
   mapEmbedUrl?: string;
 }
 

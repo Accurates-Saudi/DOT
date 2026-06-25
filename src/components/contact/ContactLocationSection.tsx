@@ -39,7 +39,13 @@ export function ContactLocationSection({ content }: ContactLocationSectionProps)
           </div>
 
           <div className="lg:col-span-8">
-            {content.mapEmbedUrl ? (
+            {content.map ? (
+              <MapEmbed
+                embedUrl={content.map.embedUrl}
+                title="Dynamic Oil Tools office location"
+                info={content.map}
+              />
+            ) : content.mapEmbedUrl ? (
               <MapEmbed
                 embedUrl={content.mapEmbedUrl}
                 title="Dynamic Oil Tools office location"

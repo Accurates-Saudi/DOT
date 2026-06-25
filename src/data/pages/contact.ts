@@ -1,6 +1,7 @@
 import type { ContactPageContent } from "@/types";
 
 import { siteSettings } from "@/data/site";
+import { dotMapLocation } from "@/data/map";
 
 const { contact } = siteSettings;
 
@@ -81,8 +82,10 @@ export const contactPageContent: ContactPageContent = {
     heading: "Visit Our Facility",
     address: `${contact.address}, ${contact.city}, ${contact.country}`,
     mapPlaceholderLabel: "Google Maps embed",
-    mapEmbedUrl:
-      "https://www.google.com/maps?q=25.9235182,49.9488192&hl=en&z=17&output=embed",
+    map: {
+      ...dotMapLocation,
+      address: `${contact.address}, ${contact.city}, ${contact.country}`,
+    },
   },
   engineeringCta: {
     heading: "Need Technical Support?",

@@ -1,3 +1,4 @@
+export { dotMapLocation } from "./map";
 export { footerContent } from "./footer";
 export { footerNavigation, mainNavigation } from "./navigation";
 export { aboutPageContent } from "./pages/about";

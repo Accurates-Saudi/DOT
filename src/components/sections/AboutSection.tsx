@@ -97,7 +97,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                 "grid gap-5 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:gap-8",
               )}
             >
-              <div className="relative flex h-full flex-col justify-start overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] px-6 pt-3.5 pb-4 shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:px-7 sm:pt-4 sm:pb-4.5 lg:rounded-3xl lg:px-8 lg:pt-4 lg:pb-5">
+              <div className="relative flex h-[13rem] flex-col overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
                 <div
                   className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white via-[#fffcf9] to-[#fef6ee]"
                   aria-hidden
@@ -111,46 +111,42 @@ export function AboutSection({ content }: AboutSectionProps) {
                   aria-hidden
                 />
 
-                <div className="relative flex h-full w-full flex-col">
-                  <h3 className="max-w-xl text-base font-bold leading-[1.3] tracking-tight text-[#0c1524] sm:text-lg lg:text-[1.25rem]">
+                <div className="relative flex h-full flex-col justify-between px-5 py-4 sm:px-6 sm:py-4.5 lg:px-7 lg:py-4.5 xl:px-8 xl:py-5">
+                  <h3 className="max-w-md whitespace-pre-line pr-2 text-base font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:text-[1.0625rem] lg:text-[1.25rem] lg:leading-[1.38]">
                     {servicesBanner.title}
                   </h3>
 
-                  <div className="flex flex-1 flex-col justify-end pt-4 sm:pt-5 lg:pt-5">
-                    <ul className="grid w-full grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-4 sm:gap-x-4 lg:gap-x-5">
+                  <ul className="grid w-full grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 lg:gap-x-4">
                     {servicesBanner.items.map((item) => {
                       const Icon = SERVICE_ICONS[item.icon];
                       return (
                         <li
                           key={item.label}
-                          className="flex min-w-0 flex-col items-center px-0.5 text-center sm:px-1"
+                          className="flex min-w-0 flex-col items-center text-center"
                         >
                           <Icon
-                            className="size-10 shrink-0 text-[#F68E05] stroke-[1.5] sm:size-11"
+                            className="size-9 shrink-0 text-[#F68E05] stroke-[1.5] sm:size-10 lg:size-11"
                             aria-hidden
                           />
-                          <span className="mt-3 max-w-[5.75rem] whitespace-pre-line text-[0.75rem] font-semibold leading-[1.3] tracking-tight text-[#0c1524]/88 sm:mt-3.5 sm:max-w-[6.25rem] sm:text-[0.8125rem] lg:max-w-[7rem] lg:text-sm">
+                          <span className="mt-3.5 max-w-[4.5rem] whitespace-pre-line text-[0.6875rem] font-semibold leading-[1.28] tracking-tight text-[#0c1524]/90 sm:max-w-[5rem] sm:text-xs lg:mt-4 lg:max-w-[5.5rem] lg:text-[0.8125rem]">
                             {item.label}
                           </span>
                         </li>
                       );
                     })}
-                    </ul>
-                  </div>
+                  </ul>
                 </div>
               </div>
 
               {servicesBanner.thumbnail && (
-                <div className="flex h-full overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] lg:rounded-3xl">
-                  <div className="aspect-[2.15/1] w-full sm:aspect-[5/2.65] lg:aspect-auto lg:h-full lg:min-h-0">
-                    <img
-                      src={servicesBanner.thumbnail.src}
-                      alt={servicesBanner.thumbnail.alt}
-                      className="size-full object-cover object-center"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
+                <div className="h-[13rem] overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
+                  <img
+                    src={servicesBanner.thumbnail.src}
+                    alt={servicesBanner.thumbnail.alt}
+                    className="size-full object-cover object-center"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               )}
             </div>

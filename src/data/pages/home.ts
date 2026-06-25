@@ -56,7 +56,7 @@ export const homePageContent: HomePageContent = {
   about: {
     servicesBanner: {
       title:
-        "Factory of Technical Services for Industries — Advanced manufacturing & engineering",
+        "Factory of Technical Services for Industries\nAdvanced manufacturing & engineering",
       items: [
         { label: "Industrial\nMaintenance", icon: "maintenance" },
         { label: "Petroleum\nSolutions", icon: "petroleum" },

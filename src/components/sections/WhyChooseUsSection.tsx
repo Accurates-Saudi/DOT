@@ -1,8 +1,8 @@
-import { ArrowRight, Calendar } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ArrowRight, Calendar, Eye, Target } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 
-import { Container, Section } from "@/components/shared";
+import { Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { WhyChooseUsSectionContent } from "@/types";
 import { cn } from "@/lib/utils";
@@ -54,14 +54,13 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
   return (
     <Section
       id="why-choose-us"
-      padding="section80"
+      padding="none"
       variant="default"
       aria-label="Why choose us"
-      className="overflow-hidden bg-white"
+      className="overflow-hidden bg-white pb-[80px]"
     >
-      <Container size="full" className="max-w-none px-0">
-        <div ref={sectionRef} className="flex flex-col">
-          <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.62fr)]">
+      <div ref={sectionRef} className="flex flex-col">
+        <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.62fr)]">
             <div
               {...reveal(
                 0,
@@ -151,15 +150,15 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
+        </div>
 
-          <div className="grid lg:grid-cols-2">
-            <div
-              {...reveal(
-                200,
-                "relative flex min-h-[320px] flex-col overflow-hidden bg-[#0c1524] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
-              )}
-            >
+        <div className="grid w-full lg:grid-cols-2">
+          <div
+            {...reveal(
+              200,
+              "relative flex min-h-[320px] flex-col overflow-hidden bg-[#0c1524] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
+            )}
+          >
               {content.mission.backgroundImage && (
                 <>
                   <img
@@ -181,10 +180,11 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
               />
 
               <div className="relative flex flex-1 flex-col">
-                <div className="flex items-start gap-6 sm:gap-7">
-                  <IconFrame>
-                    <MissionIcon />
-                  </IconFrame>
+                <div className="flex items-start gap-5 sm:gap-6">
+                  <Target
+                    className="size-11 shrink-0 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
+                    aria-hidden
+                  />
 
                   <div className="min-w-0 flex-1 pt-0.5">
                     <div className="flex items-center gap-2.5">
@@ -206,109 +206,56 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                   </p>
                 </div>
               </div>
-            </div>
+          </div>
 
-            <div
-              {...reveal(
-                280,
-                "relative flex min-h-[320px] flex-col justify-center overflow-hidden bg-[#eceae8] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
-              )}
-            >
-              {content.vision.backgroundImage && (
-                <>
-                  <img
-                    src={content.vision.backgroundImage.src}
-                    alt=""
-                    className="absolute inset-0 size-full object-cover object-center opacity-32"
-                    aria-hidden
-                  />
-                  <div
-                    className="absolute inset-0 bg-[#eceae8]/88"
-                    aria-hidden
-                  />
-                </>
-              )}
+          <div
+            {...reveal(
+              280,
+              "relative flex min-h-[320px] flex-col justify-center overflow-hidden bg-[#eceae8] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
+            )}
+          >
+            {content.vision.backgroundImage && (
+              <>
+                <img
+                  src={content.vision.backgroundImage.src}
+                  alt=""
+                  className="absolute inset-0 size-full object-cover object-center opacity-32"
+                  aria-hidden
+                />
+                <div
+                  className="absolute inset-0 bg-[#eceae8]/88"
+                  aria-hidden
+                />
+              </>
+            )}
 
-              <DotGrid
-                className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
-                dotClassName="size-[3px] rounded-full bg-[#F68E05]/60"
+            <DotGrid
+              className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
+              dotClassName="size-[3px] rounded-full bg-[#F68E05]/60"
+            />
+
+            <div className="relative flex items-start gap-5 sm:gap-6">
+              <Eye
+                className="size-11 shrink-0 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
+                aria-hidden
               />
 
-              <div className="relative flex items-start gap-6 sm:gap-7">
-                <IconFrame>
-                  <VisionIcon />
-                </IconFrame>
-
-                <div className="min-w-0 flex-1 pt-0.5">
-                  <div className="flex items-center gap-2.5">
-                    <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
-                    <h3 className="text-[1.4rem] font-bold tracking-tight text-[#0c1524] sm:text-[1.5rem]">
-                      {content.vision.title}
-                    </h3>
-                  </div>
-                  <p className="mt-4 max-w-md text-[0.9rem] leading-[1.8] text-[#0c1524]/74 sm:text-[0.9375rem]">
-                    {content.vision.body}
-                  </p>
+              <div className="min-w-0 flex-1 pt-0.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
+                  <h3 className="text-[1.4rem] font-bold tracking-tight text-[#0c1524] sm:text-[1.5rem]">
+                    {content.vision.title}
+                  </h3>
                 </div>
+                <p className="mt-4 max-w-md text-[0.9rem] leading-[1.8] text-[#0c1524]/74 sm:text-[0.9375rem]">
+                  {content.vision.body}
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </Section>
-  );
-}
-
-function IconFrame({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex size-[4.25rem] shrink-0 items-center justify-center border border-[#F68E05] text-[#F68E05] sm:size-[4.75rem]">
-      {children}
-    </div>
-  );
-}
-
-function MissionIcon() {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      fill="none"
-      className="size-9 sm:size-10"
-      aria-hidden
-    >
-      <circle cx="20" cy="20" r="12.5" stroke="currentColor" strokeWidth="1.1" />
-      <circle cx="20" cy="20" r="6.25" stroke="currentColor" strokeWidth="1.1" />
-      <circle cx="20" cy="20" r="1.75" fill="currentColor" />
-      <path d="M20 4.5V9.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M20 30.5V35.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M4.5 20H9.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M30.5 20H35.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function VisionIcon() {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      fill="none"
-      className="size-9 sm:size-10"
-      aria-hidden
-    >
-      <path
-        d="M6 20C10.5 12.5 14.75 9 20 9C25.25 9 29.5 12.5 34 20C29.5 27.5 25.25 31 20 31C14.75 31 10.5 27.5 6 20Z"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinejoin="round"
-      />
-      <circle cx="20" cy="20" r="5.25" stroke="currentColor" strokeWidth="1.1" />
-      <circle cx="20" cy="20" r="2.25" fill="currentColor" />
-      <path
-        d="M13.5 14.5C15.25 13.25 17.25 12.5 20 12.5"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 

@@ -3,6 +3,7 @@ import { useLocation } from "react-router";
 
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
+import { useScrollToTop } from "@/hooks/use-scroll-to-top";
 import { cn } from "@/lib/utils";
 
 export interface MainLayoutProps {
@@ -12,6 +13,8 @@ export interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   const location = useLocation();
   const isHome = location.pathname === "/";
+
+  useScrollToTop();
 
   return (
     <div className="flex min-h-svh flex-col">

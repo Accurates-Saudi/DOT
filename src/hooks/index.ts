@@ -1,5 +1,6 @@
 export { useCountUp } from "./use-count-up";
-export { useParallaxTransform } from "./use-parallax-transform";
+export { useParallaxTransform, type ParallaxMode } from "./use-parallax-transform";
+export { useScrollToTop } from "./use-scroll-to-top";
 export { useNewsCarousel } from "./use-news-carousel";
 export { useFeaturedProductsCarousel } from "./use-featured-products-carousel";
 export { useCertificatesCarousel } from "./use-certificates-carousel";

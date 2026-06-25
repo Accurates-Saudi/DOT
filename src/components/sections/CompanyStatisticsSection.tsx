@@ -1,8 +1,9 @@
 import { Clock, Globe, HardHat, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import type { Ref } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { Container, Section } from "@/components/shared";
+import { Container, ParallaxBackgroundImage, Section } from "@/components/shared";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useParallaxTransform } from "@/hooks/use-parallax-transform";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
@@ -29,7 +30,7 @@ export function CompanyStatisticsSection({
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { containerRef, translateY } = useParallaxTransform({
+  const { containerRef, targetRef } = useParallaxTransform({
     speed: 0.32,
     disabled: prefersReducedMotion,
   });
@@ -63,7 +64,7 @@ export function CompanyStatisticsSection({
       padding="none"
       variant="default"
       aria-label="Company statistics"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden bg-[#0c1524]"
     >
       <div
         ref={(node) => {
@@ -72,17 +73,10 @@ export function CompanyStatisticsSection({
         }}
         className="relative flex min-h-[300px] items-center py-14 sm:min-h-[340px] sm:py-16 lg:min-h-[360px]"
       >
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <img
-            src={content.backgroundImage.src}
-            alt=""
-            decoding="async"
-            className="absolute inset-x-0 top-[-12%] h-[124%] w-full object-cover object-center will-change-transform"
-            style={{
-              transform: `translate3d(0, ${translateY}px, 0)`,
-            }}
-          />
-        </div>
+        <ParallaxBackgroundImage
+          src={content.backgroundImage.src}
+          targetRef={targetRef as Ref<HTMLImageElement>}
+        />
 
         <div
           className="pointer-events-none absolute inset-0 bg-[#0c1524]/35"

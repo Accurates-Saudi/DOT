@@ -1,4 +1,9 @@
 export { Breadcrumb, type BreadcrumbProps } from "./Breadcrumb";
+export { PageHeroSection, type PageHeroSectionProps } from "./PageHeroSection";
+export {
+  ParallaxBackgroundImage,
+  type ParallaxBackgroundImageProps,
+} from "./ParallaxBackgroundImage";
 export { Container, type ContainerProps } from "./Container";
 export { MapEmbed, type MapEmbedProps } from "./MapEmbed";
 export {

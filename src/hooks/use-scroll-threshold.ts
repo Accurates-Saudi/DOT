@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export interface UseScrollThresholdOptions {
   threshold?: number;
@@ -11,17 +11,22 @@ export function useScrollThreshold({
 }: UseScrollThresholdOptions = {}) {
   const [isPastThreshold, setIsPastThreshold] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!enabled) {
       setIsPastThreshold(false);
       return;
     }
 
+    setIsPastThreshold(window.scrollY > threshold);
+  }, [enabled, threshold]);
+
+  useEffect(() => {
+    if (!enabled) return;
+
     const handleScroll = () => {
       setIsPastThreshold(window.scrollY > threshold);
     };
 
-    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [enabled, threshold]);

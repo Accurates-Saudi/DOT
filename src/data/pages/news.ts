@@ -1,5 +1,7 @@
 import type { NewsPageContent } from "@/types";
 
+import newsHeader from "@/assets/news/header.png";
+
 export const newsPageContent: NewsPageContent = {
   meta: {
     title: "News",
@@ -15,6 +17,10 @@ export const newsPageContent: NewsPageContent = {
     title: "News & Updates",
     introduction:
       "Stay informed about our latest projects, exhibitions, company updates and engineering developments.",
+    backgroundImage: {
+      src: newsHeader,
+      alt: "Dynamic Oil Tools news and company updates",
+    },
   },
   featured: {
     readMoreLabel: "Read More",

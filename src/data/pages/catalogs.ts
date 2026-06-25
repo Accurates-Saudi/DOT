@@ -24,6 +24,10 @@ export const catalogsPageContent: CatalogsPageContent = {
     title: "Catalogs & Resources",
     introduction:
       "Access our technical documentation, product catalogs, and company profiles. Download PDF resources for engineering reference, procurement, and project planning.",
+    backgroundImage: {
+      src: overviewHero,
+      alt: "Dynamic Oil Tools industrial manufacturing facility",
+    },
   },
   library: {
     label: "Document Library",

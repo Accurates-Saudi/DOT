@@ -1,5 +1,6 @@
 import type { ContactPageContent } from "@/types";
 
+import overviewHero from "@/assets/about/overview-hero.png";
 import { siteSettings } from "@/data/site";
 import { dotMapLocation } from "@/data/map";
 
@@ -20,6 +21,10 @@ export const contactPageContent: ContactPageContent = {
     title: "Get in Touch",
     introduction:
       "Reach out to our engineering and manufacturing team for product inquiries, technical support, and partnership opportunities.",
+    backgroundImage: {
+      src: overviewHero,
+      alt: "Dynamic Oil Tools industrial manufacturing facility",
+    },
   },
   main: {
     info: {

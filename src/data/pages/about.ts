@@ -20,6 +20,10 @@ export const aboutPageContent: AboutPageContent = {
     title: "About Us",
     introduction:
       "Dynamic Oil Tools is a Saudi industrial manufacturing company serving the oil & gas and energy industries.",
+    backgroundImage: {
+      src: aboutImage,
+      alt: "Dynamic Oil Tools industrial manufacturing facility",
+    },
   },
   companyOverview: {
     label: "Company Overview",

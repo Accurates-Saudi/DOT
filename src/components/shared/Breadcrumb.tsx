@@ -8,9 +8,17 @@ export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   className?: string;
   highlightLast?: boolean;
+  variant?: "default" | "onDark";
 }
 
-export function Breadcrumb({ items, className, highlightLast }: BreadcrumbProps) {
+export function Breadcrumb({
+  items,
+  className,
+  highlightLast,
+  variant = "default",
+}: BreadcrumbProps) {
+  const isOnDark = variant === "onDark";
+
   return (
     <nav aria-label="Breadcrumb" className={className}>
       <ol className="flex flex-wrap items-center gap-1.5 text-sm">
@@ -21,7 +29,10 @@ export function Breadcrumb({ items, className, highlightLast }: BreadcrumbProps)
             <li key={`${item.label}-${index}`} className="flex items-center gap-1.5">
               {index > 0 && (
                 <ChevronRight
-                  className="size-3.5 shrink-0 text-muted-foreground/50"
+                  className={cn(
+                    "size-3.5 shrink-0",
+                    isOnDark ? "text-white/40" : "text-muted-foreground/50",
+                  )}
                   aria-hidden
                 />
               )}
@@ -33,8 +44,12 @@ export function Breadcrumb({ items, className, highlightLast }: BreadcrumbProps)
                     isLast && highlightLast
                       ? "text-[#F68E05]"
                       : isLast
-                        ? "text-foreground"
-                        : "text-muted-foreground",
+                        ? isOnDark
+                          ? "text-white"
+                          : "text-foreground"
+                        : isOnDark
+                          ? "text-white/70"
+                          : "text-muted-foreground",
                   )}
                 >
                   {item.label}
@@ -42,7 +57,12 @@ export function Breadcrumb({ items, className, highlightLast }: BreadcrumbProps)
               ) : (
                 <Link
                   to={item.href}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
+                  className={cn(
+                    "transition-colors",
+                    isOnDark
+                      ? "text-white/70 hover:text-white"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
                   {item.label}
                 </Link>

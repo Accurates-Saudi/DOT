@@ -25,6 +25,10 @@ export const productsPageContent: ProductsPageContent = {
     title: "Products",
     introduction:
       "Engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
+    backgroundImage: {
+      src: overviewHero,
+      alt: "Dynamic Oil Tools industrial manufacturing facility",
+    },
   },
   listing: {
     searchPlaceholder: "Search products…",

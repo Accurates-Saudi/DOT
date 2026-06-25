@@ -244,6 +244,7 @@ export interface AboutHeroContent {
   breadcrumbs: BreadcrumbItem[];
   title: ContentValue<string>;
   introduction: ContentValue<string>;
+  backgroundImage?: ImageAsset;
 }
 
 export interface CompanyOverviewFeature {
@@ -332,6 +333,7 @@ export interface CatalogHeroContent {
   breadcrumbs: BreadcrumbItem[];
   title: ContentValue<string>;
   introduction: ContentValue<string>;
+  backgroundImage?: ImageAsset;
 }
 
 export interface CatalogPdfResource {
@@ -364,6 +366,7 @@ export interface ContactHeroContent {
   label: ContentValue<string>;
   title: ContentValue<string>;
   introduction: ContentValue<string>;
+  backgroundImage?: ImageAsset;
 }
 
 export interface ContactInfoItem {
@@ -581,6 +584,7 @@ export interface NewsHeroContent {
   label: ContentValue<string>;
   title: ContentValue<string>;
   introduction: ContentValue<string>;
+  backgroundImage?: ImageAsset;
 }
 
 export interface NewsFeaturedContent {

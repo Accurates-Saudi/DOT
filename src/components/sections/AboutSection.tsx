@@ -13,6 +13,7 @@ import { Link } from "react-router";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { AboutSectionContent, AboutServiceItem } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 const SERVICE_ICONS: Record<AboutServiceItem["icon"], LucideIcon> = {
@@ -57,14 +58,8 @@ export function AboutSection({ content }: AboutSectionProps) {
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   const { media, servicesBanner } = content;
   const videoHref = media.videoUrl ?? content.ctaVideo?.href;
@@ -172,7 +167,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label="Play company video"
-                          className="flex size-[4.5rem] items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_12px_36px_-10px_rgba(246,142,5,0.55)] transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.04] hover:shadow-[0_16px_44px_-10px_rgba(246,142,5,0.6)] sm:size-20"
+                          className="flex size-[4.5rem] items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_12px_36px_-10px_rgba(246,142,5,0.55)] transition-opacity duration-300 ease-out hover:opacity-90 sm:size-20"
                         >
                           <Play className="size-7 fill-current pl-1 sm:size-8" />
                         </a>
@@ -235,7 +230,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                 <Button
                   variant="accent"
                   size="lg"
-                  className="group text-link-arrow h-12 rounded-full px-6 text-[0.9375rem] font-medium"
+                  className="group h-12 rounded-full px-6 text-[0.9375rem] font-medium"
                   asChild
                 >
                   <Link to={content.ctaPrimary.href}>
@@ -249,7 +244,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                     to={content.ctaVideo.href}
                     className="group inline-flex items-center gap-3 text-[0.9375rem] font-medium text-[#0c1524] transition-colors duration-300 ease-out hover:text-[#0c1524]/80"
                   >
-                    <span className="flex size-10 items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_6px_20px_-8px_rgba(246,142,5,0.55)] transition-transform duration-300 ease-out group-hover:scale-[1.03]">
+                    <span className="flex size-10 items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_6px_20px_-8px_rgba(246,142,5,0.55)]">
                       <Play className="size-4 fill-current pl-0.5" />
                     </span>
                     {content.ctaVideo.label}

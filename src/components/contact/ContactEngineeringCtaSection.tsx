@@ -47,12 +47,12 @@ export function ContactEngineeringCtaSection({
             {isHashLink ? (
               <a href={content.ctaPrimary.href}>
                 {content.ctaPrimary.label}
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                <ArrowRight className="size-4" />
               </a>
             ) : (
               <Link to={content.ctaPrimary.href}>
                 {content.ctaPrimary.label}
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                <ArrowRight className="size-4" />
               </Link>
             )}
           </Button>

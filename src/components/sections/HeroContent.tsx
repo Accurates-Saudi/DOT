@@ -93,8 +93,9 @@ export function HeroContent({
               )}
             >
               <Button
+                variant="hero"
                 size="lg"
-                className="group text-link-arrow h-12 rounded-full border-transparent bg-white px-6 text-[0.9375rem] font-medium text-[#0c1524] shadow-[0_4px_20px_-6px_rgba(0,0,0,0.25)] hover:bg-[#F68E05] hover:text-white hover:shadow-[0_8px_24px_-10px_rgba(246,142,5,0.4)]"
+                className="h-12 rounded-full px-6 text-[0.9375rem] font-medium"
                 asChild
               >
                 <Link to={slide.ctaPrimary.href}>
@@ -105,9 +106,9 @@ export function HeroContent({
 
               {slide.ctaSecondary && (
                 <Button
-                  variant="outline"
+                  variant="inverse"
                   size="lg"
-                  className="group text-link-arrow h-12 rounded-full border-white bg-transparent px-6 text-[0.9375rem] font-medium text-white hover:border-white hover:bg-white hover:text-[#0c1524]"
+                  className="h-12 rounded-full px-6 text-[0.9375rem] font-medium"
                   asChild
                 >
                   <Link to={slide.ctaSecondary.href}>

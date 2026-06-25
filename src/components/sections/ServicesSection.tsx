@@ -12,6 +12,7 @@ import { Link } from "react-router";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { ServiceItem, ServicesSectionContent } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 const SERVICE_ICONS: Record<ServiceItem["icon"], LucideIcon> = {
@@ -57,14 +58,8 @@ export function ServicesSection({ content }: ServicesSectionProps) {
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   const primaryItems = content.items.slice(0, 3);
   const secondaryItems = content.items.slice(3);
@@ -167,7 +162,7 @@ function ServiceEntry({
 
   const content = (
     <>
-      <span className="flex size-12 items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_8px_20px_-10px_rgba(246,142,5,0.55)] transition-transform duration-300 ease-out group-hover:scale-[1.04]">
+      <span className="flex size-12 items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_8px_20px_-10px_rgba(246,142,5,0.55)]">
         <Icon className="size-5 stroke-[1.75]" aria-hidden />
       </span>
 
@@ -193,13 +188,7 @@ function ServiceEntry({
   );
 
   return (
-    <li
-      className={cn(
-        "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      )}
-      style={{ transitionDelay: isVisible ? `${revealDelay}ms` : "0ms" }}
-    >
+    <li {...getRevealProps(isVisible, revealDelay)}>
       {item.href ? (
         <Link to={item.href} className={itemClassName}>
           {content}

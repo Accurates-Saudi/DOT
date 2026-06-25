@@ -1,5 +1,6 @@
 import { Download, FileText } from "lucide-react";
 
+import { Button } from "@/components/ui";
 import type { CatalogItem } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +22,7 @@ export function CatalogCard({
   return (
     <article
       className={cn(
-        "group card-hover flex h-full flex-col border border-[#0c1524]/10 bg-white hover:border-[#0c1524]/16 hover:shadow-[0_24px_56px_-32px_rgba(12,21,36,0.22)]",
+        "group card-hover flex h-full flex-col border border-[#0c1524]/10 bg-white hover:border-[#0c1524]/14 hover:shadow-[0_18px_48px_-34px_rgba(12,21,36,0.18)]",
         className,
       )}
     >
@@ -59,14 +60,16 @@ export function CatalogCard({
         </p>
 
         <div className="mt-6 border-t border-[#0c1524]/8 pt-5">
-          <a
-            href={pdf.href}
-            download={pdf.fileName}
-            className="inline-flex h-10 items-center gap-2 rounded-sm border border-transparent bg-[#F68E05] px-5 text-[0.6875rem] font-bold tracking-[0.1em] text-white uppercase shadow-[0_6px_20px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] hover:bg-[#E07F04] hover:shadow-[0_10px_24px_-10px_rgba(246,142,5,0.5)] active:scale-[0.98] sm:h-[42px] sm:px-6 sm:text-xs"
+          <Button
+            variant="accent"
+            className="h-10 rounded-sm px-5 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-6 sm:text-xs"
+            asChild
           >
-            <Download className="size-3.5" aria-hidden />
-            {downloadLabel}
-          </a>
+            <a href={pdf.href} download={pdf.fileName}>
+              <Download className="size-3.5" aria-hidden />
+              {downloadLabel}
+            </a>
+          </Button>
         </div>
       </div>
     </article>

@@ -30,7 +30,7 @@ function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
   return (
     <Link
       to={link.href}
-      className="group card-hover flex h-full flex-col rounded-sm border border-[#0c1524]/10 bg-white p-5 shadow-[0_1px_3px_rgba(12,21,36,0.04)] hover:border-[#F68E05]/30 hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.12)] sm:p-6"
+      className="group card-hover flex h-full flex-col rounded-sm border border-[#0c1524]/10 bg-white p-5 shadow-[0_1px_3px_rgba(12,21,36,0.04)] hover:border-[#F68E05]/25 hover:shadow-[0_6px_20px_-14px_rgba(12,21,36,0.1)] sm:p-6"
     >
       <span className="interaction-fast inline-flex size-10 items-center justify-center rounded-sm bg-[#0c1524]/5 text-[#0c1524] group-hover:bg-[#F68E05]/10 group-hover:text-[#F68E05]">
         <Icon className="size-5" aria-hidden />
@@ -112,16 +112,13 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               >
                 <Link to={content.ctaPrimary.href}>
                   {content.ctaPrimary.label}
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                  <ArrowRight className="size-4" />
                 </Link>
               </Button>
               <Button
                 size="lg"
-                variant="outline"
-                className={cn(
-                  "h-12 rounded-sm border-white/20 bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase",
-                  "hover:border-white/35 hover:bg-white/8 hover:text-white",
-                )}
+                variant="inverse"
+                className="h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <Link to={content.ctaSecondary.href}>
@@ -185,7 +182,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-sm border-[#0c1524]/15 bg-white px-6 text-[0.8125rem] font-bold tracking-[0.06em] text-[#0c1524] uppercase hover:border-[#0c1524]/25 hover:bg-[#0c1524]/[0.03]"
+                className="h-12 rounded-sm bg-white px-6 text-[0.8125rem] font-bold tracking-[0.06em] uppercase"
                 asChild
               >
                 <a href={content.supportPhone.href}>

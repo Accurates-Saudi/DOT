@@ -31,7 +31,7 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
               <img
                 src={article.image.src}
                 alt={article.image.alt}
-                className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                className="img-zoom-hover size-full object-cover object-center"
                 loading="eager"
                 decoding="async"
               />
@@ -55,13 +55,10 @@ export function FeaturedNews({ article, content }: FeaturedNewsProps) {
 
             <Link
               to={href}
-              className="group/link mt-7 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] transition-colors duration-200 hover:text-[#E07F04]"
+              className="text-link-hover text-link-arrow group/link mt-7 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] hover:text-[#E07F04]"
             >
               {content.readMoreLabel}
-              <span
-                className="inline-block transition-transform duration-300 ease-out group-hover/link:translate-x-1"
-                aria-hidden
-              >
+              <span className="link-arrow" aria-hidden>
                 →
               </span>
             </Link>

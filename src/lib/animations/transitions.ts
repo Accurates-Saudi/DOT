@@ -25,8 +25,8 @@ export function getAnimationClass(
 
 /** CSS transition utility for interactive elements */
 export const transitionPresets = {
-  default: "transition-all duration-300 ease-in-out",
-  colors: "transition-colors duration-200 ease-in-out",
+  default: "transition-[background-color,border-color,color,opacity,box-shadow] duration-300 ease-out",
+  colors: "transition-colors duration-200 ease-out",
   transform: "transition-transform duration-300 ease-out",
-  opacity: "transition-opacity duration-200 ease-in-out",
+  opacity: "transition-opacity duration-200 ease-out",
 } as const;

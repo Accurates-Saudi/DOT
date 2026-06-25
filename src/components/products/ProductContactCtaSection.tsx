@@ -36,7 +36,8 @@ export function ProductContactCtaSection({
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:shrink-0">
             <Button
-              className="h-10 rounded-sm border-transparent bg-[#F68E05] px-6 text-[0.6875rem] font-bold tracking-[0.1em] text-white uppercase hover:bg-[#E07F04] sm:h-[42px] sm:px-7 sm:text-xs"
+              variant="accent"
+              className="h-10 rounded-sm px-6 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-7 sm:text-xs"
               asChild
             >
               <Link to={content.ctaPrimary.href}>
@@ -47,7 +48,7 @@ export function ProductContactCtaSection({
             {content.ctaSecondary && (
               <Button
                 variant="outline"
-                className="h-10 rounded-sm border-[#0c1524]/30 bg-white px-6 text-[0.6875rem] font-bold tracking-[0.1em] text-[#0c1524] uppercase hover:bg-white/90 sm:h-[42px] sm:px-7 sm:text-xs"
+                className="h-10 rounded-sm bg-white px-6 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-7 sm:text-xs"
                 asChild
               >
                 <Link to={content.ctaSecondary.href}>

@@ -18,7 +18,7 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        "group/card card-hover overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] hover:shadow-[0_16px_44px_-20px_rgba(12,21,36,0.22)] sm:p-2",
+        "group/card card-hover overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] hover:shadow-[0_14px_40px_-22px_rgba(12,21,36,0.18)] sm:p-2",
         className,
       )}
     >

@@ -7,6 +7,7 @@ import {
   CompanyOverviewStatIconFrame,
 } from "@/components/about/CompanyOverviewIcons";
 import type { CompanyOverviewContent } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 export interface CompanyOverviewSectionProps {
@@ -44,14 +45,8 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   return (
     <Section

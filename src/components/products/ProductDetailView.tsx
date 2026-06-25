@@ -63,7 +63,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
               {hero.introduction}
             </p>
             <Button
-              className="mt-5 h-10 rounded-sm border-transparent bg-[#F68E05] px-6 text-[0.6875rem] font-bold tracking-[0.12em] text-white uppercase hover:bg-[#E07F04] sm:h-[42px] sm:px-7 sm:text-[0.75rem]"
+              variant="accent"
+              className="mt-5 h-10 rounded-sm px-6 text-[0.6875rem] font-bold tracking-[0.12em] uppercase sm:h-[42px] sm:px-7 sm:text-[0.75rem]"
               asChild
             >
               <Link to={hero.ctaContact.href}>

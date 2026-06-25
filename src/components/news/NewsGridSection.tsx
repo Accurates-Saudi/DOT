@@ -81,13 +81,10 @@ export function NewsGridSection({ content, articles }: NewsGridSectionProps) {
           {showCarousel && (
             <div
               className={cn(
-                "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
+                "transition-opacity duration-500 ease-out motion-reduce:transition-none",
                 expanded
                   ? "pointer-events-none absolute inset-x-0 top-0 z-10 opacity-0 motion-reduce:opacity-0"
                   : "relative opacity-100",
-                expanded &&
-                  !prefersReducedMotion &&
-                  "-translate-y-2 scale-[0.985] motion-reduce:translate-y-0 motion-reduce:scale-100",
               )}
             >
               <NewsCarousel
@@ -97,11 +94,8 @@ export function NewsGridSection({ content, articles }: NewsGridSectionProps) {
 
               <div
                 className={cn(
-                  "mt-9 flex justify-center transition-[opacity,transform] duration-[400ms] ease-out sm:mt-10 motion-reduce:transition-none",
+                  "mt-9 flex justify-center transition-opacity duration-300 ease-out sm:mt-10 motion-reduce:transition-none",
                   expanded && "opacity-0 motion-reduce:opacity-0",
-                  expanded &&
-                    !prefersReducedMotion &&
-                    "translate-y-2 motion-reduce:translate-y-0",
                 )}
               >
                 <Button
@@ -111,7 +105,7 @@ export function NewsGridSection({ content, articles }: NewsGridSectionProps) {
                   disabled={expanded}
                   aria-expanded={expanded}
                   variant="accent"
-                  className="group text-link-arrow h-12 rounded-full px-8 text-[0.9375rem] font-medium disabled:pointer-events-none sm:h-[3.25rem] sm:px-10"
+                  className="group h-12 rounded-full px-8 text-[0.9375rem] font-medium disabled:pointer-events-none sm:h-[3.25rem] sm:px-10"
                 >
                   {content.viewMoreLabel}
                   <ArrowRight className="size-4" />

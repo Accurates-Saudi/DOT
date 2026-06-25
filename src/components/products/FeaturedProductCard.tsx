@@ -30,7 +30,7 @@ export function FeaturedProductCard({
       className={cn("group shrink-0", className)}
       style={{ width: slideWidth, flexBasis: slideWidth }}
     >
-      <div className="card-hover group/card flex h-full flex-col overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white shadow-[0_10px_36px_-24px_rgba(12,21,36,0.14)] hover:shadow-[0_16px_44px_-22px_rgba(12,21,36,0.2)]">
+      <div className="card-hover group/card flex h-full flex-col overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white shadow-[0_10px_36px_-24px_rgba(12,21,36,0.14)] hover:shadow-[0_14px_38px_-22px_rgba(12,21,36,0.17)]">
         <div className="aspect-[4/3] overflow-hidden bg-[#f8f7f6]">
           <img
             src={product.image.src}

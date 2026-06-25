@@ -6,6 +6,7 @@ import type {
   EngineeringCapabilityStep,
   EngineeringSectionContent,
 } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 export interface EngineeringSectionProps {
@@ -43,14 +44,8 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   const [stepOne, stepTwo] = content.steps;
 

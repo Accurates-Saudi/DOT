@@ -30,7 +30,7 @@ export function NewsCard({
     <article
       data-news-slide={slidesPerView !== undefined ? true : undefined}
       className={cn(
-        "group card-hover flex h-full flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white hover:shadow-[0_12px_32px_-16px_rgba(12,21,36,0.18)]",
+        "group card-hover flex h-full flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white hover:shadow-[0_10px_28px_-18px_rgba(12,21,36,0.15)]",
         slidesPerView !== undefined && "shrink-0",
         className,
       )}

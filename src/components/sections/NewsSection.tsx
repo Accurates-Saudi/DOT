@@ -50,7 +50,7 @@ export function NewsSection({ content }: NewsSectionProps) {
           <Button
             variant="accent"
             size="lg"
-            className="group text-link-arrow h-12 rounded-full px-8 text-[0.9375rem] font-medium sm:h-[3.25rem] sm:px-10"
+            className="group h-12 rounded-full px-8 text-[0.9375rem] font-medium sm:h-[3.25rem] sm:px-10"
             asChild
           >
             <Link to={content.viewAll.href}>

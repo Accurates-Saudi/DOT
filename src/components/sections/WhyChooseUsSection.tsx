@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { WhyChooseUsSectionContent } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 export interface WhyChooseUsSectionProps {
@@ -42,14 +43,8 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   return (
     <Section
@@ -125,20 +120,21 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
 
                   <div className="mt-7 flex flex-col gap-3">
                     <Button
+                      variant="default"
                       size="lg"
-                      className="group h-12 w-full justify-between rounded-full border-transparent bg-[#0c1524] px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color] duration-300 ease-out hover:-translate-y-px hover:bg-[#0c1524]/92 sm:px-6 sm:text-[0.9375rem]"
+                      className="h-12 w-full justify-between rounded-full px-5 text-[0.875rem] font-medium sm:px-6 sm:text-[0.9375rem]"
                       asChild
                     >
                       <Link to={content.ctaPanel.ctaPrimary.href}>
                         {content.ctaPanel.ctaPrimary.label}
-                        <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                        <ArrowRight className="size-4" />
                       </Link>
                     </Button>
 
                     <Button
-                      variant="outline"
+                      variant="inverse"
                       size="lg"
-                      className="group h-12 w-full justify-between rounded-full border-white/85 bg-transparent px-5 text-[0.875rem] font-medium text-white transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-white hover:bg-white/10 sm:px-6 sm:text-[0.9375rem]"
+                      className="h-12 w-full justify-between rounded-full px-5 text-[0.875rem] font-medium sm:px-6 sm:text-[0.9375rem]"
                       asChild
                     >
                       <Link to={content.ctaPanel.ctaSecondary.href}>

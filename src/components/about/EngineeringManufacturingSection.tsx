@@ -6,6 +6,7 @@ import { CapabilityIcon } from "@/components/about/CapabilitiesIcons";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { EngineeringManufacturingContent } from "@/types";
+import { getRevealProps } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
 export interface EngineeringManufacturingSectionProps {
@@ -45,14 +46,8 @@ export function EngineeringManufacturingSection({
     return () => observer.disconnect();
   }, []);
 
-  const reveal = (delayMs: number, className?: string) => ({
-    className: cn(
-      "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-      isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-      className,
-    ),
-    style: { transitionDelay: isVisible ? `${delayMs}ms` : "0ms" },
-  });
+  const reveal = (delayMs: number, className?: string) =>
+    getRevealProps(isVisible, delayMs, className);
 
   return (
     <Section
@@ -95,7 +90,7 @@ export function EngineeringManufacturingSection({
                   <img
                     src={capability.image.src}
                     alt={capability.image.alt}
-                    className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                    className="img-zoom-hover size-full object-cover object-center"
                     loading="lazy"
                     decoding="async"
                   />
@@ -144,7 +139,7 @@ export function EngineeringManufacturingSection({
               <Button
                 variant="accent"
                 size="lg"
-                className="group text-link-arrow h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
+                className="h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <Link to={content.cta.ctaPrimary.href}>
@@ -154,9 +149,9 @@ export function EngineeringManufacturingSection({
               </Button>
 
               <Button
-                size="lg"
                 variant="outline"
-                className="group text-link-arrow h-12 rounded-sm border-[#0c1524]/20 bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase hover:border-[#0c1524]/35 hover:bg-[#0c1524]/5"
+                size="lg"
+                className="h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <Link to={content.cta.ctaSecondary.href}>

@@ -57,10 +57,10 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
   return (
     <Section
       id="engineering"
-      padding="section80"
+      padding="none"
       variant="default"
       aria-label="Engineering and R&D"
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-white pb-[80px] pt-10 sm:pt-12 lg:pt-14"
     >
       {content.backgroundImage && (
         <>

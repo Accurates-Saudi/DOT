@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar, Eye, Target } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router";
 
 import { Section } from "@/components/shared";
@@ -57,7 +57,7 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
       padding="none"
       variant="default"
       aria-label="Why choose us"
-      className="overflow-hidden bg-white pb-[80px]"
+      className="overflow-hidden bg-white"
     >
       <div ref={sectionRef} className="flex flex-col">
         <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.62fr)]">
@@ -79,7 +79,7 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
                 </p>
               </div>
 
-              <h2 className="relative mt-5 text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.2rem] lg:text-[2.35rem] xl:text-[2.5rem]">
+              <h2 className="relative mt-5 text-[1.75rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[1.9rem] lg:text-[2.05rem] xl:text-[2.15rem]">
                 {content.heading}
               </h2>
 
@@ -153,109 +153,127 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
         </div>
 
         <div className="grid w-full lg:grid-cols-2">
-          <div
+          <ValueCard
             {...reveal(
               200,
-              "relative flex min-h-[320px] flex-col overflow-hidden bg-[#0c1524] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
+              "relative min-h-[320px] overflow-hidden bg-[#0c1524] lg:min-h-[340px]",
             )}
-          >
-              {content.mission.backgroundImage && (
-                <>
-                  <img
-                    src={content.mission.backgroundImage.src}
-                    alt=""
-                    className="absolute inset-0 size-full object-cover object-center opacity-28"
-                    aria-hidden
-                  />
-                  <div
-                    className="absolute inset-0 bg-[#0c1524]/84"
-                    aria-hidden
-                  />
-                </>
-              )}
-
-              <DotGrid
-                className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
-                dotClassName="size-[3px] rounded-full bg-white/22"
-              />
-
-              <div className="relative flex flex-1 flex-col">
-                <div className="flex items-start gap-5 sm:gap-6">
-                  <Target
-                    className="size-11 shrink-0 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
-                    aria-hidden
-                  />
-
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
-                      <h3 className="text-[1.4rem] font-bold tracking-tight text-white sm:text-[1.5rem]">
-                        {content.mission.title}
-                      </h3>
-                    </div>
-                    <p className="mt-4 max-w-xl text-[0.9rem] leading-[1.8] text-white/76 sm:text-[0.9375rem]">
-                      {content.mission.body}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-auto flex items-center gap-2.5 pt-10 sm:pt-12">
-                  <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
-                  <p className="text-[0.625rem] font-semibold tracking-[0.22em] text-white/90 uppercase sm:text-[0.6875rem]">
-                    {content.tagline}
-                  </p>
-                </div>
-              </div>
-          </div>
-
-          <div
-            {...reveal(
-              280,
-              "relative flex min-h-[320px] flex-col justify-center overflow-hidden bg-[#eceae8] px-7 py-11 sm:px-9 sm:py-12 lg:min-h-[340px] lg:px-10 lg:py-12 xl:px-12",
-            )}
-          >
-            {content.vision.backgroundImage && (
-              <>
-                <img
-                  src={content.vision.backgroundImage.src}
-                  alt=""
-                  className="absolute inset-0 size-full object-cover object-center opacity-32"
-                  aria-hidden
-                />
-                <div
-                  className="absolute inset-0 bg-[#eceae8]/88"
-                  aria-hidden
-                />
-              </>
-            )}
-
-            <DotGrid
-              className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
-              dotClassName="size-[3px] rounded-full bg-[#F68E05]/60"
-            />
-
-            <div className="relative flex items-start gap-5 sm:gap-6">
-              <Eye
-                className="size-11 shrink-0 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
+            title={content.mission.title}
+            body={content.mission.body}
+            icon={
+              <Target
+                className="size-11 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
                 aria-hidden
               />
+            }
+            variant="dark"
+            backgroundImage={content.mission.backgroundImage}
+            dotClassName="size-[3px] rounded-full bg-white/22"
+          />
 
-              <div className="min-w-0 flex-1 pt-0.5">
-                <div className="flex items-center gap-2.5">
-                  <span className="h-px w-7 bg-[#F68E05]" aria-hidden />
-                  <h3 className="text-[1.4rem] font-bold tracking-tight text-[#0c1524] sm:text-[1.5rem]">
-                    {content.vision.title}
-                  </h3>
-                </div>
-                <p className="mt-4 max-w-md text-[0.9rem] leading-[1.8] text-[#0c1524]/74 sm:text-[0.9375rem]">
-                  {content.vision.body}
-                </p>
-              </div>
-            </div>
-          </div>
+          <ValueCard
+            {...reveal(
+              280,
+              "relative min-h-[320px] overflow-hidden bg-[#eceae8] lg:min-h-[340px]",
+            )}
+            title={content.vision.title}
+            body={content.vision.body}
+            icon={
+              <Eye
+                className="size-11 text-[#F68E05] stroke-[1.35] sm:size-12 lg:size-[3.25rem]"
+                aria-hidden
+              />
+            }
+            variant="light"
+            backgroundImage={content.vision.backgroundImage}
+            dotClassName="size-[3px] rounded-full bg-[#F68E05]/60"
+          />
         </div>
       </div>
     </Section>
+  );
+}
+
+function ValueCard({
+  title,
+  body,
+  icon,
+  variant,
+  backgroundImage,
+  dotClassName,
+  className,
+  style,
+}: {
+  title: string;
+  body: string;
+  icon: ReactNode;
+  variant: "dark" | "light";
+  backgroundImage?: { src: string; alt: string };
+  dotClassName: string;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  const isDark = variant === "dark";
+
+  return (
+    <div className={className} style={style}>
+      {backgroundImage && (
+        <>
+          <img
+            src={backgroundImage.src}
+            alt=""
+            className={cn(
+              "absolute inset-0 size-full object-cover object-center",
+              isDark ? "opacity-28" : "opacity-32",
+            )}
+            aria-hidden
+          />
+          <div
+            className={cn(
+              "absolute inset-0",
+              isDark ? "bg-[#0c1524]/84" : "bg-[#eceae8]/88",
+            )}
+            aria-hidden
+          />
+        </>
+      )}
+
+      <DotGrid
+        className="absolute right-7 bottom-7 grid grid-cols-5 gap-[5px] sm:right-8 sm:bottom-8 lg:right-9 lg:bottom-9"
+        dotClassName={dotClassName}
+      />
+
+      <div className="relative flex h-full min-h-[inherit] items-center px-7 py-11 sm:px-9 sm:py-12 lg:px-10 lg:py-12 xl:px-12">
+        <div className="grid w-full grid-cols-[auto_1fr] items-start gap-x-5 gap-y-4 sm:gap-x-6">
+          <div className="flex h-[3.25rem] w-11 items-start justify-center sm:w-12 lg:w-[3.25rem]">
+            {icon}
+          </div>
+
+          <div className="min-w-0">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-7 shrink-0 bg-[#F68E05]" aria-hidden />
+              <h3
+                className={cn(
+                  "text-[1.35rem] font-bold tracking-tight sm:text-[1.45rem]",
+                  isDark ? "text-white" : "text-[#0c1524]",
+                )}
+              >
+                {title}
+              </h3>
+            </div>
+
+            <p
+              className={cn(
+                "mt-4 max-w-xl text-[0.9rem] leading-[1.75] sm:text-[0.9375rem]",
+                isDark ? "text-white/76" : "text-[#0c1524]/74",
+              )}
+            >
+              {body}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

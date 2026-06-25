@@ -83,9 +83,15 @@ function deriveCategory(metaLines: string[], folderName: string): string {
   if (cleaned.length >= 4) return cleaned[2];
   if (cleaned.length === 3) return cleaned[1];
   if (cleaned.length === 2) return cleaned[0];
-  if (cleaned.length === 1) return cleaned[0];
+  if (cleaned.length === 1) {
+    const name = deriveRecordedName(metaLines, folderName);
+    if (cleaned[0] === folderName || cleaned[0] === name) {
+      return "Products";
+    }
+    return cleaned[0];
+  }
 
-  return folderName;
+  return "Products";
 }
 
 function deriveRecordedName(metaLines: string[], folderName: string): string {
@@ -117,23 +123,13 @@ export function parseProductContent(
   };
 
   let currentSection: ContentSectionKey | null = null;
-  let currentSectionLabel = "";
   let seenSection = false;
-  let hadBenefitsSection = false;
-  let hadDedicatedFeaturesSection = false;
 
   for (const line of lines) {
     const section = mapSectionHeader(line);
     if (section) {
       currentSection = section;
-      currentSectionLabel = normalizeHeader(line);
       seenSection = true;
-
-      if (section === "benefits") hadBenefitsSection = true;
-      if (section === "features" && currentSectionLabel === "features") {
-        hadDedicatedFeaturesSection = true;
-      }
-
       continue;
     }
 
@@ -161,14 +157,6 @@ export function parseProductContent(
 
   const features = [...sections.features];
   const benefits = [...sections.benefits];
-
-  if (!hadBenefitsSection && features.length > 0) {
-    benefits.push(...features);
-  }
-
-  if (!hadDedicatedFeaturesSection && benefits.length > 0 && features.length === 0) {
-    features.push(...benefits);
-  }
 
   return {
     industry: metaLines[0] ? cleanLine(metaLines[0]) : undefined,

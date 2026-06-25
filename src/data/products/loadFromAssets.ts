@@ -19,8 +19,26 @@ const imageModules = import.meta.glob<ImageModule>(
   { eager: true, import: "default" },
 );
 
-const SPEC_FILENAME_PATTERN =
-  /(?:^|[\s_-])(?:specification|spec|linear[\s_-]?range)(?:[\s_-]|\.)/i;
+const SPEC_IMAGE_PATTERN = /specification/i;
+const LINEAR_RANGE_IMAGE_PATTERN = /linear[\s_-]?range/i;
+
+function pickSpecificationImage(
+  imageNames: string[],
+  folderImages: Map<string, string>,
+  hasSpecRows: boolean,
+): string | undefined {
+  const specificationFile = imageNames.find((name) =>
+    SPEC_IMAGE_PATTERN.test(name),
+  );
+  if (specificationFile) return folderImages.get(specificationFile);
+
+  if (!hasSpecRows) return undefined;
+
+  const linearRangeFile = imageNames.find((name) =>
+    LINEAR_RANGE_IMAGE_PATTERN.test(name),
+  );
+  return linearRangeFile ? folderImages.get(linearRangeFile) : undefined;
+}
 
 function getFolderName(assetPath: string): string {
   const match = assetPath.match(/products\/(.+?)\/[^/]+$/);
@@ -32,7 +50,7 @@ function getFileName(assetPath: string): string {
 }
 
 function isSpecificationImage(fileName: string): boolean {
-  return SPEC_FILENAME_PATTERN.test(fileName);
+  return SPEC_IMAGE_PATTERN.test(fileName) || LINEAR_RANGE_IMAGE_PATTERN.test(fileName);
 }
 
 function pickCoverImage(fileNames: string[]): string | undefined {
@@ -129,9 +147,12 @@ export function loadProductRecordsFromAssets(): ProductRecord[] {
       }
 
       const coverSrc = folderImages.get(coverFileName)!;
-      const specImageEntry = imageNames.find((name) => isSpecificationImage(name));
-      const specImageSrc = specImageEntry ? folderImages.get(specImageEntry) : undefined;
       const specRows = parseSpecificationRows(parsed.technicalSpecification);
+      const specImageSrc = pickSpecificationImage(
+        imageNames,
+        folderImages,
+        specRows.length > 0,
+      );
       const introduction =
         parsed.overview[0] ?? firstSentence(parsed.name) ?? parsed.name;
 

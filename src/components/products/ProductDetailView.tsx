@@ -7,7 +7,7 @@ import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBrea
 import { ProductSectionHeading } from "@/components/products/ProductSectionHeading";
 import { SpecificationTable } from "@/components/products/SpecificationTable";
 import { TriangleBulletList } from "@/components/products/TriangleBulletList";
-import type { ProductDetailContent } from "@/types";
+import type { ProductDetailContent, ProductInfoColumn } from "@/types";
 import { cn } from "@/lib/utils";
 
 export interface ProductDetailViewProps {
@@ -31,12 +31,38 @@ function InfoColumn({
   );
 }
 
+function dedupeInfoColumns(columns: ProductInfoColumn[]): ProductInfoColumn[] {
+  const populated = columns.filter((column) => column.items.length > 0);
+
+  return populated.filter((column, index) => {
+    const duplicateIndex = populated.findIndex(
+      (other) =>
+        other.title !== column.title &&
+        other.items.length === column.items.length &&
+        other.items.every((item, itemIndex) => item === column.items[itemIndex]),
+    );
+
+    return duplicateIndex === -1 || duplicateIndex >= index;
+  });
+}
+
+function infoGridClassName(columnCount: number): string {
+  if (columnCount <= 1) return "max-w-sm";
+  if (columnCount === 2) return "sm:grid-cols-2";
+  return "sm:grid-cols-2 lg:grid-cols-3";
+}
+
 export function ProductDetailView({ product }: ProductDetailViewProps) {
   const { hero, overview, info, specifications } = product;
   const hasSpecificationRows = Boolean(specifications?.rows?.length);
   const hasSpecificationImage = Boolean(specifications?.image);
   const hasSpecifications = hasSpecificationRows || hasSpecificationImage;
-  const infoColumns = [info.applications, info.features, info.benefits];
+  const hasOverview = overview.paragraphs.length > 0;
+  const infoColumns = dedupeInfoColumns([
+    info.applications,
+    info.features,
+    info.benefits,
+  ]);
 
   return (
     <Section
@@ -87,51 +113,74 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         </div>
 
         {/* Row 2 — Details: overview + lists left, technical data right */}
-        <div
-          className={cn(
-            "mt-10 grid gap-10 lg:mt-12 lg:items-start lg:gap-x-12 xl:mt-14 xl:gap-x-16",
-            hasSpecifications && "lg:grid-cols-2",
-          )}
-        >
-          <div>
-            <ProductSectionHeading title={overview.heading} />
-            <TriangleBulletList
-              items={overview.paragraphs}
-              className="mt-4 max-w-2xl"
-            />
+        {(hasOverview || infoColumns.length > 0 || hasSpecifications) && (
+          <div
+            className={cn(
+              "mt-10 grid gap-10 lg:mt-12 lg:items-start lg:gap-x-12 xl:mt-14 xl:gap-x-16",
+              hasSpecifications && "lg:grid-cols-2",
+            )}
+          >
+            {(hasOverview || infoColumns.length > 0) && (
+              <div className={cn(!hasSpecifications && "max-w-4xl")}>
+                {hasOverview && (
+                  <>
+                    <ProductSectionHeading title={overview.heading} />
+                    <TriangleBulletList
+                      items={overview.paragraphs}
+                      className="mt-4 max-w-2xl"
+                    />
+                  </>
+                )}
 
-            <div className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-4 lg:mt-9 lg:gap-5">
-              {infoColumns.map((column) => (
-                <InfoColumn
-                  key={column.title}
-                  title={column.title}
-                  items={column.items}
-                />
-              ))}
-            </div>
+                {infoColumns.length > 0 && (
+                  <div
+                    className={cn(
+                      "grid gap-6 lg:gap-5",
+                      hasOverview ? "mt-8 lg:mt-9" : "",
+                      infoGridClassName(infoColumns.length),
+                    )}
+                  >
+                    {infoColumns.map((column) => (
+                      <InfoColumn
+                        key={column.title}
+                        title={column.title}
+                        items={column.items}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {hasSpecifications && specifications && (
+              <div className="min-w-0 lg:max-w-none">
+                <ProductSectionHeading title={specifications.heading} />
+
+                {hasSpecificationRows && specifications.rows && (
+                  <SpecificationTable
+                    rows={specifications.rows}
+                    className="mt-4"
+                  />
+                )}
+
+                {hasSpecificationImage && specifications.image && (
+                  <div
+                    className={cn(
+                      "overflow-hidden rounded-sm border border-[#0c1524]/10 bg-[#fafaf9]",
+                      hasSpecificationRows ? "mt-4" : "mt-4",
+                    )}
+                  >
+                    <img
+                      src={specifications.image.src}
+                      alt={specifications.image.alt}
+                      className="mx-auto block h-auto w-full max-h-[min(36rem,75vh)] object-contain object-center p-3 sm:p-4"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-
-          {hasSpecifications && specifications && (
-            <div className="lg:max-w-none">
-              <ProductSectionHeading title={specifications.heading} />
-
-              {hasSpecificationRows && specifications.rows && (
-                <SpecificationTable
-                  rows={specifications.rows}
-                  className="mt-4"
-                />
-              )}
-
-              {hasSpecificationImage && specifications.image && (
-                <img
-                  src={specifications.image.src}
-                  alt={specifications.image.alt}
-                  className="mt-4 w-full min-w-0 border border-[#0c1524]/10"
-                />
-              )}
-            </div>
-          )}
-        </div>
+        )}
       </Container>
     </Section>
   );

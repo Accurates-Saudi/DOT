@@ -3,12 +3,14 @@ import { cn } from "@/lib/utils";
 export interface MapEmbedProps {
   embedUrl: string;
   title?: string;
+  variant?: "default" | "banner";
   className?: string;
 }
 
 export function MapEmbed({
   embedUrl,
   title = "Location map",
+  variant = "default",
   className,
 }: MapEmbedProps) {
   return (
@@ -21,7 +23,12 @@ export function MapEmbed({
       <iframe
         title={title}
         src={embedUrl}
-        className="aspect-[16/9] w-full min-h-[280px] border-0 sm:min-h-[360px] lg:min-h-[420px]"
+        className={cn(
+          "w-full border-0",
+          variant === "banner"
+            ? "h-[11.5rem] sm:h-[13rem] lg:h-[14.5rem]"
+            : "aspect-[16/9] min-h-[280px] sm:min-h-[360px] lg:min-h-[420px]",
+        )}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen

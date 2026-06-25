@@ -68,6 +68,7 @@ export function NewsSection({ content }: NewsSectionProps) {
             <MapEmbed
               embedUrl={content.locationMap.embedUrl}
               title="Dynamic Oil Tools location"
+              variant="banner"
             />
 
             <p className="mt-4 text-center">

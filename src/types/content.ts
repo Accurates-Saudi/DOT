@@ -488,10 +488,35 @@ export interface ProductContactCtaContent {
   ctaSecondary?: LinkItem;
 }
 
+export interface ProductSpecificationsInput {
+  heading?: ContentValue<string>;
+  image?: ImageAsset;
+  rows?: SpecificationRow[];
+}
+
+/** Authoring schema — one file per product; passed through createProductDetail */
+export interface ProductRecord {
+  id: string;
+  slug: string;
+  category: ContentValue<string>;
+  name: ContentValue<string>;
+  introduction: ContentValue<string>;
+  /** Short blurb for listing cards; falls back to introduction when omitted */
+  listingTeaser?: ContentValue<string>;
+  image: ImageAsset;
+  overview: ContentValue<string> | ContentValue<string>[];
+  applications: ContentValue<string>[];
+  features: ContentValue<string>[];
+  benefits: ContentValue<string>[];
+  /** Optional — omit entirely when the product has no technical data */
+  specifications?: ProductSpecificationsInput;
+}
+
 export interface ProductDetailContent {
   id: string;
   slug: string;
   category: ContentValue<string>;
+  listingTeaser?: ContentValue<string>;
   meta: PageMeta;
   hero: ProductDetailHeroContent;
   overview: ProductOverviewContent;

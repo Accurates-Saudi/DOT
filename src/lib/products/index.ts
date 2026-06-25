@@ -1,4 +1,5 @@
 import { productDetails, productDetailsBySlug } from "@/data/products";
+import { toProductItem } from "@/data/products/factory";
 import type { ProductDetailContent, ProductItem } from "@/types";
 
 export function getProductBySlug(slug: string): ProductDetailContent | undefined {
@@ -22,12 +23,5 @@ export function getRelatedProducts(
         product.category === current.category && product.slug !== slug,
     )
     .slice(0, limit)
-    .map((product) => ({
-      id: product.id,
-      slug: product.slug,
-      name: product.hero.name,
-      description: product.hero.introduction,
-      category: product.category,
-      image: product.hero.image,
-    }));
+    .map(toProductItem);
 }

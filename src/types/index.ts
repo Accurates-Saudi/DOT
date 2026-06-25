@@ -74,6 +74,8 @@ export type {
   ProductInfoColumn,
   ProductItem,
   ProductOverviewContent,
+  ProductRecord,
+  ProductSpecificationsInput,
   ProductsCtaContent,
   ProductsHeroContent,
   ProductsListingContent,

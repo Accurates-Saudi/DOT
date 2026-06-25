@@ -5,6 +5,7 @@ import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBreadcrumb";
 import { ProductSectionHeading } from "@/components/products/ProductSectionHeading";
+import { SpecificationTable } from "@/components/products/SpecificationTable";
 import { TriangleBulletList } from "@/components/products/TriangleBulletList";
 import type { ProductDetailContent } from "@/types";
 import { cn } from "@/lib/utils";
@@ -32,7 +33,9 @@ function InfoColumn({
 
 export function ProductDetailView({ product }: ProductDetailViewProps) {
   const { hero, overview, info, specifications } = product;
-  const hasTechnicalData = Boolean(specifications?.image);
+  const hasSpecificationRows = Boolean(specifications?.rows?.length);
+  const hasSpecificationImage = Boolean(specifications?.image);
+  const hasSpecifications = hasSpecificationRows || hasSpecificationImage;
   const infoColumns = [info.applications, info.features, info.benefits];
 
   return (
@@ -87,7 +90,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         <div
           className={cn(
             "mt-10 grid gap-10 lg:mt-12 lg:items-start lg:gap-x-12 xl:mt-14 xl:gap-x-16",
-            hasTechnicalData && "lg:grid-cols-2",
+            hasSpecifications && "lg:grid-cols-2",
           )}
         >
           <div>
@@ -108,14 +111,24 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             </div>
           </div>
 
-          {hasTechnicalData && specifications?.image && (
+          {hasSpecifications && specifications && (
             <div className="lg:max-w-none">
               <ProductSectionHeading title={specifications.heading} />
-              <img
-                src={specifications.image.src}
-                alt={specifications.image.alt}
-                className="mt-4 w-full min-w-0 border border-[#0c1524]/10"
-              />
+
+              {hasSpecificationRows && specifications.rows && (
+                <SpecificationTable
+                  rows={specifications.rows}
+                  className="mt-4"
+                />
+              )}
+
+              {hasSpecificationImage && specifications.image && (
+                <img
+                  src={specifications.image.src}
+                  alt={specifications.image.alt}
+                  className="mt-4 w-full min-w-0 border border-[#0c1524]/10"
+                />
+              )}
             </div>
           )}
         </div>

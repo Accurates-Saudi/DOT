@@ -159,7 +159,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                   <img
                     src={media.image.src}
                     alt={media.image.alt}
-                    className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.012]"
+                    className="img-zoom-hover size-full object-cover object-center"
                     loading="lazy"
                     decoding="async"
                   />
@@ -233,13 +233,14 @@ export function AboutSection({ content }: AboutSectionProps) {
                 )}
               >
                 <Button
+                  variant="accent"
                   size="lg"
-                  className="group h-12 rounded-full border-transparent bg-[#F68E05] px-6 text-[0.9375rem] font-medium text-white shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] active:translate-y-0"
+                  className="group text-link-arrow h-12 rounded-full px-6 text-[0.9375rem] font-medium"
                   asChild
                 >
                   <Link to={content.ctaPrimary.href}>
                     {content.ctaPrimary.label}
-                    <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                    <ArrowRight className="size-4" />
                   </Link>
                 </Button>
 

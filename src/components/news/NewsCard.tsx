@@ -30,7 +30,7 @@ export function NewsCard({
     <article
       data-news-slide={slidesPerView !== undefined ? true : undefined}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-16px_rgba(12,21,36,0.16)]",
+        "group card-hover flex h-full flex-col overflow-hidden rounded-xl border border-[#0c1524]/8 bg-white hover:shadow-[0_12px_32px_-16px_rgba(12,21,36,0.18)]",
         slidesPerView !== undefined && "shrink-0",
         className,
       )}
@@ -45,7 +45,7 @@ export function NewsCard({
           <img
             src={article.image.src}
             alt={article.image.alt}
-            className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            className="img-zoom-hover size-full object-cover object-center"
             loading="lazy"
             decoding="async"
             draggable={false}
@@ -58,7 +58,7 @@ export function NewsCard({
         <h3 className="text-[0.9375rem] font-bold leading-snug text-[#0c1524] sm:text-base">
           <Link
             to={href}
-            className="line-clamp-2 transition-colors duration-200 hover:text-[#F68E05]"
+            className="text-link-hover line-clamp-2 hover:text-[#F68E05]"
           >
             {article.title}
           </Link>
@@ -70,13 +70,10 @@ export function NewsCard({
 
         <Link
           to={href}
-          className="group/link mt-5 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] transition-colors duration-200 hover:text-[#E07F04]"
+          className="text-link-hover text-link-arrow group/link mt-5 inline-flex items-center gap-2 text-[0.875rem] font-medium text-[#F68E05] hover:text-[#E07F04]"
         >
           {readMoreLabel}
-          <span
-            className="inline-block transition-transform duration-300 ease-out group-hover/link:translate-x-1"
-            aria-hidden
-          >
+          <span className="link-arrow" aria-hidden>
             →
           </span>
         </Link>

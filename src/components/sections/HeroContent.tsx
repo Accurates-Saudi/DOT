@@ -94,12 +94,12 @@ export function HeroContent({
             >
               <Button
                 size="lg"
-                className="group h-12 rounded-full border-transparent bg-white px-6 text-[0.9375rem] font-medium text-[#0c1524] shadow-[0_4px_20px_-6px_rgba(0,0,0,0.25)] transition-[transform,background-color,color,box-shadow] duration-250 ease-out hover:-translate-y-px hover:bg-[#F68E05] hover:text-white hover:shadow-[0_8px_24px_-10px_rgba(246,142,5,0.4)] active:translate-y-0"
+                className="group text-link-arrow h-12 rounded-full border-transparent bg-white px-6 text-[0.9375rem] font-medium text-[#0c1524] shadow-[0_4px_20px_-6px_rgba(0,0,0,0.25)] hover:bg-[#F68E05] hover:text-white hover:shadow-[0_8px_24px_-10px_rgba(246,142,5,0.4)]"
                 asChild
               >
                 <Link to={slide.ctaPrimary.href}>
                   {slide.ctaPrimary.label}
-                  <ArrowRight className="size-4 transition-transform duration-250 ease-out group-hover:translate-x-0.5" />
+                  <ArrowRight className="size-4" />
                 </Link>
               </Button>
 
@@ -107,12 +107,12 @@ export function HeroContent({
                 <Button
                   variant="outline"
                   size="lg"
-                  className="group h-12 rounded-full border-white bg-transparent px-6 text-[0.9375rem] font-medium text-white transition-[transform,background-color,color,border-color] duration-250 ease-out hover:-translate-y-px hover:border-white hover:bg-white hover:text-[#0c1524] active:translate-y-0"
+                  className="group text-link-arrow h-12 rounded-full border-white bg-transparent px-6 text-[0.9375rem] font-medium text-white hover:border-white hover:bg-white hover:text-[#0c1524]"
                   asChild
                 >
                   <Link to={slide.ctaSecondary.href}>
                     {slide.ctaSecondary.label}
-                    <ArrowRight className="size-4 transition-transform duration-250 ease-out group-hover:translate-x-0.5" />
+                    <ArrowRight className="size-4" />
                   </Link>
                 </Button>
               )}

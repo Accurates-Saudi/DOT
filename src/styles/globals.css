@@ -216,4 +216,141 @@
       animation: none;
     }
   }
+
+  /* ── Interaction utilities (GPU-accelerated) ── */
+
+  .interaction-base {
+    transition-property: transform, opacity, box-shadow, background-color,
+      border-color, color;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .interaction-fast {
+    transition-duration: 200ms;
+  }
+
+  .card-hover {
+    transition-property: transform, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+  }
+
+  .img-zoom-hover {
+    transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .group:hover .img-zoom-hover,
+  .group\/card:hover .img-zoom-hover {
+    transform: scale(1.03);
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scroll-reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .text-link-hover {
+    transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .text-link-arrow > svg,
+  .text-link-arrow > .link-arrow {
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .text-link-arrow:hover > svg,
+  .text-link-arrow:hover > .link-arrow,
+  .group:hover .text-link-arrow > svg {
+    transform: translateX(3px);
+  }
+
+  .nav-link-underline::after {
+    transition:
+      transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .carousel-nav-btn {
+    transition:
+      box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .carousel-nav-btn:hover {
+    box-shadow: 0 8px 24px -10px rgba(12, 21, 36, 0.32);
+  }
+
+  .carousel-nav-btn:active {
+    opacity: 0.85;
+  }
+
+  .form-input-interactive {
+    transition:
+      border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .form-input-interactive:focus {
+    border-color: rgba(246, 142, 5, 0.55);
+    box-shadow: 0 0 0 3px rgba(246, 142, 5, 0.12);
+  }
+
+  .form-input-interactive:user-invalid:not(:placeholder-shown):not(:focus) {
+    border-color: rgba(220, 38, 38, 0.45);
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.08);
+  }
+
+  .mobile-nav-item {
+    transition:
+      color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .interaction-base,
+    .interaction-fast,
+    .card-hover,
+    .img-zoom-hover,
+    .scroll-reveal,
+    .text-link-hover,
+    .text-link-arrow > svg,
+    .text-link-arrow > .link-arrow,
+    .nav-link-underline::after,
+    .carousel-nav-btn,
+    .form-input-interactive,
+    .mobile-nav-item {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .scroll-reveal,
+    .scroll-reveal-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .card-hover:hover,
+    .carousel-nav-btn:hover {
+      transform: none;
+    }
+
+    .group:hover .img-zoom-hover,
+    .group\/card:hover .img-zoom-hover {
+      transform: none;
+    }
+  }
 }

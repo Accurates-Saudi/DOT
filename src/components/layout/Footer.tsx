@@ -83,7 +83,7 @@ export function Footer({ content = footerContent }: FooterProps) {
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="group flex gap-3 transition-colors duration-200 hover:text-[#F68E05]"
+                        className="group text-link-hover flex gap-3 hover:text-[#F68E05]"
                       >
                         {contentNode}
                       </a>
@@ -157,7 +157,7 @@ function FooterLink({
   className?: string;
 }) {
   const linkClassName = cn(
-    "text-[0.875rem] text-white/68 transition-colors duration-200 hover:text-[#F68E05]",
+    "text-link-hover text-[0.875rem] text-white/68 hover:text-[#F68E05]",
     className,
   );
 

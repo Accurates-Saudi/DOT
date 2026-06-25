@@ -110,10 +110,11 @@ export function NewsGridSection({ content, articles }: NewsGridSectionProps) {
                   onClick={handleViewMore}
                   disabled={expanded}
                   aria-expanded={expanded}
-                  className="group h-12 rounded-full border-transparent bg-[#F68E05] px-8 text-[0.9375rem] font-medium text-white shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] disabled:pointer-events-none sm:h-[3.25rem] sm:px-10"
+                  variant="accent"
+                  className="group text-link-arrow h-12 rounded-full px-8 text-[0.9375rem] font-medium disabled:pointer-events-none sm:h-[3.25rem] sm:px-10"
                 >
                   {content.viewMoreLabel}
-                  <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                  <ArrowRight className="size-4" />
                 </Button>
               </div>
             </div>

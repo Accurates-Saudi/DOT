@@ -142,25 +142,26 @@ export function EngineeringManufacturingSection({
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:shrink-0">
               <Button
+                variant="accent"
                 size="lg"
-                className="h-12 rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)]"
+                className="group text-link-arrow h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <Link to={content.cta.ctaPrimary.href}>
                   {content.cta.ctaPrimary.label}
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                  <ArrowRight className="size-4" />
                 </Link>
               </Button>
 
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-sm border-[#0c1524]/20 bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase transition-[transform,background-color,border-color] duration-300 ease-out hover:-translate-y-px hover:border-[#0c1524]/35 hover:bg-[#0c1524]/5"
+                className="group text-link-arrow h-12 rounded-sm border-[#0c1524]/20 bg-transparent px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-[#0c1524] uppercase hover:border-[#0c1524]/35 hover:bg-[#0c1524]/5"
                 asChild
               >
                 <Link to={content.cta.ctaSecondary.href}>
                   {content.cta.ctaSecondary.label}
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                  <ArrowRight className="size-4" />
                 </Link>
               </Button>
             </div>

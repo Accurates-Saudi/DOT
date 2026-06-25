@@ -35,8 +35,9 @@ export function ProductsCtaSection({ content }: ProductsCtaSectionProps) {
           </div>
 
           <Button
+            variant="accent"
             size="lg"
-            className="h-12 shrink-0 rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)]"
+            className="h-12 shrink-0 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
             asChild
           >
             <Link to={content.ctaPrimary.href}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface UseCountUpOptions {
   target: number;
@@ -14,14 +14,18 @@ export function useCountUp({
   disabled = false,
 }: UseCountUpOptions) {
   const [value, setValue] = useState(0);
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
     if (!isActive) return;
 
     if (disabled) {
       setValue(target);
+      hasAnimatedRef.current = true;
       return;
     }
+
+    if (hasAnimatedRef.current) return;
 
     let startTime: number | null = null;
     let rafId = 0;
@@ -37,6 +41,7 @@ export function useCountUp({
         rafId = requestAnimationFrame(animate);
       } else {
         setValue(target);
+        hasAnimatedRef.current = true;
       }
     };
 

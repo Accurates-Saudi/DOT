@@ -18,7 +18,7 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        "group overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-20px_rgba(12,21,36,0.2)] sm:p-2",
+        "group/card card-hover overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_12px_40px_-24px_rgba(12,21,36,0.16)] hover:shadow-[0_16px_44px_-20px_rgba(12,21,36,0.22)] sm:p-2",
         className,
       )}
     >
@@ -26,7 +26,7 @@ export function ProductCard({
         <img
           src={product.image.src}
           alt={product.image.alt}
-          className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          className="img-zoom-hover size-full object-cover object-center"
           loading="lazy"
           decoding="async"
         />
@@ -43,10 +43,10 @@ export function ProductCard({
 
         <Link
           to={`/products/${product.slug}`}
-          className="mt-3 inline-flex items-center gap-1 text-[0.6875rem] font-semibold tracking-wide text-[#0c1524] uppercase transition-colors hover:text-[#F68E05] sm:text-xs"
+          className="text-link-hover text-link-arrow mt-3 inline-flex items-center gap-1 text-[0.6875rem] font-semibold tracking-wide text-[#0c1524] uppercase hover:text-[#F68E05] sm:text-xs"
         >
           {viewProductLabel}
-          <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="size-3" />
         </Link>
       </div>
     </article>

@@ -21,7 +21,7 @@ export function CatalogCard({
   return (
     <article
       className={cn(
-        "group flex h-full flex-col border border-[#0c1524]/10 bg-white transition-[border-color,box-shadow,transform] duration-300 ease-out hover:-translate-y-px hover:border-[#0c1524]/16 hover:shadow-[0_24px_56px_-32px_rgba(12,21,36,0.2)]",
+        "group card-hover flex h-full flex-col border border-[#0c1524]/10 bg-white hover:border-[#0c1524]/16 hover:shadow-[0_24px_56px_-32px_rgba(12,21,36,0.22)]",
         className,
       )}
     >
@@ -35,7 +35,7 @@ export function CatalogCard({
           <img
             src={cover.src}
             alt={cover.alt}
-            className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            className="img-zoom-hover size-full object-cover object-center"
             loading="lazy"
             decoding="async"
           />
@@ -62,7 +62,7 @@ export function CatalogCard({
           <a
             href={pdf.href}
             download={pdf.fileName}
-            className="inline-flex h-10 items-center gap-2 rounded-sm border border-transparent bg-[#F68E05] px-5 text-[0.6875rem] font-bold tracking-[0.1em] text-white uppercase shadow-[0_6px_20px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_10px_24px_-10px_rgba(246,142,5,0.5)] active:translate-y-0 sm:h-[42px] sm:px-6 sm:text-xs"
+            className="inline-flex h-10 items-center gap-2 rounded-sm border border-transparent bg-[#F68E05] px-5 text-[0.6875rem] font-bold tracking-[0.1em] text-white uppercase shadow-[0_6px_20px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] hover:bg-[#E07F04] hover:shadow-[0_10px_24px_-10px_rgba(246,142,5,0.5)] active:scale-[0.98] sm:h-[42px] sm:px-6 sm:text-xs"
           >
             <Download className="size-3.5" aria-hidden />
             {downloadLabel}

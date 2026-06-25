@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { FeaturedProductCard } from "@/components/products/FeaturedProductCard";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
-import { useFeaturedProductsCarousel } from "@/hooks/use-featured-products-carousel";
+import { useCarouselKeyboard, useFeaturedProductsCarousel, useScrollReveal } from "@/hooks";
 import type { FeaturedProductsSectionContent } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ export interface FeaturedProductsSectionProps {
 export function FeaturedProductsSection({ content }: FeaturedProductsSectionProps) {
   const transitionMs = content.transitionMs ?? 700;
   const autoplayDelayMs = content.autoplayDelayMs ?? 2500;
+  const { ref: sectionRef, revealProps } = useScrollReveal();
 
   const {
     viewportRef,
@@ -36,6 +37,14 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
     transitionMs,
   });
 
+  useCarouselKeyboard(viewportRef, {
+    enabled: canScroll,
+    onPrev: prev,
+    onNext: next,
+    pauseAutoplay,
+    label: "Featured products carousel",
+  });
+
   const extendedItems = useMemo(() => {
     if (!canScroll) return content.items;
 
@@ -53,26 +62,26 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
       className="overflow-hidden bg-white"
     >
       <Container size="wide">
-        <header className="max-w-2xl">
-          <div className="flex items-center gap-3">
+        <header ref={sectionRef} className="max-w-2xl">
+          <div {...revealProps(0, "flex items-center gap-3")}>
             <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
             <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-[#0c1524]/55 uppercase sm:text-xs">
               {content.label}
             </p>
           </div>
 
-          <h2 className="mt-4 text-[1.875rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2.1rem] lg:text-[2.35rem]">
+          <h2 {...revealProps(80, "mt-4 text-[1.875rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2.1rem] lg:text-[2.35rem]")}>
             {content.heading}
           </h2>
 
-          <span className="mt-4 block h-px w-10 bg-[#F68E05]" aria-hidden />
+          <span {...revealProps(140, "mt-4 block h-px w-10 bg-[#F68E05]")} aria-hidden />
 
-          <p className="mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-[#0c1524]/68 sm:text-base">
+          <p {...revealProps(200, "mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-[#0c1524]/68 sm:text-base")}>
             {content.description}
           </p>
         </header>
 
-        <div className="relative mt-8 min-w-0 sm:mt-10">
+        <div {...revealProps(280, "relative mt-8 min-w-0 sm:mt-10")}>
           {canScroll && (
             <>
               <CarouselButton
@@ -127,15 +136,16 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
           </div>
         </div>
 
-        <div className="mt-10 flex justify-center sm:mt-12">
+        <div {...revealProps(360, "mt-10 flex justify-center sm:mt-12")}>
           <Button
+            variant="accent"
             size="lg"
-            className="group h-12 rounded-full border-transparent bg-[#F68E05] px-8 text-[0.9375rem] font-medium text-white shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] sm:h-[3.25rem] sm:px-10"
+            className="group text-link-arrow h-12 rounded-full px-8 text-[0.9375rem] font-medium sm:h-[3.25rem] sm:px-10"
             asChild
           >
             <Link to={content.exploreAll.href}>
               {content.exploreAll.label}
-              <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+              <ArrowRight className="size-4" />
             </Link>
           </Button>
         </div>
@@ -162,7 +172,7 @@ function CarouselButton({
       aria-label={label}
       onClick={onClick}
       className={cn(
-        "absolute top-[42%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/6 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.28)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_8px_24px_-10px_rgba(12,21,36,0.32)] active:scale-95 sm:size-10",
+        "carousel-nav-btn absolute top-[42%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/6 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.28)] sm:size-10",
         className,
       )}
     >

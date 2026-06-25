@@ -22,7 +22,7 @@ export interface ContactFormProps {
 }
 
 const inputClassName =
-  "h-11 w-full rounded-sm border border-[#0c1524]/12 bg-white px-3.5 text-sm text-[#0c1524] placeholder:text-[#0c1524]/40 transition-[border-color,box-shadow] duration-200 focus:border-[#F68E05]/50 focus:outline-none focus:ring-2 focus:ring-[#F68E05]/15";
+  "form-input-interactive h-11 w-full rounded-sm border border-[#0c1524]/12 bg-white px-3.5 text-sm text-[#0c1524] placeholder:text-[#0c1524]/40 focus:outline-none";
 
 export function ContactForm({
   content,
@@ -147,8 +147,9 @@ export function ContactForm({
 
         <Button
           type="submit"
+          variant="accent"
           disabled={isSubmitting}
-          className="h-12 w-full rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)] disabled:pointer-events-none disabled:opacity-60 sm:w-auto"
+          className="h-12 w-full rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase sm:w-auto"
         >
           <Send className="size-4" strokeWidth={2.25} />
           {content.submitLabel}

@@ -1,17 +1,16 @@
 import { Clock, Globe, HardHat, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Ref } from "react";
-import { useEffect, useRef, useState } from "react";
 
 import { Container, ParallaxBackgroundImage, Section } from "@/components/shared";
-import { useCountUp } from "@/hooks/use-count-up";
+import { useCountUp, useScrollReveal } from "@/hooks";
 import { useParallaxTransform } from "@/hooks/use-parallax-transform";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { getRevealProps } from "@/lib/animations";
 import type {
   CompanyStatisticItem,
   CompanyStatisticsSectionContent,
 } from "@/types";
-import { cn } from "@/lib/utils";
 
 const STAT_ICONS: Record<CompanyStatisticItem["icon"], LucideIcon> = {
   experience: Clock,
@@ -27,36 +26,15 @@ export interface CompanyStatisticsSectionProps {
 export function CompanyStatisticsSection({
   content,
 }: CompanyStatisticsSectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const { ref: sectionRef, isVisible } = useScrollReveal({
+    threshold: 0.25,
+    rootMargin: "0px 0px -8% 0px",
+  });
   const prefersReducedMotion = usePrefersReducedMotion();
   const { containerRef, targetRef } = useParallaxTransform({
     speed: 0.32,
     disabled: prefersReducedMotion,
   });
-
-  useEffect(() => {
-    const element = sectionRef.current;
-    if (!element) return;
-
-    if (prefersReducedMotion) {
-      setIsVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.25, rootMargin: "0px 0px -8% 0px" },
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [prefersReducedMotion]);
 
   return (
     <Section
@@ -127,14 +105,14 @@ function StatisticEntry({
     disabled: prefersReducedMotion,
   });
 
+  const reveal = getRevealProps(
+    isVisible,
+    revealDelay,
+    "flex flex-col items-center text-center",
+  );
+
   return (
-    <li
-      className={cn(
-        "flex flex-col items-center text-center transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]",
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0",
-      )}
-      style={{ transitionDelay: isVisible ? `${revealDelay}ms` : "0ms" }}
-    >
+    <li {...reveal}>
       <span className="flex size-11 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-[2px] sm:size-12">
         <Icon className="size-5 stroke-[1.65]" aria-hidden />
       </span>

@@ -1,13 +1,13 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
 
-import { useNewsCarousel } from "@/hooks/use-news-carousel";
+import { useCarouselKeyboard, useNewsCarousel } from "@/hooks";
 import type { NewsArticlePreview } from "@/types";
 import { cn } from "@/lib/utils";
 
 import { NewsCard } from "./NewsCard";
 
-const TRANSITION_MS = 600;
+const TRANSITION_MS = 650;
 
 export interface NewsCarouselProps {
   articles: NewsArticlePreview[];
@@ -33,6 +33,13 @@ export function NewsCarousel({
     handleTransitionEnd,
     pointerHandlers,
   } = useNewsCarousel(articles.length);
+
+  useCarouselKeyboard(viewportRef, {
+    enabled: canScroll,
+    onPrev: prev,
+    onNext: next,
+    label: "News carousel",
+  });
 
   const extendedArticles = useMemo(() => {
     if (!canScroll) return articles;
@@ -110,7 +117,7 @@ function NewsCarouselButton({
       aria-label={direction === "prev" ? "Previous news" : "Next news"}
       onClick={onClick}
       className={cn(
-        "absolute top-[32%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.25)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_8px_24px_-10px_rgba(12,21,36,0.3)] active:scale-95 sm:size-10",
+        "carousel-nav-btn absolute top-[32%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/8 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.25)] sm:size-10",
         className,
       )}
     >

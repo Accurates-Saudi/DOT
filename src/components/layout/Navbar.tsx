@@ -112,22 +112,24 @@ export function Navbar() {
               end={item.href === "/"}
               className={({ isActive }) =>
                 cn(
-                  "relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-[color,opacity] duration-250 ease-out xl:px-4",
+                  "nav-link-underline relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-[color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] xl:px-4",
                   isHeroState
                     ? cn(
                         "text-white/75 hover:text-white",
                         isActive && "text-white",
                       )
                     : cn(
-                        "text-foreground/70 hover:text-foreground",
+                        "text-foreground/70 hover:text-accent",
                         isActive && "text-foreground",
                       ),
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-250 after:ease-out",
+                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0",
                   isActive
                     ? "after:scale-x-100 after:bg-accent"
                     : cn(
                         "hover:after:scale-x-100",
-                        isHeroState ? "after:bg-white/40" : "after:bg-foreground/40",
+                        isHeroState
+                          ? "after:bg-white/50 hover:after:bg-white/70"
+                          : "after:bg-accent/60 hover:after:bg-accent",
                       ),
                 )
               }
@@ -169,10 +171,10 @@ export function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em] transition-[color,background-color,border-color,transform] duration-250 ease-out",
+                "h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]",
                 isHeroState
-                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white hover:text-[#0c1524] active:scale-[0.98]"
-                  : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:bg-background active:scale-[0.98]",
+                  ? "border-white bg-transparent text-white hover:border-white hover:bg-white hover:text-[#0c1524]"
+                  : "border-border/80 bg-background/60 text-foreground backdrop-blur-[2px] hover:border-accent hover:bg-accent/5 hover:text-accent",
               )}
               asChild
             >

@@ -30,12 +30,12 @@ export function FeaturedProductCard({
       className={cn("group shrink-0", className)}
       style={{ width: slideWidth, flexBasis: slideWidth }}
     >
-      <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white shadow-[0_10px_36px_-24px_rgba(12,21,36,0.14)] transition-[box-shadow,transform] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-22px_rgba(12,21,36,0.18)]">
+      <div className="card-hover group/card flex h-full flex-col overflow-hidden rounded-2xl border border-[#0c1524]/8 bg-white shadow-[0_10px_36px_-24px_rgba(12,21,36,0.14)] hover:shadow-[0_16px_44px_-22px_rgba(12,21,36,0.2)]">
         <div className="aspect-[4/3] overflow-hidden bg-[#f8f7f6]">
           <img
             src={product.image.src}
             alt={product.image.alt}
-            className="size-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            className="img-zoom-hover size-full object-cover object-center"
             loading="lazy"
             decoding="async"
             draggable={false}
@@ -53,10 +53,10 @@ export function FeaturedProductCard({
 
           <Link
             to={`/products/${product.slug}`}
-            className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[0.8125rem] font-semibold text-[#0c1524] transition-colors duration-200 hover:text-[#F68E05] sm:text-sm"
+            className="text-link-hover text-link-arrow mt-auto inline-flex items-center gap-1.5 pt-5 text-[0.8125rem] font-semibold text-[#0c1524] hover:text-[#F68E05] sm:text-sm"
           >
             {viewProductLabel}
-            <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+            <ArrowRight className="size-3.5" />
           </Link>
         </div>
       </div>

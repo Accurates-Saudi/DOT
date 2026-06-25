@@ -50,7 +50,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
 
       <SheetContent
         side="right"
-        className="w-[min(100vw-2.5rem,17.5rem)] gap-0 border-border/60 p-0 sm:max-w-[17.5rem]"
+        className="w-[min(100vw-2.5rem,17.5rem)] gap-0 border-border/60 p-0 duration-300 data-open:duration-300 sm:max-w-[17.5rem]"
       >
         <SheetTitle className="sr-only">Navigation menu</SheetTitle>
 
@@ -66,10 +66,10 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                   end={item.href === "/"}
                   className={({ isActive }) =>
                     cn(
-                      "block border-b border-border/50 py-3.5 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors",
+                      "mobile-nav-item block border-b border-border/50 py-3.5 text-[0.9375rem] font-medium tracking-[0.01em]",
                       isActive
-                        ? "text-foreground"
-                        : "text-foreground/70 hover:text-foreground",
+                        ? "border-l-2 border-l-accent pl-2 text-accent"
+                        : "text-foreground/70 hover:text-accent",
                     )
                   }
                 >

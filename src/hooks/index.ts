@@ -4,6 +4,8 @@ export { useScrollToTop } from "./use-scroll-to-top";
 export { useNewsCarousel } from "./use-news-carousel";
 export { useFeaturedProductsCarousel } from "./use-featured-products-carousel";
 export { useCertificatesCarousel } from "./use-certificates-carousel";
+export { useCarouselKeyboard } from "./use-carousel-keyboard";
 export { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
+export { useScrollReveal } from "./use-scroll-reveal";
 export { useScrollThreshold } from "./use-scroll-threshold";
 export { useHeroSlideshow } from "./use-hero-slideshow";

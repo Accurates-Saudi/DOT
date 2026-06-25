@@ -30,9 +30,9 @@ function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
   return (
     <Link
       to={link.href}
-      className="group flex h-full flex-col rounded-sm border border-[#0c1524]/10 bg-white p-5 shadow-[0_1px_3px_rgba(12,21,36,0.04)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-[#F68E05]/30 hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.12)] sm:p-6"
+      className="group card-hover flex h-full flex-col rounded-sm border border-[#0c1524]/10 bg-white p-5 shadow-[0_1px_3px_rgba(12,21,36,0.04)] hover:border-[#F68E05]/30 hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.12)] sm:p-6"
     >
-      <span className="inline-flex size-10 items-center justify-center rounded-sm bg-[#0c1524]/5 text-[#0c1524] transition-colors duration-300 group-hover:bg-[#F68E05]/10 group-hover:text-[#F68E05]">
+      <span className="interaction-fast inline-flex size-10 items-center justify-center rounded-sm bg-[#0c1524]/5 text-[#0c1524] group-hover:bg-[#F68E05]/10 group-hover:text-[#F68E05]">
         <Icon className="size-5" aria-hidden />
       </span>
       <h3 className="mt-4 text-base font-bold text-[#0c1524] sm:text-[1.0625rem]">
@@ -41,12 +41,9 @@ function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
       <p className="mt-1.5 flex-1 text-sm leading-relaxed text-[#0c1524]/60">
         {link.description}
       </p>
-      <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-[#F68E05] uppercase">
+      <span className="text-link-arrow mt-4 inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-[#F68E05] uppercase">
         View
-        <ArrowRight
-          className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
-          aria-hidden
-        />
+        <ArrowRight className="size-3.5" aria-hidden />
       </span>
     </Link>
   );
@@ -109,7 +106,8 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button
                 size="lg"
-                className="h-12 rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)]"
+                variant="accent"
+                className="h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <Link to={content.ctaPrimary.href}>
@@ -197,7 +195,8 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               </Button>
               <Button
                 size="lg"
-                className="h-12 rounded-sm border-transparent bg-[#F68E05] px-7 text-[0.8125rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-10px_rgba(246,142,5,0.45)] transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-px hover:bg-[#E07F04] hover:shadow-[0_12px_28px_-10px_rgba(246,142,5,0.5)]"
+                variant="accent"
+                className="h-12 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
                 asChild
               >
                 <a href={content.supportEmail.href}>

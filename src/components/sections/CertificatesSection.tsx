@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
 
 import { Container, Section } from "@/components/shared";
-import { useCertificatesCarousel } from "@/hooks/use-certificates-carousel";
+import { useCarouselKeyboard, useCertificatesCarousel, useScrollReveal } from "@/hooks";
 import type { CertificateItem, CertificatesSectionContent } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,7 @@ export interface CertificatesSectionProps {
 export function CertificatesSection({ content }: CertificatesSectionProps) {
   const transitionMs = content.transitionMs ?? 800;
   const autoplayDelayMs = content.autoplayDelayMs ?? 2000;
+  const { ref: sectionRef, revealProps } = useScrollReveal();
 
   const {
     viewportRef,
@@ -33,6 +34,14 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
     transitionMs,
   });
 
+  useCarouselKeyboard(viewportRef, {
+    enabled: canScroll,
+    onPrev: prev,
+    onNext: next,
+    pauseAutoplay,
+    label: "Certificates carousel",
+  });
+
   const extendedItems = useMemo(() => {
     if (!canScroll) return content.items;
 
@@ -50,8 +59,11 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
       className="overflow-hidden bg-white"
     >
       <Container size="wide">
-        <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.26fr)_minmax(0,0.74fr)] md:gap-8 lg:gap-10">
-          <div className="max-w-xs md:max-w-none">
+        <div
+          ref={sectionRef}
+          className="grid items-center gap-8 md:grid-cols-[minmax(0,0.26fr)_minmax(0,0.74fr)] md:gap-8 lg:gap-10"
+        >
+          <div {...revealProps(0, "max-w-xs md:max-w-none")}>
             <h2 className="text-[1.75rem] font-bold leading-[1.1] tracking-tight text-[#0c1524] sm:text-[2rem] lg:text-[2.15rem]">
               {content.heading}
               <span className="block text-[#F68E05]">{content.headingAccent}</span>
@@ -67,7 +79,7 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
             </p>
           </div>
 
-          <div className="relative min-w-0">
+          <div {...revealProps(120, "relative min-w-0")}>
             {canScroll && (
               <>
                 <CarouselButton
@@ -147,12 +159,12 @@ function CertificateCard({
       style={{ width: slideWidth, flexBasis: slideWidth }}
       aria-label={item.title ?? item.image.alt}
     >
-      <div className="overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] transition-[transform,box-shadow] duration-300 ease-out group-hover:scale-[1.015] group-hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.28)] sm:p-2">
+      <div className="card-hover overflow-hidden rounded-sm border border-[#0c1524]/8 bg-white p-1.5 shadow-[0_4px_18px_-12px_rgba(12,21,36,0.22)] hover:shadow-[0_8px_24px_-12px_rgba(12,21,36,0.28)] sm:p-2">
         <div className="aspect-[5/3] overflow-hidden bg-[#faf9f8]">
           <img
             src={item.image.src}
             alt={item.image.alt}
-            className="size-full object-contain object-center"
+            className="img-zoom-hover size-full object-contain object-center"
             loading="lazy"
             decoding="async"
             draggable={false}
@@ -182,7 +194,7 @@ function CarouselButton({
       aria-label={label}
       onClick={onClick}
       className={cn(
-        "absolute top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/6 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.28)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_8px_24px_-10px_rgba(12,21,36,0.32)] active:scale-95 sm:size-10",
+        "carousel-nav-btn absolute top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#0c1524]/6 bg-white text-[#F68E05] shadow-[0_6px_20px_-10px_rgba(12,21,36,0.28)] sm:size-10",
         className,
       )}
     >

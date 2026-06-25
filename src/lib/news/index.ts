@@ -57,3 +57,6 @@ export function getRelatedNews(
 
   return [...sameCategory, ...differentCategory].slice(0, limit);
 }
+
+export { parseArticleContent } from "./parseArticleContent";
+export type { ParsedArticleContent } from "./parseArticleContent";

@@ -20,6 +20,8 @@ export interface ImageAsset {
   height?: number;
   /** CSS object-position for background / cover images (e.g. "center", "60% center") */
   objectPosition?: string;
+  /** Narrow-viewport focal point when cover crop differs from desktop */
+  mobileObjectPosition?: string;
 }
 
 export interface LinkItem {

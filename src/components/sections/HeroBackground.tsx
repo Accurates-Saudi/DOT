@@ -52,24 +52,31 @@ export function HeroBackground({
               decoding="async"
               fetchPriority={index === 0 ? "high" : "low"}
               className={cn(
-                "size-full object-cover object-center",
+                "hero-cover-image size-full object-cover",
                 shouldAnimate && "hero-ken-burns",
               )}
               style={
-                shouldAnimate
-                  ? ({
-                      "--hero-slide-duration": `${HERO_KEN_BURNS_MS}ms`,
-                      animationDelay: `${index * 1.5}s`,
-                    } as CSSProperties)
-                  : undefined
+                {
+                  "--hero-object-pos": image.objectPosition ?? "center",
+                  "--hero-object-pos-mobile":
+                    image.mobileObjectPosition ??
+                    image.objectPosition ??
+                    "center",
+                  ...(shouldAnimate
+                    ? {
+                        "--hero-slide-duration": `${HERO_KEN_BURNS_MS}ms`,
+                        animationDelay: `${index * 1.5}s`,
+                      }
+                    : {}),
+                } as CSSProperties
               }
             />
           </div>
         );
       })}
 
-      <div className="absolute inset-0 z-[3] bg-gradient-to-r from-[#0b1520]/80 via-[#0b1520]/45 to-transparent rtl:bg-gradient-to-l" />
-      <div className="absolute inset-0 z-[3] bg-gradient-to-t from-[#0b1520]/50 via-transparent to-[#0b1520]/15" />
+      <div className="absolute inset-0 z-[3] bg-gradient-to-b from-[#0b1520]/75 via-[#0b1520]/55 to-[#0b1520]/80 lg:bg-gradient-to-r lg:from-[#0b1520]/80 lg:via-[#0b1520]/45 lg:to-transparent rtl:lg:bg-gradient-to-l" />
+      <div className="absolute inset-0 z-[3] bg-gradient-to-t from-[#0b1520]/60 via-transparent to-[#0b1520]/20 lg:from-[#0b1520]/50 lg:to-[#0b1520]/15" />
 
       <p className="sr-only" aria-live="polite">
         {prefersReducedMotion

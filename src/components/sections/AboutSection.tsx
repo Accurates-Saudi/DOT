@@ -99,7 +99,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                 "grid gap-5 sm:gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:gap-8",
               )}
             >
-              <div className="relative flex h-[13rem] flex-col overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
+              <div className="relative flex h-[14.5rem] flex-col overflow-hidden rounded-2xl border border-[#0c1524]/[0.07] shadow-[0_10px_36px_-22px_rgba(12,21,36,0.14)] sm:h-[14rem] lg:h-[15rem] lg:rounded-3xl xl:h-[16rem]">
                 <div
                   className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white via-[#fffcf9] to-[#fef6ee]"
                   aria-hidden
@@ -113,12 +113,12 @@ export function AboutSection({ content }: AboutSectionProps) {
                   aria-hidden
                 />
 
-                <div className="relative flex h-full flex-col justify-between px-5 py-4 sm:px-6 sm:py-4.5 lg:px-7 lg:py-4.5 xl:px-8 xl:py-5">
-                  <h3 className="max-w-md whitespace-pre-line pr-2 text-base font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:text-[1.0625rem] lg:text-[1.36rem] lg:leading-[1.48]">
+                <div className="relative flex h-full flex-col items-center justify-between px-5 py-5 text-center sm:px-6 sm:py-4.5 lg:items-stretch lg:px-7 lg:py-4.5 lg:text-start xl:px-8 xl:py-5">
+                  <h3 className="mx-auto max-w-md whitespace-pre-line text-base font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:text-[1.0625rem] lg:mx-0 lg:pr-2 lg:text-[1.36rem] lg:leading-[1.48]">
                     {servicesBanner.title}
                   </h3>
 
-                  <ul className="grid w-full grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 lg:gap-x-4">
+                  <ul className="grid w-full max-w-sm grid-cols-2 gap-x-3 gap-y-4 sm:max-w-none sm:grid-cols-4 sm:gap-x-3 lg:gap-x-4">
                     {servicesBanner.items.map((item, index) => {
                       const Icon = SERVICE_ICONS[item.icon] ?? Wrench;
                       return (
@@ -130,7 +130,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                             className="size-9 shrink-0 text-[#F68E05] stroke-[1.5] sm:size-10 lg:size-11"
                             aria-hidden
                           />
-                          <span className="mt-3.5 max-w-[4.5rem] whitespace-pre-line text-[0.6875rem] font-semibold leading-[1.28] tracking-tight text-[#0c1524]/90 sm:max-w-[5rem] sm:text-xs lg:mt-4 lg:max-w-[5.5rem] lg:text-[0.8125rem]">
+                          <span className="mt-3.5 max-w-[5.5rem] whitespace-pre-line text-[0.6875rem] font-semibold leading-[1.28] tracking-tight text-[#0c1524]/90 sm:max-w-[5rem] sm:text-xs lg:mt-4 lg:max-w-[5.5rem] lg:text-[0.8125rem]">
                             {item.label}
                           </span>
                         </li>

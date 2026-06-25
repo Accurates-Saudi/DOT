@@ -12,6 +12,7 @@ import {
   homeCompanyStatisticsStructure,
   homeEngineeringStepIcons,
   homeServiceItemsStructure,
+  homeHeroObjectPositions,
   homeStatisticsObjectPosition,
   homeTimingDefaults,
 } from "../defaults/home-structure";
@@ -44,6 +45,7 @@ export function buildHomePageContent(
         background: {
           ...slide.background,
           src: homeAssets.hero[index] ?? homeAssets.hero[0],
+          ...homeHeroObjectPositions[index],
         },
       })),
     },

@@ -166,6 +166,16 @@
       alternate;
     will-change: transform;
   }
+
+  .hero-cover-image {
+    object-position: var(--hero-object-pos-mobile, center);
+  }
+
+  @media (min-width: 1024px) {
+    .hero-cover-image {
+      object-position: var(--hero-object-pos, center);
+    }
+  }
 }
 
 @keyframes hero-enter {

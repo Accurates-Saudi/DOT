@@ -41,6 +41,8 @@ export const homePageContent: HomePageContent = {
         background: {
           src: heroBg1,
           alt: "Industrial oil and gas facility with pipeline infrastructure at golden hour",
+          objectPosition: "center center",
+          mobileObjectPosition: "72% center",
         },
       },
       {
@@ -54,6 +56,8 @@ export const homePageContent: HomePageContent = {
         background: {
           src: heroBg2,
           alt: "Advanced manufacturing and refinery operations at sunset",
+          objectPosition: "center center",
+          mobileObjectPosition: "center center",
         },
       },
     ],

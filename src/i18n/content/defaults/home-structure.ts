@@ -58,3 +58,8 @@ export const homeTimingDefaults = {
 } as const;
 
 export const homeStatisticsObjectPosition = "center center" as const;
+
+export const homeHeroObjectPositions = [
+  { objectPosition: "center center", mobileObjectPosition: "72% center" },
+  { objectPosition: "center center", mobileObjectPosition: "center center" },
+] as const;

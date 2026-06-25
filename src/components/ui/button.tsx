@@ -4,14 +4,17 @@ import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
-/** DOT brand colors — referenced via CSS variables in :root */
+/** Trailing arrow slide on hover — only when SVG is the last child */
 const buttonArrow =
-  "[&_svg]:transition-transform [&_svg]:duration-200 [&_svg]:ease-out group-hover/button:[&_svg]:translate-x-0.5 motion-reduce:group-hover/button:[&_svg]:translate-x-0"
+  "[&>svg:last-child]:transition-transform [&>svg:last-child]:duration-300 [&>svg:last-child]:ease-[cubic-bezier(0.4,0,0.2,1)] hover:[&>svg:last-child]:translate-x-0.5 motion-reduce:hover:[&>svg:last-child]:translate-x-0"
+
+const buttonTransition =
+  "transition-[background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
 
 const buttonVariants = cva(
   cn(
     "group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding text-sm font-medium whitespace-nowrap outline-none select-none",
-    "transition-[background-color,border-color,color,box-shadow] duration-200 ease-out motion-reduce:transition-none",
+    buttonTransition,
     "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
     "disabled:pointer-events-none disabled:opacity-50",
     "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",

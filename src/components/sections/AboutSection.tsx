@@ -167,13 +167,13 @@ export function AboutSection({ content }: AboutSectionProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label="Play company video"
-                          className="flex size-[4.5rem] items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_12px_36px_-10px_rgba(246,142,5,0.55)] transition-opacity duration-300 ease-out hover:opacity-90 sm:size-20"
+                          className="play-button size-[4.5rem] sm:size-20"
                         >
                           <Play className="size-7 fill-current pl-1 sm:size-8" />
                         </a>
                       ) : (
                         <span
-                          className="flex size-[4.5rem] items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_12px_36px_-10px_rgba(246,142,5,0.55)] sm:size-20"
+                          className="play-button size-[4.5rem] sm:size-20"
                           aria-hidden
                         >
                           <Play className="size-7 fill-current pl-1 sm:size-8" />
@@ -230,7 +230,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                 <Button
                   variant="accent"
                   size="lg"
-                  className="group h-12 rounded-full px-6 text-[0.9375rem] font-medium"
+                  className="h-12 rounded-full px-6 text-[0.9375rem] font-medium"
                   asChild
                 >
                   <Link to={content.ctaPrimary.href}>
@@ -242,9 +242,9 @@ export function AboutSection({ content }: AboutSectionProps) {
                 {content.ctaVideo && (
                   <Link
                     to={content.ctaVideo.href}
-                    className="group inline-flex items-center gap-3 text-[0.9375rem] font-medium text-[#0c1524] transition-colors duration-300 ease-out hover:text-[#0c1524]/80"
+                    className="group/play inline-flex items-center gap-3.5 text-[0.9375rem] font-medium text-[#0c1524] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:text-[var(--dot-navy)]"
                   >
-                    <span className="flex size-10 items-center justify-center rounded-full bg-[#F68E05] text-white shadow-[0_6px_20px_-8px_rgba(246,142,5,0.55)]">
+                    <span className="play-button-inline size-11 shrink-0 sm:size-12">
                       <Play className="size-4 fill-current pl-0.5" />
                     </span>
                     {content.ctaVideo.label}

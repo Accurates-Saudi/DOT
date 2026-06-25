@@ -23,7 +23,7 @@ export function Footer({ content = footerContent }: FooterProps) {
 
   return (
     <footer className="bg-[#0c1524] text-white">
-      <Container size="wide" className="py-12 md:py-14 lg:py-16">
+      <Container size="wide" className="py-[72px]">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8 xl:gap-10">
           <div className="sm:col-span-2 lg:col-span-4">
             <div className="flex items-center gap-3">

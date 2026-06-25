@@ -54,7 +54,7 @@ export function WhyChooseUsSection({ content }: WhyChooseUsSectionProps) {
   return (
     <Section
       id="why-choose-us"
-      padding="none"
+      padding="section80"
       variant="default"
       aria-label="Why choose us"
       className="overflow-hidden bg-white"

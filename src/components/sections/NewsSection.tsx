@@ -14,7 +14,7 @@ export function NewsSection({ content }: NewsSectionProps) {
   return (
     <Section
       id="news"
-      padding="lg"
+      padding="section72"
       variant="default"
       aria-label="Latest news"
       className="overflow-hidden bg-white"

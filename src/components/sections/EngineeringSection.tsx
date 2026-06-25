@@ -57,7 +57,7 @@ export function EngineeringSection({ content }: EngineeringSectionProps) {
   return (
     <Section
       id="engineering"
-      padding="md"
+      padding="section80"
       variant="default"
       aria-label="Engineering and R&D"
       className="relative overflow-hidden bg-white"

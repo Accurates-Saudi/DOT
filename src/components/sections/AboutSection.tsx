@@ -73,7 +73,7 @@ export function AboutSection({ content }: AboutSectionProps) {
   return (
     <Section
       id="about"
-      padding="xl"
+      padding="section72"
       variant="default"
       aria-label="About us"
       className="relative overflow-hidden bg-[#fcfcfb]"
@@ -112,7 +112,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                 />
 
                 <div className="relative flex h-full flex-col justify-between px-5 py-4 sm:px-6 sm:py-4.5 lg:px-7 lg:py-4.5 xl:px-8 xl:py-5">
-                  <h3 className="max-w-md whitespace-pre-line pr-2 text-base font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:text-[1.0625rem] lg:text-[1.25rem] lg:leading-[1.38]">
+                  <h3 className="max-w-md whitespace-pre-line pr-2 text-base font-bold leading-[1.35] tracking-tight text-[#0c1524] sm:text-[1.0625rem] lg:text-[1.36rem] lg:leading-[1.48]">
                     {servicesBanner.title}
                   </h3>
 

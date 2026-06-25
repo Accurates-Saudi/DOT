@@ -17,6 +17,9 @@ const sectionVariants = cva("w-full", {
       md: "py-12 md:py-16",
       lg: "py-16 md:py-24",
       xl: "py-20 md:py-32",
+      hero: "py-[96px]",
+      section72: "py-[72px]",
+      section80: "py-[80px]",
     },
   },
   defaultVariants: {

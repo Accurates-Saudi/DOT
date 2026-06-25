@@ -72,7 +72,7 @@ export function ServicesSection({ content }: ServicesSectionProps) {
   return (
     <Section
       id="services"
-      padding="xl"
+      padding="section72"
       variant="default"
       aria-label="Our services"
       className="relative overflow-hidden bg-white"

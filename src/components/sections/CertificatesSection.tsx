@@ -44,10 +44,10 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
   return (
     <Section
       id="certificates"
-      padding="none"
+      padding="section72"
       variant="default"
       aria-label="Our certificates"
-      className="overflow-hidden bg-white py-10 sm:py-12 lg:py-14"
+      className="overflow-hidden bg-white"
     >
       <Container size="wide">
         <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.26fr)_minmax(0,0.74fr)] md:gap-8 lg:gap-10">

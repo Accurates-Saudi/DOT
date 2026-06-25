@@ -1,3 +1,5 @@
+import { ArrowBigRightDash } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 export interface TriangleBulletListProps {
@@ -18,12 +20,11 @@ export function TriangleBulletList({
           key={index}
           className="flex gap-2 text-[0.75rem] leading-[1.65] text-[#0c1524]/80 sm:text-[0.8125rem] sm:leading-[1.7]"
         >
-          <span
-            className="mt-[0.35rem] shrink-0 text-[0.4rem] text-[#F68E05]"
+          <ArrowBigRightDash
+            className="mt-0.5 size-3.5 shrink-0 text-[#F68E05]"
+            strokeWidth={2.25}
             aria-hidden
-          >
-            ▶
-          </span>
+          />
           <span>{item}</span>
         </li>
       ))}

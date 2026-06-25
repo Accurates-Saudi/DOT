@@ -58,10 +58,10 @@ export const homePageContent: HomePageContent = {
       title:
         "Factory of Technical Services for Industries — Advanced manufacturing & engineering",
       items: [
-        { label: "Industrial Maintenance", icon: "maintenance" },
-        { label: "Petroleum Solutions", icon: "petroleum" },
-        { label: "Technical Engineering", icon: "engineering" },
-        { label: "Plant Support Services", icon: "plant" },
+        { label: "Industrial\nMaintenance", icon: "maintenance" },
+        { label: "Petroleum\nSolutions", icon: "petroleum" },
+        { label: "Technical\nEngineering", icon: "engineering" },
+        { label: "Plant Support\nServices", icon: "plant" },
       ],
       thumbnail: {
         src: heroBg1,

@@ -2,6 +2,7 @@ import { Clock, Globe, HardHat, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Ref } from "react";
 
+import { LocalizedNumeric } from "@/components/i18n";
 import { Container, ParallaxBackgroundImage, Section } from "@/components/shared";
 import { useCountUp, useScrollReveal } from "@/hooks";
 import { useNumberFormat } from "@/i18n/hooks";
@@ -121,10 +122,15 @@ function StatisticEntry({
       </span>
 
       <p className="mt-4 text-[2.35rem] font-bold leading-none tracking-tight text-white sm:mt-5 sm:text-[2.65rem] lg:text-[2.85rem]">
-        <span className="tabular-nums">{formatNumber(count)}</span>
-        {item.suffix && (
-          <span className="text-[#F68E05]">{item.suffix}</span>
-        )}
+        <LocalizedNumeric
+          isolateLtr={Boolean(item.suffix)}
+          className="tabular-nums"
+        >
+          <span>{formatNumber(count)}</span>
+          {item.suffix && (
+            <span className="text-[#F68E05]">{item.suffix}</span>
+          )}
+        </LocalizedNumeric>
       </p>
 
       <p className="mt-2.5 max-w-[9rem] text-[0.8125rem] font-medium leading-snug tracking-wide text-white/88 uppercase sm:mt-3 sm:text-[0.875rem]">

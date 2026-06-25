@@ -19,8 +19,11 @@ export function formatNumber(value: number, locale: Locale): string {
   }).format(value);
 }
 
+export function requiresLtrNumericIsolation(text: string): boolean {
+  return text.includes("+");
+}
+
 /**
- * Localizes mixed text that may contain digits and leading phone/country-code "+".
  * English: "+966 (13) 8041290" → Arabic: "٩٦٦ (١٣) ٨٠٤١٢٩٠+"
  */
 export function formatNumericText(text: string, locale: Locale): string {
@@ -38,6 +41,15 @@ export function formatNumericText(text: string, locale: Locale): string {
     working.replace(/\d/g, (digit) => ARABIC_DIGITS[Number(digit)] ?? digit) +
     trailingAffixes
   );
+}
+
+/** For plain-text attributes (e.g. input placeholder) where `<bdi>` cannot be used. */
+export function formatNumericTextPlain(text: string, locale: Locale): string {
+  const formatted = formatNumericText(text, locale);
+  if (locale === "ar" && requiresLtrNumericIsolation(formatted)) {
+    return `\u200E${formatted}`;
+  }
+  return formatted;
 }
 
 /** Animated stat / counter value with optional trailing symbol (e.g. "+"). */

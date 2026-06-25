@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { LocalizedNumeric } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import {
   CompanyOverviewFeatureIconFrame,
@@ -214,8 +215,13 @@ function CompanyOverviewStatEntry({
       <CompanyOverviewStatIconFrame icon={stat.icon} />
       <div className="min-w-0">
         <p className="text-[1.875rem] font-bold leading-none tracking-tight text-[#F68E05] sm:text-[2rem] lg:text-[2.15rem]">
-          <span className="tabular-nums">{formatNumber(count)}</span>
-          {stat.suffix && <span>{stat.suffix}</span>}
+          <LocalizedNumeric
+            isolateLtr={Boolean(stat.suffix)}
+            className="tabular-nums"
+          >
+            <span>{formatNumber(count)}</span>
+            {stat.suffix && <span>{stat.suffix}</span>}
+          </LocalizedNumeric>
         </p>
         <p className="mt-2 text-[0.8125rem] font-semibold leading-snug text-[#0c1524]/72 sm:text-sm">
           {stat.label}

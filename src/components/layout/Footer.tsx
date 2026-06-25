@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { LocalizedLink } from "@/components/i18n";
+import { FormattedNumericText, LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { useFooterContent } from "@/i18n/content/hooks";
 import { useNumberFormat, useTranslation } from "@/i18n/hooks";
@@ -24,7 +24,7 @@ export function Footer({ content: contentProp }: FooterProps) {
   const defaultContent = useFooterContent();
   const content = contentProp ?? defaultContent;
   const { t } = useTranslation("seo");
-  const { formatNumber, formatNumericText } = useNumberFormat();
+  const { formatNumber } = useNumberFormat();
   const year = new Date().getFullYear();
 
   return (
@@ -78,7 +78,7 @@ export function Footer({ content: contentProp }: FooterProps) {
                         {item.label}
                       </span>
                       <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
-                        {formatNumericText(item.value)}
+                        <FormattedNumericText value={item.value} />
                       </span>
                     </span>
                   </>

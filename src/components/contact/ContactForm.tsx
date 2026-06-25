@@ -2,7 +2,7 @@ import { Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui";
-import { useNumberFormat } from "@/i18n/hooks";
+import { useLocale, useNumberFormat } from "@/i18n/hooks";
 import type { ContactFormContent, ContactFormValues } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +31,8 @@ export function ContactForm({
   isSubmitting = false,
   className,
 }: ContactFormProps) {
-  const { formatNumericText } = useNumberFormat();
+  const locale = useLocale();
+  const { formatNumericTextPlain } = useNumberFormat();
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -56,7 +57,7 @@ export function ContactForm({
     company: placeholders.company,
     email: placeholders.email,
     phone: placeholders.phone
-      ? formatNumericText(placeholders.phone)
+      ? formatNumericTextPlain(placeholders.phone)
       : undefined,
     subject: placeholders.subject,
     message: placeholders.message,
@@ -123,6 +124,7 @@ export function ContactForm({
             value={values.phone}
             onChange={(value) => updateField("phone", value)}
             autoComplete="tel"
+            dir={locale === "ar" ? "ltr" : undefined}
           />
         </div>
 
@@ -180,6 +182,7 @@ interface FormFieldProps {
   placeholder?: string;
   autoComplete?: string;
   required?: boolean;
+  dir?: "ltr" | "rtl";
 }
 
 function FormField({
@@ -191,6 +194,7 @@ function FormField({
   placeholder,
   autoComplete,
   required,
+  dir,
 }: FormFieldProps) {
   return (
     <div>
@@ -209,6 +213,7 @@ function FormField({
         placeholder={placeholder}
         autoComplete={autoComplete}
         required={required}
+        dir={dir}
         className={inputClassName}
       />
     </div>

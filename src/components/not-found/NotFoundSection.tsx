@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
+import { FormattedNumericText } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { useNumberFormat } from "@/i18n/hooks";
@@ -191,7 +192,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
               >
                 <a href={content.supportPhone.href}>
                   <Phone className="size-4" aria-hidden />
-                  {formatNumericText(content.supportPhone.label)}
+                  <FormattedNumericText value={content.supportPhone.label} />
                 </a>
               </Button>
               <Button

@@ -6,7 +6,9 @@ import {
   formatNewsDateParts,
   formatNumber,
   formatNumericText,
+  formatNumericTextPlain,
   formatStatisticValue,
+  requiresLtrNumericIsolation,
 } from "./format-numbers";
 import { useI18nContext } from "./provider";
 import type { TranslateFn } from "./types";
@@ -50,6 +52,8 @@ export function useNumberFormat() {
       locale,
       formatNumber: (value: number) => formatNumber(value, locale),
       formatNumericText: (text: string) => formatNumericText(text, locale),
+      formatNumericTextPlain: (text: string) =>
+        formatNumericTextPlain(text, locale),
       formatStatisticValue: (value: number, suffix?: string) =>
         formatStatisticValue(value, suffix, locale),
       formatDate: (isoDate: string, options: Intl.DateTimeFormatOptions) =>

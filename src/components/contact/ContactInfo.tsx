@@ -1,6 +1,6 @@
 import { Clock, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 
-import { useNumberFormat } from "@/i18n/hooks";
+import { FormattedNumericText } from "@/components/i18n";
 import type { ContactInfoContent, ContactInfoItem } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -17,8 +17,6 @@ export interface ContactInfoProps {
 }
 
 export function ContactInfo({ content, className }: ContactInfoProps) {
-  const { formatNumericText } = useNumberFormat();
-
   return (
     <div className={cn(className)}>
       <div className="mb-8 flex items-center gap-3">
@@ -50,11 +48,11 @@ export function ContactInfo({ content, className }: ContactInfoProps) {
                     href={item.href}
                     className="mt-1 block text-[0.9375rem] leading-relaxed text-[#0c1524] transition-colors hover:text-[#F68E05] sm:text-base"
                   >
-                    {formatNumericText(item.value)}
+                    <FormattedNumericText value={item.value} />
                   </a>
                 ) : (
                   <p className="mt-1 text-[0.9375rem] leading-relaxed text-[#0c1524] sm:text-base">
-                    {formatNumericText(item.value)}
+                    <FormattedNumericText value={item.value} />
                   </p>
                 )}
               </div>

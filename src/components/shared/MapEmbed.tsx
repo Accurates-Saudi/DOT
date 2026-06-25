@@ -1,6 +1,6 @@
 import { Navigation } from "lucide-react";
 
-import { useNumberFormat } from "@/i18n/hooks";
+import { FormattedNumericText } from "@/components/i18n";
 import type { MapLocationContent } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,6 @@ export function MapEmbed({
   info,
   className,
 }: MapEmbedProps) {
-  const { formatNumericText } = useNumberFormat();
   const directionsUrl =
     info?.directionsUrl ??
     (info ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(info.address)}` : undefined);
@@ -87,7 +86,7 @@ export function MapEmbed({
                     : "text-[0.6875rem] sm:text-xs",
                 )}
               >
-                {formatNumericText(info.address)}
+                <FormattedNumericText value={info.address} />
               </p>
 
               <div className="mt-2 flex items-center gap-2 border-t border-[#e8eaed] pt-2">

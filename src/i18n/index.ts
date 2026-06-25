@@ -26,7 +26,9 @@ export {
   formatNewsDateParts,
   formatNumber,
   formatNumericText,
+  formatNumericTextPlain,
   formatStatisticValue,
+  requiresLtrNumericIsolation,
 } from "./format-numbers";
 export { loadMessages, preloadMessages } from "./loadMessages";
 export {

@@ -33,7 +33,7 @@ export function HeroContent({
   const activeSlide = slides[activeIndex] ?? slides[0];
 
   return (
-    <div className="grid w-full max-w-2xl py-12 sm:py-16 lg:py-20 xl:max-w-3xl">
+    <div className="grid w-full max-w-2xl justify-self-start text-start py-12 sm:py-16 lg:py-20 xl:max-w-3xl">
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         const showEntrance = playEntrance && index === 0 && isActive;
@@ -100,7 +100,7 @@ export function HeroContent({
               >
                 <Link to={slide.ctaPrimary.href}>
                   {slide.ctaPrimary.label}
-                  <ArrowRight className="size-4" />
+                  <ArrowRight className="size-4 rtl:-scale-x-100" />
                 </Link>
               </Button>
 
@@ -113,7 +113,7 @@ export function HeroContent({
                 >
                   <Link to={slide.ctaSecondary.href}>
                     {slide.ctaSecondary.label}
-                    <ArrowRight className="size-4" />
+                    <ArrowRight className="size-4 rtl:-scale-x-100" />
                   </Link>
                 </Button>
               )}

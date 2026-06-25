@@ -39,7 +39,7 @@ export function HeroBackground({
         return (
           <div
             key={image.src}
-            className="absolute inset-0 overflow-hidden"
+            className="absolute inset-0 overflow-hidden rtl:-scale-x-100"
             style={{
               opacity: isActive ? 1 : 0,
               transition: `opacity ${fadeDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
@@ -68,7 +68,7 @@ export function HeroBackground({
         );
       })}
 
-      <div className="absolute inset-0 z-[3] bg-gradient-to-r from-[#0b1520]/80 via-[#0b1520]/45 to-transparent" />
+      <div className="absolute inset-0 z-[3] bg-gradient-to-r from-[#0b1520]/80 via-[#0b1520]/45 to-transparent rtl:bg-gradient-to-l" />
       <div className="absolute inset-0 z-[3] bg-gradient-to-t from-[#0b1520]/50 via-transparent to-[#0b1520]/15" />
 
       <p className="sr-only" aria-live="polite">

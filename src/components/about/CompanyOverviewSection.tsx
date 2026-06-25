@@ -137,7 +137,7 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
             <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-6 lg:mt-12 lg:grid-cols-4 lg:gap-0">
               {content.features.map((feature, index) => (
                 <li
-                  key={feature.id}
+                  key={feature.id ?? `feature-${index}`}
                   className={cn(
                     "flex flex-col",
                     index < content.features.length - 1 &&
@@ -167,7 +167,7 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:items-stretch">
             {content.stats.map((stat, index) => (
               <CompanyOverviewStatEntry
-                key={stat.id}
+                key={stat.id ?? `stat-${index}`}
                 stat={stat}
                 index={index}
                 isVisible={statsVisible}

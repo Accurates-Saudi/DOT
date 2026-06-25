@@ -3,7 +3,12 @@ import type { TranslationMessages } from "@/i18n/types";
 import type { AboutPageContent } from "@/types";
 
 import { aboutAssets } from "../assets/about";
-import { getMessagesSection, localizeLinkItem } from "../helpers";
+import {
+  aboutCapabilitiesStructure,
+  aboutCompanyOverviewFeatures,
+  aboutCompanyOverviewStats,
+} from "../defaults/about-structure";
+import { getMessagesSection, localizeLinkItem, mergeIndexed } from "../helpers";
 import { localizeBreadcrumbs } from "./navigation";
 
 export function buildAboutPageContent(
@@ -25,18 +30,24 @@ export function buildAboutPageContent(
     companyOverview: {
       ...page.companyOverview,
       image: { ...page.companyOverview.image, src: aboutAssets.facility },
+      features: mergeIndexed(
+        page.companyOverview.features,
+        aboutCompanyOverviewFeatures,
+      ),
+      stats: mergeIndexed(page.companyOverview.stats, aboutCompanyOverviewStats),
     },
     engineeringManufacturing: {
       ...page.engineeringManufacturing,
-      capabilities: page.engineeringManufacturing.capabilities.map(
-        (capability, index) => ({
-          ...capability,
-          image: {
-            ...capability.image,
-            src: aboutAssets.capabilities[index] ?? aboutAssets.capabilities[0],
-          },
-        }),
-      ),
+      capabilities: mergeIndexed(
+        page.engineeringManufacturing.capabilities,
+        aboutCapabilitiesStructure,
+      ).map((capability, index) => ({
+        ...capability,
+        image: {
+          ...capability.image,
+          src: aboutAssets.capabilities[index] ?? aboutAssets.capabilities[0],
+        },
+      })),
       cta: {
         ...page.engineeringManufacturing.cta,
         ctaPrimary: localizeLinkItem(

@@ -15,7 +15,7 @@ import {
   homeStatisticsObjectPosition,
   homeTimingDefaults,
 } from "../defaults/home-structure";
-import { getMessagesSection, localizeLinkItem } from "../helpers";
+import { getMessagesSection, localizeLinkItem, mergeIndexed } from "../helpers";
 import { buildLocalizedProductItems } from "../products";
 import { buildNewsPreviews } from "../news";
 import { buildTrustedPartnersContent } from "./trusted-partners";
@@ -56,10 +56,10 @@ export function buildHomePageContent(
       servicesBanner: page.about.servicesBanner
         ? {
             ...page.about.servicesBanner,
-            items: page.about.servicesBanner.items.map((item, index) => ({
-              ...item,
-              ...homeAboutServiceIcons[index],
-            })),
+            items: mergeIndexed(
+              page.about.servicesBanner.items,
+              homeAboutServiceIcons,
+            ),
             thumbnail: page.about.servicesBanner.thumbnail
               ? {
                   ...page.about.servicesBanner.thumbnail,

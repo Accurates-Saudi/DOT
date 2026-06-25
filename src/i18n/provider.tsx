@@ -10,6 +10,7 @@ import type { Locale } from "./config";
 import { getDirection } from "./utils";
 import { createTranslator, localizePath as buildLocalizedPath } from "./utils";
 import type { I18nContextValue, TranslationMessages } from "./types";
+import { LocaleDocumentSync } from "./LocaleDocumentSync";
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
@@ -43,7 +44,10 @@ export function I18nProvider({
   );
 
   return (
-    <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
+    <I18nContext.Provider value={value}>
+      <LocaleDocumentSync locale={locale} />
+      {children}
+    </I18nContext.Provider>
   );
 }
 

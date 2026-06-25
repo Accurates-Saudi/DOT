@@ -10,6 +10,7 @@ export {
   type Locale,
 } from "./config";
 export { FallbackI18nProvider } from "./fallback-provider";
+export { localeScrollStorageKey } from "./locale-scroll";
 export { I18nProvider, useI18nContext } from "./provider";
 export {
   useDirection,

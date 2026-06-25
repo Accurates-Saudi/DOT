@@ -18,6 +18,31 @@ interface NewsArticlesMessages {
   [slug: string]: NewsArticleTranslation | undefined;
 }
 
+/** Legacy keys from early locale export scripts → real article slugs */
+const NEWS_TRANSLATION_SLUG_ALIASES: Record<string, string> = {
+  "1": "tenaris-visit",
+  "2": "sabic-conference-2020",
+};
+
+function resolveNewsTranslation(
+  translations: NewsArticlesMessages,
+  slug: string,
+): NewsArticleTranslation | undefined {
+  if (translations[slug]) {
+    return translations[slug];
+  }
+
+  for (const [legacyKey, mappedSlug] of Object.entries(
+    NEWS_TRANSLATION_SLUG_ALIASES,
+  )) {
+    if (mappedSlug === slug && translations[legacyKey]) {
+      return translations[legacyKey];
+    }
+  }
+
+  return undefined;
+}
+
 function applyNewsTranslation(
   article: NewsArticleDetail,
   translation: NewsArticleTranslation | undefined,
@@ -43,7 +68,10 @@ function getLocalizedArticles(
   );
 
   return newsArticleDetails.map((article) =>
-    applyNewsTranslation(article, translations[article.slug]),
+    applyNewsTranslation(
+      article,
+      resolveNewsTranslation(translations, article.slug),
+    ),
   );
 }
 

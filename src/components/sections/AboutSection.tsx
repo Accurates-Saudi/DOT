@@ -119,11 +119,11 @@ export function AboutSection({ content }: AboutSectionProps) {
                   </h3>
 
                   <ul className="grid w-full grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-4 sm:gap-x-3 lg:gap-x-4">
-                    {servicesBanner.items.map((item) => {
-                      const Icon = SERVICE_ICONS[item.icon];
+                    {servicesBanner.items.map((item, index) => {
+                      const Icon = SERVICE_ICONS[item.icon] ?? Wrench;
                       return (
                         <li
-                          key={item.label}
+                          key={`${item.icon ?? "service"}-${index}`}
                           className="flex min-w-0 flex-col items-center text-center"
                         >
                           <Icon

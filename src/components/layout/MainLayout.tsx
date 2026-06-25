@@ -5,6 +5,7 @@ import { CookieConsentUI } from "@/components/cookie-consent";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
+import { useRestoreLocaleScroll } from "@/hooks/use-restore-locale-scroll";
 import { cn } from "@/lib/utils";
 
 export interface MainLayoutProps {
@@ -16,6 +17,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   const isHome = /\/(en|ar)\/?$/.test(location.pathname);
 
   useScrollToTop();
+  useRestoreLocaleScroll();
 
   return (
     <div className="flex min-h-svh flex-col">

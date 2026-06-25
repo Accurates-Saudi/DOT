@@ -4,7 +4,10 @@ import { useLocation, useNavigate } from "react-router";
 
 import {
   createLocaleCookie,
+  getDirection,
+  localeHtmlLang,
   localeLabels,
+  localeScrollStorageKey,
   localeStorageKey,
   locales,
   type Locale,
@@ -67,11 +70,15 @@ export function LanguageSwitcher({
     }
 
     try {
+      sessionStorage.setItem(localeScrollStorageKey, String(window.scrollY));
       localStorage.setItem(localeStorageKey, nextLocale);
     } catch {
-      // localStorage may be unavailable in private mode
+      // storage may be unavailable in private mode
     }
 
+    document.documentElement.lang = localeHtmlLang[nextLocale];
+    document.documentElement.dir = getDirection(nextLocale);
+    document.documentElement.dataset.locale = nextLocale;
     document.cookie = createLocaleCookie(nextLocale);
 
     const { pathname } = stripLocaleFromPath(location.pathname);

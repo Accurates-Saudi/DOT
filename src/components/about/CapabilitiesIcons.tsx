@@ -18,6 +18,8 @@ export function CapabilityIcon({
       return <QualityShieldIcon className={className} />;
     case "innovation":
       return <Lightbulb className={className} strokeWidth={1.35} aria-hidden />;
+    default:
+      return <Factory className={className} strokeWidth={1.35} aria-hidden />;
   }
 }
 

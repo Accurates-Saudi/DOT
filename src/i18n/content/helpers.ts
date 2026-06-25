@@ -38,3 +38,13 @@ export function localizeHref(href: string | undefined, locale: Locale): string |
   }
   return localizePath(href, locale);
 }
+
+export function mergeIndexed<T extends object, S extends object>(
+  items: T[],
+  structure: readonly S[],
+): Array<T & S> {
+  return items.map((item, index) => ({
+    ...item,
+    ...(structure[index] ?? {}),
+  })) as Array<T & S>;
+}

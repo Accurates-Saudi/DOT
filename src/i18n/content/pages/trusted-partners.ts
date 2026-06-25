@@ -2,7 +2,11 @@ import type { TranslationMessages } from "@/i18n/types";
 import type { TrustedPartnersSectionContent } from "@/types";
 
 import { clientLogos } from "../assets/trusted-partners";
-import { getMessagesSection } from "../helpers";
+import {
+  trustedPartnerLogoIds,
+  trustedPartnersMarqueeDurationMs,
+} from "../defaults/trusted-partners-structure";
+import { getMessagesSection, mergeIndexed } from "../helpers";
 
 export function buildTrustedPartnersContent(
   messages: TranslationMessages,
@@ -14,12 +18,16 @@ export function buildTrustedPartnersContent(
 
   return {
     ...trustedPartners,
-    logos: trustedPartners.logos.map((logo, index) => ({
-      ...logo,
-      logo: {
-        ...logo.logo,
-        src: clientLogos[index] ?? clientLogos[0],
-      },
-    })),
+    marqueeDurationMs:
+      trustedPartners.marqueeDurationMs ?? trustedPartnersMarqueeDurationMs,
+    logos: mergeIndexed(trustedPartners.logos, trustedPartnerLogoIds).map(
+      (logo, index) => ({
+        ...logo,
+        logo: {
+          ...logo.logo,
+          src: clientLogos[index] ?? clientLogos[0],
+        },
+      }),
+    ),
   };
 }

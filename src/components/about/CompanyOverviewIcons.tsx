@@ -36,6 +36,8 @@ export function CompanyOverviewFeatureIcon({
       return <ClientFocusedIcon className={className} />;
     case "global-supply":
       return <GlobalSupplyIcon className={className} />;
+    default:
+      return <QualityDrivenIcon className={className} />;
   }
 }
 
@@ -46,7 +48,7 @@ export function CompanyOverviewStatIcon({
   icon: CompanyOverviewStat["icon"];
   className?: string;
 }) {
-  const Icon = STAT_ICONS[icon];
+  const Icon = STAT_ICONS[icon] ?? Calendar;
   return <Icon className={className} strokeWidth={1.35} aria-hidden />;
 }
 

@@ -489,11 +489,3 @@ html[dir="rtl"] textarea,
 html[dir="rtl"] select {
   text-align: start;
 }
-
-html {
-  transition: opacity 0.15s ease;
-}
-
-html.locale-switching body {
-  opacity: 0.98;
-}

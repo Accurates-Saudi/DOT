@@ -31,11 +31,11 @@ export function ContactInfo({ content, className }: ContactInfoProps) {
       </h2>
 
       <ul className="mt-8 space-y-6">
-        {content.items.map((item) => {
-          const Icon = CONTACT_ICONS[item.type];
+        {content.items.map((item, index) => {
+          const Icon = CONTACT_ICONS[item.type] ?? Phone;
 
           return (
-            <li key={item.id} className="flex gap-4">
+            <li key={item.id ?? `contact-item-${index}`} className="flex gap-4">
               <span className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-[#0c1524]/10 bg-[#0c1524]/[0.03] text-[#F68E05]">
                 <Icon className="size-4" strokeWidth={2} aria-hidden />
               </span>

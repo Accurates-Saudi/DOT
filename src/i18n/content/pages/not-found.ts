@@ -4,7 +4,8 @@ import type { NotFoundPageContent } from "@/types";
 
 import { formatPhoneHref, siteSettings } from "@/data/site";
 
-import { getMessagesSection, localizeLinkItem, localizeLinkItems } from "../helpers";
+import { getMessagesSection, localizeLinkItem, mergeIndexed } from "../helpers";
+import { notFoundQuickLinksStructure } from "../defaults/not-found-structure";
 
 export function buildNotFoundPageContent(
   messages: TranslationMessages,
@@ -25,10 +26,13 @@ export function buildNotFoundPageContent(
     ctaPrimary: localizeLinkItem(page.ctaPrimary, locale),
     ctaSecondary: localizeLinkItem(page.ctaSecondary, locale),
     quickLinksHeading: page.quickLinksHeading,
-    quickLinks: page.quickLinks.map((link) => ({
-      ...link,
-      href: localizeLinkItem({ label: link.label, href: link.href }, locale).href!,
-    })),
+    quickLinks: mergeIndexed(page.quickLinks, notFoundQuickLinksStructure).map(
+      (link) => ({
+        ...link,
+        href: localizeLinkItem({ label: link.label, href: link.href }, locale)
+          .href!,
+      }),
+    ),
     supportHeading: page.supportHeading,
     supportBody: page.supportBody,
     supportEmail: {

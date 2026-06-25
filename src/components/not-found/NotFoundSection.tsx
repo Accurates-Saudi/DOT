@@ -27,7 +27,7 @@ export interface NotFoundSectionProps {
 }
 
 function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
-  const Icon = quickLinkIcons[link.icon];
+  const Icon = quickLinkIcons[link.icon] ?? Package;
 
   return (
     <Link

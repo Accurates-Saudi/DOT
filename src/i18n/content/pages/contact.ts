@@ -4,8 +4,11 @@ import type { ContactPageContent } from "@/types";
 
 import { formatPhoneHref, siteSettings } from "@/data/site";
 
+import { dotMapLocation } from "@/data/map";
+
 import { pageHeroAssets } from "../assets/pages";
-import { getMessagesSection, localizeLinkItem } from "../helpers";
+import { contactInfoItemsStructure } from "../defaults/contact-structure";
+import { getMessagesSection, localizeLinkItem, mergeIndexed } from "../helpers";
 import { localizeBreadcrumbs } from "./navigation";
 
 export function buildContactPageContent(
@@ -31,7 +34,10 @@ export function buildContactPageContent(
     main: {
       info: {
         ...page.main.info,
-        items: page.main.info.items.map((item) => ({
+        items: mergeIndexed(
+          page.main.info.items,
+          contactInfoItemsStructure,
+        ).map((item) => ({
           ...item,
           value:
             item.type === "phone"
@@ -51,7 +57,13 @@ export function buildContactPageContent(
       },
       form: page.main.form,
     },
-    location: page.location,
+    location: {
+      ...page.location,
+      map: {
+        ...dotMapLocation,
+        address: page.location.address,
+      },
+    },
     engineeringCta: {
       ...page.engineeringCta,
       ctaPrimary: localizeLinkItem(page.engineeringCta.ctaPrimary, locale),

@@ -9,12 +9,29 @@ import {
   loadMessages,
   localeHtmlLang,
   getDirection,
+  parseLocaleCookie,
 } from "@/i18n";
 
-export async function loader({ params }: Route.LoaderArgs) {
+const KNOWN_PAGE_SLUGS = [
+  "about",
+  "services",
+  "products",
+  "catalogs",
+  "news",
+  "contact",
+] as const;
+
+export async function loader({ params, request }: Route.LoaderArgs) {
   const locale = params.locale ?? defaultLocale;
 
   if (!isValidLocale(locale)) {
+    if (KNOWN_PAGE_SLUGS.includes(locale as (typeof KNOWN_PAGE_SLUGS)[number])) {
+      const cookieLocale = parseLocaleCookie(request.headers.get("Cookie"));
+      const targetLocale =
+        cookieLocale && isValidLocale(cookieLocale) ? cookieLocale : defaultLocale;
+      throw redirect(`/${targetLocale}/${locale}`);
+    }
+
     throw redirect(`/${defaultLocale}`);
   }
 

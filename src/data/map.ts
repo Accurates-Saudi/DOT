@@ -2,7 +2,8 @@ import type { MapLocationContent } from "@/types";
 
 export const dotMapLocation: MapLocationContent = {
   placeName: "Dynamic Oil Tools",
-  address: "Industrial District, Dammam, Eastern Province, Saudi Arabia",
+  address:
+    "Industrial City 3, Sector II, Block 7, Dammam, Saudi Arabia",
   embedUrl:
     "https://www.google.com/maps?q=25.9235182,49.9488192&hl=en&z=17&output=embed",
   mapsUrl: "https://maps.app.goo.gl/Drv9WZHNdiHDiLdFA",

@@ -150,6 +150,21 @@ export interface CertificatesSectionContent {
   transitionMs?: number;
 }
 
+export interface ClientLogoItem {
+  id: string;
+  name: ContentValue<string>;
+  logo: ImageAsset;
+  href?: string;
+}
+
+export interface TrustedPartnersSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  description: ContentValue<string>;
+  logos: ClientLogoItem[];
+  marqueeDurationMs?: number;
+}
+
 export interface FeaturedProductsSectionContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
@@ -352,7 +367,7 @@ export interface CatalogItem {
   title: ContentValue<string>;
   description: ContentValue<string>;
   cover: ImageAsset;
-  pdf: CatalogPdfResource;
+  pdf?: CatalogPdfResource;
 }
 
 export interface CatalogLibraryContent {
@@ -579,6 +594,7 @@ export interface HomePageContent extends PageContent {
   featuredProducts: FeaturedProductsSectionContent;
   certificates: CertificatesSectionContent;
   news: NewsSectionContent;
+  trustedPartners: TrustedPartnersSectionContent;
 }
 
 /** Full news article — CMS-ready corporate update */

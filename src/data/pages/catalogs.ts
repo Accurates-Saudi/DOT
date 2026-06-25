@@ -1,14 +1,10 @@
 import type { CatalogsPageContent } from "@/types";
 
-import capEngineering from "@/assets/about/capabilities/engineering.png";
-import capManufacturing from "@/assets/about/capabilities/manufacturing.png";
-import capQuality from "@/assets/about/capabilities/quality.png";
-import facilityImage from "@/assets/about/facility.png";
+import corporateProfile from "@/assets/catalogs/Corporate Profile.jpg";
+import groundWaterScreens from "@/assets/catalogs/Ground Water Screens.jpg";
+import oilAndGasEquipment from "@/assets/catalogs/Oil and Gas Equipment.jpg";
+import processIndustryScreens from "@/assets/catalogs/Process Industry Screens.jpg";
 import overviewHero from "@/assets/about/overview-hero.png";
-import engineeringBg from "@/assets/engineering/bg.png";
-import engineeringCad from "@/assets/engineering/cad.png";
-import engineeringCnc from "@/assets/engineering/cnc.png";
-import whyChooseFeatured from "@/assets/why-choose/featured.png";
 
 export const catalogsPageContent: CatalogsPageContent = {
   meta: {
@@ -35,129 +31,43 @@ export const catalogsPageContent: CatalogsPageContent = {
     pdfLabel: "PDF",
     items: [
       {
-        id: "company-profile",
-        title: "Company Profile",
+        id: "corporate-profile",
+        title: "Corporate Profile",
         description:
-          "An overview of Dynamic Oil Tools — our capabilities, facilities, and commitment to Saudi industrial excellence.",
+          "Company overview covering Dynamic Oil Tools' capabilities, facilities, and commitment to Saudi industrial excellence.",
         cover: {
-          src: overviewHero,
-          alt: "Dynamic Oil Tools company profile cover",
-        },
-        pdf: {
-          href: "/downloads/dot-company-profile.pdf",
-          fileName: "dot-company-profile.pdf",
+          src: corporateProfile,
+          alt: "Corporate Profile catalog cover",
         },
       },
       {
-        id: "product-catalog",
-        title: "Product Catalog",
+        id: "ground-water-screens",
+        title: "Ground Water Screens",
         description:
-          "Complete reference of engineered screens, strainers, and filtration solutions for oil & gas and industrial applications.",
+          "Technical catalog for groundwater well screens, slot configurations, and filtration applications.",
         cover: {
-          src: whyChooseFeatured,
-          alt: "Dynamic Oil Tools product catalog cover",
-        },
-        pdf: {
-          href: "/downloads/dot-product-catalog.pdf",
-          fileName: "dot-product-catalog.pdf",
+          src: groundWaterScreens,
+          alt: "Ground Water Screens catalog cover",
         },
       },
       {
-        id: "wire-wrapped-screens",
-        title: "Wire Wrapped Screens",
+        id: "oil-and-gas-equipment",
+        title: "Oil and Gas Equipment",
         description:
-          "Technical brochure covering sand control screens, slot configurations, and well completion applications.",
+          "Engineered downhole screens, sand control systems, and oil & gas production equipment.",
         cover: {
-          src: capEngineering,
-          alt: "Wire wrapped screens brochure cover",
-        },
-        pdf: {
-          href: "/downloads/wire-wrapped-screens-brochure.pdf",
-          fileName: "wire-wrapped-screens-brochure.pdf",
+          src: oilAndGasEquipment,
+          alt: "Oil and Gas Equipment catalog cover",
         },
       },
       {
-        id: "downhole-solutions",
-        title: "Downhole Solutions",
+        id: "process-industry-screens",
+        title: "Process Industry Screens",
         description:
-          "Engineered downhole screen assemblies, gravel pack systems, and sand control solutions for production wells.",
+          "Industrial screens and strainers for process plants, refineries, and utility filtration systems.",
         cover: {
-          src: engineeringCad,
-          alt: "Downhole solutions catalog cover",
-        },
-        pdf: {
-          href: "/downloads/downhole-solutions-catalog.pdf",
-          fileName: "downhole-solutions-catalog.pdf",
-        },
-      },
-      {
-        id: "process-strainers",
-        title: "Process Industry Strainers",
-        description:
-          "Industrial strainers and inline filtration products for process plants, refineries, and utility systems.",
-        cover: {
-          src: capManufacturing,
-          alt: "Process industry strainers brochure cover",
-        },
-        pdf: {
-          href: "/downloads/process-industry-strainers.pdf",
-          fileName: "process-industry-strainers.pdf",
-        },
-      },
-      {
-        id: "filtration-systems",
-        title: "Filtration Systems",
-        description:
-          "Technical guide to filtration media, housing configurations, and performance specifications.",
-        cover: {
-          src: capQuality,
-          alt: "Filtration systems technical guide cover",
-        },
-        pdf: {
-          href: "/downloads/filtration-systems-guide.pdf",
-          fileName: "filtration-systems-guide.pdf",
-        },
-      },
-      {
-        id: "manufacturing-capabilities",
-        title: "Manufacturing Capabilities",
-        description:
-          "Facility overview, production processes, and quality systems supporting precision industrial manufacturing.",
-        cover: {
-          src: facilityImage,
-          alt: "Manufacturing capabilities brochure cover",
-        },
-        pdf: {
-          href: "/downloads/manufacturing-capabilities.pdf",
-          fileName: "manufacturing-capabilities.pdf",
-        },
-      },
-      {
-        id: "engineering-services",
-        title: "Engineering Services",
-        description:
-          "Design engineering, CAD modeling, and CNC machining services for custom oil & gas components.",
-        cover: {
-          src: engineeringCnc,
-          alt: "Engineering services overview cover",
-        },
-        pdf: {
-          href: "/downloads/engineering-services-overview.pdf",
-          fileName: "engineering-services-overview.pdf",
-        },
-      },
-      {
-        id: "quality-certifications",
-        title: "Quality & Certifications",
-        description:
-          "Quality management framework, industry certifications, and compliance documentation summary.",
-        cover: {
-          src: engineeringBg,
-          alt: "Quality and certifications profile cover",
-        },
-        pdf: {
-          href: "/downloads/quality-certifications-profile.pdf",
-          fileName: "quality-certifications-profile.pdf",
+          src: processIndustryScreens,
+          alt: "Process Industry Screens catalog cover",
         },
       },
     ],

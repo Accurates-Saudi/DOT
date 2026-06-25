@@ -2,6 +2,7 @@ import type { HomePageContent } from "@/types";
 
 import { dotMapLocation } from "@/data/map";
 import { newsArticles } from "@/data/news/articles";
+import { trustedPartnersContent } from "@/data/trusted-partners";
 
 import { productsPageContent } from "./products";
 
@@ -311,4 +312,5 @@ export const homePageContent: HomePageContent = {
       buttonLabel: "Subscribe",
     },
   },
+  trustedPartners: trustedPartnersContent,
 };

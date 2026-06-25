@@ -35,6 +35,7 @@ export type {
   CatalogsPageContent,
   CertificateItem,
   CertificatesSectionContent,
+  ClientLogoItem,
   CompanyStatisticItem,
   CompanyStatisticsSectionContent,
   ContactEngineeringCtaContent,
@@ -96,5 +97,6 @@ export type {
   ServiceItem,
   ServicesSectionContent,
   SiteSettings,
+  TrustedPartnersSectionContent,
   WhyChooseUsSectionContent,
 } from "./content";

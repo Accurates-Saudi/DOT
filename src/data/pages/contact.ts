@@ -1,7 +1,7 @@
 import type { ContactPageContent } from "@/types";
 
 import overviewHero from "@/assets/about/overview-hero.png";
-import { siteSettings } from "@/data/site";
+import { formatPhoneHref, siteSettings } from "@/data/site";
 import { dotMapLocation } from "@/data/map";
 
 const { contact } = siteSettings;
@@ -36,7 +36,7 @@ export const contactPageContent: ContactPageContent = {
           type: "phone",
           label: "Phone Number",
           value: contact.phone,
-          href: `tel:${contact.phone.replace(/\s/g, "")}`,
+          href: formatPhoneHref(contact.phone),
         },
         {
           id: "email",
@@ -75,7 +75,7 @@ export const contactPageContent: ContactPageContent = {
         name: "Your full name",
         company: "Company or organization",
         email: "you@company.com",
-        phone: "+966 XX XXX XXXX",
+        phone: "+966 (13) 8041290",
         subject: "Brief subject line",
         message: "Describe your inquiry or project requirements",
       },

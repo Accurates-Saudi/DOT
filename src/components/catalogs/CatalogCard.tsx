@@ -36,7 +36,7 @@ export function CatalogCard({
           <img
             src={cover.src}
             alt={cover.alt}
-            className="img-zoom-hover size-full object-cover object-center"
+            className="img-zoom-hover size-full object-contain object-center"
             loading="lazy"
             decoding="async"
           />
@@ -60,16 +60,27 @@ export function CatalogCard({
         </p>
 
         <div className="mt-6 border-t border-[#0c1524]/8 pt-5">
-          <Button
-            variant="accent"
-            className="h-10 rounded-sm px-5 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-6 sm:text-xs"
-            asChild
-          >
-            <a href={pdf.href} download={pdf.fileName}>
+          {pdf?.href ? (
+            <Button
+              variant="accent"
+              className="h-10 rounded-sm px-5 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-6 sm:text-xs"
+              asChild
+            >
+              <a href={pdf.href} download={pdf.fileName}>
+                <Download className="size-3.5" aria-hidden />
+                {downloadLabel}
+              </a>
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="accent"
+              className="h-10 rounded-sm px-5 text-[0.6875rem] font-bold tracking-[0.1em] uppercase sm:h-[42px] sm:px-6 sm:text-xs"
+            >
               <Download className="size-3.5" aria-hidden />
               {downloadLabel}
-            </a>
-          </Button>
+            </Button>
+          )}
         </div>
       </div>
     </article>

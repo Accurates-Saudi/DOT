@@ -3,7 +3,7 @@ import type { FooterContent } from "@/types";
 import dotLogo from "@/assets/logos/dot.webp";
 import saudiMadeLogo from "@/assets/logos/saudi-made.png";
 
-import { siteSettings } from "./site";
+import { siteSettings, formatPhoneHref } from "./site";
 
 export const footerContent: FooterContent = {
   description: siteSettings.description,
@@ -51,7 +51,7 @@ export const footerContent: FooterContent = {
         type: "phone",
         label: "Phone",
         value: siteSettings.contact.phone,
-        href: `tel:${siteSettings.contact.phone.replace(/\s/g, "")}`,
+        href: formatPhoneHref(siteSettings.contact.phone),
       },
       {
         type: "address",

@@ -9,15 +9,19 @@ export const siteSettings: SiteSettings = {
   locale: "en-SA",
   contact: {
     email: "info@dynamicoiltools.com",
-    phone: "+966 XX XXX XXXX",
-    address: "Industrial District",
+    phone: "+966 (13) 8041290",
+    address: "Industrial City 3, Sector II, Block 7",
     city: "Dammam",
-    country: "Kingdom of Saudi Arabia",
+    country: "Saudi Arabia",
   },
   social: {
     linkedin: "https://linkedin.com/company/dynamic-oil-tools",
   },
 };
+
+export function formatPhoneHref(phone: string): string {
+  return `tel:${phone.replace(/[\s()]/g, "")}`;
+}
 
 export const seoDefaults: SeoDefaults = {
   titleTemplate: "%s | Dynamic Oil Tools",

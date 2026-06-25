@@ -433,5 +433,28 @@
     [data-slot="button"]:hover > svg:last-child {
       transform: none;
     }
+
+    .trusted-partners-marquee-track {
+      animation: none !important;
+    }
   }
+}
+
+/* Trusted partners — seamless logo marquee */
+@keyframes trusted-partners-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.trusted-partners-marquee-track {
+  animation: trusted-partners-marquee 48s linear infinite;
+  will-change: transform;
+}
+
+.trusted-partners-marquee:hover .trusted-partners-marquee-track {
+  animation-play-state: paused;
 }

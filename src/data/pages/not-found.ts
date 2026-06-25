@@ -1,6 +1,6 @@
 import type { NotFoundPageContent } from "@/types";
 
-import { siteSettings } from "@/data/site";
+import { formatPhoneHref, siteSettings } from "@/data/site";
 
 const { contact } = siteSettings;
 
@@ -62,7 +62,7 @@ export const notFoundPageContent: NotFoundPageContent = {
   },
   supportPhone: {
     label: "Call Us",
-    href: `tel:${contact.phone.replace(/\s/g, "")}`,
+    href: formatPhoneHref(contact.phone),
   },
 };
 

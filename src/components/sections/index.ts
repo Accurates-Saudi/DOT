@@ -11,4 +11,8 @@ export { EngineeringSection, type EngineeringSectionProps } from "./EngineeringS
 export { FeaturedProductsSection, type FeaturedProductsSectionProps } from "./FeaturedProductsSection";
 export { NewsSection, type NewsSectionProps } from "./NewsSection";
 export { ServicesSection, type ServicesSectionProps } from "./ServicesSection";
+export {
+  TrustedPartnersSection,
+  type TrustedPartnersSectionProps,
+} from "./trusted-partners";
 export { WhyChooseUsSection, type WhyChooseUsSectionProps } from "./WhyChooseUsSection";

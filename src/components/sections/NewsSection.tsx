@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 
 import { NewsCarousel } from "@/components/news/NewsCarousel";
-import { Container, Section } from "@/components/shared";
+import { Container, MapEmbed, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import type { NewsSectionContent } from "@/types";
 
@@ -53,6 +53,35 @@ export function NewsSection({ content }: NewsSectionProps) {
             </Link>
           </Button>
         </div>
+
+        {content.locationMap && (
+          <div className="mt-12 sm:mt-14">
+            {content.locationMap.title && (
+              <div className="mb-5 flex items-center gap-3 sm:mb-6">
+                <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
+                <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-[#0c1524]/55 uppercase sm:text-xs">
+                  {content.locationMap.title}
+                </p>
+              </div>
+            )}
+
+            <MapEmbed
+              embedUrl={content.locationMap.embedUrl}
+              title="Dynamic Oil Tools location"
+            />
+
+            <p className="mt-4 text-center">
+              <a
+                href={content.locationMap.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[0.8125rem] font-medium text-[#0c1524]/65 transition-colors duration-200 hover:text-[#F68E05] sm:text-sm"
+              >
+                Open in Google Maps
+              </a>
+            </p>
+          </div>
+        )}
       </Container>
     </Section>
   );

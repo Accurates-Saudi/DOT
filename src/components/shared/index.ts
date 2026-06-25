@@ -1,5 +1,6 @@
 export { Breadcrumb, type BreadcrumbProps } from "./Breadcrumb";
 export { Container, type ContainerProps } from "./Container";
+export { MapEmbed, type MapEmbedProps } from "./MapEmbed";
 export {
   Pagination,
   usePaginationPage,

@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
 
-import { Container, Section } from "@/components/shared";
+import { Container, MapEmbed, Section } from "@/components/shared";
 import type { ContactLocationContent } from "@/types";
 
 export interface ContactLocationSectionProps {
@@ -40,16 +40,10 @@ export function ContactLocationSection({ content }: ContactLocationSectionProps)
 
           <div className="lg:col-span-8">
             {content.mapEmbedUrl ? (
-              <div className="overflow-hidden rounded-sm border border-[#0c1524]/10 bg-white shadow-[0_12px_40px_-28px_rgba(12,21,36,0.2)]">
-                <iframe
-                  title="Dynamic Oil Tools office location"
-                  src={content.mapEmbedUrl}
-                  className="aspect-[16/9] w-full min-h-[280px] border-0 sm:min-h-[360px]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-              </div>
+              <MapEmbed
+                embedUrl={content.mapEmbedUrl}
+                title="Dynamic Oil Tools office location"
+              />
             ) : (
               <MapPlaceholder label={content.mapPlaceholderLabel} />
             )}

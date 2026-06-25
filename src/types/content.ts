@@ -174,6 +174,11 @@ export interface NewsSectionContent {
   viewAll: LinkItem;
   headerImage?: ImageAsset;
   articles: NewsArticlePreview[];
+  locationMap?: {
+    embedUrl: string;
+    mapsUrl: string;
+    title?: ContentValue<string>;
+  };
   newsletter: {
     heading: ContentValue<string>;
     description: ContentValue<string>;

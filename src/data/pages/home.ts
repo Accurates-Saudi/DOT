@@ -301,6 +301,12 @@ export const homePageContent: HomePageContent = {
       alt: "Dynamic Oil Tools manufacturing facility",
     },
     articles: newsArticles,
+    locationMap: {
+      title: "Our Location",
+      embedUrl:
+        "https://www.google.com/maps?q=25.9235182,49.9488192&hl=en&z=17&output=embed",
+      mapsUrl: "https://maps.app.goo.gl/Drv9WZHNdiHDiLdFA",
+    },
     newsletter: {
       heading: "Stay Informed",
       description:

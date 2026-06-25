@@ -1,0 +1,5 @@
+DynamicLink Screen Liner
+Design
+ This screen, with no base pipe, is designed through forming V-SLOT openings with the venturi nozzle profile.
+ This is done by configuring two adjacent profiled wires. The no base pipe screens are manufactured using a standardized process that assembles and welds all wire layers in a single systematic operation.
+ The structural design of the screen uses the basic mass research technique to calculate its permeability, which depends on the screen chosen structure. This technique considers the permeability and flow characteristics for unconsolidated formations in laminar, transition, and turbulent flows.

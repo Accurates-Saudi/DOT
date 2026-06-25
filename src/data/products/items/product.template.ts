@@ -1,51 +1,49 @@
 /**
- * Product data template — copy this file to add a new product.
+ * Product authoring guide
  *
- * 1. Duplicate as `your-product-slug.ts` in this folder.
- * 2. Import hero (and optional specification) images from `src/assets/products/`.
- * 3. Export a `ProductRecord` constant.
- * 4. Register the import in `../registry.ts`.
+ * Add a folder under `src/assets/products/<Product Name>/` containing:
  *
- * Product types:
- * - Standard: omit `specifications` entirely.
- * - With technical data: add `specifications` with `rows` and/or `image`.
+ * - content.txt       — structured copy (see format below)
+ * - cover image         — e.g. 2-1.webp, 7.webp (auto-detected)
+ * - specification image — optional; filename must include "specification" or "linear range"
+ * - gallery images      — optional; any other images in the folder
+ *
+ * Folder names must not contain `#` (Vite asset bundler limitation).
+ *
+ * No code changes required — drop the folder in and it is picked up automatically.
+ *
+ * ─── content.txt format ───
+ *
+ * Standard (oil & gas) — four metadata lines, then sections:
+ *
+ *   Oil & Gas Equipment
+ *   DynamicLink Downhole Screen
+ *   Sand Control
+ *   Product Name
+ *   Overview
+ *    First paragraph...
+ *   Applications
+ *    Bullet one
+ *   Features
+ *    Bullet one
+ *   Benefits
+ *    Bullet one
+ *
+ * Process industry — three metadata lines:
+ *
+ *   Process Industry Screens
+ *   Oil & Gas Industry
+ *   Product Name
+ *   Advantages
+ *    Bullet one
+ *   Technical Specification
+ *    Materials: Stainless steel
+ *
+ * Minimal — product name only:
+ *
+ *   Product Name
+ *   Design
+ *    Paragraph...
  */
 
-import type { ProductRecord } from "@/types";
-
-// import heroImage from "@/assets/products/your-product-slug/hero.webp";
-// import specificationImage from "@/assets/products/your-product-slug/specification.webp";
-
-export const productTemplate: ProductRecord = {
-  id: "your-product-slug",
-  slug: "your-product-slug",
-  category: "Category Name",
-  name: "Product Name",
-  listingTeaser: "Short description for the products listing card.",
-  introduction: "One or two sentences shown below the product title on the detail page.",
-  image: {
-    src: "", // heroImage
-    alt: "Product name",
-  },
-  overview: [
-    "First overview paragraph.",
-    "Second overview paragraph (optional).",
-  ],
-  applications: ["Application one", "Application two"],
-  features: ["Feature one", "Feature two"],
-  benefits: ["Benefit one", "Benefit two"],
-
-  // Omit for standard products without technical data:
-  // specifications: {
-  //   // HTML table rows (optional):
-  //   rows: [
-  //     { label: "Material", value: "Stainless steel" },
-  //     { label: "Size Range", value: '2" to 20" OD' },
-  //   ],
-  //   // Specification table image (optional):
-  //   image: {
-  //     src: "", // specificationImage
-  //     alt: "Product name technical specification table",
-  //   },
-  // },
-};
+export {};

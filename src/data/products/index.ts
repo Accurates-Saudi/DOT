@@ -8,3 +8,5 @@ export {
   createProductDetail,
   toProductItem,
 } from "./factory";
+export { loadProductRecordsFromAssets } from "./loadFromAssets";
+export { parseProductContent, slugifyFolderName } from "./parseContent";

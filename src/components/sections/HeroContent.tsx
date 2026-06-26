@@ -33,7 +33,7 @@ export function HeroContent({
   const activeSlide = slides[activeIndex] ?? slides[0];
 
   return (
-    <div className="mx-auto grid w-full max-w-2xl justify-self-center py-8 text-center sm:py-12 lg:justify-self-start lg:py-16 lg:text-start xl:max-w-3xl xl:py-20">
+    <div className="grid w-full max-w-2xl text-start py-12 sm:py-16 max-lg:mx-auto max-lg:text-center lg:py-20 xl:max-w-3xl">
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         const showEntrance = playEntrance && index === 0 && isActive;
@@ -54,7 +54,7 @@ export function HeroContent({
           >
             <div
               className={cn(
-                "flex items-center justify-center gap-3 lg:justify-start",
+                "flex items-center gap-3 max-lg:justify-center",
                 showEntrance && "hero-enter hero-enter-delay-1",
               )}
             >
@@ -79,7 +79,7 @@ export function HeroContent({
 
             <p
               className={cn(
-                "mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:mx-0 lg:mt-6",
+                "mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:mt-6 max-lg:mx-auto",
                 showEntrance && "hero-enter hero-enter-delay-3",
               )}
             >
@@ -88,14 +88,14 @@ export function HeroContent({
 
             <div
               className={cn(
-                "mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:mt-10 lg:justify-start",
+                "mt-8 flex flex-col gap-3 max-lg:items-stretch sm:flex-row sm:flex-wrap sm:items-center lg:mt-10",
                 showEntrance && "hero-enter hero-enter-delay-4",
               )}
             >
               <Button
                 variant="hero"
                 size="lg"
-                className="h-12 w-full rounded-full px-6 text-[0.9375rem] font-medium sm:w-auto"
+                className="h-12 rounded-full px-6 text-[0.9375rem] font-medium max-lg:w-full"
                 asChild
               >
                 <Link to={slide.ctaPrimary.href}>
@@ -108,7 +108,7 @@ export function HeroContent({
                 <Button
                   variant="inverse"
                   size="lg"
-                  className="h-12 w-full rounded-full px-6 text-[0.9375rem] font-medium sm:w-auto"
+                  className="h-12 rounded-full px-6 text-[0.9375rem] font-medium max-lg:w-full"
                   asChild
                 >
                   <Link to={slide.ctaSecondary.href}>

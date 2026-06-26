@@ -37,7 +37,7 @@ export function HeroSection({ content }: HeroSectionProps) {
 
       <Container
         size="wide"
-        className="relative z-10 flex w-full min-h-svh items-center justify-center py-16 pt-[calc(4rem+3rem)] sm:py-20 sm:pt-[calc(4rem+4rem)] lg:justify-start lg:py-[96px] lg:pt-[calc(5rem+96px)]"
+        className="relative z-10 flex w-full min-h-svh items-center justify-start py-[96px] pt-[calc(4rem+96px)] max-lg:justify-center max-lg:py-16 max-lg:pt-[calc(4rem+3rem)] sm:max-lg:py-20 sm:max-lg:pt-[calc(4rem+4rem)] lg:pt-[calc(5rem+96px)]"
       >
         <HeroContent
           slides={slides}

@@ -1,6 +1,6 @@
 import { ArrowRight, X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "react";
 import { NavLink, useLocation } from "react-router";
 
 import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
@@ -191,17 +191,20 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   );
 }
 
-function MobileMenuToggle({
-  isOpen,
-  isHeroState,
-  label,
-}: {
-  isOpen: boolean;
-  isHeroState: boolean;
-  label: string;
-}) {
+const MobileMenuToggle = forwardRef<
+  HTMLButtonElement,
+  ComponentPropsWithoutRef<"button"> & {
+    isOpen: boolean;
+    isHeroState: boolean;
+    label: string;
+  }
+>(function MobileMenuToggle(
+  { isOpen, isHeroState, label, className, ...props },
+  ref,
+) {
   return (
     <button
+      ref={ref}
       type="button"
       aria-expanded={isOpen}
       aria-label={label}
@@ -213,7 +216,9 @@ function MobileMenuToggle({
           : "text-[#0c1524]/75 hover:bg-[#0c1524]/5 hover:text-[#0c1524]",
         isOpen && !isHeroState && "bg-[#0c1524]/5 text-[#0c1524]",
         isOpen && isHeroState && "bg-white/12 text-white",
+        className,
       )}
+      {...props}
     >
       <span className="relative block size-4" aria-hidden>
         <span
@@ -237,4 +242,4 @@ function MobileMenuToggle({
       </span>
     </button>
   );
-}
+});

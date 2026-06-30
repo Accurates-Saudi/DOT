@@ -171,6 +171,9 @@ export function loadProductRecordsFromAssets(): ProductRecord[] {
         applications: parsed.applications,
         features: parsed.features,
         benefits: parsed.benefits,
+        ...(parsed.productLine === "Product Treatments"
+          ? { listingOrder: 1 }
+          : {}),
       };
 
       if (specImageSrc || specRows.length > 0) {

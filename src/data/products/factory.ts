@@ -59,6 +59,7 @@ export function createProductDetail(record: ProductRecord): ProductDetailContent
     id: record.id,
     slug: record.slug,
     category: record.category,
+    ...(record.listingOrder !== undefined ? { listingOrder: record.listingOrder } : {}),
     ...(record.listingTeaser ? { listingTeaser: record.listingTeaser } : {}),
     meta: {
       title: record.name,
@@ -108,6 +109,9 @@ export function toProductItem(product: ProductDetailContent): ProductItem {
     description: product.listingTeaser ?? product.hero.introduction,
     category: product.category,
     image: product.hero.image,
+    ...(product.listingOrder !== undefined
+      ? { listingOrder: product.listingOrder }
+      : {}),
   };
 }
 

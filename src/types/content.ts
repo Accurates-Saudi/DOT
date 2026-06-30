@@ -331,6 +331,8 @@ export interface ProductItem {
   description: ContentValue<string>;
   category: ContentValue<string>;
   image: ImageAsset;
+  /** Lower values appear first within a category group */
+  listingOrder?: number;
 }
 
 export interface ProductsListingContent {
@@ -536,12 +538,15 @@ export interface ProductRecord {
   benefits: ContentValue<string>[];
   /** Optional — omit entirely when the product has no technical data */
   specifications?: ProductSpecificationsInput;
+  /** Lower values appear first on the products listing within the same category */
+  listingOrder?: number;
 }
 
 export interface ProductDetailContent {
   id: string;
   slug: string;
   category: ContentValue<string>;
+  listingOrder?: number;
   listingTeaser?: ContentValue<string>;
   meta: PageMeta;
   hero: ProductDetailHeroContent;

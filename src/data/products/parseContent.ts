@@ -16,13 +16,11 @@ export const LISTING_CATEGORY_ORDER = [
   "Oil & Gas Equipment",
   "Ground Water Well Screens",
   "Process Industry Screens",
-  "Product Treatments",
 ] as const;
 
 const OIL_GAS_EQUIPMENT = "Oil & Gas Equipment";
 const PROCESS_INDUSTRY = "Process Industry Screens";
 const GROUND_WATER = "Ground Water Well Screens";
-const PRODUCT_TREATMENTS = "Product Treatments";
 
 const PROCESS_SUBCATEGORIES = new Set([
   "Oil & Gas Industry",
@@ -147,14 +145,6 @@ function parseMetadata(metaLines: string[], folderName: string): ParsedMetadata 
       productLine: cleaned[1],
       subcategory: cleaned[2],
       name: cleaned[3],
-    };
-  }
-
-  if (cleaned[0] === PRODUCT_TREATMENTS && cleaned.length >= 3) {
-    return {
-      category: PRODUCT_TREATMENTS,
-      subcategory: cleaned[1],
-      name: cleaned[2],
     };
   }
 

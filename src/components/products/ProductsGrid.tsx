@@ -36,9 +36,12 @@ function groupProductsByCategory(
 
   return orderedCategories.map((category) => ({
     category,
-    products: (byCategory.get(category) ?? []).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    ),
+    products: (byCategory.get(category) ?? []).sort((a, b) => {
+      const orderA = a.listingOrder ?? 0;
+      const orderB = b.listingOrder ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.name.localeCompare(b.name);
+    }),
   }));
 }
 

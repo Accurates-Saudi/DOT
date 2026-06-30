@@ -105,10 +105,6 @@
         {
           "label": "Screen Baskets & Strainers",
           "href": "/services"
-        },
-        {
-          "label": "Product Treatments",
-          "href": "/services"
         }
       ]
     },
@@ -323,11 +319,6 @@
           {
             "title": "Screen Baskets & Strainers",
             "description": "Custom-manufactured baskets and strainers built for accurate filtration, high flow efficiency, and dependable industrial performance.",
-            "href": "/products"
-          },
-          {
-            "title": "Product Treatments",
-            "description": "Specialized surface treatments including hardbanding, laser cladding, and premium finishing services to improve durability, wear resistance, and equipment life.",
             "href": "/products"
           }
         ]

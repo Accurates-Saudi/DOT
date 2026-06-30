@@ -35,7 +35,6 @@ export const footerContent: FooterContent = {
       { label: "Process Industry Screens", href: "/services" },
       { label: "Downhole Screens", href: "/services" },
       { label: "Screen Baskets & Strainers", href: "/services" },
-      { label: "Product Treatments", href: "/services" },
     ],
   },
   contact: {

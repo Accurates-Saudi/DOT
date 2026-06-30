@@ -23,7 +23,7 @@ export function buildProductsPageContent(
       ...page.hero,
       breadcrumbs: localizeBreadcrumbs(page.hero.breadcrumbs, locale),
       backgroundImage: page.hero.backgroundImage
-        ? { ...page.hero.backgroundImage, src: pageHeroAssets.overviewHero }
+        ? { ...page.hero.backgroundImage, src: pageHeroAssets.productsOverviewHero }
         : undefined,
     },
     listing: {

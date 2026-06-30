@@ -24,7 +24,6 @@ export const homeServiceItemsStructure: Pick<ServiceItem, "id" | "icon">[] = [
   { id: "process-industry-screens", icon: "process" },
   { id: "downhole-screens", icon: "downhole" },
   { id: "screen-baskets-strainers", icon: "strainers" },
-  { id: "product-treatments", icon: "treatments" },
 ];
 
 export const homeCompanyStatisticsStructure: Pick<

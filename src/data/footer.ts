@@ -31,10 +31,10 @@ export const footerContent: FooterContent = {
   services: {
     title: "Products and Services",
     items: [
-      { label: "Oil & Gas Equipment", href: "/services" },
-      { label: "Process Industry Screens", href: "/services" },
-      { label: "Downhole Screens", href: "/services" },
-      { label: "Screen Baskets & Strainers", href: "/services" },
+      { label: "Oil & Gas Equipment", href: "/products" },
+      { label: "Process Industry Screens", href: "/products" },
+      { label: "Downhole Screens", href: "/products" },
+      { label: "Screen Baskets & Strainers", href: "/products" },
     ],
   },
   contact: {

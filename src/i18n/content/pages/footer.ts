@@ -31,7 +31,7 @@ export function buildFooterContent(
     return localizeLinkItem(
       {
         label,
-        href: "/services",
+        href: "/products",
       },
       locale,
     );

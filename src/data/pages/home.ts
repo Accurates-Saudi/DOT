@@ -128,14 +128,6 @@ export const homePageContent: HomePageContent = {
         icon: "strainers",
         href: "/products",
       },
-      {
-        id: "product-treatments",
-        title: "Product Treatments",
-        description:
-          "Specialized surface treatments including hardbanding, laser cladding, and premium finishing services to improve durability, wear resistance, and equipment life.",
-        icon: "treatments",
-        href: "/products",
-      },
     ],
   },
   companyStatistics: {

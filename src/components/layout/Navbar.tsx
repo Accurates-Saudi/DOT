@@ -124,7 +124,7 @@ export function Navbar() {
               end={/\/(en|ar)$/.test(item.href)}
               className={({ isActive }) =>
                 cn(
-                  "nav-link-underline relative px-3 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-4",
+                  "nav-link-underline relative px-3 py-2 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-4 xl:text-base",
                   isHeroState
                     ? cn(
                         "text-white/75 hover:text-white",
@@ -184,7 +184,7 @@ export function Navbar() {
             <Button
               variant={isHeroState ? "inverse" : "outline"}
               size="sm"
-              className="h-9 min-w-[5.5rem] rounded-full px-4 text-[0.8125rem] font-medium tracking-[0.02em]"
+              className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
               asChild
             >
               <LocalizedLink to="/login">{t("login")}</LocalizedLink>

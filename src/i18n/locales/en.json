@@ -23,7 +23,7 @@
         "href": "/about"
       },
       {
-        "label": "Products",
+        "label": "Products and Services",
         "href": "/products"
       },
       {
@@ -70,7 +70,7 @@
           "href": "/about"
         },
         {
-          "label": "Products",
+          "label": "Products and Services",
           "href": "/products"
         },
         {
@@ -88,7 +88,7 @@
       ]
     },
     "services": {
-      "title": "Services",
+      "title": "Products and Services",
       "items": [
         {
           "label": "Oil & Gas Equipment",
@@ -226,7 +226,7 @@
             "headlineAccent": "Built in Saudi Arabia.",
             "subheadline": "Precision machining, downhole equipment, and engineered manufacturing solutions designed to deliver reliability, quality, and performance for the global oil & gas industry.",
             "ctaPrimary": {
-              "label": "Explore Products",
+              "label": "Explore Products and Services",
               "href": "/products"
             },
             "ctaSecondary": {
@@ -243,7 +243,7 @@
             "headlineAccent": "Trusted in the Field.",
             "subheadline": "From advanced machining and screen manufacturing to repair, refurbishment, and premium connection services, DOT supports operators with dependable solutions built for demanding environments.",
             "ctaPrimary": {
-              "label": "Our Services",
+              "label": "Products and Services",
               "href": "/products"
             },
             "ctaSecondary": {
@@ -297,7 +297,7 @@
         "heading": "What We",
         "headingAccent": "Can Offer",
         "ctaPrimary": {
-          "label": "Explore Services",
+          "label": "Explore Products and Services",
           "href": "/products"
         },
         "items": [
@@ -394,12 +394,12 @@
         ]
       },
       "featuredProducts": {
-        "label": "Our Products",
-        "heading": "Featured Products",
+        "label": "Our Products and Services",
+        "heading": "Featured Products and Services",
         "description": "A selection of engineered screens, strainers, and filtration solutions built for demanding oil & gas and industrial applications.",
         "viewProductLabel": "View Product",
         "exploreAll": {
-          "label": "Explore All Products",
+          "label": "Explore All Products and Services",
           "href": "/products"
         }
       },
@@ -827,7 +827,7 @@
       "quickLinksHeading": "Explore Our Site",
       "quickLinks": [
         {
-          "label": "Products",
+          "label": "Products and Services",
           "description": "Engineered screens, strainers, and filtration solutions.",
           "href": "/products"
         },

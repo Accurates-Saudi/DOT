@@ -36,7 +36,7 @@ export const homePageContent: HomePageContent = {
         headlineAccent: "Built in Saudi Arabia.",
         subheadline:
           "Precision machining, downhole equipment, and engineered manufacturing solutions designed to deliver reliability, quality, and performance for the global oil & gas industry.",
-        ctaPrimary: { label: "Explore Products", href: "/products" },
+        ctaPrimary: { label: "Explore Products and Services", href: "/products" },
         ctaSecondary: { label: "About DOT", href: "/about" },
         background: {
           src: heroBg1,
@@ -51,7 +51,7 @@ export const homePageContent: HomePageContent = {
         headlineAccent: "Trusted in the Field.",
         subheadline:
           "From advanced machining and screen manufacturing to repair, refurbishment, and premium connection services, DOT supports operators with dependable solutions built for demanding environments.",
-        ctaPrimary: { label: "Our Services", href: "/products" },
+        ctaPrimary: { label: "Products and Services", href: "/products" },
         ctaSecondary: { label: "Contact Us", href: "/contact" },
         background: {
           src: heroBg2,
@@ -94,7 +94,7 @@ export const homePageContent: HomePageContent = {
   services: {
     heading: "What We",
     headingAccent: "Can Offer",
-    ctaPrimary: { label: "Explore Services", href: "/products" },
+    ctaPrimary: { label: "Explore Products and Services", href: "/products" },
     items: [
       {
         id: "oil-gas-equipment",
@@ -225,12 +225,12 @@ export const homePageContent: HomePageContent = {
     },
   },
   featuredProducts: {
-    label: "Our Products",
-    heading: "Featured Products",
+    label: "Our Products and Services",
+    heading: "Featured Products and Services",
     description:
       "A selection of engineered screens, strainers, and filtration solutions built for demanding oil & gas and industrial applications.",
     viewProductLabel: "View Product",
-    exploreAll: { label: "Explore All Products", href: "/products" },
+    exploreAll: { label: "Explore All Products and Services", href: "/products" },
     autoplayDelayMs: 2500,
     transitionMs: 700,
     items: productsPageContent.listing.items.slice(0, 8),

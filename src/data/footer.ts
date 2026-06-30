@@ -22,14 +22,14 @@ export const footerContent: FooterContent = {
     items: [
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about" },
-      { label: "Products", href: "/products" },
+      { label: "Products and Services", href: "/products" },
       { label: "Catalogs", href: "/catalogs" },
       { label: "News", href: "/news" },
       { label: "Contact Us", href: "/contact" },
     ],
   },
   services: {
-    title: "Services",
+    title: "Products and Services",
     items: [
       { label: "Oil & Gas Equipment", href: "/services" },
       { label: "Process Industry Screens", href: "/services" },

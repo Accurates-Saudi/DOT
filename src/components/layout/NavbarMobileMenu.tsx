@@ -71,7 +71,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                   end={/\/(en|ar)$/.test(item.href)}
                   className={({ isActive }) =>
                     cn(
-                      "mobile-nav-item block border-b border-border/50 py-3.5 text-[0.9375rem] font-medium tracking-[0.01em]",
+                      "mobile-nav-item block border-b border-border/50 py-3.5 text-base font-medium tracking-[0.01em]",
                       isActive
                         ? cn(
                             "border-accent text-accent",
@@ -97,7 +97,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                 href={siteSettings.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 py-1 text-[0.9375rem] font-medium text-foreground/70 transition-colors hover:text-foreground"
+                className="inline-flex items-center gap-2.5 py-1 text-base font-medium text-foreground/70 transition-colors hover:text-foreground"
               >
                 <LinkedInIcon className="size-4" />
                 {t("linkedIn")}
@@ -106,7 +106,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
 
             <Button
               variant="outline"
-              className="h-10 w-full rounded-sm text-[0.8125rem] font-medium tracking-[0.02em]"
+              className="h-10 w-full rounded-sm text-sm font-medium tracking-[0.02em]"
               asChild
             >
               <LocalizedLink to="/login">{t("login")}</LocalizedLink>

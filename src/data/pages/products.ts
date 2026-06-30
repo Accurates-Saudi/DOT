@@ -1,7 +1,7 @@
 import type { ProductsPageContent } from "@/types";
 
 import { productDetails, toProductItem } from "@/data/products";
-import overviewHero from "@/assets/about/overview-hero.png";
+import overviewHero from "@/assets/prod/overviewhero.png";
 
 export const productsPageContent: ProductsPageContent = {
   meta: {

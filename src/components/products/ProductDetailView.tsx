@@ -82,10 +82,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         {/* Row 1 — Hero: text left, image right */}
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
           <div className="max-w-lg">
-            <p className="text-[0.6875rem] font-bold tracking-[0.22em] text-[#F68E05] uppercase">
-              {hero.category}
-            </p>
-            <h1 className="mt-2 text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.35rem] lg:text-[2.5rem]">
+            <h1 className="text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.35rem] lg:text-[2.5rem]">
               {hero.name}
             </h1>
             <p className="mt-3 text-[0.875rem] leading-[1.65] text-[#0c1524]/70 sm:text-[0.9375rem]">

@@ -43,11 +43,7 @@ export function FeaturedProductCard({
         </div>
 
         <div className="flex flex-1 flex-col px-5 py-5 sm:px-6 sm:py-6">
-          <p className="text-[0.6875rem] font-semibold tracking-[0.14em] text-[#F68E05] uppercase sm:text-xs">
-            {product.category}
-          </p>
-
-          <h3 className="mt-2 text-base font-bold leading-snug tracking-tight text-[#0c1524] sm:text-[1.0625rem]">
+          <h3 className="text-base font-bold leading-snug tracking-tight text-[#0c1524] sm:text-[1.0625rem]">
             {product.name}
           </h3>
 

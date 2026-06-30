@@ -14,14 +14,12 @@ export interface FeaturedProductsSectionProps {
 }
 
 export function FeaturedProductsSection({ content }: FeaturedProductsSectionProps) {
-  const transitionMs = content.transitionMs ?? 700;
-  const autoplayDelayMs = content.autoplayDelayMs ?? 2500;
+  const transitionMs = content.transitionMs ?? 520;
   const { ref: sectionRef, revealProps } = useScrollReveal();
 
   const {
     viewportRef,
     slidesPerView,
-    clones,
     canScroll,
     translateX,
     isAnimating,
@@ -29,11 +27,10 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
     next,
     prev,
     pauseAutoplay,
-    handleTransitionEnd,
+    resumeAutoplay,
     pointerHandlers,
   } = useFeaturedProductsCarousel({
     itemCount: content.items.length,
-    autoplayDelayMs,
     transitionMs,
   });
 
@@ -47,11 +44,8 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
 
   const extendedItems = useMemo(() => {
     if (!canScroll) return content.items;
-
-    const leading = content.items.slice(-clones);
-    const trailing = content.items.slice(0, clones);
-    return [...leading, ...content.items, ...trailing];
-  }, [canScroll, clones, content.items]);
+    return [...content.items, ...content.items];
+  }, [canScroll, content.items]);
 
   return (
     <Section
@@ -112,6 +106,7 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
             )}
             {...(canScroll ? pointerHandlers : {})}
             onMouseEnter={canScroll ? pauseAutoplay : undefined}
+            onMouseLeave={canScroll ? resumeAutoplay : undefined}
           >
             <div
               data-featured-product-track
@@ -123,7 +118,6 @@ export function FeaturedProductsSection({ content }: FeaturedProductsSectionProp
                     ? `transform ${transitionMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
                     : "none",
               }}
-              onTransitionEnd={handleTransitionEnd}
             >
               {extendedItems.map((product, slideIndex) => (
                 <FeaturedProductCard

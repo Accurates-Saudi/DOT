@@ -287,6 +287,10 @@ export interface CompanyOverviewStat {
 export interface CompanyOverviewContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
+  specializations: {
+    label: ContentValue<string>;
+    items: ContentValue<string>[];
+  };
   body: ContentValue<string>[];
   image: ImageAsset;
   features: CompanyOverviewFeature[];

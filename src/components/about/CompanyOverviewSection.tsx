@@ -121,9 +121,20 @@ export function CompanyOverviewSection({ content }: CompanyOverviewSectionProps)
               </p>
             </div>
 
-            <h2 className="mt-5 text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.25rem] lg:text-[2.45rem] xl:text-[2.65rem]">
-              {content.heading}
-            </h2>
+            <div className="mt-5 lg:flex lg:items-start lg:justify-between lg:gap-10 xl:gap-14">
+              <h2 className="text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.25rem] lg:max-w-md lg:text-[2.45rem] xl:max-w-lg xl:text-[2.65rem]">
+                {content.heading}
+              </h2>
+
+              <div className="mt-5 max-w-md border-l-[3px] border-[#F68E05] pl-4 lg:mt-1 lg:shrink-0 lg:pl-5 rtl:border-l-0 rtl:border-r-[3px] rtl:pl-0 rtl:pr-4 lg:rtl:pr-5">
+                <p className="text-[0.6875rem] font-bold tracking-[0.18em] text-[#F68E05] uppercase sm:text-xs">
+                  {content.specializations.label}
+                </p>
+                <p className="mt-2.5 text-[0.875rem] font-semibold leading-[1.65] text-[#0c1524]/78 sm:text-[0.9375rem] lg:text-right rtl:lg:text-left">
+                  {content.specializations.items.join(" · ")}
+                </p>
+              </div>
+            </div>
 
             <div className="mt-7 max-w-none space-y-5 lg:mt-8">
               {content.body.map((paragraph, index) => (

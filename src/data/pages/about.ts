@@ -30,8 +30,18 @@ export const aboutPageContent: AboutPageContent = {
   companyOverview: {
     label: "Company Overview",
     heading: "Who We Are",
+    specializations: {
+      label: "Specialized In",
+      items: [
+        "Drilling Tools",
+        "Pipe Threaders",
+        "Screens & Strainers",
+        "Filtration Solutions",
+        "Oil & Gas Equipment",
+      ],
+    },
     body: [
-      "DOT is a Saudi-based manufacturer of high-performance screens, strainers, and filtration solutions engineered for demanding oil & gas and industrial applications.",
+      "DOT is a Saudi-based manufacturer specializing in drilling tools, pipe threaders, high-performance screens, strainers, and filtration solutions engineered for demanding oil & gas and industrial applications.",
       "Built on a strong engineering foundation, we combine advanced manufacturing capabilities with a commitment to reliability, quality, and client-focused service — delivering products that perform in the field and support long-term operational efficiency.",
     ],
     image: {

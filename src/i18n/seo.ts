@@ -42,6 +42,20 @@ export function buildPageTitle(pageTitle: string): string {
   return seoDefaults.titleTemplate.replace("%s", pageTitle);
 }
 
+export function toAbsoluteUrl(pathOrUrl: string): string {
+  if (
+    pathOrUrl.startsWith("http://") ||
+    pathOrUrl.startsWith("https://") ||
+    pathOrUrl.startsWith("data:")
+  ) {
+    return pathOrUrl;
+  }
+
+  const base = seoDefaults.siteUrl.replace(/\/$/, "");
+  const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
+  return `${base}${path}`;
+}
+
 export function buildOpenGraphLocale(locale: Locale): string {
   return localeOpenGraphLocale[locale];
 }

@@ -25,7 +25,9 @@ import { siteSettings } from "@/data/site";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
-  { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+  { rel: "icon", href: "/favicon.webp", type: "image/webp" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.webp" },
+  { rel: "manifest", href: "/site.webmanifest" },
 ];
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -54,6 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#0c1524" />
         <Meta />
         <Links />
       </head>

@@ -1,0 +1,3 @@
+Contact: mailto:info@dynamicoiltools.com
+Preferred-Languages: en, ar
+Canonical: https://www.dynamicoiltools.com/.well-known/security.txt

@@ -3,6 +3,7 @@ import { HomePage } from "@/pages";
 import { buildHomeContent } from "@/i18n/content";
 import { createPageMeta } from "@/i18n/meta";
 import { getLocaleRouteData } from "@/i18n/route-data";
+import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
 
 export function meta({ matches }: Route.MetaArgs) {
   const localeData = getLocaleRouteData(matches);
@@ -10,12 +11,15 @@ export function meta({ matches }: Route.MetaArgs) {
 
   const content = buildHomeContent(localeData.messages, localeData.locale);
 
-  return createPageMeta({
-    title: content.meta.title,
-    description: content.meta.description,
-    pathname: `/${localeData.locale}`,
-    locale: localeData.locale,
-  });
+  return [
+    ...createPageMeta({
+      title: content.meta.title,
+      description: content.meta.description,
+      pathname: `/${localeData.locale}`,
+      locale: localeData.locale,
+    }),
+    { "script:ld+json": buildOrganizationJsonLd() },
+  ];
 }
 
 export default function Home() {

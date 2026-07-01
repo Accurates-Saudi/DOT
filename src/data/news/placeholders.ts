@@ -57,3 +57,8 @@ export const placeholderNewsArticles: NewsArticleDetail[] = [
     },
   },
 ];
+
+/** Slugs for draft placeholder news articles that should not be indexed. */
+export function isPlaceholderNewsSlug(slug: string): boolean {
+  return slug.startsWith("placeholder-");
+}

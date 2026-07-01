@@ -1,0 +1,25 @@
+{
+  "name": "Dynamic Oil Tools",
+  "short_name": "DOT",
+  "description": "Saudi industrial manufacturing company delivering high-performance oil & gas tools and equipment for the energy sector.",
+  "start_url": "/en",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0c1524",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/icon-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}

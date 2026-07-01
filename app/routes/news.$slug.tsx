@@ -6,6 +6,7 @@ import { getLocalizedNewsBySlug } from "@/i18n/content";
 import { createPageMeta } from "@/i18n/meta";
 import { defaultLocale, isValidLocale, loadMessages } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
+import { isPlaceholderNewsSlug } from "@/data/news/placeholders";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const locale = params.locale ?? defaultLocale;
@@ -38,6 +39,7 @@ export function meta({ loaderData, matches }: Route.MetaArgs) {
     pathname: `/${localeData.locale}/news/${article.slug}`,
     locale: localeData.locale,
     ogImage: article.image.src,
+    robots: isPlaceholderNewsSlug(article.slug) ? "noindex, nofollow" : undefined,
   });
 }
 

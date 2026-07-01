@@ -10,7 +10,7 @@ export function buildOrganizationJsonLd() {
     name: siteSettings.companyName,
     legalName: siteSettings.legalName,
     url: seoDefaults.siteUrl,
-    logo: toAbsoluteUrl("/icon-512.webp"),
+    logo: toAbsoluteUrl("/favicon.png"),
     description: siteSettings.description,
     email: contact.email,
     telephone: contact.phone,

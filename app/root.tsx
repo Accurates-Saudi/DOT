@@ -25,6 +25,7 @@ import { siteSettings } from "@/data/site";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "32x32" },
   { rel: "apple-touch-icon", href: "/favicon.png" },
   { rel: "manifest", href: "/site.webmanifest" },

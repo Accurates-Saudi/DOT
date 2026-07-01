@@ -2,7 +2,6 @@ import { productDetails } from "@/data/products/registry";
 import { realNewsArticles } from "@/data/news/realArticles";
 import { seoDefaults } from "@/data/site";
 import { locales, type Locale } from "@/i18n/config";
-import { localeHtmlLang } from "@/i18n/config";
 import { localizePath } from "@/i18n/utils";
 
 const STATIC_PATHS = [
@@ -20,7 +19,6 @@ export type SitemapEntry = {
   lastmod?: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: number;
-  alternates: Array<{ hreflang: string; href: string }>;
 };
 
 function getSiteBase(): string {
@@ -32,49 +30,45 @@ function buildLocalizedUrl(path: string, locale: Locale): string {
   return `${getSiteBase()}${localizedPath}`;
 }
 
-function buildAlternates(path: string): SitemapEntry["alternates"] {
-  const alternates = locales.map((locale) => ({
-    hreflang: localeHtmlLang[locale],
-    href: buildLocalizedUrl(path, locale),
-  }));
+function toLastmod(value?: string): string | undefined {
+  if (!value) return undefined;
 
-  return [
-    ...alternates,
-    {
-      hreflang: "x-default",
-      href: buildLocalizedUrl(path, "en"),
-    },
-  ];
+  if (value.includes("T")) {
+    return value;
+  }
+
+  return `${value}T00:00:00.000Z`;
 }
 
-function createEntry(
+function createEntries(
   path: string,
   options?: Pick<SitemapEntry, "lastmod" | "changefreq" | "priority">,
 ): SitemapEntry[] {
   return locales.map((locale) => ({
     loc: buildLocalizedUrl(path, locale),
-    alternates: buildAlternates(path),
     ...options,
   }));
 }
 
 export function getSitemapEntries(): SitemapEntry[] {
   const entries: SitemapEntry[] = [];
+  const generatedAt = new Date().toISOString();
 
   for (const path of STATIC_PATHS) {
     const options =
       path === "/"
-        ? { changefreq: "weekly" as const, priority: 1 }
+        ? { lastmod: generatedAt, changefreq: "weekly" as const, priority: 1 }
         : path === "/news"
-          ? { changefreq: "weekly" as const, priority: 0.8 }
-          : { changefreq: "monthly" as const, priority: 0.7 };
+          ? { lastmod: generatedAt, changefreq: "weekly" as const, priority: 0.8 }
+          : { lastmod: generatedAt, changefreq: "monthly" as const, priority: 0.7 };
 
-    entries.push(...createEntry(path, options));
+    entries.push(...createEntries(path, options));
   }
 
   for (const product of productDetails) {
     entries.push(
-      ...createEntry(`/products/${product.slug}`, {
+      ...createEntries(`/products/${product.slug}`, {
+        lastmod: generatedAt,
         changefreq: "monthly",
         priority: 0.8,
       }),
@@ -83,8 +77,8 @@ export function getSitemapEntries(): SitemapEntry[] {
 
   for (const article of realNewsArticles) {
     entries.push(
-      ...createEntry(`/news/${article.slug}`, {
-        lastmod: article.publishedAt,
+      ...createEntries(`/news/${article.slug}`, {
+        lastmod: toLastmod(article.publishedAt),
         changefreq: "yearly",
         priority: 0.6,
       }),
@@ -106,14 +100,8 @@ function escapeXml(value: string): string {
 export function renderSitemapXml(entries: SitemapEntry[]): string {
   const urlNodes = entries
     .map((entry) => {
-      const alternateLinks = entry.alternates
-        .map(
-          (alternate) =>
-            `    <xhtml:link rel="alternate" hreflang="${escapeXml(alternate.hreflang)}" href="${escapeXml(alternate.href)}" />`,
-        )
-        .join("\n");
-
-      const optionalTags = [
+      const tags = [
+        `    <loc>${escapeXml(entry.loc)}</loc>`,
         entry.lastmod ? `    <lastmod>${escapeXml(entry.lastmod)}</lastmod>` : "",
         entry.changefreq ? `    <changefreq>${entry.changefreq}</changefreq>` : "",
         entry.priority !== undefined
@@ -123,16 +111,12 @@ export function renderSitemapXml(entries: SitemapEntry[]): string {
         .filter(Boolean)
         .join("\n");
 
-      return `  <url>
-    <loc>${escapeXml(entry.loc)}</loc>
-${optionalTags ? `${optionalTags}\n` : ""}${alternateLinks}
-  </url>`;
+      return `  <url>\n${tags}\n  </url>`;
     })
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlNodes}
 </urlset>`;
 }

@@ -3,6 +3,8 @@ import { useCallback, useEffect, useRef, useState, type PointerEvent } from "rea
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 
 const RESUME_AUTOPLAY_MS = 2500;
+const SCROLL_SPEED_PX_PER_SEC = 36;
+const ARROW_TRANSITION_MS = 520;
 
 function getSlidesPerView(width: number) {
   if (width < 420) return 1;
@@ -12,50 +14,61 @@ function getSlidesPerView(width: number) {
 
 export interface UseCertificatesCarouselOptions {
   itemCount: number;
+  /** @deprecated Continuous scroll ignores step delays */
   autoplayDelayMs?: number;
+  /** Used for arrow-key / button nudges */
   transitionMs?: number;
 }
 
 export function useCertificatesCarousel({
   itemCount,
-  autoplayDelayMs = 2000,
-  transitionMs = 800,
+  transitionMs = ARROW_TRANSITION_MS,
 }: UseCertificatesCarouselOptions) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const [slidesPerView, setSlidesPerView] = useState(3);
-  const [index, setIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [offset, setOffset] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
   const [slideStride, setSlideStride] = useState(0);
-  const [autoplayTick, setAutoplayTick] = useState(0);
+  const [setWidth, setSetWidth] = useState(0);
 
-  const indexRef = useRef(0);
-  const isPausedRef = useRef(false);
+  const offsetRef = useRef(0);
   const dragStartXRef = useRef(0);
   const dragOffsetRef = useRef(0);
   const resumeTimerRef = useRef<number | null>(null);
-  const autoplayTimerRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastFrameRef = useRef<number | null>(null);
 
-  const clones = slidesPerView;
   const canScroll = itemCount > slidesPerView;
-  const startIndex = clones;
 
   const pauseAutoplay = useCallback(() => {
-    isPausedRef.current = true;
-    if (autoplayTimerRef.current !== null) {
-      window.clearTimeout(autoplayTimerRef.current);
-      autoplayTimerRef.current = null;
+    setIsAutoplayPaused(true);
+    if (resumeTimerRef.current !== null) {
+      window.clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
     }
+  }, []);
+
+  const resumeAutoplay = useCallback(() => {
+    if (resumeTimerRef.current !== null) {
+      window.clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+    setIsAutoplayPaused(false);
+  }, []);
+
+  const pauseAutoplayTemporarily = useCallback(() => {
+    setIsAutoplayPaused(true);
     if (resumeTimerRef.current !== null) {
       window.clearTimeout(resumeTimerRef.current);
     }
     resumeTimerRef.current = window.setTimeout(() => {
-      isPausedRef.current = false;
+      setIsAutoplayPaused(false);
       resumeTimerRef.current = null;
-      setAutoplayTick((tick) => tick + 1);
     }, RESUME_AUTOPLAY_MS);
   }, []);
 
@@ -65,10 +78,10 @@ export function useCertificatesCarousel({
 
     setSlidesPerView(getSlidesPerView(viewport.clientWidth));
 
-    const firstSlide = viewport.querySelector<HTMLElement>(
+    const slides = viewport.querySelectorAll<HTMLElement>(
       "[data-certificate-slide]",
     );
-    if (!firstSlide) return;
+    if (slides.length === 0) return;
 
     const track = viewport.querySelector<HTMLElement>(
       "[data-certificate-track]",
@@ -77,62 +90,49 @@ export function useCertificatesCarousel({
       ? Number.parseFloat(window.getComputedStyle(track).gap || "0") || 0
       : 0;
 
-    setSlideStride(firstSlide.offsetWidth + gap);
-  }, []);
+    const firstSlide = slides[0];
+    const stride = firstSlide.offsetWidth + gap;
+    setSlideStride(stride);
 
-  const goTo = useCallback(
-    (nextIndex: number, animate = true) => {
-      if (!canScroll) return;
+    const originals = Math.min(itemCount, slides.length / 2);
+    const measuredSetWidth = stride * originals;
+    setSetWidth(measuredSetWidth > 0 ? measuredSetWidth : 0);
+  }, [itemCount]);
 
-      setIsAnimating(animate);
-      setDragOffset(0);
-      dragOffsetRef.current = 0;
-      indexRef.current = nextIndex;
-      setIndex(nextIndex);
+  const normalizeOffset = useCallback(
+    (value: number) => {
+      if (setWidth <= 0) return value;
+      let next = value % setWidth;
+      if (next < 0) next += setWidth;
+      return next;
     },
-    [canScroll],
+    [setWidth],
   );
 
-  const next = useCallback(() => {
-    if (!canScroll) return;
-    goTo(indexRef.current + 1);
-  }, [canScroll, goTo]);
+  const commitOffset = useCallback(
+    (value: number) => {
+      const normalized = normalizeOffset(value);
+      offsetRef.current = normalized;
+      setOffset(normalized);
+    },
+    [normalizeOffset],
+  );
 
-  const prev = useCallback(() => {
-    if (!canScroll) return;
-    goTo(indexRef.current - 1);
-  }, [canScroll, goTo]);
+  const nudge = useCallback(
+    (direction: 1 | -1) => {
+      if (!canScroll || slideStride <= 0) return;
 
-  const handleTransitionEnd = useCallback(() => {
-    if (!canScroll) return;
+      pauseAutoplayTemporarily();
+      setIsAnimating(true);
+      commitOffset(offsetRef.current + direction * slideStride);
 
-    const current = indexRef.current;
-    const maxRealIndex = clones + itemCount - 1;
+      window.setTimeout(() => setIsAnimating(false), transitionMs);
+    },
+    [canScroll, commitOffset, pauseAutoplayTemporarily, slideStride, transitionMs],
+  );
 
-    if (current > maxRealIndex) {
-      goTo(clones, false);
-      return;
-    }
-
-    if (current < clones) {
-      goTo(maxRealIndex, false);
-    }
-  }, [canScroll, clones, itemCount, goTo]);
-
-  useEffect(() => {
-    indexRef.current = index;
-  }, [index]);
-
-  useEffect(() => {
-    if (!canScroll) {
-      setIndex(0);
-      indexRef.current = 0;
-      return;
-    }
-
-    setIndex(startIndex);
-    indexRef.current = startIndex;
-  }, [canScroll, startIndex, slidesPerView, itemCount]);
+  const next = useCallback(() => nudge(1), [nudge]);
+  const prev = useCallback(() => nudge(-1), [nudge]);
 
   useEffect(() => {
     measure();
@@ -146,25 +146,51 @@ export function useCertificatesCarousel({
   }, [measure, itemCount, slidesPerView]);
 
   useEffect(() => {
-    if (!canScroll || prefersReducedMotion || isPausedRef.current || isDragging) {
+    if (
+      !canScroll ||
+      prefersReducedMotion ||
+      isAutoplayPaused ||
+      isDragging ||
+      setWidth <= 0
+    ) {
+      lastFrameRef.current = null;
       return;
     }
 
-    autoplayTimerRef.current = window.setTimeout(next, autoplayDelayMs);
-    return () => {
-      if (autoplayTimerRef.current !== null) {
-        window.clearTimeout(autoplayTimerRef.current);
-        autoplayTimerRef.current = null;
+    const tick = (timestamp: number) => {
+      if (isAutoplayPaused || isDragging) {
+        lastFrameRef.current = null;
+        rafRef.current = requestAnimationFrame(tick);
+        return;
       }
+
+      if (lastFrameRef.current === null) {
+        lastFrameRef.current = timestamp;
+      } else {
+        const deltaSec = (timestamp - lastFrameRef.current) / 1000;
+        lastFrameRef.current = timestamp;
+        commitOffset(offsetRef.current + SCROLL_SPEED_PX_PER_SEC * deltaSec);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      lastFrameRef.current = null;
     };
   }, [
-    autoplayDelayMs,
-    autoplayTick,
     canScroll,
-    index,
+    commitOffset,
+    isAutoplayPaused,
     isDragging,
-    next,
     prefersReducedMotion,
+    setWidth,
   ]);
 
   useEffect(
@@ -172,8 +198,8 @@ export function useCertificatesCarousel({
       if (resumeTimerRef.current !== null) {
         window.clearTimeout(resumeTimerRef.current);
       }
-      if (autoplayTimerRef.current !== null) {
-        window.clearTimeout(autoplayTimerRef.current);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
       }
     },
     [],
@@ -183,7 +209,7 @@ export function useCertificatesCarousel({
     (event: PointerEvent<HTMLDivElement>) => {
       if (!canScroll) return;
 
-      pauseAutoplay();
+      pauseAutoplayTemporarily();
       setIsDragging(true);
       setIsAnimating(false);
       dragStartXRef.current = event.clientX;
@@ -191,7 +217,7 @@ export function useCertificatesCarousel({
       setDragOffset(0);
       event.currentTarget.setPointerCapture(event.pointerId);
     },
-    [canScroll, pauseAutoplay],
+    [canScroll, pauseAutoplayTemporarily],
   );
 
   const onPointerMove = useCallback(
@@ -209,35 +235,17 @@ export function useCertificatesCarousel({
     if (!isDragging || !canScroll) return;
 
     setIsDragging(false);
-    setIsAnimating(true);
+    commitOffset(offsetRef.current - dragOffsetRef.current);
+    dragOffsetRef.current = 0;
+    setDragOffset(0);
+  }, [canScroll, commitOffset, isDragging]);
 
-    const threshold = slideStride * 0.18;
-    const delta = dragOffsetRef.current;
-
-    if (delta <= -threshold) {
-      next();
-    } else if (delta >= threshold) {
-      prev();
-    } else {
-      setDragOffset(0);
-      dragOffsetRef.current = 0;
-    }
-  }, [canScroll, isDragging, next, prev, slideStride]);
-
-  const onPointerUp = useCallback(() => {
-    finishDrag();
-  }, [finishDrag]);
-
-  const onPointerCancel = useCallback(() => {
-    finishDrag();
-  }, [finishDrag]);
-
-  const translateX = canScroll ? -(index * slideStride) + dragOffset : 0;
+  const translateX = canScroll ? -(offset + dragOffset) : 0;
 
   return {
     viewportRef,
     slidesPerView,
-    clones,
+    clones: 0,
     canScroll,
     translateX,
     isAnimating,
@@ -245,13 +253,14 @@ export function useCertificatesCarousel({
     transitionMs,
     next,
     prev,
-    pauseAutoplay,
-    handleTransitionEnd,
+    pauseAutoplay: pauseAutoplayTemporarily,
+    resumeAutoplay,
+    handleTransitionEnd: undefined,
     pointerHandlers: {
       onPointerDown,
       onPointerMove,
-      onPointerUp,
-      onPointerCancel,
+      onPointerUp: finishDrag,
+      onPointerCancel: finishDrag,
     },
   };
 }

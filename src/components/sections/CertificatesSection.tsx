@@ -11,14 +11,12 @@ export interface CertificatesSectionProps {
 }
 
 export function CertificatesSection({ content }: CertificatesSectionProps) {
-  const transitionMs = content.transitionMs ?? 800;
-  const autoplayDelayMs = content.autoplayDelayMs ?? 2000;
+  const transitionMs = content.transitionMs ?? 520;
   const { ref: sectionRef, revealProps } = useScrollReveal();
 
   const {
     viewportRef,
     slidesPerView,
-    clones,
     canScroll,
     translateX,
     isAnimating,
@@ -26,11 +24,10 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
     next,
     prev,
     pauseAutoplay,
-    handleTransitionEnd,
+    resumeAutoplay,
     pointerHandlers,
   } = useCertificatesCarousel({
     itemCount: content.items.length,
-    autoplayDelayMs,
     transitionMs,
   });
 
@@ -44,11 +41,8 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
 
   const extendedItems = useMemo(() => {
     if (!canScroll) return content.items;
-
-    const leading = content.items.slice(-clones);
-    const trailing = content.items.slice(0, clones);
-    return [...leading, ...content.items, ...trailing];
-  }, [canScroll, clones, content.items]);
+    return [...content.items, ...content.items];
+  }, [canScroll, content.items]);
 
   return (
     <Section
@@ -110,6 +104,7 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
               )}
               {...(canScroll ? pointerHandlers : {})}
               onMouseEnter={canScroll ? pauseAutoplay : undefined}
+              onMouseLeave={canScroll ? resumeAutoplay : undefined}
             >
               <div
                 data-certificate-track
@@ -121,7 +116,6 @@ export function CertificatesSection({ content }: CertificatesSectionProps) {
                       ? `transform ${transitionMs}ms cubic-bezier(0.4, 0, 0.2, 1)`
                       : "none",
                 }}
-                onTransitionEnd={handleTransitionEnd}
               >
                 {extendedItems.map((item, slideIndex) => (
                   <CertificateCard

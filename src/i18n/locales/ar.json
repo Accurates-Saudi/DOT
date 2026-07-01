@@ -410,33 +410,39 @@
         "subheading": "معترف بها عالميًا",
         "items": [
           {
-            "title": "API Spec 4F Certificate of Registration",
+            "title": "شهادة voestalpine لاتصالات VAGT و VAsuperior المميزة",
             "image": {
-              "alt": "API Spec 4F Certificate of Registration"
+              "alt": "شهادة voestalpine لخيوط وإصلاح اتصالات VAGT و VAsuperior المميزة"
             }
           },
           {
-            "title": "API Spec 7-1 Certificate of Registration",
+            "title": "شهادة Hardbanding Solutions — DURABAND NC / TUFFBAND NC المستوى 1",
             "image": {
-              "alt": "API Spec 7-1 Certificate of Registration"
+              "alt": "شهادة معتمد Hardbanding Solutions المستوى 1 لـ DURABAND NC و TUFFBAND NC"
             }
           },
           {
-            "title": "API Spec 11B Certificate of Registration",
+            "title": "شهادة تأهيل DP-Master",
             "image": {
-              "alt": "API Spec 11B Certificate of Registration"
+              "alt": "شهادة تأهيل DP-Master لاتصالات DPM-ST و DPM-HIGHTORQUE"
             }
           },
           {
-            "title": "API Spec 16A Certificate of Registration",
+            "title": "شهادة ISO 9001:2015 لنظام إدارة الجودة",
             "image": {
-              "alt": "API Spec 16A Certificate of Registration"
+              "alt": "شهادة ISO 9001:2015 لنظام إدارة الجودة"
             }
           },
           {
-            "title": "API Spec 19C Certificate of Registration",
+            "title": "شهادة ISO 45001:2018 للصحة والسلامة المهنية",
             "image": {
-              "alt": "API Spec 19C Certificate of Registration"
+              "alt": "شهادة ISO 45001:2018 لنظام إدارة الصحة والسلامة المهنية"
+            }
+          },
+          {
+            "title": "شهادة مورد معتمد لدى أرامكو السعودية",
+            "image": {
+              "alt": "شهادة مورد معتمد لدى أرامكو السعودية لشركة Dynamic Oil Tools"
             }
           }
         ]

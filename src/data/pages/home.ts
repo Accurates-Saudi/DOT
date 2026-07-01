@@ -18,6 +18,7 @@ import cert2 from "@/assets/certificates/cert-2.png";
 import cert3 from "@/assets/certificates/cert-3.png";
 import cert4 from "@/assets/certificates/cert-4.png";
 import cert5 from "@/assets/certificates/cert-5.png";
+import cert6 from "@/assets/certificates/cert-6.png";
 import newsHeader from "@/assets/news/header.png";
 import engineeringBg from "@/assets/engineering/bg.png";
 
@@ -240,46 +241,54 @@ export const homePageContent: HomePageContent = {
     headingAccent: "Certificates",
     subheading: "Recognized Globally",
     autoplayDelayMs: 2000,
-    transitionMs: 800,
+    transitionMs: 520,
     items: [
       {
-        id: "api-spec-4f",
-        title: "API Spec 4F Certificate of Registration",
+        id: "voestalpine-vagt-vasuperior",
+        title: "voestalpine VAGT & VAsuperior Premium Connections Certification",
         image: {
           src: cert1,
-          alt: "API Spec 4F Certificate of Registration",
+          alt: "voestalpine VAGT and VAsuperior premium connections threading and repair certification",
         },
       },
       {
-        id: "api-spec-7-1",
-        title: "API Spec 7-1 Certificate of Registration",
+        id: "postle-hardbanding-level-1",
+        title: "Hardbanding Solutions Certified Applicator — DURABAND NC / TUFFBAND NC Level 1",
         image: {
           src: cert2,
-          alt: "API Spec 7-1 Certificate of Registration",
+          alt: "Hardbanding Solutions certified applicator Level 1 for DURABAND NC and TUFFBAND NC",
         },
       },
       {
-        id: "api-spec-11b",
-        title: "API Spec 11B Certificate of Registration",
+        id: "dpmaster-qualification",
+        title: "DP-Master Certificate of Qualification",
         image: {
           src: cert3,
-          alt: "API Spec 11B Certificate of Registration",
+          alt: "DP-Master certificate of qualification for DPM-ST and DPM-HIGHTORQUE connections",
         },
       },
       {
-        id: "api-spec-16a",
-        title: "API Spec 16A Certificate of Registration",
+        id: "iso-9001-2015",
+        title: "ISO 9001:2015 Quality Management System Certification",
         image: {
           src: cert4,
-          alt: "API Spec 16A Certificate of Registration",
+          alt: "ISO 9001:2015 quality management system certification",
         },
       },
       {
-        id: "api-spec-19c",
-        title: "API Spec 19C Certificate of Registration",
+        id: "iso-45001-2018",
+        title: "ISO 45001:2018 Occupational Health & Safety Certification",
         image: {
           src: cert5,
-          alt: "API Spec 19C Certificate of Registration",
+          alt: "ISO 45001:2018 occupational health and safety management certification",
+        },
+      },
+      {
+        id: "saudi-aramco-supplier",
+        title: "Saudi Aramco Approved Supplier Certificate",
+        image: {
+          src: cert6,
+          alt: "Saudi Aramco approved supplier certificate for Dynamic Oil Tools",
         },
       },
     ],

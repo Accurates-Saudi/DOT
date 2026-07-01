@@ -41,11 +41,12 @@ export const homeEngineeringStepIcons: Pick<
 >[] = [{ icon: "modeling" }, { icon: "cnc" }];
 
 export const homeCertificateIds: Pick<CertificateItem, "id">[] = [
-  { id: "api-spec-4f" },
-  { id: "api-spec-7-1" },
-  { id: "api-spec-11b" },
-  { id: "api-spec-16a" },
-  { id: "api-spec-19c" },
+  { id: "voestalpine-vagt-vasuperior" },
+  { id: "postle-hardbanding-level-1" },
+  { id: "dpmaster-qualification" },
+  { id: "iso-9001-2015" },
+  { id: "iso-45001-2018" },
+  { id: "saudi-aramco-supplier" },
 ];
 
 export const homeTimingDefaults = {

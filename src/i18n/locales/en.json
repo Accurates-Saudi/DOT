@@ -410,33 +410,39 @@
         "subheading": "Recognized Globally",
         "items": [
           {
-            "title": "API Spec 4F Certificate of Registration",
+            "title": "voestalpine VAGT & VAsuperior Premium Connections Certification",
             "image": {
-              "alt": "API Spec 4F Certificate of Registration"
+              "alt": "voestalpine VAGT and VAsuperior premium connections threading and repair certification"
             }
           },
           {
-            "title": "API Spec 7-1 Certificate of Registration",
+            "title": "Hardbanding Solutions Certified Applicator — DURABAND NC / TUFFBAND NC Level 1",
             "image": {
-              "alt": "API Spec 7-1 Certificate of Registration"
+              "alt": "Hardbanding Solutions certified applicator Level 1 for DURABAND NC and TUFFBAND NC"
             }
           },
           {
-            "title": "API Spec 11B Certificate of Registration",
+            "title": "DP-Master Certificate of Qualification",
             "image": {
-              "alt": "API Spec 11B Certificate of Registration"
+              "alt": "DP-Master certificate of qualification for DPM-ST and DPM-HIGHTORQUE connections"
             }
           },
           {
-            "title": "API Spec 16A Certificate of Registration",
+            "title": "ISO 9001:2015 Quality Management System Certification",
             "image": {
-              "alt": "API Spec 16A Certificate of Registration"
+              "alt": "ISO 9001:2015 quality management system certification"
             }
           },
           {
-            "title": "API Spec 19C Certificate of Registration",
+            "title": "ISO 45001:2018 Occupational Health & Safety Certification",
             "image": {
-              "alt": "API Spec 19C Certificate of Registration"
+              "alt": "ISO 45001:2018 occupational health and safety management certification"
+            }
+          },
+          {
+            "title": "Saudi Aramco Approved Supplier Certificate",
+            "image": {
+              "alt": "Saudi Aramco approved supplier certificate for Dynamic Oil Tools"
             }
           }
         ]

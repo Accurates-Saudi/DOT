@@ -3,8 +3,8 @@ import { redirect, useLoaderData } from "react-router";
 import type { Route } from "./+types/admin.products.new";
 import { AdminProductEditorPage } from "@/pages/admin/AdminProductEditorPage";
 import { defaultLocale } from "@/i18n/config";
-import { createDefaultProductPayload } from "@/server/cms/content/entity-content.server";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
+import { createDefaultProductPayload } from "@/utils/cms-entity-defaults";
 import { slugifyInput } from "@/utils/cms-entities";
 import { buildEntityKey } from "@/types/cms-entities";
 

@@ -6,7 +6,6 @@ import { createPageMeta } from "@/i18n/meta";
 import { defaultLocale, isValidLocale } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
 import { isPlaceholderNewsSlug } from "@/data/news/placeholders";
-import { getPublishedNewsBySlug } from "@/server/cms/content/entity-content.server";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const locale = params.locale ?? defaultLocale;
@@ -15,6 +14,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(`/${defaultLocale}/news/${params.slug}`);
   }
 
+  const { getPublishedNewsBySlug } = await import(
+    "@/server/cms/content/entity-content.server"
+  );
   const article = await getPublishedNewsBySlug(locale, params.slug);
 
   if (!article) {

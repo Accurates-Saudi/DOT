@@ -3,10 +3,6 @@ import { redirect, useLoaderData } from "react-router";
 import type { Route } from "./+types/admin.products.$key";
 import { AdminProductEditorPage } from "@/pages/admin/AdminProductEditorPage";
 import { defaultLocale } from "@/i18n/config";
-import {
-  createDefaultProductPayload,
-  getStaticProductPayload,
-} from "@/server/cms/content/entity-content.server";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
 import { getContentEntryByKey } from "@/server/cms/content/service.server";
 import type { CmsProductPayload } from "@/types/cms-entities";
@@ -33,6 +29,9 @@ export async function loader({ request, params }: Route.LoaderArgs) {
       status: detail.entry.status,
     };
   } catch {
+    const { getStaticProductPayload } = await import(
+      "@/server/cms/content/entity-content.server"
+    );
     const slug = parseEntityId("product", key) ?? key.replace(/^product\./, "");
     const staticPayload = await getStaticProductPayload(slug);
 

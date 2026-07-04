@@ -5,7 +5,6 @@ import { ProductDetailPage } from "@/pages/ProductDetailPage";
 import { createPageMeta } from "@/i18n/meta";
 import { defaultLocale, isValidLocale } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
-import { getPublishedProductBySlug } from "@/server/cms/content/entity-content.server";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const locale = params.locale ?? defaultLocale;
@@ -14,6 +13,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(`/${defaultLocale}/products/${params.slug}`);
   }
 
+  const { getPublishedProductBySlug } = await import(
+    "@/server/cms/content/entity-content.server"
+  );
   const product = await getPublishedProductBySlug(locale, params.slug);
 
   if (!product) {

@@ -4,7 +4,6 @@ import { buildCatalogsContent } from "@/i18n/content";
 import { createPageMeta } from "@/i18n/meta";
 import { defaultLocale, isValidLocale, loadMessages, type Locale } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
-import { getPublishedCatalogItems } from "@/server/cms/content/entity-content.server";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const locale = isValidLocale(params.locale ?? defaultLocale)
@@ -12,6 +11,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     : defaultLocale;
   const messages = await loadMessages(locale);
   const pageContent = buildCatalogsContent(messages, locale);
+  const { getPublishedCatalogItems } = await import(
+    "@/server/cms/content/entity-content.server"
+  );
   const items = await getPublishedCatalogItems(locale);
 
   return {

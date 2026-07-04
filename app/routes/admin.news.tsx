@@ -3,23 +3,25 @@ import { redirect, useLoaderData } from "react-router";
 import type { Route } from "./+types/admin.news";
 import { AdminCollectionListPage } from "@/pages/admin/AdminCollectionListPage";
 import { defaultLocale } from "@/i18n/config";
-import { buildAdminNewsRows } from "@/server/cms/content/admin-collection.server";
-import { duplicateContentEntry, saveCollectionOrder } from "@/server/cms/content/entity-content.server";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
 import { archiveContentEntry } from "@/server/cms/content/service.server";
 import { CMS_COLLECTION_ORDER_KEYS } from "@/types/cms-entities";
 
 export async function loader({ request }: Route.LoaderArgs) {
   await requireCmsAuthSession(request, ["editor"]);
+  const { buildAdminNewsRows } = await import(
+    "@/server/cms/content/admin-collection.server"
+  );
   const url = new URL(request.url);
-  const q = url.searchParams.get("q") ?? "";
-  const status = url.searchParams.get("status") ?? "all";
-  const rows = await buildAdminNewsRows(defaultLocale, q);
-  return { q, status, rows };
+  const rows = await buildAdminNewsRows(defaultLocale, url.searchParams.get("q") ?? "");
+  return { q: url.searchParams.get("q") ?? "", status: url.searchParams.get("status") ?? "all", rows };
 }
 
 export async function action({ request }: Route.ActionArgs) {
   const session = await requireCmsAuthSession(request, ["editor"]);
+  const { duplicateContentEntry, saveCollectionOrder } = await import(
+    "@/server/cms/content/entity-content.server"
+  );
   const formData = await request.formData();
   const intent = String(formData.get("intent") ?? "");
 

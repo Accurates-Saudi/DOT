@@ -3,8 +3,8 @@ import { useLoaderData } from "react-router";
 import type { Route } from "./+types/admin.catalogs.new";
 import { AdminCatalogEditorPage } from "@/pages/admin/AdminCatalogEditorPage";
 import { defaultLocale } from "@/i18n/config";
-import { createDefaultCatalogPayload } from "@/server/cms/content/entity-content.server";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
+import { createDefaultCatalogPayload } from "@/utils/cms-entity-defaults";
 import { buildEntityKey } from "@/types/cms-entities";
 
 export async function loader({ request }: Route.LoaderArgs) {

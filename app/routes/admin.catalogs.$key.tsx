@@ -14,7 +14,8 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     const detail = await getContentEntryByKey(key);
     return {
       contentKey: key,
-      payload: (detail.entry.currentVersion?.payload ?? detail.publishedVersion?.payload) as CmsCatalogPayload,
+      payload: (detail.entry.currentVersion?.payload ??
+        detail.publishedVersion?.payload) as CmsCatalogPayload,
       status: detail.entry.status,
     };
   } catch {

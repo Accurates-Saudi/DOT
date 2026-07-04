@@ -17,6 +17,15 @@ export default [
   route("api/cms/media", "routes/api.cms.media.ts"),
   route("api/cms/media/:id", "routes/api.cms.media.$id.ts"),
   route("api/cms/media/:id/file", "routes/api.cms.media.$id.file.ts"),
+  route("admin/login", "routes/admin.login.tsx"),
+  route("admin", "routes/admin.tsx", [
+    index("routes/admin._index.tsx"),
+    route("logout", "routes/admin.logout.tsx"),
+    route("products", "routes/admin.products.tsx"),
+    route("news", "routes/admin.news.tsx"),
+    route("certificates", "routes/admin.certificates.tsx"),
+    route("settings", "routes/admin.settings.tsx"),
+  ]),
   layout("routes/_layout.tsx", [
     index("routes/locale-redirect.tsx"),
     route(":locale", "routes/_locale.tsx", [

@@ -144,8 +144,5 @@ export const meta: Route.MetaFunction = ({ loaderData }) => {
       content:
         "Saudi industrial manufacturing company delivering high-performance oil & gas tools and equipment for the energy sector.",
     },
-    ...(loaderData
-      ? [{ htmlLang: localeHtmlLang[loaderData.locale] }, { dir: loaderData.direction }]
-      : []),
   ];
 };

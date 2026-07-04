@@ -4,7 +4,7 @@ import { requiresLtrNumericIsolation } from "@/i18n/format-numbers";
 import { LocalizedNumeric } from "./LocalizedNumeric";
 
 export interface FormattedNumericTextProps {
-  value: string;
+  value?: string | null;
   className?: string;
 }
 
@@ -14,7 +14,7 @@ export function FormattedNumericText({
   className,
 }: FormattedNumericTextProps) {
   const { formatNumericText } = useNumberFormat();
-  const text = formatNumericText(value);
+  const text = formatNumericText(value ?? "");
 
   return (
     <LocalizedNumeric

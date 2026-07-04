@@ -19,15 +19,21 @@ export function formatNumber(value: number, locale: Locale): string {
   }).format(value);
 }
 
-export function requiresLtrNumericIsolation(text: string): boolean {
-  return text.includes("+");
+export function requiresLtrNumericIsolation(
+  text: string | null | undefined,
+): boolean {
+  return typeof text === "string" && text.includes("+");
 }
 
 /**
  * English: "+966 (13) 8041290" → Arabic: "٩٦٦ (١٣) ٨٠٤١٢٩٠+"
  */
-export function formatNumericText(text: string, locale: Locale): string {
-  if (locale !== "ar" || !text) return text;
+export function formatNumericText(
+  text: string | null | undefined,
+  locale: Locale,
+): string {
+  if (!text) return "";
+  if (locale !== "ar") return text;
 
   let trailingAffixes = "";
   let working = text;
@@ -44,7 +50,10 @@ export function formatNumericText(text: string, locale: Locale): string {
 }
 
 /** For plain-text attributes (e.g. input placeholder) where `<bdi>` cannot be used. */
-export function formatNumericTextPlain(text: string, locale: Locale): string {
+export function formatNumericTextPlain(
+  text: string | null | undefined,
+  locale: Locale,
+): string {
   const formatted = formatNumericText(text, locale);
   if (locale === "ar" && requiresLtrNumericIsolation(formatted)) {
     return `\u200E${formatted}`;

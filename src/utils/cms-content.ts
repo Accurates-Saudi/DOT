@@ -29,10 +29,13 @@ function isLinkLike(value: unknown): value is {
   external?: boolean;
   action?: string;
 } {
+  const allowedKeys = new Set(["label", "href", "external", "action"]);
+
   return (
     isPlainObject(value) &&
     typeof value.label === "string" &&
-    ("href" in value || "external" in value || "action" in value)
+    ("href" in value || "external" in value || "action" in value) &&
+    Object.keys(value).every((key) => allowedKeys.has(key))
   );
 }
 
@@ -54,10 +57,13 @@ function isMediaReference(value: unknown): value is MediaReference {
 }
 
 function isLinkReference(value: unknown): value is LinkReference {
+  const allowedKeys = new Set(["label", "href", "external", "action"]);
+
   return (
     isPlainObject(value) &&
     isLocalizedValue(value.label) &&
-    ("href" in value || "external" in value || "action" in value)
+    ("href" in value || "external" in value || "action" in value) &&
+    Object.keys(value).every((key) => allowedKeys.has(key))
   );
 }
 

@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CmsRole {
+  ADMIN
+  EDITOR
+}
+
+enum CmsContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CmsContentType {
+  SITE
+  NAVIGATION
+  FOOTER
+  PAGE
+  PRODUCT
+  NEWS
+  CERTIFICATE
+  SHARED
+}
+
+enum CmsMediaType {
+  IMAGE
+  DOCUMENT
+  VIDEO
+  OTHER
+}
+
+model CmsUser {
+  id                    String              @id @default(cuid())
+  email                 String              @unique
+  passwordHash          String
+  name                  String
+  role                  CmsRole
+  isActive              Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  sessions              CmsSession[]
+  contentVersions       CmsContentVersion[] @relation("ContentVersionAuthor")
+  mediaVersions         CmsMediaVersion[]   @relation("MediaVersionAuthor")
+  createdContentEntries CmsContentEntry[]   @relation("ContentEntryCreator")
+  updatedContentEntries CmsContentEntry[]   @relation("ContentEntryUpdater")
+  createdMediaAssets    CmsMediaAsset[]     @relation("MediaAssetCreator")
+  updatedMediaAssets    CmsMediaAsset[]     @relation("MediaAssetUpdater")
+
+  @@index([role])
+  @@index([isActive])
+}
+
+model CmsSession {
+  id         String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  lastSeenAt DateTime?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       CmsUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model CmsContentEntry {
+  id                  String            @id @default(cuid())
+  key                 String            @unique
+  type                CmsContentType
+  status              CmsContentStatus  @default(DRAFT)
+  slug                String?
+  latestVersionNumber Int               @default(0)
+  currentVersionId    String?
+  publishedVersionId  String?
+  createdById         String?
+  updatedById         String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  createdBy           CmsUser?          @relation("ContentEntryCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy           CmsUser?          @relation("ContentEntryUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+  currentVersion      CmsContentVersion?  @relation("ContentEntryCurrentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
+  publishedVersion    CmsContentVersion?  @relation("ContentEntryPublishedVersion", fields: [publishedVersionId], references: [id], onDelete: SetNull)
+  versions            CmsContentVersion[] @relation("ContentEntryVersions")
+
+  @@index([type])
+  @@index([status])
+  @@index([slug])
+  @@index([updatedAt])
+}
+
+model CmsContentVersion {
+  id            String            @id @default(cuid())
+  entryId        String
+  versionNumber  Int
+  payload        Json
+  changeSummary  String?
+  isPublished    Boolean           @default(false)
+  createdById    String?
+  createdAt      DateTime          @default(now())
+  publishedAt    DateTime?
+  entry          CmsContentEntry   @relation("ContentEntryVersions", fields: [entryId], references: [id], onDelete: Cascade)
+  createdBy      CmsUser?          @relation("ContentVersionAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+  currentFor     CmsContentEntry[] @relation("ContentEntryCurrentVersion")
+  publishedFor   CmsContentEntry[] @relation("ContentEntryPublishedVersion")
+
+  @@unique([entryId, versionNumber])
+  @@index([entryId, createdAt])
+  @@index([isPublished])
+}
+
+model CmsMediaAsset {
+  id                  String           @id @default(cuid())
+  key                 String           @unique
+  type                CmsMediaType     @default(IMAGE)
+  latestVersionNumber Int              @default(0)
+  currentVersionId    String?
+  createdById         String?
+  updatedById         String?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  createdBy           CmsUser?         @relation("MediaAssetCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy           CmsUser?         @relation("MediaAssetUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+  currentVersion      CmsMediaVersion? @relation("MediaAssetCurrentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
+  versions            CmsMediaVersion[] @relation("MediaAssetVersions")
+
+  @@index([type])
+  @@index([updatedAt])
+}
+
+model CmsMediaVersion {
+  id               String          @id @default(cuid())
+  assetId           String
+  versionNumber     Int
+  storageKey        String          @unique
+  originalFilename  String
+  mimeType          String
+  size              Int
+  width             Int?
+  height            Int?
+  alt               Json?
+  metadata          Json?
+  createdById       String?
+  createdAt         DateTime        @default(now())
+  asset             CmsMediaAsset   @relation("MediaAssetVersions", fields: [assetId], references: [id], onDelete: Cascade)
+  createdBy         CmsUser?        @relation("MediaVersionAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+  currentFor        CmsMediaAsset[] @relation("MediaAssetCurrentVersion")
+
+  @@unique([assetId, versionNumber])
+  @@index([assetId, createdAt])
+}

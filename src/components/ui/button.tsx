@@ -1,6 +1,5 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
@@ -84,6 +83,7 @@ const buttonVariants = cva(
 )
 
 function Button({
+  children,
   className,
   variant = "default",
   size = "default",
@@ -93,16 +93,38 @@ function Button({
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
-  const Comp = asChild ? Slot.Root : "button"
+  const resolvedClassName = cn(buttonVariants({ variant, size, className }))
+
+  if (asChild) {
+    if (!React.isValidElement(children)) {
+      throw new Error("Button with asChild expects a single React element child.")
+    }
+
+    const child = children as React.ReactElement<{
+      className?: string
+      [key: string]: unknown
+    }>
+
+    return React.cloneElement(child, {
+      ...props,
+      ...child.props,
+      "data-slot": "button",
+      "data-variant": variant,
+      "data-size": size,
+      className: cn(resolvedClassName, child.props.className),
+    } as Record<string, unknown>)
+  }
 
   return (
-    <Comp
+    <button
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={resolvedClassName}
       {...props}
-    />
+    >
+      {children}
+    </button>
   )
 }
 

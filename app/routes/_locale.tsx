@@ -7,8 +7,6 @@ import {
   defaultLocale,
   isValidLocale,
   loadMessages,
-  localeHtmlLang,
-  getDirection,
   parseLocaleCookie,
 } from "@/i18n";
 
@@ -58,9 +56,5 @@ export default function LocaleLayout() {
 
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
-
-  return [
-    { htmlLang: localeHtmlLang[loaderData.locale] },
-    { dir: getDirection(loaderData.locale) },
-  ];
+  return [];
 }

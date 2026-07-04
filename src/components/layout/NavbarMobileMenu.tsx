@@ -3,14 +3,18 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "react";
 import { NavLink, useLocation } from "react-router";
 
+import { EditableImage } from "@/components/editable";
 import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
 import { Button } from "@/components/ui/button";
-import { useMainNavigation, useSiteCopy } from "@/i18n/content/hooks";
-import { useDirection, useTranslation } from "@/i18n/hooks";
+import {
+  useFooterContent,
+  useMainNavigation,
+  useNavigationCopy,
+} from "@/i18n/content/hooks";
+import { useDirection } from "@/i18n/hooks";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { siteSettings } from "@/data/site";
 import { cn } from "@/lib/utils";
-import dotLogo from "@/assets/logos/dot.webp";
 
 import { LinkedInIcon } from "./NavbarIcons";
 
@@ -22,10 +26,10 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const mainNavigation = useMainNavigation();
-  const site = useSiteCopy();
+  const navigationCopy = useNavigationCopy();
+  const footerContent = useFooterContent();
   const direction = useDirection();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { t } = useTranslation("nav");
 
   useEffect(() => {
     setOpen(false);
@@ -48,7 +52,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
         <MobileMenuToggle
           isOpen={open}
           isHeroState={isHeroState}
-          label={t("openMenu")}
+          label={navigationCopy.openMenu}
         />
       </DialogPrimitive.Trigger>
 
@@ -62,7 +66,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
         />
 
         <DialogPrimitive.Content
-          aria-label={t("mobileMenuTitle")}
+          aria-label={navigationCopy.mobileMenuTitle}
           className={cn(
             "fixed z-[70] flex max-h-[min(32rem,calc(100dvh-5.25rem))] w-[min(calc(100vw-1.5rem),22rem)] flex-col overflow-hidden rounded-2xl border border-[#0c1524]/10 bg-white shadow-[0_24px_80px_-24px_rgba(12,21,36,0.45)] outline-none",
             "top-[calc(4rem+0.625rem)]",
@@ -79,13 +83,14 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
         >
           <div className="flex items-center justify-between border-b border-[#0c1524]/8 px-4 py-3.5 sm:px-5">
             <div className="flex min-w-0 items-center gap-2.5">
-              <img
-                src={dotLogo}
-                alt={site.companyName}
+              <EditableImage
+                contentId="shared.footer.logos.dot"
+                src={footerContent.logos.dot.src}
+                alt={footerContent.logos.dot.alt}
                 className="h-7 w-auto object-contain"
               />
               <span className="truncate text-[0.6875rem] font-semibold tracking-[0.14em] text-[#0c1524]/45 uppercase">
-                {t("mobileMenuTitle")}
+                {navigationCopy.mobileMenuTitle}
               </span>
             </div>
 
@@ -93,7 +98,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
               <button
                 type="button"
                 className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#0c1524]/10 text-[#0c1524]/70 transition-colors hover:border-[#0c1524]/15 hover:bg-[#0c1524]/5 hover:text-[#0c1524] focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#F68E05]/35"
-                aria-label={t("closeMenu")}
+                aria-label={navigationCopy.closeMenu}
               >
                 <X className="size-4" strokeWidth={2.25} />
               </button>
@@ -102,7 +107,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
 
           <nav
             className="flex-1 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4 sm:py-4"
-            aria-label={t("mobileAria")}
+            aria-label={navigationCopy.mobileAria}
           >
             <ul className="flex flex-col gap-1.5">
               {mainNavigation.map((item, index) => (
@@ -166,7 +171,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                   className="inline-flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-sm font-medium text-[#0c1524]/72 transition-colors hover:bg-white hover:text-[#0c1524]"
                 >
                   <LinkedInIcon className="size-4" />
-                  {t("linkedIn")}
+                  {navigationCopy.linkedIn}
                 </a>
               )}
 
@@ -176,14 +181,14 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                 asChild
               >
                 <LocalizedLink to="/login" onClick={() => setOpen(false)}>
-                  {t("login")}
+                  {navigationCopy.login}
                 </LocalizedLink>
               </Button>
             </div>
           </div>
 
           <DialogPrimitive.Title className="sr-only">
-            {t("mobileMenuTitle")}
+            {navigationCopy.mobileMenuTitle}
           </DialogPrimitive.Title>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>

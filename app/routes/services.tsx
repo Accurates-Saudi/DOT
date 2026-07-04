@@ -8,7 +8,7 @@ export function meta({ matches }: Route.MetaArgs) {
   const localeData = getLocaleRouteData(matches);
   if (!localeData) return [];
 
-  const pageMeta = buildServicesMeta(localeData.messages);
+  const pageMeta = buildServicesMeta(localeData.messages, localeData.locale);
 
   return createPageMeta({
     title: pageMeta.title,

@@ -1,16 +1,18 @@
 import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui";
+import { EditableImage } from "@/components/editable";
 import { LanguageSwitcher } from "@/components/i18n";
-import { useMainNavigation, useSiteCopy } from "@/i18n/content/hooks";
+import {
+  useFooterContent,
+  useMainNavigation,
+  useNavigationCopy,
+} from "@/i18n/content/hooks";
 import { useDirection } from "@/i18n/hooks";
-import { useTranslation } from "@/i18n/hooks";
 import { siteSettings } from "@/data/site";
 import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
-import dotLogo from "@/assets/logos/dot.webp";
-import saudiMadeLogo from "@/assets/logos/saudi-made.png";
 import { NavLink, useLocation } from "react-router";
 
 import { NavbarMobileMenu } from "./NavbarMobileMenu";
@@ -21,9 +23,9 @@ const SCROLL_THRESHOLD = 40;
 export function Navbar() {
   const location = useLocation();
   const mainNavigation = useMainNavigation();
-  const site = useSiteCopy();
+  const navigationCopy = useNavigationCopy();
+  const footerContent = useFooterContent();
   const direction = useDirection();
-  const { t } = useTranslation("nav");
   const isHome = /\/(en|ar)\/?$/.test(location.pathname);
   const isScrolled = useScrollThreshold({
     threshold: SCROLL_THRESHOLD,
@@ -71,11 +73,12 @@ export function Navbar() {
                 )
               : "translate-x-0 gap-1.5 sm:gap-2 lg:gap-3",
           )}
-          aria-label={`${site.companyName} — Home`}
+          aria-label={navigationCopy.homeAria}
         >
-          <img
-            src={dotLogo}
-            alt={site.companyName}
+          <EditableImage
+            contentId="shared.footer.logos.dot"
+            src={footerContent.logos.dot.src}
+            alt={footerContent.logos.dot.alt}
             className={cn(
               "w-auto max-w-[5.5rem] object-contain sm:max-w-none",
               transitionPresets.default,
@@ -94,9 +97,10 @@ export function Navbar() {
             )}
             aria-hidden
           />
-          <img
-            src={saudiMadeLogo}
-            alt="Saudi Made"
+          <EditableImage
+            contentId="shared.footer.logos.saudi-made"
+            src={footerContent.logos.saudiMade.src}
+            alt={footerContent.logos.saudiMade.alt}
             className={cn(
               "w-auto max-w-[4.5rem] shrink-0 object-contain sm:max-w-none",
               transitionPresets.default,
@@ -115,7 +119,7 @@ export function Navbar() {
             "duration-500",
             isElevated ? "gap-0.5 xl:gap-1" : "gap-0",
           )}
-          aria-label={t("mainAria")}
+          aria-label={navigationCopy.mainAria}
         >
           {mainNavigation.map((item) => (
             <NavLink
@@ -167,7 +171,7 @@ export function Navbar() {
                 href={siteSettings.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={t("linkedInAria")}
+                aria-label={navigationCopy.linkedInAria}
                 className={cn(
                   "inline-flex size-9 items-center justify-center rounded-sm",
                   transitionPresets.colors,
@@ -187,7 +191,7 @@ export function Navbar() {
               className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
               asChild
             >
-              <LocalizedLink to="/login">{t("login")}</LocalizedLink>
+              <LocalizedLink to="/login">{navigationCopy.login}</LocalizedLink>
             </Button>
           </div>
 

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { EditableImage, EditableText } from "@/components/editable";
 import { FormattedNumericText, LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { useFooterContent } from "@/i18n/content/hooks";
@@ -33,13 +34,15 @@ export function Footer({ content: contentProp }: FooterProps) {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8 xl:gap-10">
           <div className="sm:col-span-2 lg:col-span-4">
             <div className="flex items-center gap-3">
-              <img
+              <EditableImage
+                contentId="shared.footer.logos.dot"
                 src={content.logos.dot.src}
                 alt={content.logos.dot.alt}
                 className="h-9 w-auto object-contain brightness-0 invert sm:h-10"
               />
               <span className="h-7 w-px bg-white/20" aria-hidden />
-              <img
+              <EditableImage
+                contentId="shared.footer.logos.saudi-made"
                 src={content.logos.saudiMade.src}
                 alt={content.logos.saudiMade.alt}
                 className="h-8 w-auto object-contain sm:h-9"
@@ -47,7 +50,9 @@ export function Footer({ content: contentProp }: FooterProps) {
             </div>
 
             <p className="mt-5 max-w-sm text-[0.875rem] leading-relaxed text-white/68 sm:text-sm">
-              {content.description}
+              <EditableText contentId="shared.footer.description">
+                {content.description}
+              </EditableText>
             </p>
           </div>
 
@@ -75,7 +80,11 @@ export function Footer({ content: contentProp }: FooterProps) {
                     </span>
                     <span className="min-w-0">
                       <span className="block text-[0.6875rem] font-medium tracking-wide text-white/45 uppercase">
-                        {item.label}
+                        <EditableText
+                          contentId={`shared.footer.contact.${item.type}.label`}
+                        >
+                          {item.label}
+                        </EditableText>
                       </span>
                       <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
                         <FormattedNumericText value={item.value} />

@@ -8,10 +8,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
+import { EditableText } from "@/components/editable";
 import { FormattedNumericText } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { useNumberFormat } from "@/i18n/hooks";
+import { useTranslation } from "@/i18n/hooks";
 import type { NotFoundPageContent, NotFoundQuickLink } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +30,7 @@ export interface NotFoundSectionProps {
 
 function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
   const Icon = quickLinkIcons[link.icon] ?? Package;
+  const { t } = useTranslation("common");
 
   return (
     <Link
@@ -44,7 +47,7 @@ function QuickLinkCard({ link }: { link: NotFoundQuickLink }) {
         {link.description}
       </p>
       <span className="text-link-arrow mt-4 inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-[#F68E05] uppercase">
-        View
+        {t("viewMore")}
         <ArrowRight className="size-3.5" aria-hidden />
       </span>
     </Link>
@@ -90,7 +93,9 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
               <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
-                {content.label}
+                <EditableText contentId="not-found.label">
+                  {content.label}
+                </EditableText>
               </p>
             </div>
 
@@ -102,10 +107,14 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
             </p>
 
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              {content.title}
+              <EditableText contentId="not-found.title">
+                {content.title}
+              </EditableText>
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              {content.description}
+              <EditableText contentId="not-found.description">
+                {content.description}
+              </EditableText>
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

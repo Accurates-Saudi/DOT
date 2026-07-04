@@ -1,5 +1,7 @@
 import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBreadcrumb";
 import { Container, Section } from "@/components/shared";
+import { EditableText } from "@/components/editable";
+import { useMainNavigation } from "@/i18n/content/hooks";
 import { useNumberFormat } from "@/i18n/hooks";
 import type { NewsArticleDetail } from "@/types";
 
@@ -13,9 +15,12 @@ export interface NewsDetailViewProps {
 
 export function NewsDetailView({ article }: NewsDetailViewProps) {
   const { formatNewsDate } = useNumberFormat();
+  const navigation = useMainNavigation();
+  const homeItem = navigation[0];
+  const newsItem = navigation.find((item) => item.href.endsWith("/news"));
   const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "News", href: "/news" },
+    { label: homeItem?.label ?? "", href: homeItem?.href ?? "/" },
+    { label: newsItem?.label ?? "", href: newsItem?.href ?? "/news" },
     { label: article.title },
   ];
 
@@ -23,7 +28,7 @@ export function NewsDetailView({ article }: NewsDetailViewProps) {
     <Section
       id="news-detail"
       padding="none"
-      aria-label="News article"
+      aria-label={article.title}
       className="bg-white"
     >
       <div className="border-b border-[#0c1524]/8 bg-[#f5f4f2]">
@@ -47,11 +52,15 @@ export function NewsDetailView({ article }: NewsDetailViewProps) {
             </time>
 
             <h1 className="mt-3 text-[1.625rem] font-bold leading-[1.2] tracking-tight text-[#0c1524] sm:text-[1.875rem] lg:text-[2.125rem]">
-              {article.title}
+              <EditableText contentId={`news.article.${article.slug}.title`}>
+                {article.title}
+              </EditableText>
             </h1>
 
             <p className="mt-4 border-l-2 border-[#F68E05] pl-4 text-[0.9375rem] leading-relaxed text-[#0c1524]/72 sm:text-base">
-              {article.excerpt}
+              <EditableText contentId={`news.article.${article.slug}.excerpt`}>
+                {article.excerpt}
+              </EditableText>
             </p>
           </header>
 

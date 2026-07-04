@@ -8,6 +8,22 @@ export type {
 export { CMS_CAPABILITIES } from "./cms";
 
 export type {
+  CatalogsPageContentSource as CMSCatalogsPageContentSource,
+  CmsSource as CMSContentSource,
+  EditableBinding,
+  FooterContentSource as CMSFooterContentSource,
+  HeroContentSource as CMSHeroContentSource,
+  LinkReference,
+  LocalizedText,
+  LocalizedValue,
+  MediaReference,
+  NewsContentSource as CMSNewsContentSource,
+  NavigationItemSource as CMSNavigationItemSource,
+  ProductsPageContentSource as CMSProductsPageContentSource,
+  ProductContentSource as CMSProductContentSource,
+} from "./cms-content";
+
+export type {
   CookieCategory,
   CookieCategoryDefinition,
   CookieConsentChoices,

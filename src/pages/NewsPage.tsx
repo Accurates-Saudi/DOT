@@ -17,14 +17,14 @@ import { useMemo } from "react";
 
 export function NewsPage() {
   const newsPageContent = useNewsPageContent();
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   const featuredArticle = useMemo(
-    () => getLocalizedFeaturedNews(messages),
-    [messages],
+    () => getLocalizedFeaturedNews(messages, locale),
+    [locale, messages],
   );
   const articles = useMemo(
-    () => getLocalizedNewsExcludingFeatured(messages),
-    [messages],
+    () => getLocalizedNewsExcludingFeatured(messages, locale),
+    [locale, messages],
   );
 
   return (

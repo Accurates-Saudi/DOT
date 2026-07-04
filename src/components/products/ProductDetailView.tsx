@@ -1,6 +1,7 @@
 import { Mail } from "lucide-react";
 import { Link } from "react-router";
 
+import { EditableImage, EditableText } from "@/components/editable";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBreadcrumb";
@@ -68,7 +69,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
     <Section
       id="product-detail"
       padding="none"
-      aria-label="Product detail"
+      aria-label={hero.name}
       className="bg-white"
     >
       {/* Breadcrumb strip */}
@@ -83,10 +84,16 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
           <div className="max-w-lg">
             <h1 className="text-[2rem] font-bold leading-[1.08] tracking-tight text-[#0c1524] sm:text-[2.35rem] lg:text-[2.5rem]">
-              {hero.name}
+              <EditableText contentId={`products.detail.${product.slug}.name`}>
+                {hero.name}
+              </EditableText>
             </h1>
             <p className="mt-3 text-[0.875rem] leading-[1.65] text-[#0c1524]/70 sm:text-[0.9375rem]">
-              {hero.introduction}
+              <EditableText
+                contentId={`products.detail.${product.slug}.introduction`}
+              >
+                {hero.introduction}
+              </EditableText>
             </p>
             <Button
               variant="accent"
@@ -101,7 +108,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           </div>
 
           <div className="flex w-full items-center justify-center">
-            <img
+            <EditableImage
+              contentId={`products.detail.${product.slug}.hero-image`}
               src={hero.image.src}
               alt={hero.image.alt}
               className="h-auto w-auto max-h-[min(26rem,58vh)] max-w-full object-contain object-center sm:max-h-[min(28rem,62vh)] lg:max-h-[min(32rem,68vh)]"
@@ -167,7 +175,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                       hasSpecificationRows ? "mt-4" : "mt-4",
                     )}
                   >
-                    <img
+                    <EditableImage
+                      contentId={`products.detail.${product.slug}.specification-image`}
                       src={specifications.image.src}
                       alt={specifications.image.alt}
                       className="mx-auto block h-auto w-full max-h-[min(36rem,75vh)] object-contain object-center p-3 sm:p-4"

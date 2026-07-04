@@ -1,6 +1,6 @@
 import type { Ref } from "react";
 
-import defaultPageHeroBg from "@/assets/about/overview-hero.png";
+import { EditableText } from "@/components/editable";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import { Container } from "@/components/shared/Container";
 import { ParallaxBackgroundImage } from "@/components/shared/ParallaxBackgroundImage";
@@ -35,11 +35,6 @@ export function PageHeroSection({
     disabled: prefersReducedMotion,
   });
 
-  const background = backgroundImage ?? {
-    src: defaultPageHeroBg,
-    alt: "Dynamic Oil Tools industrial manufacturing facility",
-  };
-
   return (
     <Section
       id={id}
@@ -52,12 +47,14 @@ export function PageHeroSection({
         ref={containerRef as Ref<HTMLDivElement>}
         className="relative py-12 md:py-16"
       >
-        <ParallaxBackgroundImage
-          src={background.src}
-          targetRef={targetRef as Ref<HTMLImageElement>}
-          priority
-          objectPosition={background.objectPosition ?? "58% center"}
-        />
+        {backgroundImage && (
+          <ParallaxBackgroundImage
+            src={backgroundImage.src}
+            targetRef={targetRef as Ref<HTMLImageElement>}
+            priority
+            objectPosition={backgroundImage.objectPosition ?? "58% center"}
+          />
+        )}
 
         <div
           className="pointer-events-none absolute inset-0 bg-[#0c1524]/42"
@@ -80,16 +77,18 @@ export function PageHeroSection({
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
                 <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
-                  {label}
+                  <EditableText contentId={`${id}.label`}>{label}</EditableText>
                 </p>
               </div>
             )}
 
             <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              {title}
+              <EditableText contentId={`${id}.title`}>{title}</EditableText>
             </h1>
             <p className="text-base leading-relaxed text-white/85 md:text-lg">
-              {introduction}
+              <EditableText contentId={`${id}.introduction`}>
+                {introduction}
+              </EditableText>
             </p>
           </div>
         </Container>

@@ -16,7 +16,7 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 
   const messages = await loadMessages(locale);
-  const article = getLocalizedNewsBySlug(messages, params.slug);
+  const article = getLocalizedNewsBySlug(messages, locale, params.slug);
 
   if (!article) {
     throw new Response("Not Found", { status: 404 });

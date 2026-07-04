@@ -2,18 +2,21 @@ import { useMemo } from "react";
 
 import { useI18n } from "@/i18n/hooks";
 
-import { buildCookieConsentCopy } from "./cookie";
 import {
   buildAboutContent,
   buildCatalogsContent,
+  buildCookieConsentCopy,
   buildContactContent,
   buildFooter,
   buildHomeContent,
   buildMainNavigation,
   buildNewsContent,
+  buildNavigationUi,
   buildNotFoundContent,
   buildProductsContent,
+  buildServicesPageContent,
   buildServicesMeta,
+  buildSiteCopy,
   buildTrustedPartners,
   getLocalizedNewsBySlug,
   getLocalizedProductBySlug,
@@ -27,6 +30,11 @@ export function useMainNavigation() {
     () => buildMainNavigation(messages, locale),
     [locale, messages],
   );
+}
+
+export function useNavigationCopy() {
+  const { locale } = useI18n();
+  return useMemo(() => buildNavigationUi(locale), [locale]);
 }
 
 export function useFooterContent() {
@@ -70,13 +78,18 @@ export function useNotFoundPageContent() {
 }
 
 export function useServicesPageMeta() {
-  const { messages } = useI18n();
-  return useMemo(() => buildServicesMeta(messages), [messages]);
+  const { locale, messages } = useI18n();
+  return useMemo(() => buildServicesMeta(messages, locale), [locale, messages]);
 }
 
 export function useTrustedPartnersContent() {
-  const { messages } = useI18n();
-  return useMemo(() => buildTrustedPartners(messages), [messages]);
+  const { locale, messages } = useI18n();
+  return useMemo(() => buildTrustedPartners(messages, locale), [locale, messages]);
+}
+
+export function useServicesPageContent() {
+  const { locale } = useI18n();
+  return useMemo(() => buildServicesPageContent(locale), [locale]);
 }
 
 export function useProductBySlug(slug: string) {
@@ -96,32 +109,35 @@ export function useRelatedProducts(slug: string, limit = 3) {
 }
 
 export function useNewsBySlug(slug: string) {
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   return useMemo(
-    () => getLocalizedNewsBySlug(messages, slug),
-    [messages, slug],
+    () => getLocalizedNewsBySlug(messages, locale, slug),
+    [locale, messages, slug],
   );
 }
 
 export function useRelatedNews(slug: string, limit = 3) {
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   return useMemo(
-    () => getLocalizedRelatedNews(messages, slug, limit),
-    [messages, slug, limit],
+    () => getLocalizedRelatedNews(messages, locale, slug, limit),
+    [locale, messages, slug, limit],
   );
 }
 
 export function useCookieConsentCopy() {
-  const { messages } = useI18n();
-  return useMemo(() => buildCookieConsentCopy(messages), [messages]);
+  const { locale, messages } = useI18n();
+  return useMemo(
+    () => buildCookieConsentCopy(messages, locale),
+    [locale, messages],
+  );
 }
 
 export function useSiteCopy() {
-  const { messages } = useI18n();
-  return useMemo(() => messages.site as {
+  const { locale } = useI18n();
+  return useMemo(() => buildSiteCopy(locale) as {
     companyName: string;
     legalName: string;
     tagline: string;
     description: string;
-  }, [messages]);
+  }, [locale]);
 }

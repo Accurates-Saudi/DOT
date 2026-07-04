@@ -17,11 +17,11 @@ interface NewsDetailLoaderData {
 
 export function NewsDetailPage() {
   const { article } = useLoaderData() as NewsDetailLoaderData;
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   const newsPageContent = useNewsPageContent();
   const relatedArticles = useMemo(
-    () => getLocalizedRelatedNews(messages, article.slug),
-    [article.slug, messages],
+    () => getLocalizedRelatedNews(messages, locale, article.slug),
+    [article.slug, locale, messages],
   );
 
   return (

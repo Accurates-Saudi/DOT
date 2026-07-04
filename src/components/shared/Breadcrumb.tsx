@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router";
 
+import { useTranslation } from "@/i18n/hooks";
 import type { BreadcrumbItem } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -18,9 +19,10 @@ export function Breadcrumb({
   variant = "default",
 }: BreadcrumbProps) {
   const isOnDark = variant === "onDark";
+  const { t } = useTranslation("common");
 
   return (
-    <nav aria-label="Breadcrumb" className={className}>
+    <nav aria-label={t("breadcrumbAria")} className={className}>
       <ol className="flex flex-wrap items-center gap-1.5 text-sm">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

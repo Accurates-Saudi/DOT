@@ -1,28 +1,17 @@
 import { PageHeroSection } from "@/components/shared";
-import { useServicesPageMeta } from "@/i18n/content/hooks";
-import { useI18n, useTranslation } from "@/i18n/hooks";
-import { useMemo } from "react";
+import { useServicesPageContent } from "@/i18n/content/hooks";
 
 export function ServicesPage() {
-  const servicesPageMeta = useServicesPageMeta();
-  const { localizePath } = useI18n();
-  const { t } = useTranslation("common");
-
-  const breadcrumbs = useMemo(
-    () => [
-      { label: t("home"), href: localizePath("/") },
-      { label: servicesPageMeta.title },
-    ],
-    [localizePath, servicesPageMeta.title, t],
-  );
+  const servicesPageContent = useServicesPageContent();
 
   return (
     <PageHeroSection
       id="services-hero"
-      aria-label={servicesPageMeta.title}
-      breadcrumbs={breadcrumbs}
-      title={servicesPageMeta.title}
-      introduction={servicesPageMeta.description}
+      aria-label={servicesPageContent.hero.title}
+      breadcrumbs={servicesPageContent.hero.breadcrumbs}
+      title={servicesPageContent.hero.title}
+      introduction={servicesPageContent.hero.introduction}
+      backgroundImage={servicesPageContent.hero.backgroundImage}
     />
   );
 }

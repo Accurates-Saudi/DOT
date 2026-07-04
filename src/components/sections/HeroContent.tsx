@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
+import { EditableText } from "@/components/editable";
 import { Button } from "@/components/ui";
 import type { HeroSlide } from "@/types";
 import { HERO_SLIDE_FADE_MS } from "@/hooks/use-hero-slideshow";
@@ -60,7 +61,11 @@ export function HeroContent({
             >
               <span className="h-px w-8 bg-accent" aria-hidden />
               <p className="text-[0.8125rem] font-medium tracking-[0.14em] text-white/55">
-                {slide.label}
+                <EditableText
+                  contentId={`home.hero.${index + 1}.label`}
+                >
+                  {slide.label}
+                </EditableText>
               </p>
             </div>
 
@@ -71,9 +76,17 @@ export function HeroContent({
                 showEntrance && "hero-enter hero-enter-delay-2",
               )}
             >
-              <span className="block">{slide.headline}</span>
+              <span className="block">
+                <EditableText contentId={`home.hero.${index + 1}.headline`}>
+                  {slide.headline}
+                </EditableText>
+              </span>
               <span className="mt-1 block text-accent lg:mt-1.5">
-                {slide.headlineAccent}
+                <EditableText
+                  contentId={`home.hero.${index + 1}.headline-accent`}
+                >
+                  {slide.headlineAccent}
+                </EditableText>
               </span>
             </h1>
 
@@ -83,7 +96,9 @@ export function HeroContent({
                 showEntrance && "hero-enter hero-enter-delay-3",
               )}
             >
-              {slide.subheadline}
+              <EditableText contentId={`home.hero.${index + 1}.subheadline`}>
+                {slide.subheadline}
+              </EditableText>
             </p>
 
             <div

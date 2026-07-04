@@ -16,7 +16,7 @@ export function AdminLogoutButton() {
         variant="ghost"
         size="lg"
         disabled={isSubmitting}
-        className="h-12 w-full justify-start rounded-2xl border border-white/10 bg-white/5 px-4 text-white hover:bg-white/10"
+        className="h-11 w-full justify-start rounded-2xl border border-[#0c1524]/8 bg-white px-4 text-[#0c1524] hover:bg-[#f5f6f8]"
       >
         <LogOut className="size-4" />
         {isSubmitting ? "Signing out..." : "Logout"}

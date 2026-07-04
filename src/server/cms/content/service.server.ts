@@ -46,6 +46,32 @@ export interface CMSContentEntryDetail {
   versions: CMSContentVersion[];
 }
 
+export async function getPublicContentPayloadByKey(
+  key: string,
+  options?: {
+    includeDraft?: boolean;
+  },
+): Promise<unknown | null> {
+  const prisma = getPrismaClient();
+  const entry = await prisma.cmsContentEntry.findUnique({
+    where: { key },
+    include: {
+      currentVersion: true,
+      publishedVersion: true,
+    },
+  });
+
+  if (!entry) {
+    return null;
+  }
+
+  const version = options?.includeDraft
+    ? entry.currentVersion ?? entry.publishedVersion
+    : entry.publishedVersion ?? entry.currentVersion;
+
+  return version?.payload ?? null;
+}
+
 function toDetail(
   entry: Prisma.CmsContentEntryGetPayload<{ include: typeof contentEntryInclude }>,
 ): CMSContentEntryDetail {

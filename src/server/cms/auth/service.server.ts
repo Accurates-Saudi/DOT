@@ -14,7 +14,8 @@ import {
   hashSessionToken,
 } from "./session.server";
 
-const DEFAULT_SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 14;
+const DEFAULT_SESSION_TTL_MS = 1000 * 60 * 60 * 12;
+const REMEMBER_ME_SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 14;
 
 function toPrismaRole(role: CMSRoleDto): CmsRole {
   return role.toUpperCase() as CmsRole;
@@ -26,6 +27,49 @@ function roleRank(role: CMSRoleDto): number {
 
 function hasRequiredRole(userRole: CMSRoleDto, requiredRoles: CMSRoleDto[]): boolean {
   return requiredRoles.some((role) => roleRank(userRole) >= roleRank(role));
+}
+
+function resolveSessionTtlMs(rememberMe?: boolean): number {
+  return rememberMe ? REMEMBER_ME_SESSION_TTL_MS : DEFAULT_SESSION_TTL_MS;
+}
+
+async function createCmsSessionForUser(input: {
+  userId: string;
+  user: Parameters<typeof toCmsUser>[0];
+  rememberMe?: boolean;
+  ipAddress?: string | null;
+  userAgent?: string | null;
+}): Promise<{ session: CMSAuthSession; setCookie: string }> {
+  const prisma = getPrismaClient();
+  const rawToken = createSessionToken();
+  const expiresAt = new Date(Date.now() + resolveSessionTtlMs(input.rememberMe));
+
+  await prisma.cmsSession.create({
+    data: {
+      userId: input.userId,
+      tokenHash: hashSessionToken(rawToken),
+      expiresAt,
+      lastSeenAt: new Date(),
+      ...(input.ipAddress ? { ipAddress: input.ipAddress } : {}),
+      ...(input.userAgent ? { userAgent: input.userAgent } : {}),
+    },
+  });
+
+  return {
+    session: {
+      user: toCmsUser(input.user),
+      expiresAt: expiresAt.toISOString(),
+    },
+    setCookie: createSessionCookie(rawToken, expiresAt),
+  };
+}
+
+export async function getCmsUserCount(): Promise<number> {
+  return getPrismaClient().cmsUser.count();
+}
+
+export async function hasCmsUsers(): Promise<boolean> {
+  return (await getCmsUserCount()) > 0;
 }
 
 export async function getCmsAuthSession(
@@ -86,6 +130,7 @@ export async function requireCmsAuthSession(
 export async function loginCmsUser(input: {
   email: string;
   password: string;
+  rememberMe?: boolean;
   ipAddress?: string | null;
   userAgent?: string | null;
 }): Promise<{ session: CMSAuthSession; setCookie: string }> {
@@ -98,27 +143,13 @@ export async function loginCmsUser(input: {
     throw new CmsHttpError(401, "invalid_credentials", "Invalid email or password.");
   }
 
-  const rawToken = createSessionToken();
-  const expiresAt = new Date(Date.now() + DEFAULT_SESSION_TTL_MS);
-
-  await prisma.cmsSession.create({
-    data: {
-      userId: user.id,
-      tokenHash: hashSessionToken(rawToken),
-      expiresAt,
-      lastSeenAt: new Date(),
-      ...(input.ipAddress ? { ipAddress: input.ipAddress } : {}),
-      ...(input.userAgent ? { userAgent: input.userAgent } : {}),
-    },
+  return createCmsSessionForUser({
+    userId: user.id,
+    user,
+    rememberMe: input.rememberMe,
+    ipAddress: input.ipAddress,
+    userAgent: input.userAgent,
   });
-
-  return {
-    session: {
-      user: toCmsUser(user),
-      expiresAt: expiresAt.toISOString(),
-    },
-    setCookie: createSessionCookie(rawToken, expiresAt),
-  };
 }
 
 export async function logoutCmsUser(request: Request): Promise<string> {
@@ -138,11 +169,12 @@ export async function bootstrapCmsAdmin(input: {
   email: string;
   password: string;
   name: string;
+  rememberMe?: boolean;
   ipAddress?: string | null;
   userAgent?: string | null;
 }): Promise<{ session: CMSAuthSession; setCookie: string }> {
   const prisma = getPrismaClient();
-  const existingUsers = await prisma.cmsUser.count();
+  const existingUsers = await getCmsUserCount();
 
   if (existingUsers > 0) {
     throw new CmsHttpError(
@@ -174,6 +206,7 @@ export async function bootstrapCmsAdmin(input: {
   return loginCmsUser({
     email: user.email,
     password: input.password,
+    rememberMe: input.rememberMe,
     ipAddress: input.ipAddress,
     userAgent: input.userAgent,
   });

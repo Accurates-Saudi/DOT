@@ -20,18 +20,20 @@ export function AdminSurface({
   return (
     <section
       className={cn(
-        "rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_30px_80px_-50px_rgba(12,21,36,0.9)] backdrop-blur-sm",
+        "rounded-[1.75rem] border border-[#0c1524]/8 bg-white shadow-[0_28px_70px_-46px_rgba(12,21,36,0.22)]",
         className,
       )}
     >
       {(title || description) && (
-        <header className="border-b border-white/8 px-6 py-5 sm:px-8">
+        <header className="border-b border-[#0c1524]/6 px-6 py-5 sm:px-8">
           {title && (
-            <h2 className="text-lg font-semibold tracking-[0.01em] text-white">
+            <h2 className="text-lg font-semibold tracking-[0.01em] text-[#0c1524]">
               {title}
             </h2>
           )}
-          {description && <p className="mt-1 text-sm text-white/58">{description}</p>}
+          {description && (
+            <p className="mt-1 text-sm leading-6 text-[#0c1524]/56">{description}</p>
+          )}
         </header>
       )}
       <div className={cn("px-6 py-5 sm:px-8 sm:py-6", contentClassName)}>{children}</div>
@@ -47,12 +49,12 @@ interface AdminMetricCardProps {
 
 export function AdminMetricCard({ label, value, detail }: AdminMetricCardProps) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/10 p-5">
+    <div className="rounded-2xl border border-[#0c1524]/8 bg-[#f5f6f8] p-5">
       <p className="text-[0.68rem] font-semibold tracking-[0.2em] text-[var(--dot-orange)] uppercase">
         {label}
       </p>
-      <p className="mt-3 text-3xl font-semibold text-white">{value}</p>
-      <p className="mt-2 text-sm text-white/55">{detail}</p>
+      <p className="mt-3 text-3xl font-semibold text-[#0c1524]">{value}</p>
+      <p className="mt-2 text-sm leading-6 text-[#0c1524]/56">{detail}</p>
     </div>
   );
 }

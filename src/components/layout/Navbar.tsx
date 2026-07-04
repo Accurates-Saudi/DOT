@@ -1,8 +1,10 @@
 import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui";
+import { CmsEditModeToggle } from "@/components/cms/CmsEditModeToggle";
 import { EditableImage } from "@/components/editable";
 import { LanguageSwitcher } from "@/components/i18n";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
 import {
   useFooterContent,
   useMainNavigation,
@@ -26,6 +28,8 @@ export function Navbar() {
   const navigationCopy = useNavigationCopy();
   const footerContent = useFooterContent();
   const direction = useDirection();
+  const { isAuthenticated, isAdmin, isEditMode, toggleEditMode } =
+    useCmsExperience();
   const isHome = /\/(en|ar)\/?$/.test(location.pathname);
   const isScrolled = useScrollThreshold({
     threshold: SCROLL_THRESHOLD,
@@ -185,14 +189,34 @@ export function Navbar() {
               </a>
             )}
 
-            <Button
-              variant={isHeroState ? "inverse" : "outline"}
-              size="sm"
-              className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
-              asChild
-            >
-              <Link to="/admin/login">{navigationCopy.login}</Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                {isAdmin ? (
+                  <CmsEditModeToggle
+                    isActive={isEditMode}
+                    onToggle={toggleEditMode}
+                    tone={isHeroState ? "dark" : "light"}
+                  />
+                ) : null}
+                <Button
+                  variant={isHeroState ? "inverse" : "outline"}
+                  size="sm"
+                  className="h-9 min-w-[6rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                  asChild
+                >
+                  <Link to="/admin">Dashboard</Link>
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                asChild
+              >
+                <Link to="/admin/login">{navigationCopy.login}</Link>
+              </Button>
+            )}
           </div>
 
           <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />

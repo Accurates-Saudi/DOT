@@ -10,6 +10,7 @@ import {
 
 import type { Route } from "./+types/root";
 import { CookieConsentProvider } from "@/contexts/cookie-consent-context";
+import { CmsExperienceProvider } from "@/contexts/cms-experience-context";
 import { MainLayout } from "@/components/layout";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import {
@@ -22,6 +23,7 @@ import {
 import { buildPageTitle } from "@/i18n/seo";
 import { FallbackI18nProvider } from "@/i18n/fallback-provider";
 import { siteSettings } from "@/data/site";
+import type { CMSAuthSession } from "@/types";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -36,10 +38,42 @@ export async function loader({ request }: Route.LoaderArgs) {
   const fromPath = detectLocaleFromPathname(url.pathname);
   const fromCookie = parseLocaleCookie(request.headers.get("Cookie"));
   const locale = fromPath ?? fromCookie ?? defaultLocale;
+  let cmsSession: CMSAuthSession | null = null;
+  let cmsContentOverrides: Record<string, unknown> = {};
+
+  try {
+    const { getCmsAuthSession } = await import("@/server/cms/auth/service.server");
+    cmsSession = await getCmsAuthSession(request);
+  } catch {
+    cmsSession = null;
+  }
+
+  try {
+    const { getPublicContentPayloadByKey } = await import(
+      "@/server/cms/content/service.server"
+    );
+    const keys = [`home.${locale}`, `contact.${locale}`];
+    const entries = await Promise.all(
+      keys.map(async (key) => [
+        key,
+        await getPublicContentPayloadByKey(key, {
+          includeDraft: Boolean(cmsSession?.user.role === "admin"),
+        }),
+      ]),
+    );
+
+    cmsContentOverrides = Object.fromEntries(
+      entries.filter(([, value]) => value !== null),
+    );
+  } catch {
+    cmsContentOverrides = {};
+  }
 
   return {
     locale,
     direction: getDirection(locale),
+    cmsSession,
+    cmsContentOverrides,
   };
 }
 
@@ -62,9 +96,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <CookieConsentProvider>
-          <RootMessagesBridge>{children}</RootMessagesBridge>
-        </CookieConsentProvider>
+        <CmsExperienceProvider
+          session={data?.cmsSession ?? null}
+          contentOverrides={data?.cmsContentOverrides ?? {}}
+        >
+          <CookieConsentProvider>
+            <RootMessagesBridge>{children}</RootMessagesBridge>
+          </CookieConsentProvider>
+        </CmsExperienceProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

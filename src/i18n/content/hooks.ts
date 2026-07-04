@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { useCmsExperience } from "@/contexts/cms-experience-context";
 import { useI18n } from "@/i18n/hooks";
 
 import {
@@ -44,7 +45,13 @@ export function useFooterContent() {
 
 export function useHomePageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildHomeContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildHomeContent>>(`home.${locale}`) ??
+      buildHomeContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useAboutPageContent() {
@@ -59,7 +66,13 @@ export function useProductsPageContent() {
 
 export function useContactPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildContactContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildContactContent>>(`contact.${locale}`) ??
+      buildContactContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useCatalogsPageContent() {

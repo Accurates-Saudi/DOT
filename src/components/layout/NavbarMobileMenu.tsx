@@ -4,8 +4,10 @@ import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "
 import { Link, NavLink, useLocation } from "react-router";
 
 import { EditableImage } from "@/components/editable";
+import { CmsEditModeToggle } from "@/components/cms/CmsEditModeToggle";
 import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
 import { Button } from "@/components/ui/button";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
 import {
   useFooterContent,
   useMainNavigation,
@@ -30,6 +32,8 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   const footerContent = useFooterContent();
   const direction = useDirection();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { isAuthenticated, isAdmin, isEditMode, toggleEditMode } =
+    useCmsExperience();
 
   useEffect(() => {
     setOpen(false);
@@ -163,6 +167,27 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
             <div className="flex flex-col gap-3">
               <LanguageSwitcher isHeroState={false} className="w-full" />
 
+              {isAuthenticated ? (
+                <>
+                  {isAdmin ? (
+                    <CmsEditModeToggle
+                      isActive={isEditMode}
+                      onToggle={toggleEditMode}
+                      compact
+                    />
+                  ) : null}
+                  <Button
+                    variant="outline"
+                    className="h-11 w-full rounded-full text-sm font-medium"
+                    asChild
+                  >
+                    <Link to="/admin" onClick={() => setOpen(false)}>
+                      Dashboard
+                    </Link>
+                  </Button>
+                </>
+              ) : null}
+
               {siteSettings.social.linkedin && (
                 <a
                   href={siteSettings.social.linkedin}
@@ -175,15 +200,17 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                 </a>
               )}
 
-              <Button
-                variant="accent"
-                className="h-11 w-full rounded-full text-sm font-medium"
-                asChild
-              >
-                <Link to="/admin/login" onClick={() => setOpen(false)}>
-                  {navigationCopy.login}
-                </Link>
-              </Button>
+              {!isAuthenticated ? (
+                <Button
+                  variant="accent"
+                  className="h-11 w-full rounded-full text-sm font-medium"
+                  asChild
+                >
+                  <Link to="/admin/login" onClick={() => setOpen(false)}>
+                    {navigationCopy.login}
+                  </Link>
+                </Button>
+              ) : null}
             </div>
           </div>
 

@@ -2,12 +2,15 @@ import { Outlet, redirect, useLoaderData } from "react-router";
 
 import type { Route } from "./+types/admin";
 import { AdminShell } from "@/components/admin";
-import { createCmsLoaderClient } from "@/sdk/cms";
+import { getCmsAdminAccessState } from "@/server/cms/auth/admin-access.server";
 import { buildAdminLoginRedirect } from "@/utils/admin-routing";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const cms = createCmsLoaderClient(request);
-  const session = await cms.auth.getSession();
+  const { session, requiresSetup } = await getCmsAdminAccessState(request);
+
+  if (requiresSetup) {
+    throw redirect("/admin/setup");
+  }
 
   if (!session) {
     throw redirect(buildAdminLoginRedirect(request.url));

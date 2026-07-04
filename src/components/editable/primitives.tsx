@@ -5,11 +5,23 @@ import type {
   ReactNode,
 } from "react";
 
+import { useCmsExperience } from "@/contexts/cms-experience-context";
+
 type PrimitiveProps<T extends ElementType> = {
   as?: T;
   contentId?: string;
   children?: ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "children">;
+
+function useEditableState(contentId?: string) {
+  const { isAdmin, isEditMode } = useCmsExperience();
+  const isEditable = Boolean(contentId) && isAdmin && isEditMode;
+
+  return {
+    isEditable,
+    title: isEditable ? "Editable CMS content" : undefined,
+  };
+}
 
 function EditablePrimitive<T extends ElementType = "span">({
   as,
@@ -18,9 +30,20 @@ function EditablePrimitive<T extends ElementType = "span">({
   ...props
 }: PrimitiveProps<T>) {
   const Component = (as ?? "span") as ElementType;
+  const { isEditable, title } = useEditableState(contentId);
+  const componentProps = props as ComponentPropsWithoutRef<T> & {
+    className?: string;
+    title?: string;
+  };
 
   return (
-    <Component data-cms-field={contentId} {...props}>
+    <Component
+      data-cms-field={contentId}
+      data-cms-editable={isEditable ? "true" : undefined}
+      {...componentProps}
+      className={componentProps.className}
+      title={componentProps.title ?? title}
+    >
       {children}
     </Component>
   );
@@ -60,5 +83,16 @@ export function EditableImage({
   alt = "",
   ...props
 }: EditableImageProps) {
-  return <img data-cms-field={contentId} alt={alt} {...props} />;
+  const { isEditable, title } = useEditableState(contentId);
+
+  return (
+    <img
+      data-cms-field={contentId}
+      data-cms-editable={isEditable ? "true" : undefined}
+      alt={alt}
+      {...props}
+      className={props.className}
+      title={props.title ?? title}
+    />
+  );
 }

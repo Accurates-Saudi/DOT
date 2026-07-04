@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { NewsDetailView } from "@/components/news/NewsDetailView";
 import { AdminEntityEditorShell } from "@/components/admin/collection/AdminEntityEditorShell";
@@ -10,7 +10,7 @@ import {
   AdminTextarea,
 } from "@/components/admin/collection/AdminEntityFormFields";
 import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
-import { AdminPreviewPanel } from "@/components/admin/collection/AdminPreviewPanel";
+import { useAdminWorkspace } from "@/contexts/admin-workspace-context";
 import type { Locale } from "@/i18n/config";
 import type { CmsNewsPayload } from "@/types/cms-entities";
 import type { NewsArticleDetail } from "@/types";
@@ -35,16 +35,36 @@ export function AdminNewsEditorPage({
   backTo,
 }: AdminNewsEditorPageProps) {
   const [payload, setPayload] = useState(initialPayload);
+  const [savedPayload, setSavedPayload] = useState(initialPayload);
   const [status, setStatus] = useState(initialStatus);
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [activeLocale, setActiveLocale] = useState<Locale>(locale);
   const [busy, setBusy] = useState<"save" | "publish" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { registerPreview } = useAdminWorkspace();
 
   const article = useMemo(
     () => getLocalizedPayload<NewsArticleDetail>(payload, activeLocale),
     [payload, activeLocale],
   );
+
+  const isDirty =
+    status === "static" ||
+    JSON.stringify(payload) !== JSON.stringify(savedPayload);
+
+  useEffect(() => {
+    if (!article) {
+      registerPreview(null);
+      return;
+    }
+
+    registerPreview({
+      locale: activeLocale,
+      title: `${article.title || "Article"} Preview`,
+      render: () => <NewsDetailView article={article} />,
+    });
+
+    return () => registerPreview(null);
+  }, [activeLocale, article, registerPreview]);
 
   function updateArticle(updater: (current: NewsArticleDetail) => NewsArticleDetail) {
     setPayload((current) => {
@@ -57,7 +77,7 @@ export function AdminNewsEditorPage({
     });
   }
 
-  async function persist(publish: boolean) {
+  async function persist(publish: boolean, changeSummary: string) {
     try {
       setBusy(publish ? "publish" : "save");
       setError(null);
@@ -67,9 +87,10 @@ export function AdminNewsEditorPage({
         type: "news",
         slug,
         payload,
-        changeSummary: publish ? "Published news article" : "Saved news draft",
+        changeSummary,
       });
       setStatus(result.entry.status);
+      setSavedPayload(payload);
     } catch (cause) {
       setError(cause instanceof CmsApiError ? cause.message : "Unable to save news article.");
     } finally {
@@ -84,22 +105,11 @@ export function AdminNewsEditorPage({
       backTo={backTo}
       title={article.title || "New Article"}
       statusLabel={status}
-      previewOpen={previewOpen}
-      onPreviewToggle={() => setPreviewOpen((current) => !current)}
+      isDirty={isDirty}
       isSaving={busy === "save"}
       isPublishing={busy === "publish"}
-      onSaveDraft={() => void persist(false)}
-      onPublish={() => void persist(true)}
-      previewPanel={
-        <AdminPreviewPanel
-          open={previewOpen}
-          onClose={() => setPreviewOpen(false)}
-          locale={activeLocale}
-          title="News Preview"
-        >
-          <NewsDetailView article={article} />
-        </AdminPreviewPanel>
-      }
+      onSaveDraft={(changeSummary) => persist(false, changeSummary)}
+      onPublish={(changeSummary) => persist(true, changeSummary)}
     >
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
       <div className="mb-4 flex gap-2">

@@ -27,6 +27,7 @@ export function AdminCatalogEditorPage({
   backTo: string;
 }) {
   const [payload, setPayload] = useState(initialPayload);
+  const [savedPayload, setSavedPayload] = useState(initialPayload);
   const [status, setStatus] = useState(initialStatus);
   const [activeLocale, setActiveLocale] = useState<Locale>(locale);
   const [busy, setBusy] = useState<"save" | "publish" | null>(null);
@@ -45,7 +46,11 @@ export function AdminCatalogEditorPage({
     });
   }
 
-  async function persist(publish: boolean) {
+  const isDirty =
+    status === "static" ||
+    JSON.stringify(payload) !== JSON.stringify(savedPayload);
+
+  async function persist(publish: boolean, changeSummary: string) {
     try {
       setBusy(publish ? "publish" : "save");
       setError(null);
@@ -54,9 +59,10 @@ export function AdminCatalogEditorPage({
         key: contentKey,
         type: "page",
         payload,
-        changeSummary: publish ? "Published catalog" : "Saved catalog draft",
+        changeSummary,
       });
       setStatus(result.entry.status);
+      setSavedPayload(payload);
     } catch (cause) {
       setError(cause instanceof CmsApiError ? cause.message : "Unable to save catalog.");
     } finally {
@@ -71,13 +77,11 @@ export function AdminCatalogEditorPage({
       backTo={backTo}
       title={item.title || "Catalog"}
       statusLabel={status}
-      previewOpen={false}
-      onPreviewToggle={() => undefined}
+      isDirty={isDirty}
       isSaving={busy === "save"}
       isPublishing={busy === "publish"}
-      onSaveDraft={() => void persist(false)}
-      onPublish={() => void persist(true)}
-      previewPanel={null}
+      onSaveDraft={(changeSummary) => persist(false, changeSummary)}
+      onPublish={(changeSummary) => persist(true, changeSummary)}
     >
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
       <div className="mb-4 flex gap-2">

@@ -2,6 +2,7 @@ import {
   Award,
   Boxes,
   ChevronRight,
+  FilePenLine,
   Images,
   Newspaper,
   Package2,
@@ -11,6 +12,7 @@ import { Link } from "react-router";
 
 import { AdminBackToWebsiteLink, AdminSurface } from "@/components/admin";
 import { useAdminWebsiteReturnUrl } from "@/hooks/use-admin-website-return";
+import type { AdminDashboardItem } from "@/server/cms/content/admin-dashboard.server";
 import type { CMSRole } from "@/types";
 
 const contentRows = [
@@ -49,12 +51,12 @@ const contentRows = [
 const quickActions = [
   {
     label: "Add New Product",
-    to: "/admin/products",
+    to: "/admin/products/new",
     icon: Package2,
   },
   {
     label: "Add New News",
-    to: "/admin/news",
+    to: "/admin/news/new",
     icon: Newspaper,
   },
   {
@@ -64,10 +66,16 @@ const quickActions = [
   },
 ] as const;
 
+function formatTypeLabel(type: string) {
+  if (type === "page") return "catalog";
+  return type;
+}
+
 export function AdminDashboardPage({
   userRole,
   counts,
-  recentChanges,
+  recentUpdates,
+  draftCount,
 }: {
   userName: string;
   userRole: CMSRole;
@@ -79,15 +87,9 @@ export function AdminDashboardPage({
     media: number;
     users: number;
   };
-  recentChanges: Array<{
-    id: string;
-    label: string;
-    type: string;
-    updatedAt: string;
-    status: string;
-  }>;
+  recentUpdates: AdminDashboardItem[];
+  draftCount: number;
 }) {
-  const drafts = recentChanges.filter((item) => item.status === "draft");
   const returnUrl = useAdminWebsiteReturnUrl();
   const quickActionClassName =
     "flex items-center gap-3 rounded-md border border-[#e5e5e5] bg-white px-5 py-4 text-[0.9375rem] text-[#333] transition hover:border-[#d4d4d4]";
@@ -157,28 +159,65 @@ export function AdminDashboardPage({
         </div>
       </AdminSurface>
 
-      {drafts.length > 0 ? (
-        <AdminSurface title="Recent Drafts" contentClassName="p-0">
-          <ul className="divide-y divide-[#e5e5e5]">
-            {drafts.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center justify-between gap-4 px-6 py-4"
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-[0.9375rem] font-medium text-[#111]">
-                    {item.label}
-                  </p>
-                  <p className="text-sm text-[#888] capitalize">{item.type}</p>
-                </div>
-                <p className="shrink-0 text-sm text-[#888]">
-                  {new Date(item.updatedAt).toLocaleString()}
-                </p>
-              </li>
-            ))}
-          </ul>
+      <div className="grid gap-8 xl:grid-cols-2">
+        <AdminSurface title="Recently Updated" contentClassName="p-0">
+          {recentUpdates.length === 0 ? (
+            <p className="px-6 py-8 text-sm text-[#666]">No CMS updates yet.</p>
+          ) : (
+            <ul className="divide-y divide-[#e5e5e5]">
+              {recentUpdates.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    to={item.editPath}
+                    className="flex items-start justify-between gap-4 px-6 py-4 transition hover:bg-[#fafafa]"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-medium text-[#111]">{item.title}</p>
+                      <p className="mt-1 text-sm capitalize text-[#888]">
+                        {formatTypeLabel(item.type)} · {item.status}
+                      </p>
+                      {item.changeSummary ? (
+                        <p className="mt-1 truncate text-sm text-[#666]">
+                          {item.changeSummary}
+                        </p>
+                      ) : null}
+                    </div>
+                    <p className="shrink-0 text-sm text-[#888]">
+                      {new Date(item.updatedAt).toLocaleString()}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </AdminSurface>
-      ) : null}
+
+        <AdminSurface
+          title="Drafts"
+          description={`${draftCount} unpublished ${draftCount === 1 ? "item" : "items"} waiting for publish.`}
+          contentClassName="p-0"
+        >
+          {draftCount === 0 ? (
+            <p className="px-6 py-8 text-sm text-[#666]">No drafts right now.</p>
+          ) : (
+            <div className="flex items-center justify-between gap-4 px-6 py-5">
+              <div className="flex items-center gap-3">
+                <FilePenLine className="size-5 text-[var(--dot-orange)]" />
+                <p className="text-sm text-[#555]">
+                  Review unpublished changes and continue editing.
+                </p>
+              </div>
+              <Link
+                to="/admin/drafts"
+                className="inline-flex items-center gap-1 rounded-md border border-[#e5e5e5] bg-white px-4 py-2 text-sm text-[#333] hover:border-[#d4d4d4]"
+              >
+                Open Drafts
+                <ChevronRight className="size-3.5" />
+              </Link>
+            </div>
+          )}
+        </AdminSurface>
+      </div>
 
       <div>
         <h2 className="mb-4 text-base font-semibold text-[#111]">Quick Actions</h2>

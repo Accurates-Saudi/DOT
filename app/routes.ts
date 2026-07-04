@@ -22,6 +22,7 @@ export default [
   route("admin", "routes/admin.tsx", [
     index("routes/admin._index.tsx"),
     route("logout", "routes/admin.logout.tsx"),
+    route("drafts", "routes/admin.drafts.tsx"),
     route("products/new", "routes/admin.products.new.tsx"),
     route("products/:key", "routes/admin.products.$key.tsx"),
     route("products", "routes/admin.products.tsx"),

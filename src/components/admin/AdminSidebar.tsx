@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   Award,
   Boxes,
+  FilePenLine,
   Images,
   LayoutDashboard,
   LogOut,
@@ -28,6 +29,7 @@ interface AdminNavItem {
 
 const adminNavItems: AdminNavItem[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/drafts", label: "Drafts", icon: FilePenLine },
   { to: "/admin/products", label: "Products", icon: Package2 },
   { to: "/admin/news", label: "News", icon: Newspaper },
   { to: "/admin/certificates", label: "Certificates", icon: Award },

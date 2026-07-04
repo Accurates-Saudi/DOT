@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ProductDetailView } from "@/components/products/ProductDetailView";
-import {
-  AdminEntityEditorShell,
-} from "@/components/admin/collection/AdminEntityEditorShell";
+import { AdminEntityEditorShell } from "@/components/admin/collection/AdminEntityEditorShell";
 import {
   AdminField,
   AdminFieldGroup,
@@ -12,7 +10,7 @@ import {
   AdminTextarea,
 } from "@/components/admin/collection/AdminEntityFormFields";
 import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
-import { AdminPreviewPanel } from "@/components/admin/collection/AdminPreviewPanel";
+import { useAdminWorkspace } from "@/contexts/admin-workspace-context";
 import type { Locale } from "@/i18n/config";
 import type { CmsProductPayload } from "@/types/cms-entities";
 import type { ProductDetailContent } from "@/types";
@@ -37,16 +35,36 @@ export function AdminProductEditorPage({
   backTo,
 }: AdminProductEditorPageProps) {
   const [payload, setPayload] = useState(initialPayload);
+  const [savedPayload, setSavedPayload] = useState(initialPayload);
   const [status, setStatus] = useState(initialStatus);
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [activeLocale, setActiveLocale] = useState<Locale>(locale);
   const [busy, setBusy] = useState<"save" | "publish" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { registerPreview } = useAdminWorkspace();
 
   const product = useMemo(
     () => getLocalizedPayload<ProductDetailContent>(payload, activeLocale),
     [payload, activeLocale],
   );
+
+  const isDirty =
+    status === "static" ||
+    JSON.stringify(payload) !== JSON.stringify(savedPayload);
+
+  useEffect(() => {
+    if (!product) {
+      registerPreview(null);
+      return;
+    }
+
+    registerPreview({
+      locale: activeLocale,
+      title: `${product.hero.name || "Product"} Preview`,
+      render: () => <ProductDetailView product={product} />,
+    });
+
+    return () => registerPreview(null);
+  }, [activeLocale, product, registerPreview]);
 
   function updateLocaleProduct(updater: (current: ProductDetailContent) => ProductDetailContent) {
     setPayload((current) => {
@@ -63,7 +81,7 @@ export function AdminProductEditorPage({
     });
   }
 
-  async function persist(publish: boolean) {
+  async function persist(publish: boolean, changeSummary: string) {
     try {
       setBusy(publish ? "publish" : "save");
       setError(null);
@@ -74,10 +92,11 @@ export function AdminProductEditorPage({
         type: "product",
         slug,
         payload,
-        changeSummary: publish ? "Published product changes" : "Saved product draft",
+        changeSummary,
       });
 
       setStatus(result.entry.status);
+      setSavedPayload(payload);
     } catch (cause) {
       setError(
         cause instanceof CmsApiError ? cause.message : "Unable to save product changes.",
@@ -92,252 +111,239 @@ export function AdminProductEditorPage({
   }
 
   return (
-    <>
-      <AdminEntityEditorShell
-        backTo={backTo}
-        title={product.hero.name || "New Product"}
-        statusLabel={status}
-        previewOpen={previewOpen}
-        onPreviewToggle={() => setPreviewOpen((current) => !current)}
-        isSaving={busy === "save"}
-        isPublishing={busy === "publish"}
-        onSaveDraft={() => void persist(false)}
-        onPublish={() => void persist(true)}
-        previewPanel={
-          <AdminPreviewPanel
-            open={previewOpen}
-            onClose={() => setPreviewOpen(false)}
-            locale={activeLocale}
-            title="Product Preview"
+    <AdminEntityEditorShell
+      backTo={backTo}
+      title={product.hero.name || "New Product"}
+      statusLabel={status}
+      isDirty={isDirty}
+      isSaving={busy === "save"}
+      isPublishing={busy === "publish"}
+      onSaveDraft={(changeSummary) => persist(false, changeSummary)}
+      onPublish={(changeSummary) => persist(true, changeSummary)}
+    >
+      {error ? (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
+
+      <div className="mb-4 flex gap-2">
+        {(["en", "ar"] as const).map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={
+              activeLocale === option
+                ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white"
+                : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"
+            }
+            onClick={() => setActiveLocale(option)}
           >
-            <ProductDetailView product={product} />
-          </AdminPreviewPanel>
-        }
-      >
-        {error ? (
-          <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </p>
-        ) : null}
+            {option.toUpperCase()}
+          </button>
+        ))}
+      </div>
 
-        <div className="mb-4 flex gap-2">
-          {(["en", "ar"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              className={
-                activeLocale === option
-                  ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white"
-                  : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"
-              }
-              onClick={() => setActiveLocale(option)}
-            >
-              {option.toUpperCase()}
-            </button>
-          ))}
-        </div>
-
-        <div className="space-y-5">
-          <AdminFieldGroup title="Basics">
-            <div className="grid gap-4 lg:grid-cols-2">
-              <AdminField label="Slug">
-                <AdminInput
-                  value={product.slug}
-                  onChange={(event) =>
-                    updateLocaleProduct((current) => ({
-                      ...current,
-                      slug: event.target.value,
-                    }))
-                  }
-                />
-              </AdminField>
-              <AdminField label="Category">
-                <AdminInput
-                  value={product.category}
-                  onChange={(event) =>
-                    updateLocaleProduct((current) => ({
-                      ...current,
-                      category: event.target.value,
-                      hero: { ...current.hero, category: event.target.value },
-                    }))
-                  }
-                />
-              </AdminField>
-            </div>
-          </AdminFieldGroup>
-
-          <AdminFieldGroup title="Hero">
-            <AdminField label="Title">
+      <div className="space-y-5">
+        <AdminFieldGroup title="Basics">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <AdminField label="Slug">
               <AdminInput
-                value={product.hero.name}
+                value={product.slug}
                 onChange={(event) =>
                   updateLocaleProduct((current) => ({
                     ...current,
-                    hero: { ...current.hero, name: event.target.value },
-                    meta: { ...current.meta, title: event.target.value },
+                    slug: event.target.value,
                   }))
                 }
               />
             </AdminField>
-            <AdminField label="Introduction">
-              <AdminTextarea
-                rows={4}
-                value={product.hero.introduction}
-                onChange={(event) =>
-                  updateLocaleProduct((current) => ({
-                    ...current,
-                    hero: { ...current.hero, introduction: event.target.value },
-                    meta: { ...current.meta, description: event.target.value },
-                  }))
-                }
-              />
-            </AdminField>
-            <AdminMediaPicker
-              label="Cover Image"
-              value={product.hero.image}
-              onChange={(image) =>
-                updateLocaleProduct((current) => ({
-                  ...current,
-                  hero: { ...current.hero, image },
-                }))
-              }
-            />
-          </AdminFieldGroup>
-
-          <AdminFieldGroup title="Overview" description="Leave empty to hide on the website.">
-            <AdminField label="Heading">
+            <AdminField label="Category">
               <AdminInput
-                value={product.overview.heading}
+                value={product.category}
                 onChange={(event) =>
                   updateLocaleProduct((current) => ({
                     ...current,
-                    overview: { ...current.overview, heading: event.target.value },
+                    category: event.target.value,
+                    hero: { ...current.hero, category: event.target.value },
                   }))
                 }
               />
             </AdminField>
-            <AdminStringListEditor
-              label="Paragraphs"
-              values={product.overview.paragraphs}
-              onChange={(paragraphs) =>
-                updateLocaleProduct((current) => ({
-                  ...current,
-                  overview: { ...current.overview, paragraphs },
-                }))
-              }
-              addLabel="Add paragraph"
-            />
-          </AdminFieldGroup>
+          </div>
+        </AdminFieldGroup>
 
-          <AdminFieldGroup title="Applications">
-            <AdminStringListEditor
-              label="Items"
-              values={product.info.applications.items}
-              onChange={(items) =>
+        <AdminFieldGroup title="Hero">
+          <AdminField label="Title">
+            <AdminInput
+              value={product.hero.name}
+              onChange={(event) =>
                 updateLocaleProduct((current) => ({
                   ...current,
-                  info: {
-                    ...current.info,
-                    applications: { ...current.info.applications, items },
-                  },
+                  hero: { ...current.hero, name: event.target.value },
+                  meta: { ...current.meta, title: event.target.value },
                 }))
               }
             />
-          </AdminFieldGroup>
-
-          <AdminFieldGroup title="Features">
-            <AdminStringListEditor
-              label="Items"
-              values={product.info.features.items}
-              onChange={(items) =>
+          </AdminField>
+          <AdminField label="Introduction">
+            <AdminTextarea
+              rows={4}
+              value={product.hero.introduction}
+              onChange={(event) =>
                 updateLocaleProduct((current) => ({
                   ...current,
-                  info: {
-                    ...current.info,
-                    features: { ...current.info.features, items },
-                  },
+                  hero: { ...current.hero, introduction: event.target.value },
+                  meta: { ...current.meta, description: event.target.value },
                 }))
               }
             />
-          </AdminFieldGroup>
+          </AdminField>
+          <AdminMediaPicker
+            label="Cover Image"
+            value={product.hero.image}
+            onChange={(image) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                hero: { ...current.hero, image },
+              }))
+            }
+          />
+        </AdminFieldGroup>
 
-          <AdminFieldGroup title="Benefits">
-            <AdminStringListEditor
-              label="Items"
-              values={product.info.benefits.items}
-              onChange={(items) =>
+        <AdminFieldGroup title="Overview" description="Leave empty to hide on the website.">
+          <AdminField label="Heading">
+            <AdminInput
+              value={product.overview.heading}
+              onChange={(event) =>
                 updateLocaleProduct((current) => ({
                   ...current,
-                  info: {
-                    ...current.info,
-                    benefits: { ...current.info.benefits, items },
-                  },
+                  overview: { ...current.overview, heading: event.target.value },
                 }))
               }
             />
-          </AdminFieldGroup>
+          </AdminField>
+          <AdminStringListEditor
+            label="Paragraphs"
+            values={product.overview.paragraphs}
+            onChange={(paragraphs) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                overview: { ...current.overview, paragraphs },
+              }))
+            }
+            addLabel="Add paragraph"
+          />
+        </AdminFieldGroup>
 
-          <AdminFieldGroup title="Technical Data">
-            <AdminField label="Heading">
-              <AdminInput
-                value={product.specifications?.heading ?? ""}
-                onChange={(event) =>
-                  updateLocaleProduct((current) => ({
-                    ...current,
-                    specifications: {
-                      heading: event.target.value,
-                      rows: current.specifications?.rows ?? [],
-                      ...(current.specifications?.image
-                        ? { image: current.specifications.image }
-                        : {}),
-                    },
-                  }))
-                }
-              />
-            </AdminField>
-            <AdminMediaPicker
-              label="Technical Data Image"
-              value={product.specifications?.image}
-              onChange={(image) =>
+        <AdminFieldGroup title="Applications">
+          <AdminStringListEditor
+            label="Items"
+            values={product.info.applications.items}
+            onChange={(items) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                info: {
+                  ...current.info,
+                  applications: { ...current.info.applications, items },
+                },
+              }))
+            }
+          />
+        </AdminFieldGroup>
+
+        <AdminFieldGroup title="Features">
+          <AdminStringListEditor
+            label="Items"
+            values={product.info.features.items}
+            onChange={(items) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                info: {
+                  ...current.info,
+                  features: { ...current.info.features, items },
+                },
+              }))
+            }
+          />
+        </AdminFieldGroup>
+
+        <AdminFieldGroup title="Benefits">
+          <AdminStringListEditor
+            label="Items"
+            values={product.info.benefits.items}
+            onChange={(items) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                info: {
+                  ...current.info,
+                  benefits: { ...current.info.benefits, items },
+                },
+              }))
+            }
+          />
+        </AdminFieldGroup>
+
+        <AdminFieldGroup title="Technical Data">
+          <AdminField label="Heading">
+            <AdminInput
+              value={product.specifications?.heading ?? ""}
+              onChange={(event) =>
                 updateLocaleProduct((current) => ({
                   ...current,
                   specifications: {
-                    heading: current.specifications?.heading ?? "Technical Data",
+                    heading: event.target.value,
                     rows: current.specifications?.rows ?? [],
-                    image,
+                    ...(current.specifications?.image
+                      ? { image: current.specifications.image }
+                      : {}),
                   },
                 }))
               }
             />
-          </AdminFieldGroup>
+          </AdminField>
+          <AdminMediaPicker
+            label="Technical Data Image"
+            value={product.specifications?.image}
+            onChange={(image) =>
+              updateLocaleProduct((current) => ({
+                ...current,
+                specifications: {
+                  heading: current.specifications?.heading ?? "Technical Data",
+                  rows: current.specifications?.rows ?? [],
+                  image,
+                },
+              }))
+            }
+          />
+        </AdminFieldGroup>
 
-          <AdminFieldGroup title="SEO">
-            <AdminField label="Meta Title">
-              <AdminInput
-                value={product.meta.title}
-                onChange={(event) =>
-                  updateLocaleProduct((current) => ({
-                    ...current,
-                    meta: { ...current.meta, title: event.target.value },
-                  }))
-                }
-              />
-            </AdminField>
-            <AdminField label="Meta Description">
-              <AdminTextarea
-                rows={3}
-                value={product.meta.description}
-                onChange={(event) =>
-                  updateLocaleProduct((current) => ({
-                    ...current,
-                    meta: { ...current.meta, description: event.target.value },
-                  }))
-                }
-              />
-            </AdminField>
-          </AdminFieldGroup>
-        </div>
-      </AdminEntityEditorShell>
-    </>
+        <AdminFieldGroup title="SEO">
+          <AdminField label="Meta Title">
+            <AdminInput
+              value={product.meta.title}
+              onChange={(event) =>
+                updateLocaleProduct((current) => ({
+                  ...current,
+                  meta: { ...current.meta, title: event.target.value },
+                }))
+              }
+            />
+          </AdminField>
+          <AdminField label="Meta Description">
+            <AdminTextarea
+              rows={3}
+              value={product.meta.description}
+              onChange={(event) =>
+                updateLocaleProduct((current) => ({
+                  ...current,
+                  meta: { ...current.meta, description: event.target.value },
+                }))
+              }
+            />
+          </AdminField>
+        </AdminFieldGroup>
+      </div>
+    </AdminEntityEditorShell>
   );
 }

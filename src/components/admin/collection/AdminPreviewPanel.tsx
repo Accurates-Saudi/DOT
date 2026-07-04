@@ -11,6 +11,7 @@ interface AdminPreviewPanelProps {
   onClose: () => void;
   locale: Locale;
   title?: string;
+  variant?: "embedded" | "overlay";
   children: ReactNode;
 }
 
@@ -62,12 +63,14 @@ export function AdminPreviewPanel({
   onClose,
   locale,
   title = "Preview",
+  variant = "embedded",
   children,
 }: AdminPreviewPanelProps) {
   useEffect(() => {
     if (!open || typeof window === "undefined") return;
 
-    const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+    const isMobile =
+      variant === "overlay" || window.matchMedia("(max-width: 1023px)").matches;
     if (!isMobile) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -83,9 +86,33 @@ export function AdminPreviewPanel({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open, onClose]);
+  }, [open, onClose, variant]);
 
   if (!open) return null;
+
+  if (variant === "overlay") {
+    return typeof document !== "undefined"
+      ? createPortal(
+          <div className="fixed inset-0 z-[120] flex">
+            <button
+              type="button"
+              aria-label="Close preview"
+              className="absolute inset-0 bg-[#111]/40"
+              onClick={onClose}
+            />
+            <PreviewPanelContent
+              onClose={onClose}
+              title={title}
+              locale={locale}
+              className="relative ml-auto flex h-full w-full max-w-5xl flex-col border-l border-[#e5e5e5] bg-white shadow-xl"
+            >
+              {children}
+            </PreviewPanelContent>
+          </div>,
+          document.body,
+        )
+      : null;
+  }
 
   const desktopPanel = (
     <PreviewPanelContent

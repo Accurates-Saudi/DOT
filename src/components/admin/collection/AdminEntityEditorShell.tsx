@@ -1,18 +1,18 @@
-import type { ReactNode } from "react";
-import { Eye, Save, UploadCloud } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { Save, UploadCloud } from "lucide-react";
 import { Link } from "react-router";
+
+import { AdminSaveDialog } from "./AdminSaveDialog";
 
 interface AdminEntityEditorShellProps {
   backTo: string;
   title: string;
   statusLabel: string;
-  previewOpen: boolean;
-  onPreviewToggle: () => void;
-  onSaveDraft: () => void;
-  onPublish: () => void;
+  isDirty?: boolean;
+  onSaveDraft: (changeSummary: string) => void | Promise<void>;
+  onPublish: (changeSummary: string) => void | Promise<void>;
   isSaving?: boolean;
   isPublishing?: boolean;
-  previewPanel: ReactNode | null;
   children: ReactNode;
 }
 
@@ -20,15 +20,25 @@ export function AdminEntityEditorShell({
   backTo,
   title,
   statusLabel,
-  previewOpen,
-  onPreviewToggle,
+  isDirty = false,
   onSaveDraft,
   onPublish,
   isSaving,
   isPublishing,
-  previewPanel,
   children,
 }: AdminEntityEditorShellProps) {
+  const [pendingAction, setPendingAction] = useState<"draft" | "publish" | null>(null);
+  const isBusy = Boolean(isSaving || isPublishing);
+
+  async function handleConfirm(changeSummary: string) {
+    if (pendingAction === "publish") {
+      await onPublish(changeSummary);
+    } else {
+      await onSaveDraft(changeSummary);
+    }
+    setPendingAction(null);
+  }
+
   return (
     <>
       <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -37,48 +47,48 @@ export function AdminEntityEditorShell({
             ← Back to list
           </Link>
           <h2 className="mt-2 text-lg font-medium text-[#111]">{title}</h2>
-          <p className="mt-1 text-sm text-[#666]">Status: {statusLabel}</p>
+          <p className="mt-1 text-sm text-[#666]">
+            Status: {statusLabel}
+            {isDirty ? (
+              <span className="ml-2 rounded bg-[#fff7ed] px-2 py-0.5 text-xs font-medium text-[var(--dot-orange)]">
+                Unsaved changes
+              </span>
+            ) : null}
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            className="inline-flex h-10 items-center gap-2 rounded-md border border-[#e5e5e5] bg-white px-4 text-sm text-[#333] hover:border-[#d4d4d4]"
-            onClick={onPreviewToggle}
-          >
-            <Eye className="size-4" />
-            {previewOpen ? "Hide Preview" : "Preview"}
-          </button>
-          <button
-            type="button"
-            disabled={isSaving || isPublishing}
+            disabled={isBusy || !isDirty}
             className="inline-flex h-10 items-center gap-2 rounded-md border border-[#e5e5e5] bg-white px-4 text-sm text-[#333] hover:border-[#d4d4d4] disabled:opacity-60"
-            onClick={onSaveDraft}
+            onClick={() => setPendingAction("draft")}
           >
             <Save className="size-4" />
-            {isSaving ? "Saving..." : "Save Draft"}
+            Save Draft
           </button>
           <button
             type="button"
-            disabled={isSaving || isPublishing}
+            disabled={isBusy || !isDirty}
             className="inline-flex h-10 items-center gap-2 rounded-md bg-[var(--dot-orange)] px-4 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
-            onClick={onPublish}
+            onClick={() => setPendingAction("publish")}
           >
             <UploadCloud className="size-4" />
-            {isPublishing ? "Publishing..." : "Publish"}
+            Publish
           </button>
         </div>
       </div>
 
-      <div
-        className={
-          previewOpen
-            ? "grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
-            : undefined
-        }
-      >
-        <div className="min-w-0">{children}</div>
-        {previewPanel}
-      </div>
+      {children}
+
+      <AdminSaveDialog
+        open={pendingAction !== null}
+        action={pendingAction ?? "draft"}
+        onClose={() => {
+          if (!isBusy) setPendingAction(null);
+        }}
+        onConfirm={(changeSummary) => void handleConfirm(changeSummary)}
+        isSubmitting={isBusy}
+      />
     </>
   );
 }

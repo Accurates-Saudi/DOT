@@ -69,8 +69,16 @@ export function AdminEntityEditorShell({
         </div>
       </div>
 
-      {children}
-      {previewPanel}
+      <div
+        className={
+          previewOpen
+            ? "grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
+            : undefined
+        }
+      >
+        <div className="min-w-0">{children}</div>
+        {previewPanel}
+      </div>
     </>
   );
 }

@@ -91,7 +91,12 @@ export function AdminNewsEditorPage({
       onSaveDraft={() => void persist(false)}
       onPublish={() => void persist(true)}
       previewPanel={
-        <AdminPreviewPanel open={previewOpen} onClose={() => setPreviewOpen(false)} title="News Preview">
+        <AdminPreviewPanel
+          open={previewOpen}
+          onClose={() => setPreviewOpen(false)}
+          locale={activeLocale}
+          title="News Preview"
+        >
           <NewsDetailView article={article} />
         </AdminPreviewPanel>
       }

@@ -107,6 +107,7 @@ export function AdminProductEditorPage({
           <AdminPreviewPanel
             open={previewOpen}
             onClose={() => setPreviewOpen(false)}
+            locale={activeLocale}
             title="Product Preview"
           >
             <ProductDetailView product={product} />

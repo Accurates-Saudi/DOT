@@ -2,10 +2,10 @@ import { redirect } from "react-router";
 
 import type { Route } from "./+types/products.$slug";
 import { ProductDetailPage } from "@/pages/ProductDetailPage";
-import { getLocalizedProductBySlug } from "@/i18n/content";
 import { createPageMeta } from "@/i18n/meta";
-import { defaultLocale, isValidLocale, loadMessages } from "@/i18n";
+import { defaultLocale, isValidLocale } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
+import { getPublishedProductBySlug } from "@/server/cms/content/entity-content.server";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const locale = params.locale ?? defaultLocale;
@@ -14,8 +14,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(`/${defaultLocale}/products/${params.slug}`);
   }
 
-  const messages = await loadMessages(locale);
-  const product = getLocalizedProductBySlug(messages, locale, params.slug);
+  const product = await getPublishedProductBySlug(locale, params.slug);
 
   if (!product) {
     throw new Response("Not Found", { status: 404 });

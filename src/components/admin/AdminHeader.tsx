@@ -2,6 +2,7 @@ import { useLocation } from "react-router";
 
 import type { CMSUser } from "@/types";
 
+import { AdminBackToWebsiteLink } from "./AdminBackToWebsiteLink";
 import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
 import { AdminUserMenu } from "./AdminUserMenu";
 
@@ -17,7 +18,12 @@ const pageTitles: Record<string, string> = {
 };
 
 function getPageTitle(pathname: string) {
-  return pageTitles[pathname] ?? "Admin";
+  if (pageTitles[pathname]) return pageTitles[pathname];
+  if (pathname.startsWith("/admin/products/")) return "Edit Product";
+  if (pathname.startsWith("/admin/news/")) return "Edit News";
+  if (pathname.startsWith("/admin/certificates/")) return "Edit Certificate";
+  if (pathname.startsWith("/admin/catalogs/")) return "Edit Catalog";
+  return "Admin";
 }
 
 interface AdminHeaderProps {
@@ -32,6 +38,7 @@ export function AdminHeader({ user }: AdminHeaderProps) {
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-[#e5e5e5] bg-white px-8">
       <h1 className="text-lg font-medium text-[#111]">{title}</h1>
       <div className="flex items-center gap-3">
+        <AdminBackToWebsiteLink variant="header" />
         <AdminLanguageSwitcher />
         <AdminUserMenu user={user} />
       </div>

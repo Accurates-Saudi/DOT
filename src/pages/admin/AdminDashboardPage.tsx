@@ -2,7 +2,6 @@ import {
   Award,
   Boxes,
   ChevronRight,
-  ExternalLink,
   Images,
   Newspaper,
   Package2,
@@ -10,8 +9,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
-import { AdminSurface } from "@/components/admin";
-import { defaultLocale } from "@/i18n/config";
+import { AdminBackToWebsiteLink, AdminSurface } from "@/components/admin";
+import { useAdminWebsiteReturnUrl } from "@/hooks/use-admin-website-return";
 import type { CMSRole } from "@/types";
 
 const contentRows = [
@@ -47,10 +46,7 @@ const contentRows = [
   },
 ];
 
-const quickActions: Array<
-  | { label: string; to: string; icon: typeof Package2 }
-  | { label: string; href: string; icon: typeof ExternalLink }
-> = [
+const quickActions = [
   {
     label: "Add New Product",
     to: "/admin/products",
@@ -66,12 +62,7 @@ const quickActions: Array<
     to: "/admin/media",
     icon: Upload,
   },
-  {
-    label: "View Website",
-    href: `/${defaultLocale}`,
-    icon: ExternalLink,
-  },
-];
+] as const;
 
 export function AdminDashboardPage({
   userRole,
@@ -97,6 +88,9 @@ export function AdminDashboardPage({
   }>;
 }) {
   const drafts = recentChanges.filter((item) => item.status === "draft");
+  const returnUrl = useAdminWebsiteReturnUrl();
+  const quickActionClassName =
+    "flex items-center gap-3 rounded-md border border-[#e5e5e5] bg-white px-5 py-4 text-[0.9375rem] text-[#333] transition hover:border-[#d4d4d4]";
 
   return (
     <div className="space-y-8">
@@ -191,31 +185,16 @@ export function AdminDashboardPage({
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {quickActions.map((action) => {
             const Icon = action.icon;
-            const className =
-              "flex items-center gap-3 rounded-md border border-[#e5e5e5] bg-white px-5 py-4 text-[0.9375rem] text-[#333] transition hover:border-[#d4d4d4]";
-
-            if ("href" in action) {
-              return (
-                <a
-                  key={action.label}
-                  href={action.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={className}
-                >
-                  <Icon className="size-5 shrink-0 text-[#888]" />
-                  {action.label}
-                </a>
-              );
-            }
-
             return (
-              <Link key={action.label} to={action.to} className={className}>
+              <Link key={action.label} to={action.to} className={quickActionClassName}>
                 <Icon className="size-5 shrink-0 text-[#888]" />
                 {action.label}
               </Link>
             );
           })}
+          <a href={returnUrl} className={quickActionClassName}>
+            Back to Website
+          </a>
         </div>
       </div>
     </div>

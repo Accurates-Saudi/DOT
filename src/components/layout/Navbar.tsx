@@ -15,6 +15,7 @@ import { siteSettings } from "@/data/site";
 import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
+import { buildAdminHref } from "@/utils/website-routing";
 import { Link, NavLink, useLocation } from "react-router";
 
 import { NavbarMobileMenu } from "./NavbarMobileMenu";
@@ -38,6 +39,7 @@ export function Navbar() {
 
   const isElevated = !isHome || isScrolled;
   const isHeroState = !isElevated;
+  const adminHref = buildAdminHref(location.pathname, location.search);
 
   return (
     <header
@@ -204,7 +206,7 @@ export function Navbar() {
                   className="h-9 min-w-[6rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
                   asChild
                 >
-                  <Link to="/admin">Dashboard</Link>
+                  <Link to={adminHref}>Dashboard</Link>
                 </Button>
               </>
             ) : (

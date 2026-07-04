@@ -17,6 +17,7 @@ import { useDirection } from "@/i18n/hooks";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { siteSettings } from "@/data/site";
 import { cn } from "@/lib/utils";
+import { buildAdminHref } from "@/utils/website-routing";
 
 import { LinkedInIcon } from "./NavbarIcons";
 
@@ -34,6 +35,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   const prefersReducedMotion = usePrefersReducedMotion();
   const { isAuthenticated, canEditWebsite, isEditMode, toggleEditMode } =
     useCmsExperience();
+  const adminHref = buildAdminHref(location.pathname, location.search);
 
   useEffect(() => {
     setOpen(false);
@@ -181,7 +183,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                     className="h-11 w-full rounded-full text-sm font-medium"
                     asChild
                   >
-                    <Link to="/admin" onClick={() => setOpen(false)}>
+                    <Link to={adminHref} onClick={() => setOpen(false)}>
                       Dashboard
                     </Link>
                   </Button>

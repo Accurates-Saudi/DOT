@@ -26,7 +26,12 @@ export function ProductsGrid({ content, className }: ProductsGridProps) {
         })
       : content.items;
 
-    return [...products].sort((a, b) => a.name.localeCompare(b.name));
+    return [...products].sort((a, b) => {
+      const leftOrder = a.listingOrder ?? Number.MAX_SAFE_INTEGER;
+      const rightOrder = b.listingOrder ?? Number.MAX_SAFE_INTEGER;
+      if (leftOrder !== rightOrder) return leftOrder - rightOrder;
+      return a.name.localeCompare(b.name);
+    });
   }, [content.items, query]);
 
   return (

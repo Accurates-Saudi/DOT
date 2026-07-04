@@ -2,7 +2,6 @@ import type { LucideIcon } from "lucide-react";
 import {
   Award,
   Boxes,
-  ExternalLink,
   Images,
   LayoutDashboard,
   LogOut,
@@ -14,8 +13,9 @@ import {
 import { Form, NavLink, useNavigation } from "react-router";
 
 import dotLogo from "@/assets/logos/dot.webp";
+import { AdminBackToWebsiteLink } from "@/components/admin/AdminBackToWebsiteLink";
+import { useAdminWebsiteReturnUrl } from "@/hooks/use-admin-website-return";
 import type { CMSUser } from "@/types";
-import { defaultLocale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 
 interface AdminNavItem {
@@ -48,6 +48,7 @@ interface AdminSidebarProps {
 }
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
+  const returnUrl = useAdminWebsiteReturnUrl();
   const navigation = useNavigation();
   const isLoggingOut =
     navigation.state === "submitting" &&
@@ -60,12 +61,17 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-[#e5e5e5] bg-white">
       <div className="border-b border-[#e5e5e5] px-6 py-5">
-        <img
-          src={dotLogo}
-          alt="Dynamic Oil Tools"
-          className="h-11 w-auto max-w-full object-contain object-left"
-        />
-        <p className="mt-2 text-sm font-medium text-[#888]">CMS</p>
+        <a
+          href={returnUrl}
+          className="inline-block rounded-md transition hover:opacity-80"
+          aria-label="Back to website"
+        >
+          <img
+            src={dotLogo}
+            alt="Dynamic Oil Tools"
+            className="h-11 w-auto max-w-full object-contain object-left"
+          />
+        </a>
       </div>
 
       <nav className="flex-1 px-4 py-5">
@@ -108,15 +114,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       </nav>
 
       <div className="border-t border-[#e5e5e5] px-4 py-4">
-        <a
-          href={`/${defaultLocale}`}
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.9375rem] text-[#555] transition hover:bg-[#f8f8f8] hover:text-[#111]"
-        >
-          <ExternalLink className="size-[1.125rem] shrink-0" />
-          View Website
-        </a>
+        <AdminBackToWebsiteLink variant="sidebar" />
         <Form method="post" action="/admin/logout">
           <button
             type="submit"

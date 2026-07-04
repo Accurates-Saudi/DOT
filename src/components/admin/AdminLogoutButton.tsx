@@ -1,8 +1,6 @@
 import { LogOut } from "lucide-react";
 import { Form, useNavigation } from "react-router";
 
-import { Button } from "@/components/ui/button";
-
 export function AdminLogoutButton() {
   const navigation = useNavigation();
   const isSubmitting =
@@ -11,16 +9,14 @@ export function AdminLogoutButton() {
 
   return (
     <Form method="post" action="/admin/logout">
-      <Button
+      <button
         type="submit"
-        variant="ghost"
-        size="lg"
         disabled={isSubmitting}
-        className="h-11 w-full justify-start rounded-2xl border border-[#0c1524]/8 bg-white px-4 text-[#0c1524] hover:bg-[#f5f6f8]"
+        className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-[#555] transition hover:bg-[#f8f8f8] hover:text-[#111] disabled:opacity-60"
       >
-        <LogOut className="size-4" />
+        <LogOut className="size-4 shrink-0" />
         {isSubmitting ? "Signing out..." : "Logout"}
-      </Button>
+      </button>
     </Form>
   );
 }

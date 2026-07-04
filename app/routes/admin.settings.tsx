@@ -8,12 +8,12 @@ import { localeLabels } from "@/i18n/config";
 
 export default function AdminSettingsRoute() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <AdminSurface
         title="Settings"
-        description="Manage company details, contact information, social links, SEO, languages, and brand assets from one place."
+        description="Company details, contact information, and site configuration."
       >
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           <SettingsGroup
             title="Company"
             items={[
@@ -65,25 +65,20 @@ function SettingsGroup({
   }>;
 }) {
   return (
-    <section className="rounded-2xl border border-[#0c1524]/8 bg-[#f7f8fa] p-5">
-      <h2 className="text-sm font-semibold tracking-[0.04em] text-[#0c1524]">
-        {title}
-      </h2>
-      <ul className="mt-4 space-y-3">
-        {items.map((item) => {
-          const Icon = item.icon;
-          return (
-            <li key={`${title}-${item.label}`} className="flex gap-3">
-              <span className="mt-0.5 flex size-8 items-center justify-center rounded-xl bg-white text-[var(--dot-orange)] shadow-[0_10px_20px_-16px_rgba(12,21,36,0.18)]">
-                <Icon className="size-4" />
-              </span>
-              <div>
-                <p className="text-sm font-medium text-[#0c1524]">{item.label}</p>
-                <p className="text-sm text-[#0c1524]/56">{item.value}</p>
-              </div>
-            </li>
-          );
-        })}
+    <section className="rounded-md border border-[#e5e5e5] bg-[#f8f8f8] p-4">
+      <h2 className="text-sm font-semibold text-[#111]">{title}</h2>
+      <ul className="mt-3 divide-y divide-[#e5e5e5]">
+        {items.map((item) => (
+          <li
+            key={`${title}-${item.label}`}
+            className="flex justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
+          >
+            <span className="text-sm text-[#666]">{item.label}</span>
+            <span className="text-right text-sm font-medium text-[#111]">
+              {item.value}
+            </span>
+          </li>
+        ))}
       </ul>
     </section>
   );

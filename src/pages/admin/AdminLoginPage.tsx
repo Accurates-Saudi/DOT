@@ -33,13 +33,10 @@ export function AdminLoginPage() {
     <AdminAuthLayout
       badge="Secure CMS Access"
       title="Sign in to the Dynamic Oil Tools CMS"
-      description="Use your database-backed CMS account to access the protected admin workspace."
-      asideTitle="Industrial content operations, secured for production."
-      asideDescription="The CMS authentication flow uses hashed passwords, signed HTTP-only sessions, and server-side route protection across the entire admin area."
+      description="Use your CMS account to access the admin workspace."
       helperItems={[
         "Password hashes are stored in the database, never plain text.",
-        "Admin routes automatically re-check the session on every server request.",
-        "The first-time setup flow is locked after the initial administrator is created.",
+        "Admin routes re-check the session on every server request.",
       ]}
     >
       <Form method="post" className="space-y-5">

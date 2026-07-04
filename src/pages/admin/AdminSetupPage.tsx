@@ -34,13 +34,10 @@ export function AdminSetupPage({
     <AdminAuthLayout
       badge="Initial Administrator Setup"
       title="Create the first CMS administrator"
-      description="This setup screen is only available while the CMS users table is empty. After the first administrator is created, it is permanently disabled."
-      asideTitle="Bootstrap the admin workspace securely."
-      asideDescription="The first administrator is created directly in the database with a secure password hash and is signed in immediately after setup."
+      description="This setup screen is only available while the CMS users table is empty."
       helperItems={[
         "Only shown when the CMS has no users.",
         "The first account is always created with the Admin role.",
-        "Once complete, future access goes through the normal login page.",
       ]}
       notice={
         isDevelopment ? (

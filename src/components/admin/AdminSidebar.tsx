@@ -2,28 +2,28 @@ import type { LucideIcon } from "lucide-react";
 import {
   Award,
   Boxes,
-  Factory,
-  LayoutDashboard,
+  ExternalLink,
   Images,
+  LayoutDashboard,
+  LogOut,
   Newspaper,
   Package2,
   Settings,
   Users,
-  ExternalLink,
 } from "lucide-react";
-import { NavLink } from "react-router";
+import { Form, NavLink, useNavigation } from "react-router";
 
+import dotLogo from "@/assets/logos/dot.webp";
 import type { CMSUser } from "@/types";
 import { defaultLocale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
-
-import { AdminLogoutButton } from "./AdminLogoutButton";
 
 interface AdminNavItem {
   to: string;
   label: string;
   icon: LucideIcon;
   roles?: CMSUser["role"][];
+  badge?: string;
 }
 
 const adminNavItems: AdminNavItem[] = [
@@ -34,7 +34,13 @@ const adminNavItems: AdminNavItem[] = [
   { to: "/admin/catalogs", label: "Catalogs", icon: Boxes },
   { to: "/admin/media", label: "Media Library", icon: Images },
   { to: "/admin/settings", label: "Settings", icon: Settings },
-  { to: "/admin/users", label: "Users", icon: Users, roles: ["admin"] },
+  {
+    to: "/admin/users",
+    label: "Users",
+    icon: Users,
+    roles: ["admin"],
+    badge: "Admin Only",
+  },
 ];
 
 interface AdminSidebarProps {
@@ -42,71 +48,88 @@ interface AdminSidebarProps {
 }
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
+  const navigation = useNavigation();
+  const isLoggingOut =
+    navigation.state === "submitting" &&
+    navigation.formAction?.endsWith("/admin/logout");
+
   const visibleItems = adminNavItems.filter(
     (item) => !item.roles || item.roles.includes(user.role),
   );
 
   return (
-    <aside className="flex w-full flex-col border-b border-[#0c1524]/6 bg-white p-5 md:min-h-screen md:w-[19rem] md:border-r md:border-b-0 md:p-6">
-      <div className="flex items-center gap-3">
-        <div className="flex size-11 items-center justify-center rounded-2xl border border-[var(--dot-orange)]/25 bg-[var(--dot-orange)]/10 text-[var(--dot-orange)]">
-          <Factory className="size-5" />
-        </div>
-        <div>
-          <p className="text-[0.72rem] font-semibold tracking-[0.26em] text-[var(--dot-orange)] uppercase">
-            Website Management
-          </p>
-          <p className="text-base font-semibold text-[#0c1524]">Dynamic Oil Tools</p>
-        </div>
+    <aside className="flex w-64 shrink-0 flex-col border-r border-[#e5e5e5] bg-white">
+      <div className="border-b border-[#e5e5e5] px-6 py-5">
+        <img
+          src={dotLogo}
+          alt="Dynamic Oil Tools"
+          className="h-11 w-auto max-w-full object-contain object-left"
+        />
+        <p className="mt-2 text-sm font-medium text-[#888]">CMS</p>
       </div>
 
-      <div className="mt-6 rounded-3xl border border-[#0c1524]/8 bg-[#f5f6f8] p-4">
-        <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-[#0c1524]/42 uppercase">
-          Signed in as
-        </p>
-        <p className="mt-2 text-sm font-medium text-[#0c1524]">{user.name}</p>
-        <p className="mt-1 text-sm text-[#0c1524]/52">{user.email}</p>
-        <span className="mt-3 inline-flex rounded-full border border-[var(--dot-orange)]/22 bg-[var(--dot-orange)]/10 px-2.5 py-1 text-[0.68rem] font-semibold tracking-[0.16em] text-[var(--dot-orange)] uppercase">
-          {user.role}
-        </span>
-      </div>
-
-      <a
-        href={`/${defaultLocale}`}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-4 inline-flex h-12 items-center justify-between rounded-2xl border border-[var(--dot-orange)]/18 bg-[var(--dot-orange)]/8 px-4 text-sm font-medium text-[#0c1524] transition hover:border-[var(--dot-orange)]/40 hover:bg-[var(--dot-orange)]/12"
-      >
-        <span>View Website</span>
-        <ExternalLink className="size-4 text-[var(--dot-orange)]" />
-      </a>
-
-      <nav className="mt-6 flex flex-col gap-2">
-        {visibleItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/admin"}
-              className={({ isActive }) =>
-                cn(
-                  "flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-medium transition",
-                  isActive
-                    ? "border-[var(--dot-orange)]/35 bg-[var(--dot-orange)]/10 text-[#0c1524]"
-                    : "border-transparent bg-transparent text-[#0c1524]/66 hover:border-[#0c1524]/8 hover:bg-[#f5f6f8] hover:text-[#0c1524]",
-                )
-              }
-            >
-              <Icon className="size-4" />
-              {item.label}
-            </NavLink>
-          );
-        })}
+      <nav className="flex-1 px-4 py-5">
+        <ul className="space-y-1">
+          {visibleItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  end={item.to === "/admin"}
+                  className={({ isActive }) =>
+                    cn(
+                      "relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.9375rem] transition",
+                      isActive
+                        ? "bg-[#fff7ed] font-medium text-[var(--dot-orange)]"
+                        : "text-[#555] hover:bg-[#f8f8f8] hover:text-[#111]",
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {isActive ? (
+                        <span className="absolute top-1/2 left-0 h-6 w-0.5 -translate-y-1/2 rounded-full bg-[var(--dot-orange)]" />
+                      ) : null}
+                      <Icon className="size-[1.125rem] shrink-0" />
+                      <span className="flex-1">{item.label}</span>
+                      {item.badge ? (
+                        <span className="rounded border border-[#e5e5e5] px-1.5 py-0.5 text-[0.6875rem] text-[#888]">
+                          {item.badge}
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
 
-      <div className="mt-6 md:mt-auto">
-        <AdminLogoutButton />
+      <div className="border-t border-[#e5e5e5] px-4 py-4">
+        <a
+          href={`/${defaultLocale}`}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.9375rem] text-[#555] transition hover:bg-[#f8f8f8] hover:text-[#111]"
+        >
+          <ExternalLink className="size-[1.125rem] shrink-0" />
+          View Website
+        </a>
+        <Form method="post" action="/admin/logout">
+          <button
+            type="submit"
+            disabled={isLoggingOut}
+            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-[0.9375rem] text-[#555] transition hover:bg-[#f8f8f8] hover:text-[#111] disabled:opacity-60"
+          >
+            <LogOut className="size-[1.125rem] shrink-0" />
+            {isLoggingOut ? "Signing out..." : "Logout"}
+          </button>
+        </Form>
+        <p className="px-3 pt-4 text-xs text-[#aaa]">
+          © {new Date().getFullYear()} DOT. All rights reserved.
+        </p>
       </div>
     </aside>
   );

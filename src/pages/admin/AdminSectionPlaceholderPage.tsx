@@ -19,23 +19,17 @@ export function AdminSectionPlaceholderPage({
 }: AdminSectionPlaceholderPageProps) {
   return (
     <AdminSurface>
-      <div className="max-w-3xl">
-        <div className="flex size-14 items-center justify-center rounded-2xl border border-[var(--dot-orange)]/25 bg-[var(--dot-orange)]/10 text-[var(--dot-orange)]">
-          <Icon className="size-6" />
-        </div>
-        <p className="mt-6 text-[0.72rem] font-semibold tracking-[0.22em] text-[var(--dot-orange)] uppercase">
-          {eyebrow}
-        </p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0c1524]">
-          {title}
-        </h2>
-        <p className="mt-4 text-base leading-7 text-[#0c1524]/58">{description}</p>
+      <div className="max-w-lg">
+        <Icon className="size-8 text-[#888]" />
+        <p className="mt-4 text-xs font-medium text-[var(--dot-orange)]">{eyebrow}</p>
+        <h2 className="mt-1 text-lg font-semibold text-[#111]">{title}</h2>
+        <p className="mt-2 text-sm text-[#666]">{description}</p>
         <Link
           to="/admin"
-          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--dot-orange)]"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[var(--dot-orange)] hover:underline"
         >
           Back to dashboard
-          <ArrowRight className="size-4" />
+          <ArrowRight className="size-3.5" />
         </Link>
       </div>
     </AdminSurface>

@@ -1,8 +1,11 @@
 export { AdminAuthLayout } from "./AdminAuthLayout";
 export { AdminCheckboxField } from "./AdminCheckboxField";
+export { AdminHeader } from "./AdminHeader";
+export { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
 export { AdminPasswordField } from "./AdminPasswordField";
 export { AdminShell } from "./AdminShell";
 export { AdminSidebar } from "./AdminSidebar";
 export { AdminSurface, AdminMetricCard } from "./AdminSurface";
 export { AdminTextField } from "./AdminTextField";
+export { AdminUserMenu } from "./AdminUserMenu";
 export { AdminLogoutButton } from "./AdminLogoutButton";

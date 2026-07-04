@@ -1,12 +1,12 @@
 import {
-  ExternalLink,
   Award,
   Boxes,
+  ChevronRight,
+  ExternalLink,
   Images,
   Newspaper,
   Package2,
-  Settings,
-  Users,
+  Upload,
 } from "lucide-react";
 import { Link } from "react-router";
 
@@ -14,47 +14,66 @@ import { AdminSurface } from "@/components/admin";
 import { defaultLocale } from "@/i18n/config";
 import type { CMSRole } from "@/types";
 
-const quickLinks = [
+const contentRows = [
   {
-    title: "Products",
+    label: "Products",
+    to: "/admin/products",
+    icon: Package2,
+    countKey: "products" as const,
+  },
+  {
+    label: "News",
+    to: "/admin/news",
+    icon: Newspaper,
+    countKey: "news" as const,
+  },
+  {
+    label: "Certificates",
+    to: "/admin/certificates",
+    icon: Award,
+    countKey: "certificates" as const,
+  },
+  {
+    label: "Catalogs",
+    to: "/admin/catalogs",
+    icon: Boxes,
+    countKey: "catalogs" as const,
+  },
+  {
+    label: "Media Files",
+    to: "/admin/media",
+    icon: Images,
+    countKey: "media" as const,
+  },
+];
+
+const quickActions: Array<
+  | { label: string; to: string; icon: typeof Package2 }
+  | { label: string; href: string; icon: typeof ExternalLink }
+> = [
+  {
+    label: "Add New Product",
     to: "/admin/products",
     icon: Package2,
   },
   {
-    title: "News",
+    label: "Add New News",
     to: "/admin/news",
     icon: Newspaper,
   },
   {
-    title: "Certificates",
-    to: "/admin/certificates",
-    icon: Award,
-  },
-  {
-    title: "Catalogs",
-    to: "/admin/catalogs",
-    icon: Boxes,
-  },
-  {
-    title: "Media Library",
+    label: "Upload Media",
     to: "/admin/media",
-    icon: Images,
+    icon: Upload,
   },
   {
-    title: "Settings",
-    to: "/admin/settings",
-    icon: Settings,
-  },
-  {
-    title: "Users",
-    to: "/admin/users",
-    icon: Users,
-    roles: ["admin"] as CMSRole[],
+    label: "View Website",
+    href: `/${defaultLocale}`,
+    icon: ExternalLink,
   },
 ];
 
 export function AdminDashboardPage({
-  userName,
   userRole,
   counts,
   recentChanges,
@@ -77,97 +96,128 @@ export function AdminDashboardPage({
     status: string;
   }>;
 }) {
-  const visibleQuickLinks = quickLinks.filter(
-    (item) => !item.roles || item.roles.includes(userRole),
-  );
+  const drafts = recentChanges.filter((item) => item.status === "draft");
 
   return (
-    <div className="space-y-6">
-      <AdminSurface title="Welcome" description={`Signed in as ${userName}.`}>
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-2xl text-sm leading-7 text-[#0c1524]/58">
-            Use the dashboard to manage collections and settings. Use the website
-            itself to edit page content.
-          </p>
-          <a
-            href={`/${defaultLocale}`}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-[var(--dot-orange)] px-5 text-sm font-medium text-white transition hover:bg-[#db7d04]"
-          >
-            View Website
-            <ExternalLink className="size-4" />
-          </a>
+    <div className="space-y-8">
+      <AdminSurface title="Content" contentClassName="p-0">
+        <div className="overflow-x-auto">
+          <table className="w-full text-[0.9375rem]">
+            <thead>
+              <tr className="border-b border-[#e5e5e5] bg-[#f8f8f8] text-left text-sm font-medium text-[#888]">
+                <th className="px-6 py-4">Content Type</th>
+                <th className="px-6 py-4">Total</th>
+                <th className="px-6 py-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contentRows.map((row) => {
+                const Icon = row.icon;
+                return (
+                  <tr
+                    key={row.to}
+                    className="border-b border-[#e5e5e5] last:border-b-0"
+                  >
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <Icon className="size-5 shrink-0 text-[#888]" />
+                        <span className="font-medium text-[#111]">{row.label}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-[#555]">
+                      {counts[row.countKey]}
+                    </td>
+                    <td className="px-6 py-5 text-right">
+                      <Link
+                        to={row.to}
+                        className="inline-flex items-center gap-1 rounded-md border border-[#e5e5e5] bg-white px-4 py-2 text-sm text-[#333] transition hover:border-[#d4d4d4]"
+                      >
+                        Manage
+                        <ChevronRight className="size-3.5" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+              {userRole === "admin" ? (
+                <tr className="border-b border-[#e5e5e5] last:border-b-0">
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-3">
+                      <span className="font-medium text-[#111]">Users</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-5 text-[#555]">{counts.users}</td>
+                  <td className="px-6 py-5 text-right">
+                    <Link
+                      to="/admin/users"
+                      className="inline-flex items-center gap-1 rounded-md border border-[#e5e5e5] bg-white px-4 py-2 text-sm text-[#333] transition hover:border-[#d4d4d4]"
+                    >
+                      Manage
+                      <ChevronRight className="size-3.5" />
+                    </Link>
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
         </div>
       </AdminSurface>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
-        <AdminSurface title="Quick links">
-          <div className="grid gap-3 sm:grid-cols-2">
-            {visibleQuickLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-              <Link
-                  key={item.to}
-                  to={item.to}
-                  className="flex items-center gap-3 rounded-2xl border border-[#0c1524]/8 bg-[#f7f8fa] px-4 py-4 text-sm font-medium text-[#0c1524] transition hover:border-[var(--dot-orange)]/28 hover:bg-[var(--dot-orange)]/[0.04]"
-                >
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-white text-[var(--dot-orange)] shadow-[0_10px_24px_-18px_rgba(12,21,36,0.18)]">
-                    <Icon className="size-4" />
-                  </span>
-                  <span>{item.title}</span>
-                  <ExternalLink className="ml-auto size-4 text-[#0c1524]/35" />
-                </Link>
-              );
-            })}
-          </div>
-        </AdminSurface>
-
-        <AdminSurface title="Collection counts">
-          <dl className="divide-y divide-[#0c1524]/6 text-sm">
-            <CountRow label="Products" value={counts.products} />
-            <CountRow label="News" value={counts.news} />
-            <CountRow label="Certificates" value={counts.certificates} />
-            <CountRow label="Catalogs" value={counts.catalogs} />
-            <CountRow label="Media Library" value={counts.media} />
-            {userRole === "admin" ? <CountRow label="Users" value={counts.users} /> : null}
-          </dl>
-        </AdminSurface>
-      </div>
-
-      <AdminSurface title="Recent changes">
-        {recentChanges.length > 0 ? (
-          <ul className="space-y-3">
-            {recentChanges.map((item) => (
+      {drafts.length > 0 ? (
+        <AdminSurface title="Recent Drafts" contentClassName="p-0">
+          <ul className="divide-y divide-[#e5e5e5]">
+            {drafts.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col gap-1 rounded-2xl border border-[#0c1524]/8 bg-[#f7f8fa] px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                className="flex items-center justify-between gap-4 px-6 py-4"
               >
-                <div>
-                  <p className="text-sm font-medium text-[#0c1524]">{item.label}</p>
-                  <p className="text-sm text-[#0c1524]/52">
-                    {item.type} • {item.status}
+                <div className="min-w-0">
+                  <p className="truncate text-[0.9375rem] font-medium text-[#111]">
+                    {item.label}
                   </p>
+                  <p className="text-sm text-[#888] capitalize">{item.type}</p>
                 </div>
-                <p className="text-sm text-[#0c1524]/48">
+                <p className="shrink-0 text-sm text-[#888]">
                   {new Date(item.updatedAt).toLocaleString()}
                 </p>
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="text-sm text-[#0c1524]/56">No recent CMS changes yet.</p>
-        )}
-      </AdminSurface>
-    </div>
-  );
-}
+        </AdminSurface>
+      ) : null}
 
-function CountRow({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="flex items-center justify-between py-3">
-      <dt className="text-[#0c1524]/62">{label}</dt>
-      <dd className="font-medium text-[#0c1524]">{value}</dd>
+      <div>
+        <h2 className="mb-4 text-base font-semibold text-[#111]">Quick Actions</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {quickActions.map((action) => {
+            const Icon = action.icon;
+            const className =
+              "flex items-center gap-3 rounded-md border border-[#e5e5e5] bg-white px-5 py-4 text-[0.9375rem] text-[#333] transition hover:border-[#d4d4d4]";
+
+            if ("href" in action) {
+              return (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={className}
+                >
+                  <Icon className="size-5 shrink-0 text-[#888]" />
+                  {action.label}
+                </a>
+              );
+            }
+
+            return (
+              <Link key={action.label} to={action.to} className={className}>
+                <Icon className="size-5 shrink-0 text-[#888]" />
+                {action.label}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

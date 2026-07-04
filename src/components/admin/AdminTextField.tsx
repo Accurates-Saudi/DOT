@@ -24,11 +24,11 @@ export function AdminTextField({
   const isLight = tone === "light";
 
   return (
-    <label className="block space-y-2" htmlFor={inputId}>
+    <label className="block space-y-1.5" htmlFor={inputId}>
       <span
         className={cn(
-          "block text-[0.7rem] font-semibold tracking-[0.22em] uppercase",
-          isLight ? "text-[#0c1524]/66" : "text-white/68",
+          "block text-sm font-medium",
+          isLight ? "text-[#333]" : "text-white/80",
         )}
       >
         {label}
@@ -38,15 +38,15 @@ export function AdminTextField({
           {...props}
           id={inputId}
           className={cn(
-            "h-12 w-full rounded-xl border px-4 text-sm outline-none transition",
+            "h-10 w-full rounded-md border px-3 text-sm outline-none transition",
             isLight
-              ? "border-[#0c1524]/10 bg-white text-[#0c1524] shadow-[0_10px_30px_-18px_rgba(12,21,36,0.22)] placeholder:text-[#0c1524]/32 focus:border-[var(--dot-orange)] focus:ring-4 focus:ring-[color:rgba(246,142,5,0.12)]"
-              : "border-white/12 bg-white/6 text-white placeholder:text-white/38 focus:border-[var(--dot-orange)] focus:bg-white/8 focus:ring-2 focus:ring-[color:rgba(246,142,5,0.18)]",
+              ? "border-[#e5e5e5] bg-white text-[#111] placeholder:text-[#aaa] focus:border-[var(--dot-orange)] focus:ring-1 focus:ring-[var(--dot-orange)]"
+              : "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-[var(--dot-orange)] focus:ring-1 focus:ring-[var(--dot-orange)]",
             "disabled:cursor-not-allowed disabled:opacity-60",
             error &&
               (isLight
-                ? "border-red-300 focus:ring-red-400/15"
-                : "border-red-400/80 focus:ring-red-400/20"),
+                ? "border-red-400 focus:ring-red-400"
+                : "border-red-400 focus:ring-red-400"),
             inputClassName,
           )}
         />
@@ -59,7 +59,7 @@ export function AdminTextField({
         <span
           className={cn(
             "block text-sm",
-            isLight ? "text-[#0c1524]/52" : "text-white/54",
+            isLight ? "text-[#888]" : "text-white/60",
           )}
         >
           {hint}

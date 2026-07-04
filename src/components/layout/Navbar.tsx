@@ -13,7 +13,7 @@ import { siteSettings } from "@/data/site";
 import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
 import { cn } from "@/lib/utils";
-import { NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 
 import { NavbarMobileMenu } from "./NavbarMobileMenu";
 import { LinkedInIcon } from "./NavbarIcons";
@@ -191,7 +191,7 @@ export function Navbar() {
               className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
               asChild
             >
-              <LocalizedLink to="/login">{navigationCopy.login}</LocalizedLink>
+              <Link to="/admin/login">{navigationCopy.login}</Link>
             </Button>
           </div>
 

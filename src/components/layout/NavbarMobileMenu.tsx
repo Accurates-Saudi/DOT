@@ -1,7 +1,7 @@
 import { ArrowRight, X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "react";
-import { NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 
 import { EditableImage } from "@/components/editable";
 import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
@@ -180,9 +180,9 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
                 className="h-11 w-full rounded-full text-sm font-medium"
                 asChild
               >
-                <LocalizedLink to="/login" onClick={() => setOpen(false)}>
+                <Link to="/admin/login" onClick={() => setOpen(false)}>
                   {navigationCopy.login}
-                </LocalizedLink>
+                </Link>
               </Button>
             </div>
           </div>

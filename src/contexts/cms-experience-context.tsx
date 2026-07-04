@@ -15,6 +15,7 @@ interface CmsExperienceContextValue {
   session: CMSAuthSession | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  canEditWebsite: boolean;
   isEditMode: boolean;
   contentOverrides: Record<string, unknown>;
   getContentOverride: <T>(key: string) => T | null;
@@ -34,12 +35,13 @@ export function CmsExperienceProvider({
   contentOverrides?: Record<string, unknown>;
 }) {
   const isAdmin = session?.user.role === "admin";
+  const canEditWebsite = Boolean(session);
   const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    if (!isAdmin) {
+    if (!canEditWebsite) {
       window.localStorage.removeItem(CMS_EDIT_MODE_STORAGE_KEY);
       setIsEditMode(false);
       return;
@@ -47,25 +49,26 @@ export function CmsExperienceProvider({
 
     const stored = window.localStorage.getItem(CMS_EDIT_MODE_STORAGE_KEY);
     setIsEditMode(stored === "true");
-  }, [isAdmin]);
+  }, [canEditWebsite]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
 
-    if (isAdmin && isEditMode) {
+    if (canEditWebsite && isEditMode) {
       document.documentElement.dataset.cmsEditMode = "true";
       return;
     }
 
     delete document.documentElement.dataset.cmsEditMode;
-  }, [isAdmin, isEditMode]);
+  }, [canEditWebsite, isEditMode]);
 
   const value = useMemo<CmsExperienceContextValue>(
     () => ({
       session,
       isAuthenticated: Boolean(session),
       isAdmin,
-      isEditMode: isAdmin && isEditMode,
+      canEditWebsite,
+      isEditMode: canEditWebsite && isEditMode,
       contentOverrides,
       getContentOverride: <T,>(key: string) =>
         (contentOverrides[key] as T | undefined) ?? null,
@@ -85,7 +88,7 @@ export function CmsExperienceProvider({
         });
       },
     }),
-    [contentOverrides, isAdmin, isEditMode, session],
+    [canEditWebsite, contentOverrides, isAdmin, isEditMode, session],
   );
 
   return (

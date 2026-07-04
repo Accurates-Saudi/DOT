@@ -40,7 +40,13 @@ export function useNavigationCopy() {
 
 export function useFooterContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildFooter(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildFooter>>(`footer.${locale}`) ??
+      buildFooter(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useHomePageContent() {
@@ -56,7 +62,13 @@ export function useHomePageContent() {
 
 export function useAboutPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildAboutContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildAboutContent>>(`about.${locale}`) ??
+      buildAboutContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useProductsPageContent() {

@@ -28,7 +28,7 @@ export function Navbar() {
   const navigationCopy = useNavigationCopy();
   const footerContent = useFooterContent();
   const direction = useDirection();
-  const { isAuthenticated, isAdmin, isEditMode, toggleEditMode } =
+  const { isAuthenticated, canEditWebsite, isEditMode, toggleEditMode } =
     useCmsExperience();
   const isHome = /\/(en|ar)\/?$/.test(location.pathname);
   const isScrolled = useScrollThreshold({
@@ -191,7 +191,7 @@ export function Navbar() {
 
             {isAuthenticated ? (
               <>
-                {isAdmin ? (
+                {canEditWebsite ? (
                   <CmsEditModeToggle
                     isActive={isEditMode}
                     onToggle={toggleEditMode}

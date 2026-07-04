@@ -1,6 +1,5 @@
 import { ProductDetailBreadcrumb } from "@/components/products/ProductDetailBreadcrumb";
 import { Container, Section } from "@/components/shared";
-import { EditableText } from "@/components/editable";
 import { useMainNavigation } from "@/i18n/content/hooks";
 import { useNumberFormat } from "@/i18n/hooks";
 import type { NewsArticleDetail } from "@/types";
@@ -52,15 +51,11 @@ export function NewsDetailView({ article }: NewsDetailViewProps) {
             </time>
 
             <h1 className="mt-3 text-[1.625rem] font-bold leading-[1.2] tracking-tight text-[#0c1524] sm:text-[1.875rem] lg:text-[2.125rem]">
-              <EditableText contentId={`news.article.${article.slug}.title`}>
-                {article.title}
-              </EditableText>
+              {article.title}
             </h1>
 
             <p className="mt-4 border-l-2 border-[#F68E05] pl-4 text-[0.9375rem] leading-relaxed text-[#0c1524]/72 sm:text-base">
-              <EditableText contentId={`news.article.${article.slug}.excerpt`}>
-                {article.excerpt}
-              </EditableText>
+              {article.excerpt}
             </p>
           </header>
 

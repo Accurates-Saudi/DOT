@@ -32,7 +32,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   const footerContent = useFooterContent();
   const direction = useDirection();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { isAuthenticated, isAdmin, isEditMode, toggleEditMode } =
+  const { isAuthenticated, canEditWebsite, isEditMode, toggleEditMode } =
     useCmsExperience();
 
   useEffect(() => {
@@ -169,7 +169,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
 
               {isAuthenticated ? (
                 <>
-                  {isAdmin ? (
+                  {canEditWebsite ? (
                     <CmsEditModeToggle
                       isActive={isEditMode}
                       onToggle={toggleEditMode}

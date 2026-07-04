@@ -52,13 +52,16 @@ export async function loader({ request }: Route.LoaderArgs) {
     const { getPublicContentPayloadByKey } = await import(
       "@/server/cms/content/service.server"
     );
-    const keys = [`home.${locale}`, `contact.${locale}`];
+    const keys = [
+      `home.${locale}`,
+      `contact.${locale}`,
+      `about.${locale}`,
+      `footer.${locale}`,
+    ];
     const entries = await Promise.all(
       keys.map(async (key) => [
         key,
-        await getPublicContentPayloadByKey(key, {
-          includeDraft: Boolean(cmsSession?.user.role === "admin"),
-        }),
+        await getPublicContentPayloadByKey(key),
       ]),
     );
 

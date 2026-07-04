@@ -55,6 +55,15 @@ export function HomePage() {
       </CmsEditableSection>
 
       <CmsEditableSection
+        sectionId="company-statistics"
+        title="Company Statistics"
+        isSelected={editor.selectedSectionId === "company-statistics"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <CompanyStatisticsSection content={editor.page.companyStatistics} />
+      </CmsEditableSection>
+
+      <CmsEditableSection
         sectionId="services"
         title="Services"
         isSelected={editor.selectedSectionId === "services"}
@@ -63,9 +72,14 @@ export function HomePage() {
         <ServicesSection content={editor.page.services} />
       </CmsEditableSection>
 
-      <CompanyStatisticsSection content={editor.page.companyStatistics} />
-
-      <WhyChooseUsSection content={editor.page.whyChooseUs} />
+      <CmsEditableSection
+        sectionId="why-choose-us"
+        title="Why Choose Us"
+        isSelected={editor.selectedSectionId === "why-choose-us"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <WhyChooseUsSection content={editor.page.whyChooseUs} />
+      </CmsEditableSection>
 
       <CmsEditableSection
         sectionId="engineering"
@@ -94,7 +108,14 @@ export function HomePage() {
         <CertificatesSection content={editor.page.certificates} />
       </CmsEditableSection>
 
-      <NewsSection content={editor.page.news} />
+      <CmsEditableSection
+        sectionId="news"
+        title="News Section"
+        isSelected={editor.selectedSectionId === "news"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <NewsSection content={editor.page.news} />
+      </CmsEditableSection>
 
       <TrustedPartnersSection content={editor.page.trustedPartners} />
     </>

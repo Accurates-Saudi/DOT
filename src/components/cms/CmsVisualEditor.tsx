@@ -205,24 +205,75 @@ export function useCmsVisualPageEditor<TPage>({
   contentType: CMSContentType;
   sections: CmsVisualSectionDefinition<TPage>[];
 }) {
-  const { isAdmin, isEditMode } = useCmsExperience();
+  const { canEditWebsite, isEditMode, session } = useCmsExperience();
+  const [publishedPage, setPublishedPage] = useState<TPage>(() =>
+    cloneValue(initialContent),
+  );
   const [page, setPage] = useState<TPage>(() => cloneValue(initialContent));
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
   const [status, setStatus] = useState<{
-    state: "idle" | "saving" | "publishing" | "saved" | "error";
+    state: "idle" | "loading-draft" | "saving" | "publishing" | "saved" | "error";
     message?: string;
   }>({ state: "idle" });
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const nextPublished = cloneValue(initialContent);
+    setPublishedPage(nextPublished);
     setPage(cloneValue(initialContent));
   }, [contentKey, initialContent]);
 
   useEffect(() => {
     if (!isEditMode) {
       setSelectedSectionId(null);
+      setPage(cloneValue(publishedPage));
+      setStatus({ state: "idle" });
     }
-  }, [isEditMode]);
+  }, [isEditMode, publishedPage]);
+
+  useEffect(() => {
+    const userId = session?.user.id;
+
+    if (!canEditWebsite || !isEditMode || !userId) {
+      return;
+    }
+
+    let cancelled = false;
+
+    async function loadDraftPreview() {
+      try {
+        setStatus({ state: "loading-draft" });
+        const detail = await cmsClient.content.get(contentKey, {
+          cache: { bypass: true },
+        });
+        const ownDraft = detail.versions.find(
+          (version) => !version.isPublished && version.createdBy?.id === userId,
+        );
+
+        if (cancelled) return;
+
+        if (ownDraft?.payload) {
+          setPage(cloneValue(ownDraft.payload as TPage));
+        } else if (detail.publishedVersion?.payload) {
+          setPage(cloneValue(detail.publishedVersion.payload as TPage));
+        } else {
+          setPage(cloneValue(publishedPage));
+        }
+
+        setStatus({ state: "idle" });
+      } catch {
+        if (cancelled) return;
+        setPage(cloneValue(publishedPage));
+        setStatus({ state: "idle" });
+      }
+    }
+
+    void loadDraftPreview();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [canEditWebsite, contentKey, isEditMode, publishedPage, session?.user.id]);
 
   useEffect(() => {
     if (!selectedSectionId) return;
@@ -280,6 +331,10 @@ export function useCmsVisualPageEditor<TPage>({
         state: "saved",
         message: publish ? "Published to the CMS." : "Draft saved to the CMS.",
       });
+
+      if (publish) {
+        setPublishedPage(cloneValue(page));
+      }
     } catch (error) {
       setStatus({
         state: "error",
@@ -293,7 +348,8 @@ export function useCmsVisualPageEditor<TPage>({
 
   return {
     page,
-    isInteractive: isAdmin && isEditMode,
+    publishedPage,
+    isInteractive: canEditWebsite && isEditMode,
     selectedSection,
     selectedSectionId,
     setSelectedSectionId,
@@ -327,9 +383,9 @@ export function CmsEditableSection({
   onSelect: (sectionId: string) => void;
   children: ReactNode;
 }) {
-  const { isAdmin, isEditMode } = useCmsExperience();
+  const { canEditWebsite, isEditMode } = useCmsExperience();
 
-  if (!isAdmin || !isEditMode) {
+  if (!canEditWebsite || !isEditMode) {
     return <>{children}</>;
   }
 

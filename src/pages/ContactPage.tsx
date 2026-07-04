@@ -28,7 +28,14 @@ export function ContactPage() {
   return (
     <>
       <CmsSectionEditorPanel editor={editor} />
-      <ContactHeroSection content={editor.page.hero} />
+      <CmsEditableSection
+        sectionId="contact-hero"
+        title="Contact Hero"
+        isSelected={editor.selectedSectionId === "contact-hero"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <ContactHeroSection content={editor.page.hero} />
+      </CmsEditableSection>
       <CmsEditableSection
         sectionId="contact-main"
         title="Contact Section"
@@ -37,8 +44,22 @@ export function ContactPage() {
       >
         <ContactMainSection content={editor.page.main} />
       </CmsEditableSection>
-      <ContactLocationSection content={editor.page.location} />
-      <ContactEngineeringCtaSection content={editor.page.engineeringCta} />
+      <CmsEditableSection
+        sectionId="contact-location"
+        title="Contact Location"
+        isSelected={editor.selectedSectionId === "contact-location"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <ContactLocationSection content={editor.page.location} />
+      </CmsEditableSection>
+      <CmsEditableSection
+        sectionId="contact-engineering-cta"
+        title="Contact CTA"
+        isSelected={editor.selectedSectionId === "contact-engineering-cta"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <ContactEngineeringCtaSection content={editor.page.engineeringCta} />
+      </CmsEditableSection>
     </>
   );
 }

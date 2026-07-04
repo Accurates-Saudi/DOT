@@ -48,9 +48,6 @@ export interface CMSContentEntryDetail {
 
 export async function getPublicContentPayloadByKey(
   key: string,
-  options?: {
-    includeDraft?: boolean;
-  },
 ): Promise<unknown | null> {
   const prisma = getPrismaClient();
   const entry = await prisma.cmsContentEntry.findUnique({
@@ -65,9 +62,7 @@ export async function getPublicContentPayloadByKey(
     return null;
   }
 
-  const version = options?.includeDraft
-    ? entry.currentVersion ?? entry.publishedVersion
-    : entry.publishedVersion ?? entry.currentVersion;
+  const version = entry.publishedVersion;
 
   return version?.payload ?? null;
 }

@@ -25,6 +25,7 @@ export default [
     route("products", "routes/admin.products.tsx"),
     route("news", "routes/admin.news.tsx"),
     route("certificates", "routes/admin.certificates.tsx"),
+    route("catalogs", "routes/admin.catalogs.tsx"),
     route("media", "routes/admin.media.tsx"),
     route("settings", "routes/admin.settings.tsx"),
     route("users", "routes/admin.users.tsx"),

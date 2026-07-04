@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Award,
+  Boxes,
   Factory,
   LayoutDashboard,
   Images,
@@ -30,6 +31,7 @@ const adminNavItems: AdminNavItem[] = [
   { to: "/admin/products", label: "Products", icon: Package2 },
   { to: "/admin/news", label: "News", icon: Newspaper },
   { to: "/admin/certificates", label: "Certificates", icon: Award },
+  { to: "/admin/catalogs", label: "Catalogs", icon: Boxes },
   { to: "/admin/media", label: "Media Library", icon: Images },
   { to: "/admin/settings", label: "Settings", icon: Settings },
   { to: "/admin/users", label: "Users", icon: Users, roles: ["admin"] },

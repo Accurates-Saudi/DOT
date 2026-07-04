@@ -1,6 +1,5 @@
 import type { Ref } from "react";
 
-import { EditableText } from "@/components/editable";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import { Container } from "@/components/shared/Container";
 import { ParallaxBackgroundImage } from "@/components/shared/ParallaxBackgroundImage";
@@ -77,18 +76,16 @@ export function PageHeroSection({
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
                 <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
-                  <EditableText contentId={`${id}.label`}>{label}</EditableText>
+                  {label}
                 </p>
               </div>
             )}
 
             <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              <EditableText contentId={`${id}.title`}>{title}</EditableText>
+              {title}
             </h1>
             <p className="text-base leading-relaxed text-white/85 md:text-lg">
-              <EditableText contentId={`${id}.introduction`}>
-                {introduction}
-              </EditableText>
+              {introduction}
             </p>
           </div>
         </Container>

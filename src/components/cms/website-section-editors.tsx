@@ -1,4 +1,5 @@
 import type {
+  AboutPageContent,
   CertificatesSectionContent,
   ContactPageContent,
   HomePageContent,
@@ -147,6 +148,61 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
       ),
     },
     {
+      id: "company-statistics",
+      title: "Company Statistics",
+      description:
+        "Update the supporting statistics and background image used in the company metrics section.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelImageFields
+            label="Background image"
+            src={page.companyStatistics.backgroundImage.src}
+            alt={page.companyStatistics.backgroundImage.alt}
+            onSrcChange={(value) =>
+              setValueAtPath(["companyStatistics", "backgroundImage", "src"], value)
+            }
+            onAltChange={(value) =>
+              setValueAtPath(["companyStatistics", "backgroundImage", "alt"], value)
+            }
+          />
+          {page.companyStatistics.items.map((item, index) => (
+            <CmsPanelCard key={item.id} title={`Statistic ${index + 1}`}>
+              <CmsPanelField
+                label="Value"
+                value={String(item.value)}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["companyStatistics", "items", index, "value"],
+                    Number(value) || 0,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="Suffix"
+                value={item.suffix ?? ""}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["companyStatistics", "items", index, "suffix"],
+                    value,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="Label"
+                value={item.label}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["companyStatistics", "items", index, "label"],
+                    value,
+                  )
+                }
+              />
+            </CmsPanelCard>
+          ))}
+        </>
+      ),
+    },
+    {
       id: "services",
       title: "Services",
       description:
@@ -178,6 +234,61 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
             onChange={(value) =>
               setValueAtPath(["services", "ctaPrimary", "href"], value)
             }
+          />
+        </>
+      ),
+    },
+    {
+      id: "why-choose-us",
+      title: "Why Choose Us",
+      description:
+        "Edit the headline, featured copy, mission, and vision content for the trust-building section.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.whyChooseUs.label}
+            onChange={(value) => setValueAtPath(["whyChooseUs", "label"], value)}
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.whyChooseUs.heading}
+            onChange={(value) => setValueAtPath(["whyChooseUs", "heading"], value)}
+          />
+          <CmsPanelTextarea
+            label="Subheading"
+            value={page.whyChooseUs.subheading}
+            onChange={(value) =>
+              setValueAtPath(["whyChooseUs", "subheading"], value)
+            }
+            rows={3}
+          />
+          <CmsPanelImageFields
+            label="Featured image"
+            src={page.whyChooseUs.featuredImage.src}
+            alt={page.whyChooseUs.featuredImage.alt}
+            onSrcChange={(value) =>
+              setValueAtPath(["whyChooseUs", "featuredImage", "src"], value)
+            }
+            onAltChange={(value) =>
+              setValueAtPath(["whyChooseUs", "featuredImage", "alt"], value)
+            }
+          />
+          <CmsPanelTextarea
+            label="Mission body"
+            value={page.whyChooseUs.mission.body}
+            onChange={(value) =>
+              setValueAtPath(["whyChooseUs", "mission", "body"], value)
+            }
+            rows={4}
+          />
+          <CmsPanelTextarea
+            label="Vision body"
+            value={page.whyChooseUs.vision.body}
+            onChange={(value) =>
+              setValueAtPath(["whyChooseUs", "vision", "body"], value)
+            }
+            rows={4}
           />
         </>
       ),
@@ -276,10 +387,55 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
       ),
     },
     {
+      id: "news",
+      title: "News Section",
+      description:
+        "Keep the homepage news framing simple here. Article management belongs in the dashboard.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.news.label}
+            onChange={(value) => setValueAtPath(["news", "label"], value)}
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.news.heading}
+            onChange={(value) => setValueAtPath(["news", "heading"], value)}
+          />
+          <CmsPanelField
+            label="Heading accent"
+            value={page.news.headingAccent}
+            onChange={(value) => setValueAtPath(["news", "headingAccent"], value)}
+          />
+          <CmsPanelTextarea
+            label="Description"
+            value={page.news.description}
+            onChange={(value) => setValueAtPath(["news", "description"], value)}
+            rows={4}
+          />
+          <CmsPanelField
+            label="View all text"
+            value={page.news.viewAll.label}
+            onChange={(value) =>
+              setValueAtPath(["news", "viewAll", "label"], value)
+            }
+          />
+          <CmsPanelField
+            label="View all link"
+            value={page.news.viewAll.href}
+            onChange={(value) =>
+              setValueAtPath(["news", "viewAll", "href"], value)
+            }
+          />
+        </>
+      ),
+    },
+    {
       id: "certificates",
       title: "Certificates",
       description:
-        "Refine the supporting copy for the certificate carousel while leaving the carousel behavior untouched.",
+        "Update only the section framing copy here. Certificate records and images remain dashboard-managed.",
       renderPanel: ({ page, setValueAtPath }) => (
         <>
           <CmsPanelField
@@ -302,26 +458,137 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
             }
             rows={3}
           />
-          {page.certificates.items.map((item, index) => (
+        </>
+      ),
+    },
+  ];
+}
+
+export function createAboutPageSectionEditors(): CmsVisualSectionDefinition<AboutPageContent>[] {
+  return [
+    {
+      id: "about-hero",
+      title: "About Hero",
+      description:
+        "Edit the introductory hero copy for the About page while the live hero remains visible.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Title"
+            value={page.hero.title}
+            onChange={(value) => setValueAtPath(["hero", "title"], value)}
+          />
+          <CmsPanelTextarea
+            label="Introduction"
+            value={page.hero.introduction}
+            onChange={(value) => setValueAtPath(["hero", "introduction"], value)}
+            rows={4}
+          />
+          {page.hero.backgroundImage ? (
             <CmsPanelImageFields
-              key={item.id}
-              label={`Certificate ${index + 1}`}
-              src={item.image.src}
-              alt={item.image.alt}
+              label="Background image"
+              src={page.hero.backgroundImage.src}
+              alt={page.hero.backgroundImage.alt}
               onSrcChange={(value) =>
-                setValueAtPath(
-                  ["certificates", "items", index, "image", "src"],
-                  value,
-                )
+                setValueAtPath(["hero", "backgroundImage", "src"], value)
               }
               onAltChange={(value) =>
-                setValueAtPath(
-                  ["certificates", "items", index, "image", "alt"],
-                  value,
-                )
+                setValueAtPath(["hero", "backgroundImage", "alt"], value)
               }
             />
-          ))}
+          ) : null}
+        </>
+      ),
+    },
+    {
+      id: "company-overview",
+      title: "Who We Are",
+      description:
+        "Maintain the overview narrative, feature copy, and visual framing for the company story section.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.companyOverview.label}
+            onChange={(value) => setValueAtPath(["companyOverview", "label"], value)}
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.companyOverview.heading}
+            onChange={(value) =>
+              setValueAtPath(["companyOverview", "heading"], value)
+            }
+          />
+          <CmsPanelStringList
+            label="Body paragraph"
+            values={page.companyOverview.body}
+            onChange={(values) =>
+              setValueAtPath(["companyOverview", "body"], values)
+            }
+          />
+          <CmsPanelImageFields
+            label="Overview image"
+            src={page.companyOverview.image.src}
+            alt={page.companyOverview.image.alt}
+            onSrcChange={(value) =>
+              setValueAtPath(["companyOverview", "image", "src"], value)
+            }
+            onAltChange={(value) =>
+              setValueAtPath(["companyOverview", "image", "alt"], value)
+            }
+          />
+        </>
+      ),
+    },
+    {
+      id: "engineering-manufacturing",
+      title: "Engineering & Manufacturing",
+      description:
+        "Update the supporting section copy and CTA messaging for the capabilities page section.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.engineeringManufacturing.label}
+            onChange={(value) =>
+              setValueAtPath(["engineeringManufacturing", "label"], value)
+            }
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.engineeringManufacturing.heading}
+            onChange={(value) =>
+              setValueAtPath(["engineeringManufacturing", "heading"], value)
+            }
+          />
+          <CmsPanelTextarea
+            label="Subheading"
+            value={page.engineeringManufacturing.subheading}
+            onChange={(value) =>
+              setValueAtPath(["engineeringManufacturing", "subheading"], value)
+            }
+            rows={4}
+          />
+          <CmsPanelField
+            label="Primary CTA text"
+            value={page.engineeringManufacturing.cta.ctaPrimary.label}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "ctaPrimary", "label"],
+                value,
+              )
+            }
+          />
+          <CmsPanelField
+            label="Primary CTA link"
+            value={page.engineeringManufacturing.cta.ctaPrimary.href}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "ctaPrimary", "href"],
+                value,
+              )
+            }
+          />
         </>
       ),
     },
@@ -330,6 +597,32 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
 
 export function createContactPageSectionEditors(): CmsVisualSectionDefinition<ContactPageContent>[] {
   return [
+    {
+      id: "contact-hero",
+      title: "Contact Hero",
+      description:
+        "Edit the hero heading and introduction for the Contact page from the side panel.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.hero.label}
+            onChange={(value) => setValueAtPath(["hero", "label"], value)}
+          />
+          <CmsPanelField
+            label="Title"
+            value={page.hero.title}
+            onChange={(value) => setValueAtPath(["hero", "title"], value)}
+          />
+          <CmsPanelTextarea
+            label="Introduction"
+            value={page.hero.introduction}
+            onChange={(value) => setValueAtPath(["hero", "introduction"], value)}
+            rows={4}
+          />
+        </>
+      ),
+    },
     {
       id: "contact-main",
       title: "Contact Section",
@@ -405,6 +698,69 @@ export function createContactPageSectionEditors(): CmsVisualSectionDefinition<Co
               }
             />
           </CmsPanelCard>
+        </>
+      ),
+    },
+    {
+      id: "contact-location",
+      title: "Contact Location",
+      description:
+        "Maintain the location section heading, address, and supporting map labels here.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.location.label}
+            onChange={(value) => setValueAtPath(["location", "label"], value)}
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.location.heading}
+            onChange={(value) => setValueAtPath(["location", "heading"], value)}
+          />
+          <CmsPanelTextarea
+            label="Address"
+            value={page.location.address}
+            onChange={(value) => setValueAtPath(["location", "address"], value)}
+            rows={3}
+          />
+        </>
+      ),
+    },
+    {
+      id: "contact-engineering-cta",
+      title: "Contact CTA",
+      description:
+        "Edit the closing contact call to action from the dashboard-style properties panel.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Heading"
+            value={page.engineeringCta.heading}
+            onChange={(value) =>
+              setValueAtPath(["engineeringCta", "heading"], value)
+            }
+          />
+          <CmsPanelTextarea
+            label="Body"
+            value={page.engineeringCta.body}
+            onChange={(value) => setValueAtPath(["engineeringCta", "body"], value)}
+            rows={3}
+          />
+          <CmsPanelField
+            label="Button text"
+            value={page.engineeringCta.ctaPrimary.label}
+            onChange={(value) =>
+              setValueAtPath(["engineeringCta", "ctaPrimary", "label"], value)
+            }
+          />
+          <CmsPanelField
+            label="Button link"
+            value={page.engineeringCta.ctaPrimary.href}
+            onChange={(value) =>
+              setValueAtPath(["engineeringCta", "ctaPrimary", "href"], value)
+            }
+          />
         </>
       ),
     },

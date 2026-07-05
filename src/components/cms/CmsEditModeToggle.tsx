@@ -28,8 +28,8 @@ export function CmsEditModeToggle({
         "inline-flex items-center gap-2 rounded-full border transition-[background-color,border-color,color,box-shadow] duration-300",
         "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color:rgba(246,142,5,0.18)]",
         compact
-          ? "h-9 px-3 text-[0.8125rem] font-medium"
-          : "h-9 px-3.5 text-sm font-medium",
+          ? "h-9 shrink-0 px-3 text-[0.8125rem] font-medium"
+          : "h-9 shrink-0 px-3.5 text-sm font-medium",
         isActive
           ? "border-[var(--dot-orange)] bg-[var(--dot-orange)] text-white shadow-[0_10px_30px_-18px_rgba(246,142,5,0.75)]"
           : isDark

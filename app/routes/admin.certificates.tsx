@@ -25,13 +25,12 @@ export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const intent = String(formData.get("intent") ?? "");
   if (intent === "reorder") {
-    const url = new URL(request.url);
     await saveCollectionOrder({
       orderKey: CMS_COLLECTION_ORDER_KEYS.certificate,
       orderedKeys: JSON.parse(String(formData.get("orderedKeys") ?? "[]")) as string[],
       actorId: session.user.id,
     });
-    return redirect(`${url.pathname}${url.search}`);
+    return { ok: true };
   }
   const key = String(formData.get("key") ?? "");
   if (intent === "duplicate" && key) {

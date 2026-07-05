@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GripVertical, X } from "lucide-react";
-import { Form } from "react-router";
+import { useFetcher } from "react-router";
 
 import type { AdminCollectionRowMeta } from "@/utils/cms-entities";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,10 @@ interface AdminCollectionArrangeDialogProps {
   title: string;
   collectionPath: string;
   rows: AdminCollectionRowMeta[];
+}
+
+interface ReorderActionData {
+  ok?: boolean;
 }
 
 function reorderRows(
@@ -41,27 +45,37 @@ export function AdminCollectionArrangeDialog({
   collectionPath,
   rows,
 }: AdminCollectionArrangeDialogProps) {
+  const fetcher = useFetcher<ReorderActionData>();
+  const savedRef = useRef(false);
   const [arrangeRows, setArrangeRows] = useState(rows);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null);
+  const isSaving = fetcher.state !== "idle";
 
   useEffect(() => {
     if (!open) return;
     setArrangeRows(rows);
     setDraggingIndex(null);
     setDropTargetIndex(null);
+    savedRef.current = false;
   }, [open, rows]);
+
+  useEffect(() => {
+    if (!open || !savedRef.current || fetcher.state !== "idle") return;
+    savedRef.current = false;
+    if (fetcher.data?.ok) onClose();
+  }, [fetcher.data, fetcher.state, onClose, open]);
 
   useEffect(() => {
     if (!open) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape" && !isSaving) onClose();
     }
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
+  }, [isSaving, onClose, open]);
 
   function handleDrop(targetIndex: number) {
     if (draggingIndex === null) return;
@@ -69,6 +83,17 @@ export function AdminCollectionArrangeDialog({
     setArrangeRows((current) => reorderRows(current, draggingIndex, targetIndex));
     setDraggingIndex(null);
     setDropTargetIndex(null);
+  }
+
+  function handleSave() {
+    savedRef.current = true;
+    void fetcher.submit(
+      {
+        intent: "reorder",
+        orderedKeys: JSON.stringify(arrangeRows.map((row) => row.key)),
+      },
+      { method: "post", action: collectionPath },
+    );
   }
 
   if (!open) return null;
@@ -80,6 +105,7 @@ export function AdminCollectionArrangeDialog({
         aria-label="Close arrange dialog"
         className="absolute inset-0 bg-[#111]/40"
         onClick={onClose}
+        disabled={isSaving}
       />
       <div
         role="dialog"
@@ -98,8 +124,9 @@ export function AdminCollectionArrangeDialog({
           </div>
           <button
             type="button"
-            className="rounded-md border border-[#e5e5e5] p-2 text-[#666] hover:border-[#d4d4d4]"
+            className="rounded-md border border-[#e5e5e5] p-2 text-[#666] hover:border-[#d4d4d4] disabled:opacity-50"
             onClick={onClose}
+            disabled={isSaving}
             aria-label="Close"
           >
             <X className="size-4" />
@@ -111,7 +138,7 @@ export function AdminCollectionArrangeDialog({
             {arrangeRows.map((row, index) => (
               <li
                 key={row.key}
-                draggable
+                draggable={!isSaving}
                 onDragStart={() => {
                   setDraggingIndex(index);
                   setDropTargetIndex(index);
@@ -130,6 +157,7 @@ export function AdminCollectionArrangeDialog({
                 }}
                 className={cn(
                   "flex cursor-grab items-center gap-3 rounded-md border bg-[#fafafa] px-3 py-3 transition active:cursor-grabbing",
+                  isSaving && "pointer-events-none opacity-60",
                   draggingIndex === index
                     ? "border-[var(--dot-orange)] opacity-50"
                     : dropTargetIndex === index && draggingIndex !== null
@@ -166,31 +194,24 @@ export function AdminCollectionArrangeDialog({
           </ol>
         </div>
 
-        <Form
-          method="post"
-          action={collectionPath}
-          className="flex justify-end gap-2 border-t border-[#e5e5e5] px-5 py-4"
-        >
-          <input type="hidden" name="intent" value="reorder" />
-          <input
-            type="hidden"
-            name="orderedKeys"
-            value={JSON.stringify(arrangeRows.map((row) => row.key))}
-          />
+        <div className="flex justify-end gap-2 border-t border-[#e5e5e5] px-5 py-4">
           <button
             type="button"
-            className="rounded-md border border-[#e5e5e5] px-4 py-2 text-sm text-[#333] hover:border-[#d4d4d4]"
+            className="rounded-md border border-[#e5e5e5] px-4 py-2 text-sm text-[#333] hover:border-[#d4d4d4] disabled:opacity-50"
             onClick={onClose}
+            disabled={isSaving}
           >
             Cancel
           </button>
           <button
-            type="submit"
-            className="rounded-md bg-[var(--dot-orange)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+            type="button"
+            className="rounded-md bg-[var(--dot-orange)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
+            onClick={handleSave}
+            disabled={isSaving}
           >
-            Save Order
+            {isSaving ? "Saving..." : "Save Order"}
           </button>
-        </Form>
+        </div>
       </div>
     </div>
   );

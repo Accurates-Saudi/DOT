@@ -122,7 +122,7 @@ export function useCmsVisualPageEditor<TPage>({
     () => cloneValue(getInitialContent(editingLocale)),
     [editingLocale, getInitialContent],
   );
-  const [publishedPage, setPublishedPage] = useState<TPage>(() =>
+  const [defaultPage, setDefaultPage] = useState<TPage>(() =>
     cloneValue(baselineContent),
   );
   const [page, setPage] = useState<TPage>(() => cloneValue(baselineContent));
@@ -139,7 +139,7 @@ export function useCmsVisualPageEditor<TPage>({
 
   useEffect(() => {
     const nextBaseline = cloneValue(baselineContent);
-    setPublishedPage(nextBaseline);
+    setDefaultPage(nextBaseline);
     setPage(cloneValue(nextBaseline));
     setStatus({ state: "idle" });
   }, [baselineContent, contentKey]);
@@ -147,10 +147,10 @@ export function useCmsVisualPageEditor<TPage>({
   useEffect(() => {
     if (!isEditMode) {
       setSelectedSectionId(null);
-      setPage(cloneValue(publishedPage));
+      setPage(cloneValue(defaultPage));
       setStatus({ state: "idle" });
     }
-  }, [isEditMode, publishedPage]);
+  }, [isEditMode, defaultPage]);
 
   useEffect(() => {
     const userId = session?.user.id;
@@ -177,9 +177,9 @@ export function useCmsVisualPageEditor<TPage>({
         if (cancelled) return;
 
         if (publishedPayload) {
-          setPublishedPage(cloneValue(publishedPayload));
+          setDefaultPage(cloneValue(publishedPayload));
         } else {
-          setPublishedPage(cloneValue(baselineContent));
+          setDefaultPage(cloneValue(baselineContent));
         }
 
         if (ownDraft?.payload) {
@@ -193,7 +193,7 @@ export function useCmsVisualPageEditor<TPage>({
         setStatus({ state: "idle" });
       } catch {
         if (cancelled) return;
-        setPublishedPage(cloneValue(baselineContent));
+        setDefaultPage(cloneValue(baselineContent));
         setPage(cloneValue(baselineContent));
         setStatus({ state: "idle" });
       }
@@ -267,12 +267,12 @@ export function useCmsVisualPageEditor<TPage>({
       setStatus({
         state: "saved",
         message: publish
-          ? `Published ${editingLocale.toUpperCase()} content.`
+          ? `Set ${editingLocale.toUpperCase()} content as the site default.`
           : `Draft saved for ${editingLocale.toUpperCase()}.`,
       });
 
       if (publish) {
-        setPublishedPage(cloneValue(page));
+        setDefaultPage(cloneValue(page));
       }
     } catch (error) {
       setStatus({
@@ -285,7 +285,7 @@ export function useCmsVisualPageEditor<TPage>({
     }
   }
 
-  const revertSectionToPublished = useCallback(() => {
+  const useDefault = useCallback(() => {
     if (!selectedSection?.restoreFromPublished) {
       setStatus({
         state: "error",
@@ -295,17 +295,17 @@ export function useCmsVisualPageEditor<TPage>({
     }
 
     setPage((current) =>
-      selectedSection.restoreFromPublished!(cloneValue(current), publishedPage),
+      selectedSection.restoreFromPublished!(cloneValue(current), defaultPage),
     );
     setStatus({
       state: "saved",
-      message: "Restored this section from the published version.",
+      message: "Restored this section to the default version.",
     });
-  }, [publishedPage, selectedSection]);
+  }, [defaultPage, selectedSection]);
 
   return {
     page,
-    publishedPage,
+    defaultPage,
     editingLocale,
     setEditingLocale,
     contentKey,
@@ -325,7 +325,8 @@ export function useCmsVisualPageEditor<TPage>({
       setPage((current) => setValueAtPath(cloneValue(current), path, value));
       setStatus({ state: "idle" });
     },
-    revertSectionToPublished,
+    useDefault,
+    setAsDefault: () => persist(true),
     saveDraft: () => persist(false),
     publish: () => persist(true),
   };
@@ -463,20 +464,22 @@ export function CmsSectionEditorPanel<TPage>({
           </p>
         ) : null}
         {canRevert ? (
-          <Button
-            type="button"
-            variant="ghost"
-            className="mb-3 h-10 w-full justify-center rounded-2xl text-[#0c1524]/68 hover:text-[#0c1524]"
-            onClick={editor.revertSectionToPublished}
-            disabled={
-              editor.status.state === "saving" ||
-              editor.status.state === "publishing" ||
-              editor.status.state === "loading-draft"
-            }
-          >
-            <RotateCcw className="mr-2 size-4" />
-            Use Published Version
-          </Button>
+          <div className="mb-3 flex gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-10 flex-1 justify-center rounded-2xl text-[#0c1524]/68 hover:text-[#0c1524]"
+              onClick={editor.useDefault}
+              disabled={
+                editor.status.state === "saving" ||
+                editor.status.state === "publishing" ||
+                editor.status.state === "loading-draft"
+              }
+            >
+              <RotateCcw className="mr-2 size-4" />
+              Use Default
+            </Button>
+          </div>
         ) : null}
         <div className="flex gap-3">
           <Button
@@ -496,14 +499,16 @@ export function CmsSectionEditorPanel<TPage>({
             type="button"
             variant="accent"
             className="h-11 flex-1 rounded-2xl"
-            onClick={editor.publish}
+            onClick={editor.setAsDefault}
             disabled={
               editor.status.state === "saving" ||
               editor.status.state === "publishing" ||
               editor.status.state === "loading-draft"
             }
           >
-            {editor.status.state === "publishing" ? "Publishing..." : "Publish"}
+            {editor.status.state === "publishing"
+              ? "Setting..."
+              : "Set as Default"}
           </Button>
         </div>
       </footer>

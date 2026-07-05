@@ -123,9 +123,47 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
       id: "about",
       title: "Who We Are",
       description:
-        "Update the positioning copy, supporting narrative, and primary CTA for the company introduction section.",
+        "Edit the services banner card, both images, video area, body copy, and calls to action.",
       renderPanel: ({ page, setValueAtPath }) => (
         <>
+          {page.about.servicesBanner ? (
+            <CmsPanelCard title="Services banner card">
+              <CmsPanelField
+                label="Banner title"
+                value={page.about.servicesBanner.title}
+                onChange={(value) =>
+                  setValueAtPath(["about", "servicesBanner", "title"], value)
+                }
+              />
+              {page.about.servicesBanner.items.map((item, index) => (
+                <CmsPanelField
+                  key={`about-service-${index}`}
+                  label={`Service label ${index + 1}`}
+                  value={item.label}
+                  onChange={(value) =>
+                    setValueAtPath(
+                      ["about", "servicesBanner", "items", index, "label"],
+                      value,
+                    )
+                  }
+                />
+              ))}
+              {page.about.servicesBanner.thumbnail ? (
+                <CmsPanelImageField
+                  label="Banner thumbnail image"
+                  image={page.about.servicesBanner.thumbnail}
+                  mediaKey="home.about.services-banner.thumbnail"
+                  onImageChange={(next) =>
+                    setValueAtPath(
+                      ["about", "servicesBanner", "thumbnail"],
+                      next,
+                    )
+                  }
+                />
+              ) : null}
+            </CmsPanelCard>
+          ) : null}
+
           <CmsPanelField
             label="Section label"
             value={page.about.label}
@@ -160,15 +198,51 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
               setValueAtPath(["about", "ctaPrimary", "href"], value)
             }
           />
-          {page.about.media.image ? (
-            <CmsPanelImageField
-              label="Section image"
-              image={page.about.media.image}
-              mediaKey="home.about.media.image"
-              onImageChange={(next) =>
-                setValueAtPath(["about", "media", "image"], next)
+
+          <CmsPanelCard title="Video area">
+            {page.about.media.image ? (
+              <CmsPanelImageField
+                label="Video fallback image"
+                image={page.about.media.image}
+                mediaKey="home.about.media.image"
+                onImageChange={(next) =>
+                  setValueAtPath(["about", "media", "image"], next)
+                }
+              />
+            ) : null}
+            <CmsPanelField
+              label="YouTube video ID"
+              value={page.about.media.videoId ?? ""}
+              onChange={(value) =>
+                setValueAtPath(["about", "media", "videoId"], value)
               }
             />
+            <CmsPanelField
+              label="YouTube video URL"
+              value={page.about.media.videoUrl ?? ""}
+              onChange={(value) =>
+                setValueAtPath(["about", "media", "videoUrl"], value)
+              }
+            />
+          </CmsPanelCard>
+
+          {page.about.ctaVideo ? (
+            <CmsPanelCard title="Video CTA">
+              <CmsPanelField
+                label="Video CTA text"
+                value={page.about.ctaVideo.label}
+                onChange={(value) =>
+                  setValueAtPath(["about", "ctaVideo", "label"], value)
+                }
+              />
+              <CmsPanelField
+                label="Video CTA link"
+                value={page.about.ctaVideo.href}
+                onChange={(value) =>
+                  setValueAtPath(["about", "ctaVideo", "href"], value)
+                }
+              />
+            </CmsPanelCard>
           ) : null}
         </>
       ),
@@ -407,6 +481,26 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
               setValueAtPath(["whyChooseUs", "tagline"], value)
             }
           />
+          {page.whyChooseUs.mission.backgroundImage ? (
+            <CmsPanelImageField
+              label="Mission background image"
+              image={page.whyChooseUs.mission.backgroundImage}
+              mediaKey="home.why-choose-us.mission.background"
+              onImageChange={(next) =>
+                setValueAtPath(["whyChooseUs", "mission", "backgroundImage"], next)
+              }
+            />
+          ) : null}
+          {page.whyChooseUs.vision.backgroundImage ? (
+            <CmsPanelImageField
+              label="Vision background image"
+              image={page.whyChooseUs.vision.backgroundImage}
+              mediaKey="home.why-choose-us.vision.background"
+              onImageChange={(next) =>
+                setValueAtPath(["whyChooseUs", "vision", "backgroundImage"], next)
+              }
+            />
+          ) : null}
         </>
       ),
     },
@@ -872,6 +966,47 @@ export function createAboutPageSectionEditors(): CmsVisualSectionDefinition<Abou
             onChange={(value) =>
               setValueAtPath(
                 ["engineeringManufacturing", "cta", "ctaPrimary", "href"],
+                value,
+              )
+            }
+          />
+          <CmsPanelField
+            label="CTA heading"
+            value={page.engineeringManufacturing.cta.heading}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "heading"],
+                value,
+              )
+            }
+          />
+          <CmsPanelTextarea
+            label="CTA body"
+            value={page.engineeringManufacturing.cta.body}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "body"],
+                value,
+              )
+            }
+            rows={3}
+          />
+          <CmsPanelField
+            label="Secondary CTA text"
+            value={page.engineeringManufacturing.cta.ctaSecondary.label}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "ctaSecondary", "label"],
+                value,
+              )
+            }
+          />
+          <CmsPanelField
+            label="Secondary CTA link"
+            value={page.engineeringManufacturing.cta.ctaSecondary.href}
+            onChange={(value) =>
+              setValueAtPath(
+                ["engineeringManufacturing", "cta", "ctaSecondary", "href"],
                 value,
               )
             }

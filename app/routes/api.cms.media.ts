@@ -1,7 +1,7 @@
 import type { Route } from "./+types/api.cms.media";
 
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
-import { createMediaAsset, listMediaAssets } from "@/server/cms/media/service.server";
+import { uploadMediaAsset, listMediaAssets } from "@/server/cms/media/service.server";
 import {
   assertMethod,
   jsonResponse,
@@ -35,10 +35,13 @@ export async function action({ request }: Route.ActionArgs) {
     assertImageUpload(upload.mimeType);
     const key = String(formData.get("key") ?? "").trim();
 
-    const data = await createMediaAsset({
+    const mediaId = String(formData.get("mediaId") ?? "").trim();
+
+    const data = await uploadMediaAsset({
       key,
       actorId: session.user.id,
       ...upload,
+      ...(mediaId ? { mediaId } : {}),
       ...(toOptionalNumber(formData.get("width"))
         ? { width: toOptionalNumber(formData.get("width")) }
         : {}),

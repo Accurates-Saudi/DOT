@@ -77,18 +77,13 @@ export function CmsPanelImageField({
 
       const [dimensions, media] = await Promise.all([
         readImageDimensions(file),
-        image.mediaId
-          ? cmsClient.media.replace(image.mediaId, {
-              file,
-              fileName: file.name,
-              alt,
-            })
-          : cmsClient.media.upload({
-              key: mediaKey,
-              file,
-              fileName: file.name,
-              alt,
-            }),
+        cmsClient.media.upload({
+          key: mediaKey,
+          file,
+          fileName: file.name,
+          alt,
+          ...(image.mediaId ? { mediaId: image.mediaId } : {}),
+        }),
       ]);
 
       const uploadedVersion = media.currentVersion;

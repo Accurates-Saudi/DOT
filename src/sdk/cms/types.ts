@@ -110,6 +110,7 @@ export interface CmsMediaMutationInput {
 
 export interface CmsMediaUploadInput extends CmsMediaMutationInput {
   key: string;
+  mediaId?: string;
 }
 
 export interface CmsAuthApi {

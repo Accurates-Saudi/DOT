@@ -49,6 +49,10 @@ function toMediaFormData(
     formData.set("key", input.key);
   }
 
+  if ("mediaId" in input && input.mediaId) {
+    formData.set("mediaId", input.mediaId);
+  }
+
   appendOptionalText(formData, "width", input.width);
   appendOptionalText(formData, "height", input.height);
   appendOptionalText(formData, "altEn", input.alt?.en);

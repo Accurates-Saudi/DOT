@@ -123,6 +123,53 @@ export async function createMediaAsset(input: {
   });
 }
 
+export async function uploadMediaAsset(input: {
+  key: string;
+  actorId: string;
+  fileName: string;
+  mimeType: string;
+  bytes: Uint8Array;
+  width?: number;
+  height?: number;
+  alt?: CMSLocalizedValue<string>;
+  mediaId?: string;
+}): Promise<MediaLibraryItem> {
+  const prisma = getPrismaClient();
+
+  if (input.mediaId) {
+    return replaceMediaAsset({
+      id: input.mediaId,
+      actorId: input.actorId,
+      fileName: input.fileName,
+      mimeType: input.mimeType,
+      bytes: input.bytes,
+      ...(input.width ? { width: input.width } : {}),
+      ...(input.height ? { height: input.height } : {}),
+      ...(input.alt ? { alt: input.alt } : {}),
+    });
+  }
+
+  const existing = await prisma.cmsMediaAsset.findUnique({
+    where: { key: input.key },
+    select: { id: true },
+  });
+
+  if (existing) {
+    return replaceMediaAsset({
+      id: existing.id,
+      actorId: input.actorId,
+      fileName: input.fileName,
+      mimeType: input.mimeType,
+      bytes: input.bytes,
+      ...(input.width ? { width: input.width } : {}),
+      ...(input.height ? { height: input.height } : {}),
+      ...(input.alt ? { alt: input.alt } : {}),
+    });
+  }
+
+  return createMediaAsset(input);
+}
+
 export async function replaceMediaAsset(input: {
   id: string;
   actorId: string;

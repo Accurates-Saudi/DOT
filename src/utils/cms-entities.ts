@@ -139,7 +139,7 @@ export function extractCertificateRowMeta(
   locale: Locale,
 ): AdminCollectionRowMeta {
   const payload = record.currentVersion?.payload as CmsCertificatePayload | undefined;
-  const item = getLocalizedPayload<{ title?: string; image?: { src?: string } }>(
+  const item = getLocalizedPayload<{ title?: string; image?: { src?: string; alt?: string } }>(
     payload,
     locale,
   );
@@ -147,7 +147,7 @@ export function extractCertificateRowMeta(
   return {
     key: record.key,
     cmsKey: record.key,
-    title: item?.title ?? record.key,
+    title: item?.title ?? item?.image?.alt ?? record.key,
     thumbnail: item?.image?.src,
     status: record.status,
     updatedAt: record.updatedAt,
@@ -160,7 +160,7 @@ export function extractCatalogRowMeta(
   locale: Locale,
 ): AdminCollectionRowMeta {
   const payload = record.currentVersion?.payload as CmsCatalogPayload | undefined;
-  const item = getLocalizedPayload<{ title?: string; cover?: { src?: string }; category?: string }>(
+  const item = getLocalizedPayload<{ title?: string; description?: string; cover?: { src?: string } }>(
     payload,
     locale,
   );
@@ -169,7 +169,7 @@ export function extractCatalogRowMeta(
     key: record.key,
     cmsKey: record.key,
     title: item?.title ?? record.key,
-    subtitle: item?.category,
+    subtitle: item?.description,
     thumbnail: item?.cover?.src,
     status: record.status,
     updatedAt: record.updatedAt,

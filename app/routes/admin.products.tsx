@@ -4,7 +4,7 @@ import type { Route } from "./+types/admin.products";
 import { AdminCollectionListPage } from "@/pages/admin/AdminCollectionListPage";
 import { defaultLocale } from "@/i18n/config";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
-import { archiveContentEntry } from "@/server/cms/content/service.server";
+import { processCollectionArchiveAction, processCollectionUnarchiveAction } from "@/server/cms/content/admin-collection-actions.server";
 import { CMS_COLLECTION_ORDER_KEYS } from "@/types/cms-entities";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -53,8 +53,13 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   if (intent === "archive" && key) {
-    await archiveContentEntry({ key, actorId: session.user.id });
+    await processCollectionArchiveAction(session.user.id, key, "product");
     return redirect("/admin/products");
+  }
+
+  if (intent === "unarchive" && key) {
+    await processCollectionUnarchiveAction(session.user.id, key);
+    return redirect("/admin/products?status=archived");
   }
 
   return { ok: false, error: "Unsupported action." };

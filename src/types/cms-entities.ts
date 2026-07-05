@@ -19,17 +19,9 @@ export type CmsNewsPayload = CmsLocalizedPayload<
   NewsArticleDetail & { author?: string }
 >;
 
-export interface CmsCertificateEntity extends CertificateItem {
-  description?: string;
-}
+export type CmsCertificatePayload = CmsLocalizedPayload<CertificateItem>;
 
-export type CmsCertificatePayload = CmsLocalizedPayload<CmsCertificateEntity>;
-
-export interface CmsCatalogEntity extends CatalogItem {
-  category?: string;
-}
-
-export type CmsCatalogPayload = CmsLocalizedPayload<CmsCatalogEntity>;
+export type CmsCatalogPayload = CmsLocalizedPayload<CatalogItem>;
 
 export interface CmsCollectionOrderPayload {
   orderedKeys: string[];

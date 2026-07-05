@@ -68,12 +68,12 @@ export function createDefaultCertificatePayload(id: string): CmsCertificatePaylo
 }
 
 export function createDefaultCatalogPayload(id: string): CmsCatalogPayload {
-  const emptyItem: CmsCatalogPayload["locales"]["en"] = {
+  const emptyItem = {
     id,
     title: "",
     description: "",
     cover: { src: "", alt: "" },
-    category: "",
+    pdf: { href: "", fileName: "" },
   };
 
   return createEmptyLocalizedPayload(emptyItem, emptyItem, 0);

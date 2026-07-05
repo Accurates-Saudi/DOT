@@ -1,7 +1,9 @@
 import type { Locale } from "@/i18n/config";
 import { createProductDetail } from "@/data/products/factory";
 import { productRecords } from "@/data/products/registry";
-import { getLocalizedNewsBySlug, getLocalizedNewsArticles } from "@/i18n/content/news";
+import { buildHomeContent } from "@/i18n/content";
+import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
+import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
 import { getLocalizedProductBySlug } from "@/i18n/content/products";
 import { localeContentMessages } from "@/content/shared";
 import type {
@@ -21,6 +23,7 @@ import type {
 import {
   CMS_COLLECTION_ORDER_KEYS,
   buildEntityKey,
+  parseEntityId,
 } from "@/types/cms-entities";
 import {
   buildCollectionOrderPayload,
@@ -31,9 +34,11 @@ import {
 } from "@/utils/cms-entities";
 
 import {
+  archiveContentEntry,
   getContentEntryByKey,
   getPublicContentPayloadByKey,
   listContentEntries,
+  unarchiveContentEntry,
   upsertContentEntry,
 } from "./service.server";
 
@@ -42,8 +47,12 @@ function resolveStaticProduct(locale: Locale, slug: string): ProductDetailConten
 }
 
 function resolveStaticNews(locale: Locale, slug: string): NewsArticleDetail | undefined {
-  const messages = localeContentMessages[locale];
-  return getLocalizedNewsBySlug(messages, slug);
+  return getLocalizedNewsBySlug(localeContentMessages[locale], slug);
+}
+
+export async function getArchivedEntityKeys(): Promise<Set<string>> {
+  const entries = await listContentEntries({ status: "archived" });
+  return new Set(entries.map((entry) => entry.key));
 }
 
 export async function getCollectionOrder(
@@ -101,6 +110,7 @@ export async function getPublishedProductDetails(
   const staticProducts = productRecords.map((record) => createProductDetail(record));
   const cmsEntries = await listPublishedEntityPayloads<CmsProductPayload>("product");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.product);
+  const archivedKeys = await getArchivedEntityKeys();
 
   const cmsBySlug = new Map<string, ProductDetailContent>();
 
@@ -115,11 +125,13 @@ export async function getPublishedProductDetails(
   const staticSlugs = new Set(staticProducts.map((product) => product.slug));
   const cmsOnly = [...cmsBySlug.values()].filter((product) => !staticSlugs.has(product.slug));
 
-  const keyed = [...merged, ...cmsOnly].map((product) => ({
-    key: buildEntityKey("product", product.slug),
-    product,
-    listingOrder: product.listingOrder,
-  }));
+  const keyed = [...merged, ...cmsOnly]
+    .filter((product) => !archivedKeys.has(buildEntityKey("product", product.slug)))
+    .map((product) => ({
+      key: buildEntityKey("product", product.slug),
+      product,
+      listingOrder: product.listingOrder,
+    }));
 
   const sorted = sortByCollectionOrder(keyed, order);
 
@@ -131,6 +143,9 @@ export async function getPublishedProductBySlug(
   slug: string,
 ): Promise<ProductDetailContent | undefined> {
   const key = buildEntityKey("product", slug);
+  const archivedKeys = await getArchivedEntityKeys();
+  if (archivedKeys.has(key)) return undefined;
+
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
   if (cmsPayload) {
@@ -146,11 +161,12 @@ export async function getPublishedNewsArticles(
 ): Promise<NewsArticleDetail[]> {
   const messages = localeContentMessages[locale];
   const staticArticles = getLocalizedNewsArticles(messages)
-    .map((preview) => getLocalizedNewsBySlug(messages, preview.slug))
+    .map((preview) => resolveStaticNews(locale, preview.slug))
     .filter((article): article is NewsArticleDetail => Boolean(article));
 
   const cmsEntries = await listPublishedEntityPayloads<CmsNewsPayload>("news");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.news);
+  const archivedKeys = await getArchivedEntityKeys();
   const cmsBySlug = new Map<string, NewsArticleDetail>();
 
   for (const entry of cmsEntries) {
@@ -162,10 +178,12 @@ export async function getPublishedNewsArticles(
   const staticSlugs = new Set(staticArticles.map((article) => article.slug));
   const cmsOnly = [...cmsBySlug.values()].filter((article) => !staticSlugs.has(article.slug));
 
-  const keyed = [...merged, ...cmsOnly].map((article) => ({
-    key: buildEntityKey("news", article.slug),
-    article,
-  }));
+  const keyed = [...merged, ...cmsOnly]
+    .filter((article) => !archivedKeys.has(buildEntityKey("news", article.slug)))
+    .map((article) => ({
+      key: buildEntityKey("news", article.slug),
+      article,
+    }));
 
   return sortByCollectionOrder(keyed, order).map((item) => item.article);
 }
@@ -175,6 +193,9 @@ export async function getPublishedNewsBySlug(
   slug: string,
 ): Promise<NewsArticleDetail | undefined> {
   const key = buildEntityKey("news", slug);
+  const archivedKeys = await getArchivedEntityKeys();
+  if (archivedKeys.has(key)) return undefined;
+
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
   if (cmsPayload) {
@@ -187,52 +208,107 @@ export async function getPublishedNewsBySlug(
 
 export async function getPublishedCertificates(
   locale: Locale,
-): Promise<Array<CertificateItem & { description?: string }>> {
+): Promise<CertificateItem[]> {
+  const staticItems = buildHomeContent(localeContentMessages[locale], locale).certificates
+    .items;
   const cmsEntries = await listPublishedEntityPayloads<CmsCertificatePayload>("certificate");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.certificate);
+  const archivedKeys = await getArchivedEntityKeys();
 
-  const items = cmsEntries
-    .map((entry) => getLocalizedPayload<CmsCertificatePayload["locales"]["en"]>(
-      entry.payload,
-      locale,
-    ))
-    .filter((item): item is CertificateItem & { description?: string } => Boolean(item));
+  const cmsById = new Map<string, CertificateItem>();
+  for (const entry of cmsEntries) {
+    const localized = getLocalizedPayload<CertificateItem>(entry.payload, locale);
+    if (localized) cmsById.set(localized.id, localized);
+  }
 
-  const keyed = cmsEntries.map((entry, index) => ({
-    key: entry.key,
-    item: items[index],
-  })).filter((entry): entry is { key: string; item: CertificateItem & { description?: string } } =>
-    Boolean(entry.item),
-  );
+  const merged = staticItems.map((item) => cmsById.get(item.id) ?? item);
+  const staticIds = new Set(staticItems.map((item) => item.id));
+  const cmsOnly = [...cmsById.values()].filter((item) => !staticIds.has(item.id));
+
+  const keyed = [...merged, ...cmsOnly]
+    .filter((item) => !archivedKeys.has(buildEntityKey("certificate", item.id)))
+    .map((item) => ({
+      key: buildEntityKey("certificate", item.id),
+      item,
+    }));
 
   return sortByCollectionOrder(keyed, order).map((entry) => entry.item);
 }
 
 export async function getPublishedCatalogItems(locale: Locale): Promise<CatalogItem[]> {
-  const { buildCatalogsPageContent } = await import("@/i18n/content/pages/catalogs");
   const staticItems = buildCatalogsPageContent(localeContentMessages[locale], locale).library.items;
   const cmsEntries = await listPublishedEntityPayloads<CmsCatalogPayload>("page", "catalog.");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.catalog);
+  const archivedKeys = await getArchivedEntityKeys();
 
-  const cmsItems = cmsEntries
-    .map((entry) => getLocalizedPayload<CatalogItem>(entry.payload, locale))
-    .filter((item): item is CatalogItem => Boolean(item));
-
-  if (cmsItems.length === 0) {
-    return staticItems;
+  const cmsById = new Map<string, CatalogItem>();
+  for (const entry of cmsEntries) {
+    const localized = getLocalizedPayload<CatalogItem>(entry.payload, locale);
+    if (localized) cmsById.set(localized.id, localized);
   }
 
-  const cmsById = new Map(cmsItems.map((item) => [item.id, item]));
   const merged = staticItems.map((item) => cmsById.get(item.id) ?? item);
   const staticIds = new Set(staticItems.map((item) => item.id));
-  const cmsOnly = cmsItems.filter((item) => !staticIds.has(item.id));
+  const cmsOnly = [...cmsById.values()].filter((item) => !staticIds.has(item.id));
 
-  const keyed = [...merged, ...cmsOnly].map((item) => ({
-    key: buildEntityKey("catalog", item.id),
-    item,
-  }));
+  const keyed = [...merged, ...cmsOnly]
+    .filter((item) => !archivedKeys.has(buildEntityKey("catalog", item.id)))
+    .map((item) => ({
+      key: buildEntityKey("catalog", item.id),
+      item,
+    }));
 
   return sortByCollectionOrder(keyed, order).map((entry) => entry.item);
+}
+
+export async function archiveEntityContent(input: {
+  key: string;
+  type: CMSContentTypeDto;
+  actorId: string;
+  slug?: string;
+  payload?: unknown;
+}): Promise<void> {
+  try {
+    await getContentEntryByKey(input.key);
+    await archiveContentEntry({ key: input.key, actorId: input.actorId });
+    return;
+  } catch {
+    if (!input.payload) {
+      throw new Error(`Cannot archive "${input.key}" without existing CMS content.`);
+    }
+
+    await upsertContentEntry({
+      key: input.key,
+      type: input.type,
+      payload: input.payload,
+      actorId: input.actorId,
+      ...(input.slug ? { slug: input.slug } : {}),
+      publish: false,
+      changeSummary: "Archived website content",
+    });
+    await archiveContentEntry({ key: input.key, actorId: input.actorId });
+  }
+}
+
+export async function unarchiveEntityContent(input: {
+  key: string;
+  actorId: string;
+}): Promise<void> {
+  const detail = await unarchiveContentEntry(input);
+
+  if (detail.publishedVersion || !detail.entry.currentVersion?.payload) {
+    return;
+  }
+
+  await upsertContentEntry({
+    key: input.key,
+    type: detail.entry.type,
+    payload: detail.entry.currentVersion.payload,
+    actorId: input.actorId,
+    ...(detail.entry.slug ? { slug: detail.entry.slug } : {}),
+    publish: true,
+    changeSummary: "Restored archived content to the website",
+  });
 }
 
 export async function getDraftEntityPayload(key: string): Promise<unknown | null> {
@@ -284,18 +360,74 @@ export {
 };
 
 export async function getStaticProductPayload(slug: string): Promise<CmsProductPayload | null> {
-  const en = getLocalizedProductBySlug(localeContentMessages.en, "en", slug);
-  const ar = getLocalizedProductBySlug(localeContentMessages.ar, "ar", slug);
+  const en = resolveStaticProduct("en", slug);
+  const ar = resolveStaticProduct("ar", slug);
   if (!en || !ar) return null;
 
   return createEmptyLocalizedPayload(en, ar, en.listingOrder ?? 0);
 }
 
 export async function getStaticNewsPayload(slug: string): Promise<CmsNewsPayload | null> {
-  const en = getLocalizedNewsBySlug(localeContentMessages.en, slug);
-  const ar = getLocalizedNewsBySlug(localeContentMessages.ar, slug);
+  const en = resolveStaticNews("en", slug);
+  const ar = resolveStaticNews("ar", slug);
   if (!en || !ar) return null;
   return createEmptyLocalizedPayload(en, ar, 0);
+}
+
+export async function getStaticCertificatePayload(
+  id: string,
+): Promise<CmsCertificatePayload | null> {
+  const en = buildHomeContent(localeContentMessages.en, "en").certificates.items.find(
+    (item) => item.id === id,
+  );
+  const ar = buildHomeContent(localeContentMessages.ar, "ar").certificates.items.find(
+    (item) => item.id === id,
+  );
+  if (!en || !ar) return null;
+
+  return createEmptyLocalizedPayload(
+    { id: en.id, ...(en.title ? { title: en.title } : {}), image: en.image },
+    { id: ar.id, ...(ar.title ? { title: ar.title } : {}), image: ar.image },
+    0,
+  );
+}
+
+export async function getStaticCatalogPayload(id: string): Promise<CmsCatalogPayload | null> {
+  const en = buildCatalogsPageContent(localeContentMessages.en, "en").library.items.find(
+    (item) => item.id === id,
+  );
+  const ar = buildCatalogsPageContent(localeContentMessages.ar, "ar").library.items.find(
+    (item) => item.id === id,
+  );
+  if (!en || !ar) return null;
+
+  return createEmptyLocalizedPayload(en, ar, 0);
+}
+
+export async function resolveArchivePayload(
+  key: string,
+  entityType: "product" | "news" | "certificate" | "catalog",
+): Promise<{ payload?: unknown; slug?: string }> {
+  try {
+    await getContentEntryByKey(key);
+    return {};
+  } catch {
+    const id = parseEntityId(entityType, key);
+    if (!id) return {};
+
+    switch (entityType) {
+      case "product":
+        return { payload: await getStaticProductPayload(id), slug: id };
+      case "news":
+        return { payload: await getStaticNewsPayload(id), slug: id };
+      case "certificate":
+        return { payload: await getStaticCertificatePayload(id), slug: id };
+      case "catalog":
+        return { payload: await getStaticCatalogPayload(id), slug: id };
+      default:
+        return {};
+    }
+  }
 }
 
 export type { CmsCollectionOrderPayload };

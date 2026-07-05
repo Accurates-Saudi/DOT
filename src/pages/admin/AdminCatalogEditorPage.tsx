@@ -9,7 +9,8 @@ import {
 } from "@/components/admin/collection/AdminEntityFormFields";
 import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
 import type { Locale } from "@/i18n/config";
-import type { CmsCatalogEntity, CmsCatalogPayload } from "@/types/cms-entities";
+import type { CmsCatalogPayload } from "@/types/cms-entities";
+import type { CatalogItem } from "@/types";
 import { getLocalizedPayload } from "@/utils/cms-entities";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
 
@@ -34,13 +35,13 @@ export function AdminCatalogEditorPage({
   const [error, setError] = useState<string | null>(null);
 
   const item = useMemo(
-    () => getLocalizedPayload<CmsCatalogEntity>(payload, activeLocale),
+    () => getLocalizedPayload<CatalogItem>(payload, activeLocale),
     [payload, activeLocale],
   );
 
-  function updateItem(updater: (current: CmsCatalogEntity) => CmsCatalogEntity) {
+  function updateItem(updater: (current: CatalogItem) => CatalogItem) {
     setPayload((current) => {
-      const localized = getLocalizedPayload<CmsCatalogEntity>(current, activeLocale);
+      const localized = getLocalizedPayload<CatalogItem>(current, activeLocale);
       if (!localized) return current;
       return { ...current, locales: { ...current.locales, [activeLocale]: updater(localized) } };
     });
@@ -86,24 +87,68 @@ export function AdminCatalogEditorPage({
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
       <div className="mb-4 flex gap-2">
         {(["en", "ar"] as const).map((option) => (
-          <button key={option} type="button" className={activeLocale === option ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white" : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"} onClick={() => setActiveLocale(option)}>
+          <button
+            key={option}
+            type="button"
+            className={
+              activeLocale === option
+                ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white"
+                : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"
+            }
+            onClick={() => setActiveLocale(option)}
+          >
             {option.toUpperCase()}
           </button>
         ))}
       </div>
       <AdminFieldGroup title="Catalog">
         <AdminField label="Title">
-          <AdminInput value={item.title} onChange={(e) => updateItem((c) => ({ ...c, title: e.target.value }))} />
-        </AdminField>
-        <AdminField label="Category">
-          <AdminInput value={item.category ?? ""} onChange={(e) => updateItem((c) => ({ ...c, category: e.target.value }))} />
+          <AdminInput
+            value={item.title}
+            onChange={(event) => updateItem((current) => ({ ...current, title: event.target.value }))}
+          />
         </AdminField>
         <AdminField label="Description">
-          <AdminTextarea rows={4} value={item.description} onChange={(e) => updateItem((c) => ({ ...c, description: e.target.value }))} />
+          <AdminTextarea
+            rows={4}
+            value={item.description}
+            onChange={(event) =>
+              updateItem((current) => ({ ...current, description: event.target.value }))
+            }
+          />
         </AdminField>
-        <AdminMediaPicker label="Thumbnail" value={item.cover} onChange={(cover) => updateItem((c) => ({ ...c, cover }))} />
-        <AdminField label="PDF URL">
-          <AdminInput value={item.pdf?.href ?? ""} onChange={(e) => updateItem((c) => ({ ...c, pdf: { href: e.target.value, fileName: c.pdf?.fileName } }))} />
+        <AdminMediaPicker
+          label="Cover Image"
+          value={item.cover}
+          onChange={(cover) => updateItem((current) => ({ ...current, cover }))}
+        />
+        <AdminField label="Download Link">
+          <AdminInput
+            value={item.pdf?.href ?? ""}
+            onChange={(event) =>
+              updateItem((current) => ({
+                ...current,
+                pdf: {
+                  href: event.target.value,
+                  fileName: current.pdf?.fileName ?? "",
+                },
+              }))
+            }
+          />
+        </AdminField>
+        <AdminField label="Download File Name">
+          <AdminInput
+            value={item.pdf?.fileName ?? ""}
+            onChange={(event) =>
+              updateItem((current) => ({
+                ...current,
+                pdf: {
+                  href: current.pdf?.href ?? "",
+                  fileName: event.target.value,
+                },
+              }))
+            }
+          />
         </AdminField>
       </AdminFieldGroup>
     </AdminEntityEditorShell>

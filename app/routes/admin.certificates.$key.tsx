@@ -6,10 +6,12 @@ import { defaultLocale } from "@/i18n/config";
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
 import { getContentEntryByKey } from "@/server/cms/content/service.server";
 import type { CmsCertificatePayload } from "@/types/cms-entities";
+import { buildEntityKey, parseEntityId } from "@/types/cms-entities";
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   await requireCmsAuthSession(request, ["editor"]);
   const key = decodeURIComponent(params.key);
+
   try {
     const detail = await getContentEntryByKey(key);
     return {
@@ -19,7 +21,18 @@ export async function loader({ request, params }: Route.LoaderArgs) {
       status: detail.entry.status,
     };
   } catch {
-    throw redirect("/admin/certificates");
+    const { getStaticCertificatePayload } = await import(
+      "@/server/cms/content/entity-content.server"
+    );
+    const id = parseEntityId("certificate", key) ?? key.replace(/^certificate\./, "");
+    const staticPayload = await getStaticCertificatePayload(id);
+    if (!staticPayload) throw redirect("/admin/certificates");
+
+    return {
+      contentKey: buildEntityKey("certificate", id),
+      payload: staticPayload,
+      status: "static",
+    };
   }
 }
 

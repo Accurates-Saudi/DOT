@@ -20,13 +20,31 @@ import {
 } from "@/components/sections";
 import { useHomePageContent } from "@/i18n/content/hooks";
 import { useLocale } from "@/i18n/hooks";
+import type { CertificateItem } from "@/types";
 
-export function HomePage() {
+export function HomePage({
+  certificateItems,
+}: {
+  certificateItems?: CertificateItem[];
+}) {
   const homePageContent = useHomePageContent();
   const locale = useLocale();
   const sections = useMemo(() => createHomePageSectionEditors(), []);
+  const pageContent = useMemo(
+    () =>
+      certificateItems?.length
+        ? {
+            ...homePageContent,
+            certificates: {
+              ...homePageContent.certificates,
+              items: certificateItems,
+            },
+          }
+        : homePageContent,
+    [certificateItems, homePageContent],
+  );
   const editor = useCmsVisualPageEditor({
-    initialContent: homePageContent,
+    initialContent: pageContent,
     contentKey: `home.${locale}`,
     contentType: "page",
     sections,

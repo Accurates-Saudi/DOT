@@ -2,6 +2,8 @@ import { createProductDetail } from "@/data/products/factory";
 import { productRecords } from "@/data/products/registry";
 import { localeContentMessages } from "@/content/shared";
 import { defaultLocale, type Locale } from "@/i18n/config";
+import { buildHomeContent } from "@/i18n/content";
+import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
 import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
 import {
   CMS_COLLECTION_ORDER_KEYS,
@@ -123,7 +125,33 @@ export async function buildAdminCertificateRows(
     getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.certificate),
   ]);
 
-  const rows = cmsRecords.map((record) => extractCertificateRowMeta(record, locale));
+  const cmsByKey = new Map(cmsRecords.map((record) => [record.key, record]));
+  const staticItems = buildHomeContent(localeContentMessages[locale], locale).certificates.items;
+  const rows: AdminCollectionRowMeta[] = [];
+
+  for (const item of staticItems) {
+    const key = buildEntityKey("certificate", item.id);
+    const cms = cmsByKey.get(key);
+
+    if (cms) {
+      rows.push(extractCertificateRowMeta(cms, locale));
+      continue;
+    }
+
+    rows.push({
+      key,
+      title: item.title ?? item.image.alt ?? item.id,
+      thumbnail: item.image.src,
+      status: "static",
+    });
+  }
+
+  for (const cms of cmsRecords) {
+    const id = parseEntityId("certificate", cms.key);
+    if (!id || staticItems.some((item) => item.id === id)) continue;
+    rows.push(extractCertificateRowMeta(cms, locale));
+  }
+
   return sortByCollectionOrder(rows, order);
 }
 
@@ -131,12 +159,40 @@ export async function buildAdminCatalogRows(
   locale: Locale = defaultLocale,
   search = "",
 ): Promise<AdminCollectionRowMeta[]> {
+  const staticItems = buildCatalogsPageContent(localeContentMessages[locale], locale).library.items;
   const cmsRecords = await listContentEntries({
     type: "page",
     ...(search ? { search } : {}),
   });
   const filtered = cmsRecords.filter((record) => record.key.startsWith("catalog."));
+  const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.catalog);
-  const rows = filtered.map((record) => extractCatalogRowMeta(record, locale));
+  const rows: AdminCollectionRowMeta[] = [];
+
+  for (const item of staticItems) {
+    const key = buildEntityKey("catalog", item.id);
+    const cms = cmsByKey.get(key);
+
+    if (cms) {
+      rows.push(extractCatalogRowMeta(cms, locale));
+      continue;
+    }
+
+    rows.push({
+      key,
+      title: item.title,
+      subtitle: item.description,
+      thumbnail: item.cover.src,
+      status: "static",
+      href: `/${locale}/catalogs`,
+    });
+  }
+
+  for (const cms of filtered) {
+    const id = parseEntityId("catalog", cms.key);
+    if (!id || staticItems.some((item) => item.id === id)) continue;
+    rows.push(extractCatalogRowMeta(cms, locale));
+  }
+
   return sortByCollectionOrder(rows, order);
 }

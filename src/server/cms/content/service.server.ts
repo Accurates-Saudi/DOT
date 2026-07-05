@@ -221,3 +221,32 @@ export async function archiveContentEntry(input: {
 
   return toDetail(updated);
 }
+
+export async function unarchiveContentEntry(input: {
+  key: string;
+  actorId: string;
+}): Promise<CMSContentEntryDetail> {
+  const prisma = getPrismaClient();
+  const existing = await prisma.cmsContentEntry.findUnique({
+    where: { key: input.key },
+  });
+
+  if (!existing || existing.status !== "ARCHIVED") {
+    throw new CmsHttpError(
+      404,
+      "content_not_found",
+      `No archived CMS content exists for "${input.key}".`,
+    );
+  }
+
+  const updated = await prisma.cmsContentEntry.update({
+    where: { key: input.key },
+    data: {
+      status: existing.publishedVersionId ? "PUBLISHED" : "DRAFT",
+      updatedById: input.actorId,
+    },
+    include: contentEntryInclude,
+  });
+
+  return toDetail(updated);
+}

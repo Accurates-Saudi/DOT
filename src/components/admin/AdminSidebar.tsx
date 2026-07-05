@@ -61,7 +61,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   );
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-[#e5e5e5] bg-white">
+    <aside className="sticky top-0 flex h-svh w-64 shrink-0 flex-col self-start overflow-y-auto border-r border-[#e5e5e5] bg-white">
       <div className="border-b border-[#e5e5e5] px-6 py-5">
         <a
           href={returnUrl}

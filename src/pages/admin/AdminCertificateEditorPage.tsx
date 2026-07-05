@@ -1,15 +1,11 @@
 import { useMemo, useState } from "react";
 
 import { AdminEntityEditorShell } from "@/components/admin/collection/AdminEntityEditorShell";
-import {
-  AdminField,
-  AdminFieldGroup,
-  AdminInput,
-  AdminTextarea,
-} from "@/components/admin/collection/AdminEntityFormFields";
+import { AdminFieldGroup } from "@/components/admin/collection/AdminEntityFormFields";
 import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
 import type { Locale } from "@/i18n/config";
-import type { CmsCertificateEntity, CmsCertificatePayload } from "@/types/cms-entities";
+import type { CmsCertificatePayload } from "@/types/cms-entities";
+import type { CertificateItem } from "@/types";
 import { getLocalizedPayload } from "@/utils/cms-entities";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
 
@@ -34,13 +30,13 @@ export function AdminCertificateEditorPage({
   const [error, setError] = useState<string | null>(null);
 
   const item = useMemo(
-    () => getLocalizedPayload<CmsCertificateEntity>(payload, activeLocale),
+    () => getLocalizedPayload<CertificateItem>(payload, activeLocale),
     [payload, activeLocale],
   );
 
-  function updateItem(updater: (current: CmsCertificateEntity) => CmsCertificateEntity) {
+  function updateItem(updater: (current: CertificateItem) => CertificateItem) {
     setPayload((current) => {
-      const localized = getLocalizedPayload<CmsCertificateEntity>(current, activeLocale);
+      const localized = getLocalizedPayload<CertificateItem>(current, activeLocale);
       if (!localized) return current;
       return { ...current, locales: { ...current.locales, [activeLocale]: updater(localized) } };
     });
@@ -75,7 +71,7 @@ export function AdminCertificateEditorPage({
   return (
     <AdminEntityEditorShell
       backTo={backTo}
-      title={item.title || "Certificate"}
+      title={item.image.alt || item.id || "Certificate"}
       statusLabel={status}
       isDirty={isDirty}
       isSaving={busy === "save"}
@@ -86,19 +82,29 @@ export function AdminCertificateEditorPage({
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
       <div className="mb-4 flex gap-2">
         {(["en", "ar"] as const).map((option) => (
-          <button key={option} type="button" className={activeLocale === option ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white" : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"} onClick={() => setActiveLocale(option)}>
+          <button
+            key={option}
+            type="button"
+            className={
+              activeLocale === option
+                ? "rounded-md bg-[var(--dot-orange)] px-3 py-1.5 text-sm text-white"
+                : "rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333]"
+            }
+            onClick={() => setActiveLocale(option)}
+          >
             {option.toUpperCase()}
           </button>
         ))}
       </div>
-      <AdminFieldGroup title="Certificate">
-        <AdminField label="Title">
-          <AdminInput value={item.title ?? ""} onChange={(e) => updateItem((c) => ({ ...c, title: e.target.value }))} />
-        </AdminField>
-        <AdminField label="Description">
-          <AdminTextarea rows={3} value={item.description ?? ""} onChange={(e) => updateItem((c) => ({ ...c, description: e.target.value }))} />
-        </AdminField>
-        <AdminMediaPicker label="Image" value={item.image} onChange={(image) => updateItem((c) => ({ ...c, image }))} />
+      <AdminFieldGroup
+        title="Certificate Image"
+        description="Certificates on the website show only the image, matching the home page carousel."
+      >
+        <AdminMediaPicker
+          label="Image"
+          value={item.image}
+          onChange={(image) => updateItem((current) => ({ ...current, image }))}
+        />
       </AdminFieldGroup>
     </AdminEntityEditorShell>
   );

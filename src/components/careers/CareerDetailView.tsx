@@ -23,11 +23,10 @@ import type {
   CareersDetailHeroContent,
   CareersDetailSidebarContent,
 } from "@/types";
+import { resolveCareerDetailHeroImage } from "@/data/careers/defaults";
 import { resolveSkillIcon } from "@/utils/career-icons";
 
 import { CareerDetailSidebar } from "./CareerDetailSidebar";
-
-import careerDetailHeroImage from "@/assets/engineering/cnc.png";
 
 export interface CareerDetailViewProps {
   job: CareerJobDetail;
@@ -73,7 +72,7 @@ export function CareerDetailView({
   });
 
   const applyHref = `mailto:${applicationEmail || siteSettings.contact.email}?subject=${encodeURIComponent(`Application: ${job.title}`)}`;
-  const heroSrc = job.heroImage?.src?.trim() ? job.heroImage.src : careerDetailHeroImage;
+  const heroSrc = resolveCareerDetailHeroImage(job).src;
   const breadcrumbs = [
     ...detailHero.breadcrumbs,
     { label: job.title },

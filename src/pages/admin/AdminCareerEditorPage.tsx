@@ -15,6 +15,10 @@ import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker
 import { useAdminWorkspace } from "@/contexts/admin-workspace-context";
 import { CmsExperienceProvider } from "@/contexts/cms-experience-context";
 import { localeContentMessages } from "@/content/shared";
+import {
+  isUsingDefaultCareerDetailHero,
+  resolveCareerDetailHeroImage,
+} from "@/data/careers/defaults";
 import { buildCareersContent } from "@/i18n/content";
 import type { Locale } from "@/i18n/config";
 import type { CmsCareerPayload } from "@/types/cms-entities";
@@ -325,12 +329,19 @@ export function AdminCareerEditorPage({
         <AdminFieldGroup title="Detail Page">
           <AdminMediaPicker
             label="Hero Background Image"
-            value={job.heroImage ?? { src: "", alt: job.title }}
+            value={resolveCareerDetailHeroImage(job)}
             onChange={updateHeroImage}
           />
-          <p className="text-sm text-[#888]">
-            Shown at the top of the job detail page. Leave empty to use the default hero image.
-          </p>
+          {isUsingDefaultCareerDetailHero(job) ? (
+            <p className="text-sm text-[#888]">
+              Showing the current site default hero. Choose a new image to override it for this
+              job.
+            </p>
+          ) : (
+            <p className="text-sm text-[#888]">
+              Shown at the top of the job detail page.
+            </p>
+          )}
         </AdminFieldGroup>
         <AdminFieldGroup title="Details">
           <AdminStringListEditor

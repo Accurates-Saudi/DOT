@@ -55,7 +55,7 @@ export function Navbar() {
         as="div"
         size="wide"
         className={cn(
-          "flex items-center justify-between gap-3",
+          "flex items-center gap-3 lg:gap-4",
           transitionPresets.default,
           "duration-500",
           isElevated
@@ -66,7 +66,7 @@ export function Navbar() {
         <LocalizedLink
           to="/"
           className={cn(
-            "group flex min-w-0 shrink items-center",
+            "group flex min-w-0 shrink-0 items-center",
             transitionPresets.transform,
             "duration-500 ease-out",
             isElevated
@@ -117,7 +117,7 @@ export function Navbar() {
 
         <nav
           className={cn(
-            "absolute left-1/2 hidden -translate-x-1/2 items-center lg:flex",
+            "hidden min-w-0 flex-1 items-center justify-center lg:flex",
             transitionPresets.default,
             "duration-500",
             isElevated ? "gap-0.5 xl:gap-1" : "gap-0",
@@ -131,7 +131,7 @@ export function Navbar() {
               end={/\/(en|ar)$/.test(item.href)}
               className={({ isActive }) =>
                 cn(
-                  "nav-link-underline relative px-3 py-2 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-4 xl:text-base",
+                  "nav-link-underline relative whitespace-nowrap px-2.5 py-2 text-[0.875rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-3.5 xl:text-[0.9375rem]",
                   isHeroState
                     ? cn(
                         "text-white/75 hover:text-white",
@@ -141,7 +141,7 @@ export function Navbar() {
                         "text-foreground/70 hover:text-accent",
                         isActive && "text-foreground",
                       ),
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 rtl:after:origin-right",
+                  "after:absolute after:inset-x-2.5 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 xl:after:inset-x-3.5 rtl:after:origin-right",
                   isActive
                     ? "after:scale-x-100 after:bg-accent"
                     : cn(
@@ -160,13 +160,13 @@ export function Navbar() {
 
         <div
           className={cn(
-            "flex shrink-0 items-center",
+            "ms-auto flex shrink-0 items-center",
             transitionPresets.default,
             "duration-500",
-            isElevated ? "gap-2 lg:gap-2.5" : "gap-1.5 lg:gap-2.5",
+            isElevated ? "gap-2 lg:gap-2.5 xl:gap-3" : "gap-2 lg:gap-2.5",
           )}
         >
-          <div className="hidden items-center gap-2.5 lg:flex lg:gap-3">
+          <div className="hidden items-center lg:flex lg:gap-2 xl:gap-2.5">
             <LanguageSwitcher isHeroState={isHeroState} />
 
             {siteSettings.social.linkedin && (
@@ -176,7 +176,7 @@ export function Navbar() {
                 rel="noopener noreferrer"
                 aria-label={navigationCopy.linkedInAria}
                 className={cn(
-                  "inline-flex size-9 items-center justify-center rounded-sm",
+                  "inline-flex size-9 shrink-0 items-center justify-center rounded-sm",
                   transitionPresets.colors,
                   "duration-300",
                   isHeroState
@@ -187,46 +187,56 @@ export function Navbar() {
                 <LinkedInIcon className="size-[1.125rem]" />
               </a>
             )}
+
+            {isAuthenticated && canEditWebsite ? (
+              <CmsEditModeToggle
+                isActive={isEditMode}
+                onToggle={toggleEditMode}
+                tone={isHeroState ? "dark" : "light"}
+              />
+            ) : null}
+
+            {isAuthenticated ? (
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                asChild
+              >
+                <Link to={adminHref}>Dashboard</Link>
+              </Button>
+            ) : (
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 min-w-[5.5rem] shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                asChild
+              >
+                <Link to="/admin/login">{navigationCopy.login}</Link>
+              </Button>
+            )}
           </div>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
               {canEditWebsite ? (
                 <CmsEditModeToggle
                   isActive={isEditMode}
                   onToggle={toggleEditMode}
                   tone={isHeroState ? "dark" : "light"}
                   compact
-                  className="lg:hidden"
-                />
-              ) : null}
-              {canEditWebsite ? (
-                <CmsEditModeToggle
-                  isActive={isEditMode}
-                  onToggle={toggleEditMode}
-                  tone={isHeroState ? "dark" : "light"}
-                  className="hidden lg:inline-flex"
                 />
               ) : null}
               <Button
                 variant={isHeroState ? "inverse" : "outline"}
                 size="sm"
-                className="h-9 rounded-full px-3 text-sm font-medium tracking-[0.02em] sm:min-w-[6rem] sm:px-4"
+                className="h-9 shrink-0 rounded-full px-3 text-sm font-medium tracking-[0.02em] sm:min-w-[6rem] sm:px-4"
                 asChild
               >
                 <Link to={adminHref}>Dashboard</Link>
               </Button>
             </div>
-          ) : (
-            <Button
-              variant={isHeroState ? "inverse" : "outline"}
-              size="sm"
-              className="hidden h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em] lg:inline-flex"
-              asChild
-            >
-              <Link to="/admin/login">{navigationCopy.login}</Link>
-            </Button>
-          )}
+          ) : null}
 
           <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />
           <NavbarMobileMenu isHeroState={isHeroState} />

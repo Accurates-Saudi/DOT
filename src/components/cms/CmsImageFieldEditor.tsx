@@ -11,6 +11,7 @@ import {
   getImageAltAr,
   getImageAltEn,
   patchImageLocalizedAlt,
+  preloadImageSrc,
   readImageDimensions,
   resolveImagePreviewSrc,
 } from "@/utils/cms-image";
@@ -31,10 +32,16 @@ export function CmsPanelImageField({
   const inputId = useId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const instantPreviewRef = useRef<string | null>(null);
+  const sourceImageRef = useRef(image);
   const [instantPreview, setInstantPreview] = useState<string | null>(null);
+  const [pendingFilename, setPendingFilename] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [libraryOpen, setLibraryOpen] = useState(false);
+
+  useEffect(() => {
+    sourceImageRef.current = image;
+  }, [image]);
 
   useEffect(() => {
     return () => {
@@ -52,11 +59,18 @@ export function CmsPanelImageField({
     setInstantPreview(null);
   }
 
-  function setLocalPreview(file: File) {
+  function showInstantPreview(file: File) {
     clearInstantPreview();
     const previewUrl = URL.createObjectURL(file);
     instantPreviewRef.current = previewUrl;
     setInstantPreview(previewUrl);
+    setPendingFilename(file.name);
+
+    onImageChange({
+      ...sourceImageRef.current,
+      src: previewUrl,
+      filename: file.name,
+    });
   }
 
   async function handleFileSelected(file: File) {
@@ -65,25 +79,29 @@ export function CmsPanelImageField({
       return;
     }
 
+    const imageBeforeUpload = sourceImageRef.current;
+
     setError(null);
     setIsUploading(true);
-    setLocalPreview(file);
+    showInstantPreview(file);
 
     try {
       const alt = {
-        en: getImageAltEn(image),
-        ar: getImageAltAr(image),
+        en: getImageAltEn(imageBeforeUpload),
+        ar: getImageAltAr(imageBeforeUpload),
       };
+
+      const uploadPromise = cmsClient.media.upload({
+        key: mediaKey,
+        file,
+        fileName: file.name,
+        alt,
+        ...(imageBeforeUpload.mediaId ? { mediaId: imageBeforeUpload.mediaId } : {}),
+      });
 
       const [dimensions, media] = await Promise.all([
         readImageDimensions(file),
-        cmsClient.media.upload({
-          key: mediaKey,
-          file,
-          fileName: file.name,
-          alt,
-          ...(image.mediaId ? { mediaId: image.mediaId } : {}),
-        }),
+        uploadPromise,
       ]);
 
       const uploadedVersion = media.currentVersion;
@@ -91,21 +109,24 @@ export function CmsPanelImageField({
         throw new Error("Uploaded media is missing version details.");
       }
 
-      onImageChange(
-        applyUploadedMediaToImage(image, {
-          mediaId: media.id,
-          src: uploadedVersion.url,
-          mediaVersion: uploadedVersion.versionNumber,
-          filename: uploadedVersion.filename,
-          width: uploadedVersion.width ?? dimensions.width,
-          height: uploadedVersion.height ?? dimensions.height,
-          alt: uploadedVersion.alt ?? alt,
-        }),
-      );
+      const nextImage = applyUploadedMediaToImage(imageBeforeUpload, {
+        mediaId: media.id,
+        src: uploadedVersion.url,
+        mediaVersion: uploadedVersion.versionNumber,
+        filename: uploadedVersion.filename,
+        width: uploadedVersion.width ?? dimensions.width,
+        height: uploadedVersion.height ?? dimensions.height,
+        alt: uploadedVersion.alt ?? alt,
+      });
 
+      await preloadImageSrc(resolveImagePreviewSrc(nextImage));
+      onImageChange(nextImage);
       clearInstantPreview();
+      setPendingFilename(null);
     } catch (uploadError) {
       clearInstantPreview();
+      setPendingFilename(null);
+      onImageChange(imageBeforeUpload);
       setError(
         uploadError instanceof CmsApiError
           ? uploadError.message
@@ -119,7 +140,7 @@ export function CmsPanelImageField({
   }
 
   const previewSrc = instantPreview ?? resolveImagePreviewSrc(image);
-  const previewKey = `${image.mediaId ?? "image"}-${image.mediaVersion ?? image.src}`;
+  const displayFilename = pendingFilename ?? image.filename;
 
   return (
     <>
@@ -129,22 +150,26 @@ export function CmsPanelImageField({
             <p className="text-[0.72rem] font-semibold tracking-[0.18em] text-[#0c1524]/52 uppercase">
               Current Image
             </p>
-            <div className="mt-3 overflow-hidden rounded-2xl border border-[#0c1524]/10 bg-white">
+            <div className="relative mt-3 overflow-hidden rounded-2xl border border-[#0c1524]/10 bg-[#f7f8fa]">
               {previewSrc ? (
                 <img
-                  key={previewKey}
                   src={previewSrc}
                   alt={getImageAltEn(image) || label}
-                  className="max-h-56 w-full object-contain"
+                  className="max-h-56 min-h-40 w-full object-contain"
                 />
               ) : (
-                <div className="flex min-h-40 items-center justify-center bg-[#f7f8fa] text-[#0c1524]/45">
+                <div className="flex min-h-40 items-center justify-center text-[#0c1524]/45">
                   <Images className="size-8" />
                 </div>
               )}
+              {isUploading ? (
+                <div className="absolute inset-x-0 bottom-0 bg-[#0c1524]/72 px-3 py-2 text-center text-xs font-medium text-white">
+                  Uploading image...
+                </div>
+              ) : null}
             </div>
-            {image.filename ? (
-              <p className="mt-2 text-sm text-[#0c1524]/56">{image.filename}</p>
+            {displayFilename ? (
+              <p className="mt-2 text-sm text-[#0c1524]/56">{displayFilename}</p>
             ) : null}
           </div>
 
@@ -187,10 +212,6 @@ export function CmsPanelImageField({
               Choose from Media Library
             </Button>
           </div>
-
-          {isUploading ? (
-            <p className="text-sm text-[#0c1524]/56">Uploading image...</p>
-          ) : null}
 
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
 

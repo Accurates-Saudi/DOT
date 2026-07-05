@@ -15,6 +15,20 @@ export function resolveImagePreviewSrc(image: ImageAsset): string {
   return image.src;
 }
 
+export function preloadImageSrc(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (!src) {
+      reject(new Error("Missing image preview source."));
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => reject(new Error("Unable to load image preview."));
+    img.src = src;
+  });
+}
+
 export function getImageAltEn(image: ImageAsset): string {
   return image.localizedAlt?.en ?? image.alt ?? "";
 }

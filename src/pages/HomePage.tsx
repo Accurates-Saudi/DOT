@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import {
   CmsEditableSection,
@@ -18,9 +18,12 @@ import {
   TrustedPartnersSection,
   WhyChooseUsSection,
 } from "@/components/sections";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
+import { buildHomeContent } from "@/i18n/content";
 import { useHomePageContent } from "@/i18n/content/hooks";
-import { useLocale } from "@/i18n/hooks";
-import type { CertificateItem } from "@/types";
+import { useI18n, useLocale } from "@/i18n/hooks";
+import type { Locale } from "@/i18n/config";
+import type { CertificateItem, HomePageContent } from "@/types";
 
 export function HomePage({
   certificateItems,
@@ -28,27 +31,41 @@ export function HomePage({
   certificateItems?: CertificateItem[];
 }) {
   const homePageContent = useHomePageContent();
+  const { getContentOverride } = useCmsExperience();
+  const { messages } = useI18n();
   const locale = useLocale();
   const sections = useMemo(() => createHomePageSectionEditors(), []);
-  const pageContent = useMemo(
-    () =>
-      certificateItems?.length
-        ? {
-            ...homePageContent,
-            certificates: {
-              ...homePageContent.certificates,
-              items: certificateItems,
-            },
-          }
-        : homePageContent,
-    [certificateItems, homePageContent],
+
+  const getInitialContent = useCallback(
+    (editingLocale: Locale) => {
+      let base =
+        getContentOverride<HomePageContent>(`home.${editingLocale}`) ??
+        buildHomeContent(messages, editingLocale);
+
+      if (certificateItems?.length) {
+        base = {
+          ...base,
+          certificates: {
+            ...base.certificates,
+            items: certificateItems,
+          },
+        };
+      }
+
+      return base;
+    },
+    [certificateItems, getContentOverride, messages],
   );
+
   const editor = useCmsVisualPageEditor({
-    initialContent: pageContent,
-    contentKey: `home.${locale}`,
+    getInitialContent,
+    contentKeyPrefix: "home",
+    siteLocale: locale,
     contentType: "page",
     sections,
   });
+
+  const displayContent = editor.isInteractive ? editor.page : homePageContent;
 
   return (
     <>
@@ -60,7 +77,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "hero"}
         onSelect={editor.setSelectedSectionId}
       >
-        <HeroSection content={editor.page.hero} />
+        <HeroSection content={displayContent.hero} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -69,7 +86,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "about"}
         onSelect={editor.setSelectedSectionId}
       >
-        <AboutSection content={editor.page.about} />
+        <AboutSection content={displayContent.about} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -78,7 +95,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "company-statistics"}
         onSelect={editor.setSelectedSectionId}
       >
-        <CompanyStatisticsSection content={editor.page.companyStatistics} />
+        <CompanyStatisticsSection content={displayContent.companyStatistics} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -87,7 +104,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "services"}
         onSelect={editor.setSelectedSectionId}
       >
-        <ServicesSection content={editor.page.services} />
+        <ServicesSection content={displayContent.services} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -96,7 +113,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "why-choose-us"}
         onSelect={editor.setSelectedSectionId}
       >
-        <WhyChooseUsSection content={editor.page.whyChooseUs} />
+        <WhyChooseUsSection content={displayContent.whyChooseUs} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -105,7 +122,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "engineering"}
         onSelect={editor.setSelectedSectionId}
       >
-        <EngineeringSection content={editor.page.engineering} />
+        <EngineeringSection content={displayContent.engineering} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -114,7 +131,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "featured-products"}
         onSelect={editor.setSelectedSectionId}
       >
-        <FeaturedProductsSection content={editor.page.featuredProducts} />
+        <FeaturedProductsSection content={displayContent.featuredProducts} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -123,7 +140,7 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "certificates"}
         onSelect={editor.setSelectedSectionId}
       >
-        <CertificatesSection content={editor.page.certificates} />
+        <CertificatesSection content={displayContent.certificates} />
       </CmsEditableSection>
 
       <CmsEditableSection
@@ -132,11 +149,17 @@ export function HomePage({
         isSelected={editor.selectedSectionId === "news"}
         onSelect={editor.setSelectedSectionId}
       >
-        <NewsSection content={editor.page.news} />
+        <NewsSection content={displayContent.news} />
       </CmsEditableSection>
 
-      <TrustedPartnersSection content={editor.page.trustedPartners} />
+      <CmsEditableSection
+        sectionId="trusted-partners"
+        title="Trusted Partners"
+        isSelected={editor.selectedSectionId === "trusted-partners"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <TrustedPartnersSection content={displayContent.trustedPartners} />
+      </CmsEditableSection>
     </>
   );
 }
-

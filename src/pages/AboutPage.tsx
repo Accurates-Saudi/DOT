@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import {
   CmsEditableSection,
@@ -11,19 +11,36 @@ import {
   CompanyOverviewSection,
   EngineeringManufacturingSection,
 } from "@/components/about";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
+import { buildAboutContent } from "@/i18n/content";
 import { useAboutPageContent } from "@/i18n/content/hooks";
-import { useLocale } from "@/i18n/hooks";
+import { useI18n, useLocale } from "@/i18n/hooks";
+import type { Locale } from "@/i18n/config";
+import type { AboutPageContent } from "@/types";
 
 export function AboutPage() {
   const aboutPageContent = useAboutPageContent();
+  const { getContentOverride } = useCmsExperience();
+  const { messages } = useI18n();
   const locale = useLocale();
   const sections = useMemo(() => createAboutPageSectionEditors(), []);
+
+  const getInitialContent = useCallback(
+    (editingLocale: Locale) =>
+      getContentOverride<AboutPageContent>(`about.${editingLocale}`) ??
+      buildAboutContent(messages, editingLocale),
+    [getContentOverride, messages],
+  );
+
   const editor = useCmsVisualPageEditor({
-    initialContent: aboutPageContent,
-    contentKey: `about.${locale}`,
+    getInitialContent,
+    contentKeyPrefix: "about",
+    siteLocale: locale,
     contentType: "page",
     sections,
   });
+
+  const displayContent = editor.isInteractive ? editor.page : aboutPageContent;
 
   return (
     <>
@@ -34,7 +51,7 @@ export function AboutPage() {
         isSelected={editor.selectedSectionId === "about-hero"}
         onSelect={editor.setSelectedSectionId}
       >
-        <AboutHeroSection content={editor.page.hero} />
+        <AboutHeroSection content={displayContent.hero} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="company-overview"
@@ -42,7 +59,7 @@ export function AboutPage() {
         isSelected={editor.selectedSectionId === "company-overview"}
         onSelect={editor.setSelectedSectionId}
       >
-        <CompanyOverviewSection content={editor.page.companyOverview} />
+        <CompanyOverviewSection content={displayContent.companyOverview} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="engineering-manufacturing"
@@ -51,7 +68,7 @@ export function AboutPage() {
         onSelect={editor.setSelectedSectionId}
       >
         <EngineeringManufacturingSection
-          content={editor.page.engineeringManufacturing}
+          content={displayContent.engineeringManufacturing}
         />
       </CmsEditableSection>
     </>

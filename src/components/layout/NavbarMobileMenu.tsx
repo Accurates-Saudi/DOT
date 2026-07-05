@@ -3,7 +3,6 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 
-import { EditableImage } from "@/components/editable";
 import { CmsEditModeToggle } from "@/components/cms/CmsEditModeToggle";
 import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
 import { Button } from "@/components/ui/button";
@@ -89,8 +88,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
         >
           <div className="flex items-center justify-between border-b border-[#0c1524]/8 px-4 py-3.5 sm:px-5">
             <div className="flex min-w-0 items-center gap-2.5">
-              <EditableImage
-                contentId="shared.footer.logos.dot"
+              <img
                 src={footerContent.logos.dot.src}
                 alt={footerContent.logos.dot.alt}
                 className="h-7 w-auto object-contain"

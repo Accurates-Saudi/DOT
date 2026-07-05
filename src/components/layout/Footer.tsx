@@ -1,12 +1,21 @@
 import type { ReactNode } from "react";
+import { useCallback, useMemo } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { EditableImage, EditableText } from "@/components/editable";
+import {
+  CmsEditableSection,
+  CmsSectionEditorPanel,
+  useCmsVisualPageEditor,
+} from "@/components/cms/CmsVisualEditor";
+import { createFooterSectionEditors } from "@/components/cms/website-section-editors";
 import { FormattedNumericText, LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
+import { buildFooter } from "@/i18n/content";
 import { useFooterContent } from "@/i18n/content/hooks";
-import { useNumberFormat, useTranslation } from "@/i18n/hooks";
+import { useI18n, useLocale, useNumberFormat, useTranslation } from "@/i18n/hooks";
+import type { Locale } from "@/i18n/config";
 import { useCookieConsent } from "@/hooks/use-cookie-consent";
 import type { FooterContactItem, FooterContent, LinkItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -23,7 +32,46 @@ const CONTACT_ICONS: Record<FooterContactItem["type"], LucideIcon> = {
 
 export function Footer({ content: contentProp }: FooterProps) {
   const defaultContent = useFooterContent();
-  const content = contentProp ?? defaultContent;
+  const { getContentOverride } = useCmsExperience();
+  const { messages } = useI18n();
+  const locale = useLocale();
+  const sections = useMemo(() => createFooterSectionEditors(), []);
+
+  const getInitialContent = useCallback(
+    (editingLocale: Locale) =>
+      getContentOverride<FooterContent>(`footer.${editingLocale}`) ??
+      buildFooter(messages, editingLocale),
+    [getContentOverride, messages],
+  );
+
+  const editor = useCmsVisualPageEditor({
+    getInitialContent,
+    contentKeyPrefix: "footer",
+    siteLocale: locale,
+    contentType: "page",
+    sections,
+  });
+
+  const content = editor.isInteractive
+    ? editor.page
+    : (contentProp ?? defaultContent);
+
+  return (
+    <>
+      <CmsSectionEditorPanel editor={editor} />
+      <CmsEditableSection
+        sectionId="footer"
+        title="Footer"
+        isSelected={editor.selectedSectionId === "footer"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <FooterView content={content} />
+      </CmsEditableSection>
+    </>
+  );
+}
+
+function FooterView({ content }: { content: FooterContent }) {
   const { t } = useTranslation("seo");
   const { formatNumber } = useNumberFormat();
   const year = new Date().getFullYear();
@@ -33,15 +81,13 @@ export function Footer({ content: contentProp }: FooterProps) {
       <Container size="wide" className="py-[72px]">
         <div className="sm:col-span-2 lg:col-span-4">
           <div className="flex items-center gap-3">
-            <EditableImage
-              contentId="shared.footer.logos.dot"
+            <img
               src={content.logos.dot.src}
               alt={content.logos.dot.alt}
               className="h-9 w-auto object-contain brightness-0 invert sm:h-10"
             />
             <span className="h-7 w-px bg-white/20" aria-hidden />
-            <EditableImage
-              contentId="shared.footer.logos.saudi-made"
+            <img
               src={content.logos.saudiMade.src}
               alt={content.logos.saudiMade.alt}
               className="h-8 w-auto object-contain sm:h-9"
@@ -49,9 +95,7 @@ export function Footer({ content: contentProp }: FooterProps) {
           </div>
 
           <p className="mt-5 max-w-sm text-[0.875rem] leading-relaxed text-white/68 sm:text-sm">
-            <EditableText contentId="shared.footer.description">
-              {content.description}
-            </EditableText>
+            {content.description}
           </p>
         </div>
 
@@ -79,11 +123,7 @@ export function Footer({ content: contentProp }: FooterProps) {
                   </span>
                   <span className="min-w-0">
                     <span className="block text-[0.6875rem] font-medium tracking-wide text-white/45 uppercase">
-                      <EditableText
-                        contentId={`shared.footer.contact.${item.type}.label`}
-                      >
-                        {item.label}
-                      </EditableText>
+                      {item.label}
                     </span>
                     <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
                       <FormattedNumericText value={item.value} />

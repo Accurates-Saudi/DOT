@@ -1,3 +1,5 @@
+import { useCallback, useMemo } from "react";
+
 import {
   CmsEditableSection,
   CmsSectionEditorPanel,
@@ -10,20 +12,36 @@ import {
   ContactLocationSection,
   ContactMainSection,
 } from "@/components/contact";
+import { useCmsExperience } from "@/contexts/cms-experience-context";
+import { buildContactContent } from "@/i18n/content";
 import { useContactPageContent } from "@/i18n/content/hooks";
-import { useLocale } from "@/i18n/hooks";
-import { useMemo } from "react";
+import { useI18n, useLocale } from "@/i18n/hooks";
+import type { Locale } from "@/i18n/config";
+import type { ContactPageContent } from "@/types";
 
 export function ContactPage() {
   const contactPageContent = useContactPageContent();
+  const { getContentOverride } = useCmsExperience();
+  const { messages } = useI18n();
   const locale = useLocale();
   const sections = useMemo(() => createContactPageSectionEditors(), []);
+
+  const getInitialContent = useCallback(
+    (editingLocale: Locale) =>
+      getContentOverride<ContactPageContent>(`contact.${editingLocale}`) ??
+      buildContactContent(messages, editingLocale),
+    [getContentOverride, messages],
+  );
+
   const editor = useCmsVisualPageEditor({
-    initialContent: contactPageContent,
-    contentKey: `contact.${locale}`,
+    getInitialContent,
+    contentKeyPrefix: "contact",
+    siteLocale: locale,
     contentType: "page",
     sections,
   });
+
+  const displayContent = editor.isInteractive ? editor.page : contactPageContent;
 
   return (
     <>
@@ -34,7 +52,7 @@ export function ContactPage() {
         isSelected={editor.selectedSectionId === "contact-hero"}
         onSelect={editor.setSelectedSectionId}
       >
-        <ContactHeroSection content={editor.page.hero} />
+        <ContactHeroSection content={displayContent.hero} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="contact-main"
@@ -42,7 +60,7 @@ export function ContactPage() {
         isSelected={editor.selectedSectionId === "contact-main"}
         onSelect={editor.setSelectedSectionId}
       >
-        <ContactMainSection content={editor.page.main} />
+        <ContactMainSection content={displayContent.main} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="contact-location"
@@ -50,7 +68,7 @@ export function ContactPage() {
         isSelected={editor.selectedSectionId === "contact-location"}
         onSelect={editor.setSelectedSectionId}
       >
-        <ContactLocationSection content={editor.page.location} />
+        <ContactLocationSection content={displayContent.location} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="contact-engineering-cta"
@@ -58,7 +76,7 @@ export function ContactPage() {
         isSelected={editor.selectedSectionId === "contact-engineering-cta"}
         onSelect={editor.setSelectedSectionId}
       >
-        <ContactEngineeringCtaSection content={editor.page.engineeringCta} />
+        <ContactEngineeringCtaSection content={displayContent.engineeringCta} />
       </CmsEditableSection>
     </>
   );

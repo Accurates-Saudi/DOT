@@ -57,6 +57,11 @@ export async function loader({ request }: Route.LoaderArgs) {
       `contact.${locale}`,
       `about.${locale}`,
       `footer.${locale}`,
+      `products.${locale}`,
+      `news.${locale}`,
+      `services.${locale}`,
+      `catalogs.${locale}`,
+      `not-found.${locale}`,
     ];
     const entries = await Promise.all(
       keys.map(async (key) => [

@@ -2,7 +2,6 @@ import { LocalizedLink } from "@/components/i18n";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui";
 import { CmsEditModeToggle } from "@/components/cms/CmsEditModeToggle";
-import { EditableImage } from "@/components/editable";
 import { LanguageSwitcher } from "@/components/i18n";
 import { useCmsExperience } from "@/contexts/cms-experience-context";
 import {
@@ -81,8 +80,7 @@ export function Navbar() {
           )}
           aria-label={navigationCopy.homeAria}
         >
-          <EditableImage
-            contentId="shared.footer.logos.dot"
+          <img
             src={footerContent.logos.dot.src}
             alt={footerContent.logos.dot.alt}
             className={cn(
@@ -103,8 +101,7 @@ export function Navbar() {
             )}
             aria-hidden
           />
-          <EditableImage
-            contentId="shared.footer.logos.saudi-made"
+          <img
             src={footerContent.logos.saudiMade.src}
             alt={footerContent.logos.saudiMade.alt}
             className={cn(

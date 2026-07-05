@@ -73,7 +73,14 @@ export function useAboutPageContent() {
 
 export function useProductsPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildProductsContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildProductsContent>>(
+        `products.${locale}`,
+      ) ?? buildProductsContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useContactPageContent() {
@@ -89,17 +96,37 @@ export function useContactPageContent() {
 
 export function useCatalogsPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildCatalogsContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildCatalogsContent>>(
+        `catalogs.${locale}`,
+      ) ?? buildCatalogsContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useNewsPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildNewsContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildNewsContent>>(`news.${locale}`) ??
+      buildNewsContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useNotFoundPageContent() {
   const { locale, messages } = useI18n();
-  return useMemo(() => buildNotFoundContent(messages, locale), [locale, messages]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildNotFoundContent>>(
+        `not-found.${locale}`,
+      ) ?? buildNotFoundContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
 }
 
 export function useServicesPageMeta() {
@@ -114,7 +141,14 @@ export function useTrustedPartnersContent() {
 
 export function useServicesPageContent() {
   const { locale } = useI18n();
-  return useMemo(() => buildServicesPageContent(locale), [locale]);
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildServicesPageContent>>(
+        `services.${locale}`,
+      ) ?? buildServicesPageContent(locale)
+    );
+  }, [getContentOverride, locale]);
 }
 
 export function useProductBySlug(slug: string) {

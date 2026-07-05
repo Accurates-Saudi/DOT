@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
-import { EditableText } from "@/components/editable";
 import { FormattedNumericText } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
@@ -93,9 +92,7 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-[#F68E05]" aria-hidden />
               <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-[#F68E05] uppercase sm:text-xs">
-                <EditableText contentId="not-found.label">
-                  {content.label}
-                </EditableText>
+                {content.label}
               </p>
             </div>
 
@@ -107,14 +104,10 @@ export function NotFoundSection({ content }: NotFoundSectionProps) {
             </p>
 
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              <EditableText contentId="not-found.title">
-                {content.title}
-              </EditableText>
+              {content.title}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              <EditableText contentId="not-found.description">
-                {content.description}
-              </EditableText>
+              {content.description}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

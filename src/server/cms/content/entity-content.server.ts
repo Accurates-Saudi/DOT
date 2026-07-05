@@ -403,6 +403,7 @@ export async function duplicateContentEntry(input: {
 }
 
 import {
+  createDefaultCareerPayload,
   createDefaultCatalogPayload,
   createDefaultCertificatePayload,
   createDefaultNewsPayload,
@@ -410,6 +411,7 @@ import {
 } from "@/utils/cms-entity-defaults";
 
 export {
+  createDefaultCareerPayload,
   createDefaultCatalogPayload,
   createDefaultCertificatePayload,
   createDefaultNewsPayload,
@@ -461,9 +463,17 @@ export async function getStaticCatalogPayload(id: string): Promise<CmsCatalogPay
   return createEmptyLocalizedPayload(en, ar, 0);
 }
 
+export async function getStaticCareerPayload(slug: string): Promise<CmsCareerPayload | null> {
+  const en = resolveStaticCareer("en", slug);
+  const ar = resolveStaticCareer("ar", slug);
+  if (!en || !ar) return null;
+
+  return createEmptyLocalizedPayload(en, ar, en.listingOrder ?? 0);
+}
+
 export async function resolveArchivePayload(
   key: string,
-  entityType: "product" | "news" | "certificate" | "catalog",
+  entityType: "product" | "news" | "certificate" | "catalog" | "career",
 ): Promise<{ payload?: unknown; slug?: string }> {
   try {
     await getContentEntryByKey(key);
@@ -481,6 +491,8 @@ export async function resolveArchivePayload(
         return { payload: await getStaticCertificatePayload(id), slug: id };
       case "catalog":
         return { payload: await getStaticCatalogPayload(id), slug: id };
+      case "career":
+        return { payload: await getStaticCareerPayload(id), slug: id };
       default:
         return {};
     }

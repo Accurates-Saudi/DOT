@@ -1,6 +1,7 @@
 import {
   Award,
   Boxes,
+  Briefcase,
   ChevronRight,
   FilePenLine,
   Images,
@@ -27,6 +28,12 @@ const contentRows = [
     to: "/admin/news",
     icon: Newspaper,
     countKey: "news" as const,
+  },
+  {
+    label: "Careers",
+    to: "/admin/careers",
+    icon: Briefcase,
+    countKey: "careers" as const,
   },
   {
     label: "Certificates",
@@ -60,13 +67,19 @@ const quickActions = [
     icon: Newspaper,
   },
   {
+    label: "Add New Career",
+    to: "/admin/careers/new",
+    icon: Briefcase,
+  },
+  {
     label: "Upload Media",
     to: "/admin/media",
     icon: Upload,
   },
 ] as const;
 
-function formatTypeLabel(type: string) {
+function formatTypeLabel(type: string, key?: string) {
+  if (type === "page" && key?.startsWith("career.")) return "career";
   if (type === "page") return "catalog";
   return type;
 }
@@ -82,6 +95,7 @@ export function AdminDashboardPage({
   counts: {
     products: number;
     news: number;
+    careers: number;
     certificates: number;
     catalogs: number;
     media: number;
@@ -174,7 +188,7 @@ export function AdminDashboardPage({
                     <div className="min-w-0">
                       <p className="truncate font-medium text-[#111]">{item.title}</p>
                       <p className="mt-1 text-sm capitalize text-[#888]">
-                        {formatTypeLabel(item.type)} · {item.status}
+                        {formatTypeLabel(item.type, item.key)} · {item.status}
                       </p>
                       {item.changeSummary ? (
                         <p className="mt-1 truncate text-sm text-[#666]">

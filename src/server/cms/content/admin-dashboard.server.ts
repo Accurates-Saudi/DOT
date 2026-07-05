@@ -1,12 +1,13 @@
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
 import type { CMSContentRecord, CMSContentType } from "@/types";
-import { getRowMetaExtractor } from "@/utils/cms-entities";
+import { getRowMetaExtractor, extractCareerRowMeta, extractCatalogRowMeta } from "@/utils/cms-entities";
 
 import { getPrismaClient } from "../db.server";
 import { toCmsContentRecord } from "../serializers.server";
 
 import {
+  buildAdminCareerRows,
   buildAdminCatalogRows,
   buildAdminCertificateRows,
   buildAdminNewsRows,
@@ -41,9 +42,13 @@ function getAdminEditPath(key: string, type: CMSContentType): string {
     case "certificate":
       return `/admin/certificates/${encoded}`;
     case "page":
-      return key.startsWith("catalog.")
-        ? `/admin/catalogs/${encoded}`
-        : "/admin/settings";
+      if (key.startsWith("catalog.")) {
+        return `/admin/catalogs/${encoded}`;
+      }
+      if (key.startsWith("career.")) {
+        return `/admin/careers/${encoded}`;
+      }
+      return "/admin/settings";
     default:
       return "/admin";
   }
@@ -54,12 +59,15 @@ function resolveContentTitle(record: CMSContentRecord, locale: Locale): string {
     return record.key.replace(".order", " order");
   }
 
-  const extractor = getRowMetaExtractor(
-    record.type === "page" && record.key.startsWith("catalog.")
-      ? "page"
-      : record.type,
-  );
+  if (record.key.startsWith("career.")) {
+    return extractCareerRowMeta(record, locale).title;
+  }
 
+  if (record.type === "page" && record.key.startsWith("catalog.")) {
+    return extractCatalogRowMeta(record, locale).title;
+  }
+
+  const extractor = getRowMetaExtractor(record.type);
   return extractor(record, locale).title;
 }
 
@@ -83,10 +91,11 @@ function toDashboardItem(
 export async function getAdminDashboardCounts(locale: Locale = defaultLocale) {
   const prisma = getPrismaClient();
 
-  const [productRows, newsRows, certificateRows, catalogRows, media, users] =
+  const [productRows, newsRows, careerRows, certificateRows, catalogRows, media, users] =
     await Promise.all([
       buildAdminProductRows(locale),
       buildAdminNewsRows(locale),
+      buildAdminCareerRows(locale),
       buildAdminCertificateRows(locale),
       buildAdminCatalogRows(locale),
       prisma.cmsMediaAsset.count(),
@@ -99,6 +108,7 @@ export async function getAdminDashboardCounts(locale: Locale = defaultLocale) {
   return {
     products: active(productRows),
     news: active(newsRows),
+    careers: active(careerRows),
     certificates: active(certificateRows),
     catalogs: active(catalogRows),
     media,

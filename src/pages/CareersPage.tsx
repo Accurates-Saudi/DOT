@@ -7,6 +7,7 @@ import {
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
+import { createCareersPageSectionEditors } from "@/components/cms/website-section-editors";
 import {
   CareersBenefitsSection,
   CareersCtaSection,
@@ -28,7 +29,7 @@ export function CareersPage() {
   const { getContentOverride } = useCmsExperience();
   const { messages } = useI18n();
   const locale = useLocale();
-  const sections = useMemo(() => [], []);
+  const sections = useMemo(() => createCareersPageSectionEditors(), []);
 
   const getInitialContent = useCallback(
     (editingLocale: Locale) =>
@@ -95,6 +96,15 @@ export function CareersPage() {
           onSelect={editor.setSelectedSectionId}
         >
           <CareersCtaSection content={displayContent.cta} />
+        </CmsEditableSection>
+
+        <CmsEditableSection
+          sectionId="careers-detail-copy"
+          title="Job Detail Page"
+          isSelected={editor.selectedSectionId === "careers-detail-copy"}
+          onSelect={editor.setSelectedSectionId}
+        >
+          <div className="hidden" aria-hidden />
         </CmsEditableSection>
       </CmsEditorPreviewBridge>
     </>

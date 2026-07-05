@@ -14,6 +14,7 @@ const pageTitles: Record<string, string> = {
   "/admin/drafts": "Drafts",
   "/admin/products": "Products",
   "/admin/news": "News",
+  "/admin/careers": "Careers",
   "/admin/certificates": "Certificates",
   "/admin/catalogs": "Catalogs",
   "/admin/media": "Media Library",
@@ -25,6 +26,7 @@ function getPageTitle(pathname: string) {
   if (pageTitles[pathname]) return pageTitles[pathname];
   if (pathname.startsWith("/admin/products/")) return "Edit Product";
   if (pathname.startsWith("/admin/news/")) return "Edit News";
+  if (pathname.startsWith("/admin/careers/")) return "Edit Job Posting";
   if (pathname.startsWith("/admin/certificates/")) return "Edit Certificate";
   if (pathname.startsWith("/admin/catalogs/")) return "Edit Catalog";
   return "Admin";

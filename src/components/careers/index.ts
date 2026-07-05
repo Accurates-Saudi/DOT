@@ -5,3 +5,4 @@ export { CareersHiringProcessSection } from "./CareersHiringProcessSection";
 export { CareersCtaSection } from "./CareersCtaSection";
 export { CareerDetailView } from "./CareerDetailView";
 export { CareerDetailSidebar } from "./CareerDetailSidebar";
+export { CareersPageLink } from "./CareersPageLink";

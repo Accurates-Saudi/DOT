@@ -6,10 +6,15 @@ import {
   unarchiveEntityContent,
 } from "./entity-content.server";
 
-export type AdminCollectionEntityType = "product" | "news" | "certificate" | "catalog";
+export type AdminCollectionEntityType =
+  | "product"
+  | "news"
+  | "certificate"
+  | "catalog"
+  | "career";
 
 function toCmsContentType(entityType: AdminCollectionEntityType): CMSContentTypeDto {
-  return entityType === "catalog" ? "page" : entityType;
+  return entityType === "catalog" || entityType === "career" ? "page" : entityType;
 }
 
 export async function processCollectionArchiveAction(

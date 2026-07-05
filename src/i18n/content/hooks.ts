@@ -243,6 +243,14 @@ export function useCookieConsentCopy() {
   );
 }
 
+export function useApplicationEmail() {
+  const footerContent = useFooterContent();
+  return useMemo(() => {
+    const emailItem = footerContent.contact.items.find((item) => item.type === "email");
+    return emailItem?.value ?? "";
+  }, [footerContent]);
+}
+
 export function useSiteCopy() {
   const { locale, messages } = useI18n();
   const { getContentOverride } = useCmsExperience();

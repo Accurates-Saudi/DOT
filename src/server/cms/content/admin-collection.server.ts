@@ -4,6 +4,7 @@ import { localeContentMessages } from "@/content/shared";
 import { defaultLocale, type Locale } from "@/i18n/config";
 import { buildHomeContent } from "@/i18n/content";
 import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
+import { getLocalizedCareerJobs } from "@/i18n/content/careers";
 import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
 import {
   CMS_COLLECTION_ORDER_KEYS,
@@ -12,6 +13,7 @@ import {
 } from "@/types/cms-entities";
 import type { AdminCollectionRowMeta } from "@/utils/cms-entities";
 import {
+  extractCareerRowMeta,
   extractCatalogRowMeta,
   extractCertificateRowMeta,
   extractNewsRowMeta,
@@ -192,6 +194,49 @@ export async function buildAdminCatalogRows(
     const id = parseEntityId("catalog", cms.key);
     if (!id || staticItems.some((item) => item.id === id)) continue;
     rows.push(extractCatalogRowMeta(cms, locale));
+  }
+
+  return sortByCollectionOrder(rows, order);
+}
+
+export async function buildAdminCareerRows(
+  locale: Locale = defaultLocale,
+  search = "",
+): Promise<AdminCollectionRowMeta[]> {
+  const cmsRecords = await listContentEntries({
+    type: "page",
+    ...(search ? { search } : {}),
+  });
+  const filtered = cmsRecords.filter((record) => record.key.startsWith("career."));
+  const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
+  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
+  const staticJobs = getLocalizedCareerJobs(localeContentMessages[locale], locale);
+  const rows: AdminCollectionRowMeta[] = [];
+
+  for (const job of staticJobs) {
+    const key = buildEntityKey("career", job.slug);
+    const cms = cmsByKey.get(key);
+
+    if (cms) {
+      rows.push(extractCareerRowMeta(cms, locale));
+      continue;
+    }
+
+    rows.push({
+      key,
+      title: job.title,
+      subtitle: job.department,
+      status: "static",
+      slug: job.slug,
+      listingOrder: job.listingOrder,
+      href: `/${locale}/careers/${job.slug}`,
+    });
+  }
+
+  for (const cms of filtered) {
+    const id = parseEntityId("career", cms.key);
+    if (!id || staticJobs.some((job) => job.slug === id)) continue;
+    rows.push(extractCareerRowMeta(cms, locale));
   }
 
   return sortByCollectionOrder(rows, order);

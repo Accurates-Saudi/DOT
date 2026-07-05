@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/config";
-import type { CMSContentRecord, CMSContentType, ProductDetailContent } from "@/types";
+import type { CareerJobDetail, CMSContentRecord, CMSContentType, ProductDetailContent } from "@/types";
 import type {
+  CmsCareerPayload,
   CmsCatalogPayload,
   CmsCertificatePayload,
   CmsCollectionOrderPayload,
@@ -152,6 +153,27 @@ export function extractCertificateRowMeta(
     status: record.status,
     updatedAt: record.updatedAt,
     listingOrder: getPayloadListingOrder(payload),
+  };
+}
+
+export function extractCareerRowMeta(
+  record: CMSContentRecord,
+  locale: Locale,
+): AdminCollectionRowMeta {
+  const payload = record.currentVersion?.payload as CmsCareerPayload | undefined;
+  const job = getLocalizedPayload<CareerJobDetail>(payload, locale);
+  const slug = record.slug ?? job?.slug;
+
+  return {
+    key: record.key,
+    cmsKey: record.key,
+    title: job?.title ?? slug ?? record.key,
+    subtitle: job?.department ?? (slug ? `/${slug}` : undefined),
+    status: record.status,
+    updatedAt: record.updatedAt,
+    slug,
+    listingOrder: getPayloadListingOrder(payload),
+    href: slug ? `/${locale}/careers/${slug}` : undefined,
   };
 }
 

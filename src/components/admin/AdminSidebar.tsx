@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   Award,
   Boxes,
+  Briefcase,
   FilePenLine,
   Images,
   LayoutDashboard,
@@ -32,6 +33,7 @@ const adminNavItems: AdminNavItem[] = [
   { to: "/admin/drafts", label: "Drafts", icon: FilePenLine },
   { to: "/admin/products", label: "Products", icon: Package2 },
   { to: "/admin/news", label: "News", icon: Newspaper },
+  { to: "/admin/careers", label: "Careers", icon: Briefcase },
   { to: "/admin/certificates", label: "Certificates", icon: Award },
   { to: "/admin/catalogs", label: "Catalogs", icon: Boxes },
   { to: "/admin/media", label: "Media Library", icon: Images },

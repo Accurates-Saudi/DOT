@@ -21,7 +21,7 @@ export function CareersOpeningsSection({
       id="careers-openings"
       padding="none"
       aria-label="Current openings"
-      className="bg-[#f8f7f5]"
+      className="scroll-mt-24 bg-[#f8f7f5]"
     >
       <Container size="wide" className="px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
         <div className="max-w-3xl">
@@ -87,11 +87,11 @@ export function CareersOpeningsSection({
 
                     <div className="sm:text-end">
                       <Button
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
                         className={cn(
-                          "h-9 rounded-sm border-[#F68E05] px-4 text-[0.6875rem] font-bold tracking-[0.08em] text-[#F68E05] uppercase",
-                          "hover:bg-[#F68E05]/5",
+                          "h-9 rounded-sm border border-[#F68E05] bg-white px-4 text-[0.6875rem] font-bold tracking-[0.08em] text-[#F68E05] uppercase",
+                          "hover:border-[#F68E05] hover:bg-[#F68E05] hover:text-white",
                         )}
                         asChild
                       >

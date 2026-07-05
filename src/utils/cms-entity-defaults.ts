@@ -1,11 +1,12 @@
 import type {
+  CmsCareerPayload,
   CmsCatalogPayload,
   CmsCertificatePayload,
   CmsNewsPayload,
   CmsProductPayload,
 } from "@/types/cms-entities";
 import type { Locale } from "@/i18n/config";
-import type { NewsArticleDetail, ProductDetailContent } from "@/types";
+import type { CareerJobDetail, NewsArticleDetail, ProductDetailContent } from "@/types";
 import { createEmptyLocalizedPayload } from "@/utils/cms-entities";
 
 export function createDefaultProductPayload(
@@ -65,6 +66,25 @@ export function createDefaultCertificatePayload(id: string): CmsCertificatePaylo
   };
 
   return createEmptyLocalizedPayload(emptyItem, emptyItem, 0);
+}
+
+export function createDefaultCareerPayload(slug: string): CmsCareerPayload {
+  const emptyJob: CareerJobDetail = {
+    id: slug,
+    slug,
+    title: "",
+    department: "",
+    location: "",
+    employmentType: "",
+    experience: "",
+    overview: "",
+    responsibilities: [],
+    requirements: [],
+    preferredSkills: [],
+    meta: { title: "", description: "" },
+  };
+
+  return createEmptyLocalizedPayload(emptyJob, emptyJob, 0);
 }
 
 export function createDefaultCatalogPayload(id: string): CmsCatalogPayload {

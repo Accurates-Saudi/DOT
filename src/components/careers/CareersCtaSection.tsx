@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Ref } from "react";
 
-import { LocalizedLink } from "@/components/i18n";
+import { CareersPageLink } from "@/components/careers/CareersPageLink";
 import { Container, Section } from "@/components/shared";
 import { ParallaxBackgroundImage } from "@/components/shared/ParallaxBackgroundImage";
 import { Button } from "@/components/ui";
@@ -59,10 +59,10 @@ export function CareersCtaSection({ content }: CareersCtaSectionProps) {
               className="h-12 shrink-0 rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase"
               asChild
             >
-              <LocalizedLink to={content.ctaPrimary.href}>
+              <CareersPageLink href={content.ctaPrimary.href}>
                 {content.ctaPrimary.label}
                 <ArrowRight className="size-4" />
-              </LocalizedLink>
+              </CareersPageLink>
             </Button>
           </div>
         </Container>

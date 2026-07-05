@@ -15,6 +15,7 @@ import { Container, Section } from "@/components/shared";
 import { ParallaxBackgroundImage } from "@/components/shared/ParallaxBackgroundImage";
 import { Button } from "@/components/ui";
 import { siteSettings } from "@/data/site";
+import { useApplicationEmail } from "@/i18n/content/hooks";
 import { useParallaxTransform } from "@/hooks/use-parallax-transform";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import type {
@@ -63,6 +64,7 @@ export function CareerDetailView({
   detailHero,
   detailSidebar,
 }: CareerDetailViewProps) {
+  const applicationEmail = useApplicationEmail();
   const prefersReducedMotion = usePrefersReducedMotion();
   const { containerRef, targetRef } = useParallaxTransform({
     speed: 0.2,
@@ -70,7 +72,7 @@ export function CareerDetailView({
     disabled: prefersReducedMotion,
   });
 
-  const applyHref = `mailto:${siteSettings.contact.email}?subject=${encodeURIComponent(`Application: ${job.title}`)}`;
+  const applyHref = `mailto:${applicationEmail || siteSettings.contact.email}?subject=${encodeURIComponent(`Application: ${job.title}`)}`;
   const breadcrumbs = [
     ...detailHero.breadcrumbs,
     { label: job.title },

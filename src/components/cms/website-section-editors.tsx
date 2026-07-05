@@ -1,6 +1,7 @@
 import { buildServicesPageContent } from "@/i18n/content";
 import type {
   AboutPageContent,
+  CareersPageContent,
   CatalogsPageContent,
   ContactPageContent,
   FooterContent,
@@ -1749,4 +1750,421 @@ export function createNotFoundPageSectionEditors(): CmsVisualSectionDefinition<N
         ),
     },
   ];
+}
+
+export function createCareersPageSectionEditors(): CmsVisualSectionDefinition<CareersPageContent>[] {
+  return attachSectionRestores<CareersPageContent>(
+    [
+      {
+        id: "careers-hero",
+        title: "Careers Hero",
+        description: "Edit the careers landing page hero section.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            <CmsPanelField
+              label="Label"
+              value={page.hero.label}
+              onChange={(value) => setValueAtPath(["hero", "label"], value)}
+            />
+            <CmsPanelField
+              label="Title"
+              value={page.hero.title}
+              onChange={(value) => setValueAtPath(["hero", "title"], value)}
+            />
+            <CmsPanelField
+              label="Title accent"
+              value={page.hero.titleAccent}
+              onChange={(value) => setValueAtPath(["hero", "titleAccent"], value)}
+            />
+            <CmsPanelTextarea
+              label="Introduction"
+              value={page.hero.introduction}
+              onChange={(value) => setValueAtPath(["hero", "introduction"], value)}
+              rows={4}
+            />
+            <CmsPanelField
+              label="Primary CTA text"
+              value={page.hero.ctaPrimary.label}
+              onChange={(value) =>
+                setValueAtPath(["hero", "ctaPrimary", "label"], value)
+              }
+            />
+            <CmsPanelField
+              label="Primary CTA link"
+              value={page.hero.ctaPrimary.href}
+              onChange={(value) =>
+                setValueAtPath(["hero", "ctaPrimary", "href"], value)
+              }
+            />
+            {page.hero.backgroundImage ? (
+              <CmsPanelImageField
+                label="Background image"
+                image={page.hero.backgroundImage}
+                mediaKey="careers.hero.background"
+                onImageChange={(next) =>
+                  setValueAtPath(["hero", "backgroundImage"], next)
+                }
+              />
+            ) : null}
+          </>
+        ),
+      },
+      {
+        id: "careers-benefits",
+        title: "Benefits",
+        description: "Edit the four benefit cards shown on the careers page.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            {page.benefits.items.map((item, index) => (
+              <CmsPanelCard key={`benefit-${index}`} title={`Benefit ${index + 1}`}>
+                <CmsPanelField
+                  label="Title"
+                  value={item.title}
+                  onChange={(value) =>
+                    setValueAtPath(["benefits", "items", index, "title"], value)
+                  }
+                />
+                <CmsPanelTextarea
+                  label="Description"
+                  value={item.description}
+                  onChange={(value) =>
+                    setValueAtPath(["benefits", "items", index, "description"], value)
+                  }
+                  rows={3}
+                />
+              </CmsPanelCard>
+            ))}
+          </>
+        ),
+      },
+      {
+        id: "careers-openings",
+        title: "Open Positions",
+        description:
+          "Edit openings section labels and general application copy. Job rows remain dashboard-managed.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            <CmsPanelField
+              label="Section label"
+              value={page.openings.label}
+              onChange={(value) => setValueAtPath(["openings", "label"], value)}
+            />
+            <CmsPanelField
+              label="Section heading"
+              value={page.openings.heading}
+              onChange={(value) => setValueAtPath(["openings", "heading"], value)}
+            />
+            <CmsPanelCard title="Table columns">
+              <CmsPanelField
+                label="Position"
+                value={page.openings.columns.position}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "columns", "position"], value)
+                }
+              />
+              <CmsPanelField
+                label="Department"
+                value={page.openings.columns.department}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "columns", "department"], value)
+                }
+              />
+              <CmsPanelField
+                label="Location"
+                value={page.openings.columns.location}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "columns", "location"], value)
+                }
+              />
+              <CmsPanelField
+                label="Type"
+                value={page.openings.columns.type}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "columns", "type"], value)
+                }
+              />
+              <CmsPanelField
+                label="Action"
+                value={page.openings.columns.action}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "columns", "action"], value)
+                }
+              />
+            </CmsPanelCard>
+            <CmsPanelField
+              label="View details label"
+              value={page.openings.viewDetailsLabel}
+              onChange={(value) =>
+                setValueAtPath(["openings", "viewDetailsLabel"], value)
+              }
+            />
+            <CmsPanelCard title="General application">
+              <CmsPanelField
+                label="Heading"
+                value={page.openings.generalApplication.heading}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "generalApplication", "heading"], value)
+                }
+              />
+              <CmsPanelTextarea
+                label="Body"
+                value={page.openings.generalApplication.body}
+                onChange={(value) =>
+                  setValueAtPath(["openings", "generalApplication", "body"], value)
+                }
+                rows={3}
+              />
+              <CmsPanelField
+                label="CTA text"
+                value={page.openings.generalApplication.ctaPrimary.label}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["openings", "generalApplication", "ctaPrimary", "label"],
+                    value,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="CTA link"
+                value={page.openings.generalApplication.ctaPrimary.href}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["openings", "generalApplication", "ctaPrimary", "href"],
+                    value,
+                  )
+                }
+              />
+            </CmsPanelCard>
+          </>
+        ),
+      },
+      {
+        id: "careers-hiring-process",
+        title: "Hiring Process",
+        description: "Edit the four hiring process steps.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            <CmsPanelField
+              label="Section label"
+              value={page.hiringProcess.label}
+              onChange={(value) =>
+                setValueAtPath(["hiringProcess", "label"], value)
+              }
+            />
+            <CmsPanelField
+              label="Section heading"
+              value={page.hiringProcess.heading}
+              onChange={(value) =>
+                setValueAtPath(["hiringProcess", "heading"], value)
+              }
+            />
+            {page.hiringProcess.steps.map((step, index) => (
+              <CmsPanelCard key={`step-${index}`} title={`Step ${index + 1}`}>
+                <CmsPanelField
+                  label="Title"
+                  value={step.title}
+                  onChange={(value) =>
+                    setValueAtPath(["hiringProcess", "steps", index, "title"], value)
+                  }
+                />
+                <CmsPanelTextarea
+                  label="Description"
+                  value={step.description}
+                  onChange={(value) =>
+                    setValueAtPath(
+                      ["hiringProcess", "steps", index, "description"],
+                      value,
+                    )
+                  }
+                  rows={3}
+                />
+              </CmsPanelCard>
+            ))}
+          </>
+        ),
+      },
+      {
+        id: "careers-cta",
+        title: "Careers CTA",
+        description: "Edit the bottom call-to-action on the careers page.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            <CmsPanelField
+              label="Heading"
+              value={page.cta.heading}
+              onChange={(value) => setValueAtPath(["cta", "heading"], value)}
+            />
+            <CmsPanelField
+              label="Heading accent"
+              value={page.cta.headingAccent}
+              onChange={(value) => setValueAtPath(["cta", "headingAccent"], value)}
+            />
+            <CmsPanelField
+              label="Primary CTA text"
+              value={page.cta.ctaPrimary.label}
+              onChange={(value) =>
+                setValueAtPath(["cta", "ctaPrimary", "label"], value)
+              }
+            />
+            <CmsPanelField
+              label="Primary CTA link"
+              value={page.cta.ctaPrimary.href}
+              onChange={(value) =>
+                setValueAtPath(["cta", "ctaPrimary", "href"], value)
+              }
+            />
+            {page.cta.backgroundImage ? (
+              <CmsPanelImageField
+                label="Background image"
+                image={page.cta.backgroundImage}
+                mediaKey="careers.cta.background"
+                onImageChange={(next) => setValueAtPath(["cta", "backgroundImage"], next)}
+              />
+            ) : null}
+          </>
+        ),
+      },
+      {
+        id: "careers-detail-copy",
+        title: "Job Detail Page",
+        description:
+          "Edit shared labels and sidebar copy used on all job detail pages.",
+        renderPanel: ({ page, setValueAtPath }) => (
+          <>
+            <CmsPanelCard title="Detail hero">
+              <CmsPanelField
+                label="Back label"
+                value={page.detailHero.backLabel}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "backLabel"], value)
+                }
+              />
+              <CmsPanelField
+                label="Apply label"
+                value={page.detailHero.applyLabel}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "applyLabel"], value)
+                }
+              />
+              <CmsPanelField
+                label="Department label"
+                value={page.detailHero.metaLabels.department}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "metaLabels", "department"], value)
+                }
+              />
+              <CmsPanelField
+                label="Location label"
+                value={page.detailHero.metaLabels.location}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "metaLabels", "location"], value)
+                }
+              />
+              <CmsPanelField
+                label="Employment type label"
+                value={page.detailHero.metaLabels.employmentType}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["detailHero", "metaLabels", "employmentType"],
+                    value,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="Experience label"
+                value={page.detailHero.metaLabels.experience}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "metaLabels", "experience"], value)
+                }
+              />
+              <CmsPanelField
+                label="Overview heading"
+                value={page.detailHero.sectionHeadings.overview}
+                onChange={(value) =>
+                  setValueAtPath(["detailHero", "sectionHeadings", "overview"], value)
+                }
+              />
+              <CmsPanelField
+                label="Responsibilities heading"
+                value={page.detailHero.sectionHeadings.responsibilities}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["detailHero", "sectionHeadings", "responsibilities"],
+                    value,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="Requirements heading"
+                value={page.detailHero.sectionHeadings.requirements}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["detailHero", "sectionHeadings", "requirements"],
+                    value,
+                  )
+                }
+              />
+              <CmsPanelField
+                label="Preferred skills heading"
+                value={page.detailHero.sectionHeadings.preferredSkills}
+                onChange={(value) =>
+                  setValueAtPath(
+                    ["detailHero", "sectionHeadings", "preferredSkills"],
+                    value,
+                  )
+                }
+              />
+            </CmsPanelCard>
+            <CmsPanelCard title="Detail sidebar">
+              <CmsPanelField
+                label="Summary heading"
+                value={page.detailSidebar.summaryHeading}
+                onChange={(value) =>
+                  setValueAtPath(["detailSidebar", "summaryHeading"], value)
+                }
+              />
+              <CmsPanelField
+                label="Why join heading"
+                value={page.detailSidebar.whyJoinHeading}
+                onChange={(value) =>
+                  setValueAtPath(["detailSidebar", "whyJoinHeading"], value)
+                }
+              />
+              {page.detailSidebar.whyJoinItems.map((item, index) => (
+                <CmsPanelField
+                  key={`why-join-${index}`}
+                  label={`Why join item ${index + 1}`}
+                  value={item.title}
+                  onChange={(value) =>
+                    setValueAtPath(["detailSidebar", "whyJoinItems", index, "title"], value)
+                  }
+                />
+              ))}
+              <CmsPanelField
+                label="Sidebar CTA heading"
+                value={page.detailSidebar.ctaHeading}
+                onChange={(value) =>
+                  setValueAtPath(["detailSidebar", "ctaHeading"], value)
+                }
+              />
+              <CmsPanelField
+                label="Sidebar CTA text"
+                value={page.detailSidebar.ctaPrimary.label}
+                onChange={(value) =>
+                  setValueAtPath(["detailSidebar", "ctaPrimary", "label"], value)
+                }
+              />
+            </CmsPanelCard>
+          </>
+        ),
+      },
+    ],
+    {
+      "careers-hero": "hero",
+      "careers-benefits": "benefits",
+      "careers-openings": "openings",
+      "careers-hiring-process": "hiringProcess",
+      "careers-cta": "cta",
+    },
+  );
 }

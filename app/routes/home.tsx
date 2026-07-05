@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router";
 
+import { toProductItem } from "@/data/products/factory";
 import type { Route } from "./+types/home";
 import { HomePage } from "@/pages";
 import { buildHomeContent } from "@/i18n/content";
@@ -13,17 +14,18 @@ export async function loader({ params }: Route.LoaderArgs) {
   const locale = isValidLocale(params.locale ?? defaultLocale)
     ? (params.locale as Locale)
     : defaultLocale;
-  const { getPublishedCertificates, getPublishedNewsArticles } = await import(
-    "@/server/cms/content/entity-content.server"
-  );
-  const [certificateItems, newsArticles] = await Promise.all([
+  const { getPublishedCertificates, getPublishedNewsArticles, getPublishedProductDetails } =
+    await import("@/server/cms/content/entity-content.server");
+  const [certificateItems, newsArticles, featuredProductItems] = await Promise.all([
     getPublishedCertificates(locale),
     getPublishedNewsArticles(locale),
+    getPublishedProductDetails(locale),
   ]);
 
   return {
     certificateItems,
     newsArticles: newsArticles.map(toNewsArticlePreview).slice(0, 3),
+    featuredProductItems: featuredProductItems.map(toProductItem).slice(0, 8),
   };
 }
 
@@ -50,6 +52,7 @@ export default function Home() {
     <HomePage
       certificateItems={data.certificateItems}
       newsArticles={data.newsArticles}
+      featuredProductItems={data.featuredProductItems}
     />
   );
 }

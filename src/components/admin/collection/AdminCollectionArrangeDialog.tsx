@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, X } from "lucide-react";
+import { GripVertical, X } from "lucide-react";
 import { Form } from "react-router";
 
 import type { AdminCollectionRowMeta } from "@/utils/cms-entities";
+import { cn } from "@/lib/utils";
 
 interface AdminCollectionArrangeDialogProps {
   open: boolean;
@@ -10,6 +11,27 @@ interface AdminCollectionArrangeDialogProps {
   title: string;
   collectionPath: string;
   rows: AdminCollectionRowMeta[];
+}
+
+function reorderRows(
+  rows: AdminCollectionRowMeta[],
+  fromIndex: number,
+  toIndex: number,
+): AdminCollectionRowMeta[] {
+  if (
+    fromIndex === toIndex ||
+    fromIndex < 0 ||
+    toIndex < 0 ||
+    fromIndex >= rows.length ||
+    toIndex >= rows.length
+  ) {
+    return rows;
+  }
+
+  const next = [...rows];
+  const [moved] = next.splice(fromIndex, 1);
+  next.splice(toIndex, 0, moved);
+  return next;
 }
 
 export function AdminCollectionArrangeDialog({
@@ -20,10 +42,14 @@ export function AdminCollectionArrangeDialog({
   rows,
 }: AdminCollectionArrangeDialogProps) {
   const [arrangeRows, setArrangeRows] = useState(rows);
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (!open) return;
     setArrangeRows(rows);
+    setDraggingIndex(null);
+    setDropTargetIndex(null);
   }, [open, rows]);
 
   useEffect(() => {
@@ -37,15 +63,12 @@ export function AdminCollectionArrangeDialog({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
 
-  function moveRow(index: number, direction: "up" | "down") {
-    setArrangeRows((current) => {
-      const targetIndex = direction === "up" ? index - 1 : index + 1;
-      if (targetIndex < 0 || targetIndex >= current.length) return current;
+  function handleDrop(targetIndex: number) {
+    if (draggingIndex === null) return;
 
-      const next = [...current];
-      [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
-      return next;
-    });
+    setArrangeRows((current) => reorderRows(current, draggingIndex, targetIndex));
+    setDraggingIndex(null);
+    setDropTargetIndex(null);
   }
 
   if (!open) return null;
@@ -70,7 +93,7 @@ export function AdminCollectionArrangeDialog({
               Arrange {title}
             </h2>
             <p className="mt-1 text-sm text-[#666]">
-              Move items up or down. This controls the order shown on the website.
+              Drag items to reorder them. This controls the order shown on the website.
             </p>
           </div>
           <button
@@ -88,8 +111,38 @@ export function AdminCollectionArrangeDialog({
             {arrangeRows.map((row, index) => (
               <li
                 key={row.key}
-                className="flex items-center gap-3 rounded-md border border-[#e5e5e5] bg-[#fafafa] px-3 py-3"
+                draggable
+                onDragStart={() => {
+                  setDraggingIndex(index);
+                  setDropTargetIndex(index);
+                }}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setDropTargetIndex(index);
+                }}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  handleDrop(index);
+                }}
+                onDragEnd={() => {
+                  setDraggingIndex(null);
+                  setDropTargetIndex(null);
+                }}
+                className={cn(
+                  "flex cursor-grab items-center gap-3 rounded-md border bg-[#fafafa] px-3 py-3 transition active:cursor-grabbing",
+                  draggingIndex === index
+                    ? "border-[var(--dot-orange)] opacity-50"
+                    : dropTargetIndex === index && draggingIndex !== null
+                      ? "border-[var(--dot-orange)] bg-[#fff7ef]"
+                      : "border-[#e5e5e5]",
+                )}
               >
+                <span
+                  className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-[#888] ring-1 ring-[#e5e5e5]"
+                  aria-hidden
+                >
+                  <GripVertical className="size-4" />
+                </span>
                 <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-[#888] ring-1 ring-[#e5e5e5]">
                   {index + 1}
                 </span>
@@ -102,31 +155,11 @@ export function AdminCollectionArrangeDialog({
                 ) : (
                   <div className="size-10 shrink-0 rounded-md border border-dashed border-[#e5e5e5] bg-white" />
                 )}
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 select-none">
                   <p className="truncate font-medium text-[#111]">{row.title}</p>
                   {row.subtitle ? (
                     <p className="truncate text-xs text-[#888]">{row.subtitle}</p>
                   ) : null}
-                </div>
-                <div className="flex shrink-0 flex-col gap-1">
-                  <button
-                    type="button"
-                    disabled={index === 0}
-                    aria-label={`Move ${row.title} up`}
-                    className="inline-flex size-8 items-center justify-center rounded-md border border-[#e5e5e5] bg-white text-[#555] hover:border-[#d4d4d4] disabled:cursor-not-allowed disabled:opacity-40"
-                    onClick={() => moveRow(index, "up")}
-                  >
-                    <ArrowUp className="size-4" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={index === arrangeRows.length - 1}
-                    aria-label={`Move ${row.title} down`}
-                    className="inline-flex size-8 items-center justify-center rounded-md border border-[#e5e5e5] bg-white text-[#555] hover:border-[#d4d4d4] disabled:cursor-not-allowed disabled:opacity-40"
-                    onClick={() => moveRow(index, "down")}
-                  >
-                    <ArrowDown className="size-4" />
-                  </button>
                 </div>
               </li>
             ))}
@@ -138,6 +171,7 @@ export function AdminCollectionArrangeDialog({
           action={collectionPath}
           className="flex justify-end gap-2 border-t border-[#e5e5e5] px-5 py-4"
         >
+          <input type="hidden" name="intent" value="reorder" />
           <input
             type="hidden"
             name="orderedKeys"
@@ -152,8 +186,6 @@ export function AdminCollectionArrangeDialog({
           </button>
           <button
             type="submit"
-            name="intent"
-            value="reorder"
             className="rounded-md bg-[var(--dot-orange)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
           >
             Save Order

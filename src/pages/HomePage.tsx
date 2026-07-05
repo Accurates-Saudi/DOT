@@ -24,14 +24,16 @@ import { buildHomeContent } from "@/i18n/content";
 import { useHomePageContent } from "@/i18n/content/hooks";
 import { useI18n, useLocale } from "@/i18n/hooks";
 import type { Locale } from "@/i18n/config";
-import type { CertificateItem, HomePageContent, NewsArticlePreview } from "@/types";
+import type { CertificateItem, HomePageContent, NewsArticlePreview, ProductItem } from "@/types";
 
 export function HomePage({
   certificateItems,
   newsArticles,
+  featuredProductItems,
 }: {
   certificateItems?: CertificateItem[];
   newsArticles?: NewsArticlePreview[];
+  featuredProductItems?: ProductItem[];
 }) {
   const homePageContent = useHomePageContent();
   const { getContentOverride } = useCmsExperience();
@@ -65,9 +67,19 @@ export function HomePage({
         };
       }
 
+      if (featuredProductItems?.length) {
+        base = {
+          ...base,
+          featuredProducts: {
+            ...base.featuredProducts,
+            items: featuredProductItems,
+          },
+        };
+      }
+
       return base;
     },
-    [certificateItems, getContentOverride, messages, newsArticles],
+    [certificateItems, featuredProductItems, getContentOverride, messages, newsArticles],
   );
 
   const editor = useCmsVisualPageEditor({
@@ -101,11 +113,22 @@ export function HomePage({
       };
     }
 
+    if (featuredProductItems?.length) {
+      content = {
+        ...content,
+        featuredProducts: {
+          ...content.featuredProducts,
+          items: featuredProductItems,
+        },
+      };
+    }
+
     return content;
   }, [
     certificateItems,
     editor.isInteractive,
     editor.page,
+    featuredProductItems,
     homePageContent,
     newsArticles,
   ]);

@@ -51,20 +51,23 @@ export function sortByCollectionOrder<T extends { key: string }>(
   if (orderedKeys.length === 0) return items;
 
   const rank = new Map(orderedKeys.map((key, index) => [key, index]));
+  const indexed = items.map((item, index) => ({ item, index }));
 
-  return [...items].sort((left, right) => {
-    const leftRank = rank.get(left.key);
-    const rightRank = rank.get(right.key);
+  return indexed
+    .sort((left, right) => {
+      const leftRank = rank.get(left.item.key);
+      const rightRank = rank.get(right.item.key);
 
-    if (leftRank !== undefined && rightRank !== undefined) {
-      return leftRank - rightRank;
-    }
+      if (leftRank !== undefined && rightRank !== undefined) {
+        return leftRank - rightRank;
+      }
 
-    if (leftRank !== undefined) return -1;
-    if (rightRank !== undefined) return 1;
+      if (leftRank !== undefined) return -1;
+      if (rightRank !== undefined) return 1;
 
-    return 0;
-  });
+      return left.index - right.index;
+    })
+    .map(({ item }) => item);
 }
 
 export function sortByListingOrder<T extends { listingOrder?: number; updatedAt?: string }>(

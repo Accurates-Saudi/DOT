@@ -9,8 +9,8 @@ import {
   Power,
   PowerOff,
 } from "lucide-react";
-import { Form, Link } from "react-router";
-import { useEffect, useMemo, useState } from "react";
+import { Form, Link, useNavigation } from "react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AdminSurface } from "@/components/admin";
 import { AdminCollectionArrangeDialog } from "@/components/admin/collection/AdminCollectionArrangeDialog";
@@ -53,10 +53,26 @@ export function AdminCollectionListPage({
 }: AdminCollectionListPageProps) {
   const [orderedRows, setOrderedRows] = useState(rows);
   const [arrangeOpen, setArrangeOpen] = useState(false);
+  const navigation = useNavigation();
+  const submittedReorderRef = useRef(false);
 
   useEffect(() => {
     setOrderedRows(rows);
   }, [rows]);
+
+  useEffect(() => {
+    if (
+      navigation.state === "submitting" &&
+      navigation.formData?.get("intent") === "reorder"
+    ) {
+      submittedReorderRef.current = true;
+    }
+
+    if (navigation.state === "idle" && submittedReorderRef.current) {
+      submittedReorderRef.current = false;
+      setArrangeOpen(false);
+    }
+  }, [navigation.formData, navigation.state]);
 
   const filteredRows = orderedRows.filter((row) => {
     if (statusFilter === "inactive") {

@@ -16,21 +16,14 @@ export function ProductsGrid({ content, className }: ProductsGridProps) {
 
   const filteredProducts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    const products = normalizedQuery
-      ? content.items.filter((product) => {
-          const searchable = [product.name, product.description, product.category]
-            .join(" ")
-            .toLowerCase();
+    if (!normalizedQuery) return content.items;
 
-          return searchable.includes(normalizedQuery);
-        })
-      : content.items;
+    return content.items.filter((product) => {
+      const searchable = [product.name, product.description, product.category]
+        .join(" ")
+        .toLowerCase();
 
-    return [...products].sort((a, b) => {
-      const leftOrder = a.listingOrder ?? Number.MAX_SAFE_INTEGER;
-      const rightOrder = b.listingOrder ?? Number.MAX_SAFE_INTEGER;
-      if (leftOrder !== rightOrder) return leftOrder - rightOrder;
-      return a.name.localeCompare(b.name);
+      return searchable.includes(normalizedQuery);
     });
   }, [content.items, query]);
 

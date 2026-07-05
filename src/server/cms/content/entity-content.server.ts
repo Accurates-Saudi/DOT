@@ -69,8 +69,15 @@ export async function getArchivedEntityKeys(): Promise<Set<string>> {
 export async function getCollectionOrder(
   orderKey: string,
 ): Promise<string[]> {
-  const payload = await getPublicContentPayloadByKey(orderKey);
-  return parseCollectionOrderPayload(payload);
+  try {
+    const detail = await getContentEntryByKey(orderKey);
+    const payload =
+      detail.publishedVersion?.payload ?? detail.entry.currentVersion?.payload;
+    return parseCollectionOrderPayload(payload);
+  } catch {
+    const payload = await getPublicContentPayloadByKey(orderKey);
+    return parseCollectionOrderPayload(payload);
+  }
 }
 
 export async function saveCollectionOrder(input: {

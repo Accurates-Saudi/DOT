@@ -12,6 +12,15 @@ function getDateFormatLocale(locale: Locale): string {
   return locale === "ar" ? "ar-SA-u-nu-arab" : "en-US";
 }
 
+/** Arabic-Indic digits → Western digits for storage. */
+export function parseLocaleDigits(text: string): string {
+  const arabic = "٠١٢٣٤٥٦٧٨٩";
+  return text.replace(/[٠-٩]/g, (digit) => {
+    const index = arabic.indexOf(digit);
+    return index >= 0 ? String(index) : digit;
+  });
+}
+
 /** Western digits → Arabic-Indic (٠–٩). No-op for English. */
 export function formatNumber(value: number, locale: Locale): string {
   return new Intl.NumberFormat(getNumberFormatLocale(locale), {

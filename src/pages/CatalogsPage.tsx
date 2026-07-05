@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -55,6 +56,7 @@ export function CatalogsPage() {
     <>
       <CmsSectionEditorPanel editor={editor} />
 
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="catalogs-hero"
         title="Catalogs Hero"
@@ -72,6 +74,7 @@ export function CatalogsPage() {
       >
         <CatalogLibrarySection content={displayContent.library} />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

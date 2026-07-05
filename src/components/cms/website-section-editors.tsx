@@ -267,6 +267,7 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
               <CmsPanelField
                 label="Value"
                 value={String(item.value)}
+                numeric
                 onChange={(value) =>
                   setValueAtPath(
                     ["companyStatistics", "items", index, "value"],
@@ -889,6 +890,7 @@ export function createAboutPageSectionEditors(): CmsVisualSectionDefinition<Abou
               <CmsPanelField
                 label="Value"
                 value={String(stat.value)}
+                numeric
                 onChange={(value) =>
                   setValueAtPath(
                     ["companyOverview", "stats", index, "value"],

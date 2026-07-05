@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -59,6 +60,7 @@ export function ProductsPage() {
     <>
       <CmsSectionEditorPanel editor={editor} />
 
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="products-hero"
         title="Products Hero"
@@ -85,6 +87,7 @@ export function ProductsPage() {
       >
         <ProductsCtaSection content={displayContent.cta} />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

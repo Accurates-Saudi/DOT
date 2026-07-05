@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -41,6 +42,7 @@ export function NotFoundPage() {
   return (
     <>
       <CmsSectionEditorPanel editor={editor} />
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="not-found"
         title="Not Found Page"
@@ -49,6 +51,7 @@ export function NotFoundPage() {
       >
         <NotFoundSection content={displayContent} />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

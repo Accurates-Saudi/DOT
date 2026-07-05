@@ -10,6 +10,7 @@ import {
   formatStatisticValue,
   requiresLtrNumericIsolation,
 } from "./format-numbers";
+import { useCmsEditorPreviewLocale } from "@/contexts/cms-editor-preview-locale";
 import { useI18nContext } from "./provider";
 import type { TranslateFn } from "./types";
 
@@ -45,7 +46,9 @@ export function useTranslation(namespace?: string): {
 }
 
 export function useNumberFormat() {
-  const { locale } = useI18nContext();
+  const previewLocale = useCmsEditorPreviewLocale();
+  const { locale: siteLocale } = useI18nContext();
+  const locale = previewLocale ?? siteLocale;
 
   return useMemo(
     () => ({

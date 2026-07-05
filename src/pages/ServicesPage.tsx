@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { PageHeroSection } from "@/components/shared";
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -41,6 +42,7 @@ export function ServicesPage() {
     <>
       <CmsSectionEditorPanel editor={editor} />
 
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="services-hero"
         title="Services Hero"
@@ -56,6 +58,7 @@ export function ServicesPage() {
           backgroundImage={displayContent.hero.backgroundImage}
         />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

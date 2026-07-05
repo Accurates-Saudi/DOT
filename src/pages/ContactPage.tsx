@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -46,6 +47,7 @@ export function ContactPage() {
   return (
     <>
       <CmsSectionEditorPanel editor={editor} />
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="contact-hero"
         title="Contact Hero"
@@ -78,6 +80,7 @@ export function ContactPage() {
       >
         <ContactEngineeringCtaSection content={displayContent.engineeringCta} />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

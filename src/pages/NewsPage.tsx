@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -58,6 +59,7 @@ export function NewsPage() {
     <>
       <CmsSectionEditorPanel editor={editor} />
 
+      <CmsEditorPreviewBridge editor={editor}>
       <CmsEditableSection
         sectionId="news-hero"
         title="News Hero"
@@ -87,6 +89,7 @@ export function NewsPage() {
       >
         <NewsGridSection content={displayContent.grid} articles={articles} />
       </CmsEditableSection>
+      </CmsEditorPreviewBridge>
     </>
   );
 }

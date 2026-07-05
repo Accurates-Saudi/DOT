@@ -5,6 +5,7 @@ import type { LucideIcon } from "lucide-react";
 
 import {
   CmsEditableSection,
+  CmsEditorPreviewBridge,
   CmsSectionEditorPanel,
   useCmsVisualPageEditor,
 } from "@/components/cms/CmsVisualEditor";
@@ -65,7 +66,9 @@ export function Footer({ content: contentProp }: FooterProps) {
         isSelected={editor.selectedSectionId === "footer"}
         onSelect={editor.setSelectedSectionId}
       >
-        <FooterView content={content} />
+        <CmsEditorPreviewBridge editor={editor}>
+          <FooterView content={content} />
+        </CmsEditorPreviewBridge>
       </CmsEditableSection>
     </>
   );

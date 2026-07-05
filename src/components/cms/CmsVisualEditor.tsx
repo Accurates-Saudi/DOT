@@ -1,4 +1,4 @@
-import { RotateCcw, X } from "lucide-react";
+import { Redo2, RotateCcw, Undo2, X } from "lucide-react";
 import {
   type ReactNode,
   useCallback,
@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
+import { CmsEditorPreviewLocaleProvider } from "@/contexts/cms-editor-preview-locale";
 import { useCmsExperience } from "@/contexts/cms-experience-context";
 import { locales, type Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
@@ -102,6 +103,29 @@ function setValueAtPath<T>(
   return value;
 }
 
+const MAX_UNDO_HISTORY = 40;
+
+export function CmsEditorPreviewBridge({
+  editor,
+  children,
+}: {
+  editor: {
+    isInteractive: boolean;
+    editingLocale: Locale;
+  };
+  children: ReactNode;
+}) {
+  if (!editor.isInteractive) {
+    return <>{children}</>;
+  }
+
+  return (
+    <CmsEditorPreviewLocaleProvider locale={editor.editingLocale}>
+      {children}
+    </CmsEditorPreviewLocaleProvider>
+  );
+}
+
 export function useCmsVisualPageEditor<TPage>({
   getInitialContent,
   contentKeyPrefix,
@@ -132,6 +156,47 @@ export function useCmsVisualPageEditor<TPage>({
     message?: string;
   }>({ state: "idle" });
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const skipHistoryRef = useRef(true);
+  const historyRef = useRef<{ past: TPage[]; future: TPage[] }>({
+    past: [],
+    future: [],
+  });
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
+
+  function resetHistory() {
+    historyRef.current = { past: [], future: [] };
+    setCanUndo(false);
+    setCanRedo(false);
+    skipHistoryRef.current = true;
+  }
+
+  function syncHistoryFlags() {
+    setCanUndo(historyRef.current.past.length > 0);
+    setCanRedo(historyRef.current.future.length > 0);
+  }
+
+  function recordHistory(previous: TPage) {
+    if (skipHistoryRef.current) {
+      return;
+    }
+
+    historyRef.current.past.push(cloneValue(previous));
+    if (historyRef.current.past.length > MAX_UNDO_HISTORY) {
+      historyRef.current.past.shift();
+    }
+    historyRef.current.future = [];
+    syncHistoryFlags();
+  }
+
+  function commitPage(updater: (current: TPage) => TPage) {
+    setPage((current) => {
+      const next = updater(cloneValue(current));
+      recordHistory(current);
+      return next;
+    });
+    setStatus({ state: "idle" });
+  }
 
   useEffect(() => {
     setEditingLocale(siteLocale);
@@ -142,6 +207,10 @@ export function useCmsVisualPageEditor<TPage>({
     setDefaultPage(nextBaseline);
     setPage(cloneValue(nextBaseline));
     setStatus({ state: "idle" });
+    resetHistory();
+    window.setTimeout(() => {
+      skipHistoryRef.current = false;
+    }, 0);
   }, [baselineContent, contentKey]);
 
   useEffect(() => {
@@ -191,11 +260,19 @@ export function useCmsVisualPageEditor<TPage>({
         }
 
         setStatus({ state: "idle" });
+        resetHistory();
+        window.setTimeout(() => {
+          skipHistoryRef.current = false;
+        }, 0);
       } catch {
         if (cancelled) return;
         setDefaultPage(cloneValue(baselineContent));
         setPage(cloneValue(baselineContent));
         setStatus({ state: "idle" });
+        resetHistory();
+        window.setTimeout(() => {
+          skipHistoryRef.current = false;
+        }, 0);
       }
     }
 
@@ -267,7 +344,7 @@ export function useCmsVisualPageEditor<TPage>({
       setStatus({
         state: "saved",
         message: publish
-          ? `Set ${editingLocale.toUpperCase()} content as the site default.`
+          ? `Published ${editingLocale.toUpperCase()} content to the live site.`
           : `Draft saved for ${editingLocale.toUpperCase()}.`,
       });
 
@@ -294,14 +371,65 @@ export function useCmsVisualPageEditor<TPage>({
       return;
     }
 
+    skipHistoryRef.current = true;
     setPage((current) =>
       selectedSection.restoreFromPublished!(cloneValue(current), defaultPage),
     );
+    historyRef.current.future = [];
+    syncHistoryFlags();
+    skipHistoryRef.current = false;
     setStatus({
       state: "saved",
       message: "Restored this section to the default version.",
     });
   }, [defaultPage, selectedSection]);
+
+  const setAsDefault = useCallback(() => {
+    if (!selectedSection?.restoreFromPublished) {
+      setStatus({
+        state: "error",
+        message: "This section cannot be saved as the default version.",
+      });
+      return;
+    }
+
+    setDefaultPage((current) =>
+      selectedSection.restoreFromPublished!(cloneValue(current), page),
+    );
+    setStatus({
+      state: "saved",
+      message:
+        "Saved this section as the default. Use Default will restore to this version.",
+    });
+  }, [page, selectedSection]);
+
+  const undo = useCallback(() => {
+    const previous = historyRef.current.past.pop();
+    if (!previous) return;
+
+    skipHistoryRef.current = true;
+    setPage((current) => {
+      historyRef.current.future.push(cloneValue(current));
+      return cloneValue(previous);
+    });
+    syncHistoryFlags();
+    skipHistoryRef.current = false;
+    setStatus({ state: "idle", message: "Undid the last change." });
+  }, []);
+
+  const redo = useCallback(() => {
+    const next = historyRef.current.future.pop();
+    if (!next) return;
+
+    skipHistoryRef.current = true;
+    setPage((current) => {
+      historyRef.current.past.push(cloneValue(current));
+      return cloneValue(next);
+    });
+    syncHistoryFlags();
+    skipHistoryRef.current = false;
+    setStatus({ state: "idle", message: "Redid the last change." });
+  }, []);
 
   return {
     page,
@@ -318,15 +446,17 @@ export function useCmsVisualPageEditor<TPage>({
     status,
     setPage,
     updatePage: (updater: (current: TPage) => TPage) => {
-      setPage((current) => updater(cloneValue(current)));
-      setStatus({ state: "idle" });
+      commitPage(updater);
     },
     setValueAtPath: (path: PathSegment[], value: unknown) => {
-      setPage((current) => setValueAtPath(cloneValue(current), path, value));
-      setStatus({ state: "idle" });
+      commitPage((current) => setValueAtPath(cloneValue(current), path, value));
     },
     useDefault,
-    setAsDefault: () => persist(true),
+    setAsDefault,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     saveDraft: () => persist(false),
     publish: () => persist(true),
   };
@@ -446,7 +576,9 @@ export function CmsSectionEditorPanel<TPage>({
         {editor.status.state === "loading-draft" ? (
           <p className="text-sm text-[#0c1524]/50">Loading draft preview...</p>
         ) : (
-          <div className="space-y-5">{section.renderPanel(renderContext)}</div>
+          <CmsEditorPreviewLocaleProvider locale={editor.editingLocale}>
+            <div className="space-y-5">{section.renderPanel(renderContext)}</div>
+          </CmsEditorPreviewLocaleProvider>
         )}
       </div>
 
@@ -463,6 +595,28 @@ export function CmsSectionEditorPanel<TPage>({
             {editor.status.message}
           </p>
         ) : null}
+        <div className="mb-3 flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 flex-1 rounded-2xl"
+            onClick={editor.undo}
+            disabled={!editor.canUndo || editor.status.state === "loading-draft"}
+          >
+            <Undo2 className="mr-2 size-4" />
+            Undo
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 flex-1 rounded-2xl"
+            onClick={editor.redo}
+            disabled={!editor.canRedo || editor.status.state === "loading-draft"}
+          >
+            <Redo2 className="mr-2 size-4" />
+            Redo
+          </Button>
+        </div>
         {canRevert ? (
           <div className="mb-3 flex gap-2">
             <Button
@@ -478,6 +632,19 @@ export function CmsSectionEditorPanel<TPage>({
             >
               <RotateCcw className="mr-2 size-4" />
               Use Default
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-10 flex-1 justify-center rounded-2xl text-[#0c1524]/68 hover:text-[#0c1524]"
+              onClick={editor.setAsDefault}
+              disabled={
+                editor.status.state === "saving" ||
+                editor.status.state === "publishing" ||
+                editor.status.state === "loading-draft"
+              }
+            >
+              Set as Default
             </Button>
           </div>
         ) : null}
@@ -499,16 +666,14 @@ export function CmsSectionEditorPanel<TPage>({
             type="button"
             variant="accent"
             className="h-11 flex-1 rounded-2xl"
-            onClick={editor.setAsDefault}
+            onClick={editor.publish}
             disabled={
               editor.status.state === "saving" ||
               editor.status.state === "publishing" ||
               editor.status.state === "loading-draft"
             }
           >
-            {editor.status.state === "publishing"
-              ? "Setting..."
-              : "Set as Default"}
+            {editor.status.state === "publishing" ? "Publishing..." : "Publish"}
           </Button>
         </div>
       </footer>

@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 import type {
   CatalogItem,
   CertificateItem,
+  CareerJobDetail,
   NewsArticleDetail,
   ProductDetailContent,
 } from "@/types";
@@ -23,6 +24,8 @@ export type CmsCertificatePayload = CmsLocalizedPayload<CertificateItem>;
 
 export type CmsCatalogPayload = CmsLocalizedPayload<CatalogItem>;
 
+export type CmsCareerPayload = CmsLocalizedPayload<CareerJobDetail>;
+
 export interface CmsCollectionOrderPayload {
   orderedKeys: string[];
 }
@@ -30,6 +33,7 @@ export interface CmsCollectionOrderPayload {
 export const CMS_COLLECTION_ORDER_KEYS = {
   product: "products.order",
   news: "news.order",
+  career: "careers.order",
   certificate: "certificates.order",
   catalog: "catalogs.order",
 } as const;
@@ -37,6 +41,7 @@ export const CMS_COLLECTION_ORDER_KEYS = {
 export const CMS_ENTITY_KEY_PREFIX = {
   product: "product.",
   news: "news.",
+  career: "career.",
   certificate: "certificate.",
   catalog: "catalog.",
 } as const;

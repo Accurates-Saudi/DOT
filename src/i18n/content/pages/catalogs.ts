@@ -3,6 +3,7 @@ import type { TranslationMessages } from "@/i18n/types";
 import type { CatalogsPageContent } from "@/types";
 
 import { catalogAssets } from "../assets/catalogs";
+import { catalogItemIds } from "../defaults/catalogs-structure";
 import { pageHeroAssets } from "../assets/pages";
 import { getMessagesSection } from "../helpers";
 import { localizeBreadcrumbs } from "./navigation";
@@ -30,6 +31,7 @@ export function buildCatalogsPageContent(
       ...page.library,
       items: page.library.items.map((item, index) => ({
         ...item,
+        ...catalogItemIds[index],
         cover: {
           ...item.cover,
           src: catalogAssets[index] ?? catalogAssets[0],

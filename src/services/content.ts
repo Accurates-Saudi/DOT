@@ -3,6 +3,8 @@ import type { TranslationMessages } from "@/i18n/types";
 import type {
   AboutPageContent,
   CatalogsPageContent,
+  CareerJobDetail,
+  CareersPageContent,
   ContactPageContent,
   FooterContent,
   HomePageContent,
@@ -32,6 +34,8 @@ import {
   navigationUiContentSource,
   newsArticlesContentSource,
   newsPageContentSource,
+  careersPageContentSource,
+  careerJobsContentSource,
   notFoundContentSource,
   productDetailsContentSource,
   productsPageContentSource,
@@ -154,6 +158,32 @@ export function buildNewsContent(
   locale: Locale,
 ): NewsPageWithDetailCta {
   return resolveSource<NewsPageWithDetailCta>(newsPageContentSource, locale);
+}
+
+export function buildCareersContent(
+  _messages: TranslationMessages,
+  locale: Locale,
+): CareersPageContent {
+  return resolveSource<CareersPageContent>(careersPageContentSource, locale);
+}
+
+function resolveCareerJobs(locale: Locale): CareerJobDetail[] {
+  return resolveSource<CareerJobDetail[]>(careerJobsContentSource, locale);
+}
+
+export function getLocalizedCareerJobs(
+  _messages: TranslationMessages,
+  locale: Locale,
+): CareerJobDetail[] {
+  return resolveCareerJobs(locale);
+}
+
+export function getLocalizedCareerJobBySlug(
+  _messages: TranslationMessages,
+  locale: Locale,
+  slug: string,
+): CareerJobDetail | undefined {
+  return resolveCareerJobs(locale).find((job) => job.slug === slug);
 }
 
 export function buildNotFoundContent(

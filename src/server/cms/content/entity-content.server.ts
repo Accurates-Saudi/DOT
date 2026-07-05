@@ -4,6 +4,10 @@ import { productRecords } from "@/data/products/registry";
 import { buildHomeContent } from "@/i18n/content";
 import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
 import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
+import {
+  getLocalizedCareerJobs,
+  getLocalizedCareerJobBySlug,
+} from "@/i18n/content/careers";
 import { getLocalizedProductBySlug } from "@/i18n/content/products";
 import { localeContentMessages } from "@/content/shared";
 import type {
@@ -48,6 +52,10 @@ function resolveStaticProduct(locale: Locale, slug: string): ProductDetailConten
 
 function resolveStaticNews(locale: Locale, slug: string): NewsArticleDetail | undefined {
   return getLocalizedNewsBySlug(localeContentMessages[locale], slug);
+}
+
+function resolveStaticCareer(locale: Locale, slug: string): CareerJobDetail | undefined {
+  return getLocalizedCareerJobBySlug(localeContentMessages[locale], slug);
 }
 
 export async function getArchivedEntityKeys(): Promise<Set<string>> {
@@ -204,6 +212,53 @@ export async function getPublishedNewsBySlug(
   }
 
   return resolveStaticNews(locale, slug);
+}
+
+export async function getPublishedCareerJobs(
+  locale: Locale,
+): Promise<CareerJobDetail[]> {
+  const messages = localeContentMessages[locale];
+  const staticJobs = getLocalizedCareerJobs(messages, locale);
+  const cmsEntries = await listPublishedEntityPayloads<CmsCareerPayload>("career");
+  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
+  const archivedKeys = await getArchivedEntityKeys();
+  const cmsBySlug = new Map<string, CareerJobDetail>();
+
+  for (const entry of cmsEntries) {
+    const localized = getLocalizedPayload<CareerJobDetail>(entry.payload, locale);
+    if (localized) cmsBySlug.set(localized.slug, localized);
+  }
+
+  const merged = staticJobs.map((job) => cmsBySlug.get(job.slug) ?? job);
+  const staticSlugs = new Set(staticJobs.map((job) => job.slug));
+  const cmsOnly = [...cmsBySlug.values()].filter((job) => !staticSlugs.has(job.slug));
+
+  const keyed = [...merged, ...cmsOnly]
+    .filter((job) => !archivedKeys.has(buildEntityKey("career", job.slug)))
+    .map((job) => ({
+      key: buildEntityKey("career", job.slug),
+      job,
+    }));
+
+  return sortByCollectionOrder(keyed, order).map((item) => item.job);
+}
+
+export async function getPublishedCareerJobBySlug(
+  locale: Locale,
+  slug: string,
+): Promise<CareerJobDetail | undefined> {
+  const key = buildEntityKey("career", slug);
+  const archivedKeys = await getArchivedEntityKeys();
+  if (archivedKeys.has(key)) return undefined;
+
+  const cmsPayload = await getPublicContentPayloadByKey(key);
+
+  if (cmsPayload) {
+    const localized = getLocalizedPayload<CareerJobDetail>(cmsPayload, locale);
+    if (localized) return localized;
+  }
+
+  return resolveStaticCareer(locale, slug);
 }
 
 export async function getPublishedCertificates(

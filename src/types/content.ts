@@ -705,3 +705,110 @@ export interface NotFoundPageContent extends PageContent {
   supportEmail: LinkItem;
   supportPhone: LinkItem;
 }
+
+export interface CareersBenefitItem {
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+}
+
+export interface CareersHiringStep {
+  title: ContentValue<string>;
+  description: ContentValue<string>;
+}
+
+export interface CareersWhyJoinItem {
+  title: ContentValue<string>;
+}
+
+export interface CareerJobDetail {
+  id: string;
+  slug: string;
+  title: ContentValue<string>;
+  department: ContentValue<string>;
+  location: ContentValue<string>;
+  employmentType: ContentValue<string>;
+  experience: ContentValue<string>;
+  overview: ContentValue<string>;
+  responsibilities: ContentValue<string>[];
+  requirements: ContentValue<string>[];
+  preferredSkills: ContentValue<string>[];
+  meta: PageMeta;
+  listingOrder?: number;
+}
+
+export interface CareersHeroContent {
+  label: ContentValue<string>;
+  title: ContentValue<string>;
+  titleAccent: ContentValue<string>;
+  introduction: ContentValue<string>;
+  backgroundImage?: ImageAsset;
+  ctaPrimary: LinkItem;
+}
+
+export interface CareersOpeningsContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  columns: {
+    position: ContentValue<string>;
+    department: ContentValue<string>;
+    location: ContentValue<string>;
+    type: ContentValue<string>;
+    action: ContentValue<string>;
+  };
+  viewDetailsLabel: ContentValue<string>;
+  generalApplication: {
+    heading: ContentValue<string>;
+    body: ContentValue<string>;
+    ctaPrimary: LinkItem;
+  };
+}
+
+export interface CareersHiringProcessContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  steps: CareersHiringStep[];
+}
+
+export interface CareersCtaContent {
+  heading: ContentValue<string>;
+  headingAccent: ContentValue<string>;
+  ctaPrimary: LinkItem;
+  backgroundImage?: ImageAsset;
+}
+
+export interface CareersDetailSidebarContent {
+  whyJoinHeading: ContentValue<string>;
+  whyJoinItems: CareersWhyJoinItem[];
+  ctaHeading: ContentValue<string>;
+  ctaPrimary: LinkItem;
+}
+
+export interface CareersDetailHeroContent {
+  breadcrumbs: BreadcrumbItem[];
+  backLabel: ContentValue<string>;
+  applyLabel: ContentValue<string>;
+  metaLabels: {
+    department: ContentValue<string>;
+    location: ContentValue<string>;
+    employmentType: ContentValue<string>;
+    experience: ContentValue<string>;
+  };
+  sectionHeadings: {
+    overview: ContentValue<string>;
+    responsibilities: ContentValue<string>;
+    requirements: ContentValue<string>;
+    preferredSkills: ContentValue<string>;
+  };
+}
+
+export interface CareersPageContent extends PageContent {
+  hero: CareersHeroContent;
+  benefits: {
+    items: CareersBenefitItem[];
+  };
+  openings: CareersOpeningsContent;
+  hiringProcess: CareersHiringProcessContent;
+  cta: CareersCtaContent;
+  detailSidebar: CareersDetailSidebarContent;
+  detailHero: CareersDetailHeroContent;
+}

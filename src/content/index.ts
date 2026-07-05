@@ -20,4 +20,8 @@ export {
   newsArticlesContentSource,
   newsPageContentSource,
 } from "./news";
+export {
+  careersPageContentSource,
+  careerJobsContentSource,
+} from "./careers";
 export { servicesContentSource } from "./services";

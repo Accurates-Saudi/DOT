@@ -575,6 +575,7 @@ export interface SiteSettings {
   locale: string;
   contact: {
     email: string;
+    hrEmail?: string;
     phone: string;
     address: string;
     city: string;

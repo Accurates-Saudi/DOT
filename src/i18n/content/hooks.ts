@@ -245,10 +245,15 @@ export function useCookieConsentCopy() {
 
 export function useApplicationEmail() {
   const footerContent = useFooterContent();
+  const { getContentOverride } = useCmsExperience();
   return useMemo(() => {
+    const site = getContentOverride<CmsSiteSettingsPayload>("site.settings");
+    const hrEmail = site?.contact.hrEmail?.trim();
+    if (hrEmail) return hrEmail;
+
     const emailItem = footerContent.contact.items.find((item) => item.type === "email");
     return emailItem?.value ?? "";
-  }, [footerContent]);
+  }, [footerContent, getContentOverride]);
 }
 
 export function useSiteCopy() {

@@ -174,6 +174,23 @@ export function AdminSettingsPage({
               />
             </AdminField>
           </div>
+          <AdminField label="HR / Careers Email">
+            <AdminInput
+              type="email"
+              value={payload.contact.hrEmail ?? ""}
+              onChange={(event) =>
+                setPayload((current) => ({
+                  ...current,
+                  contact: { ...current.contact, hrEmail: event.target.value },
+                }))
+              }
+              placeholder="e.g. careers@company.com"
+            />
+          </AdminField>
+          <p className="text-sm text-[#888]">
+            Job applications from careers pages use the HR / Careers email. If empty, the main
+            contact email is used.
+          </p>
           <AdminField label="Address">
             <AdminInput
               value={payload.contact.address}

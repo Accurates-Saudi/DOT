@@ -16,9 +16,13 @@ import { LinkedInIcon } from "./NavbarIcons";
 
 interface NavbarMobileMenuProps {
   isHeroState?: boolean;
+  toggleClassName?: string;
 }
 
-export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps) {
+export function NavbarMobileMenu({
+  isHeroState = false,
+  toggleClassName,
+}: NavbarMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const mainNavigation = useMainNavigation();
@@ -50,6 +54,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
           isOpen={open}
           isHeroState={isHeroState}
           label={navigationCopy.openMenu}
+          className={toggleClassName}
         />
       </DialogPrimitive.Trigger>
 
@@ -212,7 +217,7 @@ const MobileMenuToggle = forwardRef<
       aria-expanded={isOpen}
       aria-label={label}
       className={cn(
-        "relative flex size-10 shrink-0 items-center justify-center rounded-full transition-[color,background-color,transform] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden",
+        "relative flex size-10 shrink-0 items-center justify-center rounded-full transition-[color,background-color,transform] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
         "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#F68E05]/35",
         isHeroState
           ? "text-white hover:bg-white/10"

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { AdminPreviewFrame } from "@/components/admin/collection/AdminPreviewFrame";
 import { CareerDetailView } from "@/components/careers/CareerDetailView";
@@ -19,6 +19,26 @@ import type { CmsCareerPayload } from "@/types/cms-entities";
 import type { CareerJobDetail } from "@/types";
 import { getLocalizedPayload } from "@/utils/cms-entities";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
+
+function CareerJobPreview({
+  job,
+  locale,
+  detailHero,
+  detailSidebar,
+}: {
+  job: CareerJobDetail;
+  locale: Locale;
+  detailHero: ReturnType<typeof buildCareersContent>["detailHero"];
+  detailSidebar: ReturnType<typeof buildCareersContent>["detailSidebar"];
+}): ReactNode {
+  return (
+    <CmsExperienceProvider session={null}>
+      <AdminPreviewFrame locale={locale}>
+        <CareerDetailView job={job} detailHero={detailHero} detailSidebar={detailSidebar} />
+      </AdminPreviewFrame>
+    </CmsExperienceProvider>
+  );
+}
 
 interface AdminCareerEditorPageProps {
   contentKey: string;
@@ -61,6 +81,8 @@ export function AdminCareerEditorPage({
     status === "static" ||
     JSON.stringify(payload) !== JSON.stringify(savedPayload);
 
+  const previewTitle = `${job?.title || "Job"} Preview`;
+
   useEffect(() => {
     if (!job) {
       registerPreview(null);
@@ -69,22 +91,19 @@ export function AdminCareerEditorPage({
 
     registerPreview({
       locale: activeLocale,
-      title: `${job.title || "Job"} Preview`,
+      title: previewTitle,
       render: () => (
-        <CmsExperienceProvider session={null}>
-          <AdminPreviewFrame locale={activeLocale}>
-            <CareerDetailView
-              job={job}
-              detailHero={careersPageContent.detailHero}
-              detailSidebar={careersPageContent.detailSidebar}
-            />
-          </AdminPreviewFrame>
-        </CmsExperienceProvider>
+        <CareerJobPreview
+          job={job}
+          locale={activeLocale}
+          detailHero={careersPageContent.detailHero}
+          detailSidebar={careersPageContent.detailSidebar}
+        />
       ),
     });
 
     return () => registerPreview(null);
-  }, [activeLocale, careersPageContent, job, registerPreview]);
+  }, [activeLocale, careersPageContent, job, previewTitle, registerPreview]);
 
   function updateJob(updater: (current: CareerJobDetail) => CareerJobDetail) {
     setPayload((current) => {

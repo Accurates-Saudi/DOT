@@ -24,7 +24,9 @@ export type CmsCertificatePayload = CmsLocalizedPayload<CertificateItem>;
 
 export type CmsCatalogPayload = CmsLocalizedPayload<CatalogItem>;
 
-export type CmsCareerPayload = CmsLocalizedPayload<CareerJobDetail>;
+export type CmsCareerPayload = CmsLocalizedPayload<CareerJobDetail> & {
+  isActive?: boolean;
+};
 
 export interface CmsCollectionOrderPayload {
   orderedKeys: string[];

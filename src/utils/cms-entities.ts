@@ -19,6 +19,11 @@ export function getPayloadListingOrder(payload: unknown): number | undefined {
   return typeof payload.listingOrder === "number" ? payload.listingOrder : undefined;
 }
 
+export function getPayloadIsActive(payload: unknown): boolean {
+  if (!isRecord(payload)) return true;
+  return payload.isActive !== false;
+}
+
 export function getLocalizedPayload<T>(
   payload: unknown,
   locale: Locale,
@@ -88,6 +93,7 @@ export interface AdminCollectionRowMeta {
   slug?: string;
   listingOrder?: number;
   href?: string;
+  isActive?: boolean;
 }
 
 export function extractProductRowMeta(
@@ -174,6 +180,7 @@ export function extractCareerRowMeta(
     slug,
     listingOrder: getPayloadListingOrder(payload),
     href: slug ? `/${locale}/careers/${slug}` : undefined,
+    isActive: getPayloadIsActive(payload),
   };
 }
 

@@ -84,7 +84,10 @@ export function createDefaultCareerPayload(slug: string): CmsCareerPayload {
     meta: { title: "", description: "" },
   };
 
-  return createEmptyLocalizedPayload(emptyJob, emptyJob, 0);
+  return {
+    ...createEmptyLocalizedPayload(emptyJob, emptyJob, 0),
+    isActive: true,
+  };
 }
 
 export function createDefaultCatalogPayload(id: string): CmsCatalogPayload {

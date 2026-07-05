@@ -56,6 +56,20 @@ export async function action({ request }: Route.ActionArgs) {
     await processCollectionUnarchiveAction(session.user.id, key);
     return redirect("/admin/careers?status=archived");
   }
+  if (intent === "activate" && key) {
+    const { setCareerActiveStatus } = await import(
+      "@/server/cms/content/entity-content.server"
+    );
+    await setCareerActiveStatus({ key, actorId: session.user.id, isActive: true });
+    return redirect("/admin/careers");
+  }
+  if (intent === "deactivate" && key) {
+    const { setCareerActiveStatus } = await import(
+      "@/server/cms/content/entity-content.server"
+    );
+    await setCareerActiveStatus({ key, actorId: session.user.id, isActive: false });
+    return redirect("/admin/careers");
+  }
   return { ok: false };
 }
 
@@ -73,6 +87,7 @@ export default function AdminCareersRoute() {
       statusFilter={status}
       emptyMessage="No job postings were found."
       editPath={(row) => `/admin/careers/${encodeURIComponent(row.cmsKey ?? row.key)}`}
+      enableActiveToggle
     />
   );
 }

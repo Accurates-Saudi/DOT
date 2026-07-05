@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import { AdminPreviewFrame } from "@/components/admin/collection/AdminPreviewFrame";
 import { CareerDetailView } from "@/components/careers/CareerDetailView";
 import { AdminEntityEditorShell } from "@/components/admin/collection/AdminEntityEditorShell";
 import {
@@ -10,9 +11,10 @@ import {
   AdminTextarea,
 } from "@/components/admin/collection/AdminEntityFormFields";
 import { useAdminWorkspace } from "@/contexts/admin-workspace-context";
+import { CmsExperienceProvider } from "@/contexts/cms-experience-context";
+import { localeContentMessages } from "@/content/shared";
 import { buildCareersContent } from "@/i18n/content";
 import type { Locale } from "@/i18n/config";
-import { useI18n } from "@/i18n/hooks";
 import type { CmsCareerPayload } from "@/types/cms-entities";
 import type { CareerJobDetail } from "@/types";
 import { getLocalizedPayload } from "@/utils/cms-entities";
@@ -42,7 +44,6 @@ export function AdminCareerEditorPage({
   const [busy, setBusy] = useState<"save" | "publish" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { registerPreview } = useAdminWorkspace();
-  const { messages } = useI18n();
 
   const job = useMemo(
     () => getLocalizedPayload<CareerJobDetail>(payload, activeLocale),
@@ -50,9 +51,11 @@ export function AdminCareerEditorPage({
   );
 
   const careersPageContent = useMemo(
-    () => buildCareersContent(messages, activeLocale),
-    [activeLocale, messages],
+    () => buildCareersContent(localeContentMessages[activeLocale], activeLocale),
+    [activeLocale],
   );
+
+  const isActive = payload.isActive !== false;
 
   const isDirty =
     status === "static" ||
@@ -68,11 +71,15 @@ export function AdminCareerEditorPage({
       locale: activeLocale,
       title: `${job.title || "Job"} Preview`,
       render: () => (
-        <CareerDetailView
-          job={job}
-          detailHero={careersPageContent.detailHero}
-          detailSidebar={careersPageContent.detailSidebar}
-        />
+        <CmsExperienceProvider session={null}>
+          <AdminPreviewFrame locale={activeLocale}>
+            <CareerDetailView
+              job={job}
+              detailHero={careersPageContent.detailHero}
+              detailSidebar={careersPageContent.detailSidebar}
+            />
+          </AdminPreviewFrame>
+        </CmsExperienceProvider>
       ),
     });
 
@@ -117,7 +124,7 @@ export function AdminCareerEditorPage({
     <AdminEntityEditorShell
       backTo={backTo}
       title={job.title || "New Job Posting"}
-      statusLabel={status}
+      statusLabel={isActive ? status : "inactive"}
       isDirty={isDirty}
       isSaving={busy === "save"}
       isPublishing={busy === "publish"}
@@ -125,7 +132,7 @@ export function AdminCareerEditorPage({
       onPublish={(changeSummary) => persist(true, changeSummary)}
     >
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         {(["en", "ar"] as const).map((option) => (
           <button
             key={option}
@@ -142,6 +149,25 @@ export function AdminCareerEditorPage({
         ))}
       </div>
       <div className="space-y-5">
+        <AdminFieldGroup title="Visibility">
+          <label className="flex items-center gap-3 text-sm text-[#333]">
+            <input
+              type="checkbox"
+              checked={isActive}
+              onChange={(event) =>
+                setPayload((current) => ({
+                  ...current,
+                  isActive: event.target.checked,
+                }))
+              }
+              className="size-4 rounded border-[#d4d4d4]"
+            />
+            Active on website
+          </label>
+          <p className="text-sm text-[#888]">
+            Inactive jobs stay in the admin list but are hidden from the public careers page.
+          </p>
+        </AdminFieldGroup>
         <AdminFieldGroup title="Job Posting">
           <AdminField label="Title">
             <AdminInput

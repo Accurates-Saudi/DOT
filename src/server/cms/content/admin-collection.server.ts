@@ -230,6 +230,7 @@ export async function buildAdminCareerRows(
       slug: job.slug,
       listingOrder: job.listingOrder,
       href: `/${locale}/careers/${job.slug}`,
+      isActive: true,
     });
   }
 

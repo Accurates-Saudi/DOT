@@ -35,6 +35,7 @@ import {
   buildCollectionOrderPayload,
   createEmptyLocalizedPayload,
   getLocalizedPayload,
+  getPayloadIsActive,
   parseCollectionOrderPayload,
   sortByCollectionOrder,
 } from "@/utils/cms-entities";
@@ -224,16 +225,29 @@ export async function getPublishedCareerJobs(
   const cmsEntries = await listPublishedEntityPayloads<CmsCareerPayload>("page", "career.");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
   const archivedKeys = await getArchivedEntityKeys();
-  const cmsBySlug = new Map<string, CareerJobDetail>();
+  const cmsBySlug = new Map<string, { job: CareerJobDetail; isActive: boolean }>();
 
   for (const entry of cmsEntries) {
     const localized = getLocalizedPayload<CareerJobDetail>(entry.payload, locale);
-    if (localized) cmsBySlug.set(localized.slug, localized);
+    if (localized) {
+      cmsBySlug.set(localized.slug, {
+        job: localized,
+        isActive: getPayloadIsActive(entry.payload),
+      });
+    }
   }
 
-  const merged = staticJobs.map((job) => cmsBySlug.get(job.slug) ?? job);
+  const merged = staticJobs.flatMap((job) => {
+    const cms = cmsBySlug.get(job.slug);
+    if (cms) {
+      return cms.isActive ? [cms.job] : [];
+    }
+    return [job];
+  });
   const staticSlugs = new Set(staticJobs.map((job) => job.slug));
-  const cmsOnly = [...cmsBySlug.values()].filter((job) => !staticSlugs.has(job.slug));
+  const cmsOnly = [...cmsBySlug.values()]
+    .filter((entry) => entry.isActive && !staticSlugs.has(entry.job.slug))
+    .map((entry) => entry.job);
 
   const keyed = [...merged, ...cmsOnly]
     .filter((job) => !archivedKeys.has(buildEntityKey("career", job.slug)))
@@ -256,11 +270,53 @@ export async function getPublishedCareerJobBySlug(
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
   if (cmsPayload) {
+    if (!getPayloadIsActive(cmsPayload)) return undefined;
     const localized = getLocalizedPayload<CareerJobDetail>(cmsPayload, locale);
     if (localized) return localized;
   }
 
   return resolveStaticCareer(locale, slug);
+}
+
+export async function setCareerActiveStatus(input: {
+  key: string;
+  actorId: string;
+  isActive: boolean;
+}): Promise<void> {
+  let payload: CmsCareerPayload;
+  let slug: string | undefined;
+
+  try {
+    const detail = await getContentEntryByKey(input.key);
+    payload = (detail.entry.currentVersion?.payload ??
+      detail.publishedVersion?.payload) as CmsCareerPayload;
+    slug = detail.entry.slug ?? parseEntityId("career", input.key) ?? undefined;
+  } catch {
+    const id = parseEntityId("career", input.key);
+    if (!id) {
+      throw new Error(`Cannot update visibility for "${input.key}".`);
+    }
+
+    const staticPayload = await getStaticCareerPayload(id);
+    if (!staticPayload) {
+      throw new Error(`Cannot update visibility for "${input.key}".`);
+    }
+
+    payload = staticPayload;
+    slug = id;
+  }
+
+  await upsertContentEntry({
+    key: input.key,
+    type: "page",
+    payload: { ...payload, isActive: input.isActive },
+    actorId: input.actorId,
+    ...(slug ? { slug } : {}),
+    publish: true,
+    changeSummary: input.isActive
+      ? "Activated job posting on the website"
+      : "Deactivated job posting on the website",
+  });
 }
 
 export async function getPublishedCertificates(

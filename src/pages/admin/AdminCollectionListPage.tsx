@@ -6,6 +6,8 @@ import {
   Copy,
   Pencil,
   Plus,
+  Power,
+  PowerOff,
 } from "lucide-react";
 import { Form, Link } from "react-router";
 import { useEffect, useMemo, useState } from "react";
@@ -25,6 +27,15 @@ interface AdminCollectionListPageProps {
   editPath: (row: AdminCollectionRowMeta) => string;
   emptyMessage: string;
   statusFilter?: string;
+  enableActiveToggle?: boolean;
+}
+
+function getRowStatusLabel(row: AdminCollectionRowMeta): string {
+  if (row.isActive === false && row.status !== "archived") {
+    return "inactive";
+  }
+
+  return row.status;
 }
 
 export function AdminCollectionListPage({
@@ -38,6 +49,7 @@ export function AdminCollectionListPage({
   editPath,
   emptyMessage,
   statusFilter = "all",
+  enableActiveToggle = false,
 }: AdminCollectionListPageProps) {
   const [orderedRows, setOrderedRows] = useState(rows);
   const [arrangeOpen, setArrangeOpen] = useState(false);
@@ -47,6 +59,9 @@ export function AdminCollectionListPage({
   }, [rows]);
 
   const filteredRows = orderedRows.filter((row) => {
+    if (statusFilter === "inactive") {
+      return row.isActive === false && row.status !== "archived";
+    }
     if (statusFilter === "all") return row.status !== "archived";
     return row.status === statusFilter;
   });
@@ -99,6 +114,7 @@ export function AdminCollectionListPage({
             <option value="published">Published</option>
             <option value="draft">Draft</option>
             <option value="static">Website only</option>
+            {enableActiveToggle ? <option value="inactive">Inactive</option> : null}
             <option value="archived">Archived</option>
           </select>
           <button
@@ -146,7 +162,7 @@ export function AdminCollectionListPage({
                     </td>
                     <td className="px-6 py-5">
                       <span className="inline-flex rounded border border-[#e5e5e5] px-2.5 py-1 text-sm capitalize text-[#555]">
-                        {row.status}
+                        {getRowStatusLabel(row)}
                       </span>
                     </td>
                     <td className="px-6 py-5 text-[#666]">
@@ -174,6 +190,35 @@ export function AdminCollectionListPage({
                                 Duplicate
                               </button>
                             </Form>
+                          ) : null}
+                          {enableActiveToggle && row.status !== "archived" ? (
+                            row.isActive === false ? (
+                              <Form method="post" action={collectionPath}>
+                                <input type="hidden" name="key" value={row.key} />
+                                <button
+                                  type="submit"
+                                  name="intent"
+                                  value="activate"
+                                  className="inline-flex items-center gap-1 rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333] hover:border-[#d4d4d4]"
+                                >
+                                  <Power className="size-3.5" />
+                                  Activate
+                                </button>
+                              </Form>
+                            ) : (
+                              <Form method="post" action={collectionPath}>
+                                <input type="hidden" name="key" value={row.key} />
+                                <button
+                                  type="submit"
+                                  name="intent"
+                                  value="deactivate"
+                                  className="inline-flex items-center gap-1 rounded-md border border-[#e5e5e5] px-3 py-1.5 text-sm text-[#333] hover:border-[#d4d4d4]"
+                                >
+                                  <PowerOff className="size-3.5" />
+                                  Deactivate
+                                </button>
+                              </Form>
+                            )
                           ) : null}
                           {row.status === "archived" ? (
                             <Form method="post" action={collectionPath}>

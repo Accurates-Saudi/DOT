@@ -1,3 +1,4 @@
+import { careerJobs } from "@/data/careers/jobs";
 import { productDetails } from "@/data/products/registry";
 import { realNewsArticles } from "@/data/news/realArticles";
 import { seoDefaults } from "@/data/site";
@@ -11,6 +12,7 @@ const STATIC_PATHS = [
   "/products",
   "/catalogs",
   "/news",
+  "/careers",
   "/contact",
 ] as const;
 
@@ -81,6 +83,16 @@ export function getSitemapEntries(): SitemapEntry[] {
         lastmod: toLastmod(article.publishedAt),
         changefreq: "yearly",
         priority: 0.6,
+      }),
+    );
+  }
+
+  for (const job of careerJobs) {
+    entries.push(
+      ...createEntries(`/careers/${job.slug}`, {
+        lastmod: generatedAt,
+        changefreq: "monthly",
+        priority: 0.7,
       }),
     );
   }

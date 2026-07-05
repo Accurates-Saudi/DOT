@@ -13,7 +13,6 @@ export type CMSContentType =
   | "page"
   | "product"
   | "news"
-  | "career"
   | "certificate"
   | "shared";
 export type CMSMediaType = "image" | "document" | "video" | "other";

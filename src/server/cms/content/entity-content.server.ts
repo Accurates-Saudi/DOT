@@ -13,12 +13,14 @@ import { localeContentMessages } from "@/content/shared";
 import type {
   CatalogItem,
   CertificateItem,
+  CareerJobDetail,
   NewsArticleDetail,
   ProductDetailContent,
 } from "@/types";
 import type { CMSContentType as CMSContentTypeDto } from "@/types";
 import type {
   CmsCatalogPayload,
+  CmsCareerPayload,
   CmsCertificatePayload,
   CmsCollectionOrderPayload,
   CmsNewsPayload,
@@ -219,7 +221,7 @@ export async function getPublishedCareerJobs(
 ): Promise<CareerJobDetail[]> {
   const messages = localeContentMessages[locale];
   const staticJobs = getLocalizedCareerJobs(messages, locale);
-  const cmsEntries = await listPublishedEntityPayloads<CmsCareerPayload>("career");
+  const cmsEntries = await listPublishedEntityPayloads<CmsCareerPayload>("page", "career.");
   const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
   const archivedKeys = await getArchivedEntityKeys();
   const cmsBySlug = new Map<string, CareerJobDetail>();

@@ -50,6 +50,8 @@ export default [
       route("catalogs", "routes/catalogs.tsx"),
       route("news", "routes/news.tsx"),
       route("news/:slug", "routes/news.$slug.tsx"),
+      route("careers", "routes/careers.tsx"),
+      route("careers/:slug", "routes/careers.$slug.tsx"),
       route("contact", "routes/contact.tsx"),
       route("*", "routes/$.tsx"),
     ]),

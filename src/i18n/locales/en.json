@@ -35,6 +35,10 @@
         "href": "/news"
       },
       {
+        "label": "Careers",
+        "href": "/careers"
+      },
+      {
         "label": "Contact Us",
         "href": "/contact"
       }
@@ -81,6 +85,10 @@
         {
           "label": "News",
           "href": "/news"
+        },
+        {
+          "label": "Careers",
+          "href": "/careers"
         },
         {
           "label": "Contact Us",
@@ -802,6 +810,135 @@
         "ctaPrimary": {
           "label": "Contact Our Team",
           "href": "/contact"
+        }
+      }
+    },
+    "careers": {
+      "meta": {
+        "title": "Careers",
+        "description": "Build your career with Dynamic Oil Tools. Explore open positions in manufacturing, engineering, and quality across Saudi Arabia."
+      },
+      "hero": {
+        "label": "Build Your Career with DOT",
+        "title": "Shape. Innovate.",
+        "titleAccent": "Make an Impact.",
+        "introduction": "Join a team that drives precision, innovation and excellence in the oil & gas industry.",
+        "ctaPrimary": {
+          "label": "View Open Positions",
+          "href": "#careers-openings"
+        },
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools team at work"
+        }
+      },
+      "benefits": {
+        "items": [
+          {
+            "title": "Grow & Develop",
+            "description": "Continuous learning opportunities and clear career progression paths."
+          },
+          {
+            "title": "Great Team",
+            "description": "Collaborate with skilled professionals in a supportive environment."
+          },
+          {
+            "title": "Safe & Secure",
+            "description": "A safety-first culture with modern facilities and best practices."
+          },
+          {
+            "title": "Meaningful Work",
+            "description": "Contribute to precision engineering that powers the energy sector."
+          }
+        ]
+      },
+      "openings": {
+        "label": "Current Openings",
+        "heading": "Explore Opportunities",
+        "columns": {
+          "position": "Position",
+          "department": "Department",
+          "location": "Location",
+          "type": "Type",
+          "action": "Action"
+        },
+        "viewDetailsLabel": "View Details",
+        "generalApplication": {
+          "heading": "Don't see the right role?",
+          "body": "We are always looking for talented people. Send us your CV and we will keep you in mind for future opportunities.",
+          "ctaPrimary": {
+            "label": "Submit Your CV",
+            "href": "/contact"
+          }
+        }
+      },
+      "hiringProcess": {
+        "label": "Our Hiring Process",
+        "heading": "Simple Steps to Join Our Team",
+        "steps": [
+          {
+            "title": "Submit Application",
+            "description": "Send your CV and cover letter for the role you are interested in."
+          },
+          {
+            "title": "Initial Review",
+            "description": "Our HR team reviews your application and qualifications."
+          },
+          {
+            "title": "Interview",
+            "description": "Meet with the hiring team to discuss your experience and fit."
+          },
+          {
+            "title": "Join Our Team",
+            "description": "Receive your offer and begin your journey with DOT."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Ready to Build the Future?",
+        "headingAccent": "Let's Build Something Extraordinary Together.",
+        "ctaPrimary": {
+          "label": "View Open Positions",
+          "href": "#careers-openings"
+        },
+        "backgroundImage": {
+          "alt": "Dynamic Oil Tools manufacturing facility"
+        }
+      },
+      "detailSidebar": {
+        "summaryHeading": "Job Summary",
+        "whyJoinHeading": "Why Join Us?",
+        "whyJoinItems": [
+          { "title": "Competitive salary and benefits" },
+          { "title": "Opportunities for career growth" },
+          { "title": "Training and skill development" },
+          { "title": "Safe and professional work environment" },
+          { "title": "Be part of a leading Saudi manufacturing company" }
+        ],
+        "ctaHeading": "Ready to take the next step?",
+        "ctaPrimary": {
+          "label": "Apply Now",
+          "href": "#"
+        }
+      },
+      "detailHero": {
+        "breadcrumbs": [
+          { "label": "Home", "href": "/" },
+          { "label": "Careers", "href": "/careers" }
+        ],
+        "backLabel": "Back to Careers",
+        "applyLabel": "Apply Now",
+        "metaLabels": {
+          "position": "Position",
+          "department": "Department",
+          "location": "Location",
+          "employmentType": "Employment Type",
+          "experience": "Experience"
+        },
+        "sectionHeadings": {
+          "overview": "Job Overview",
+          "responsibilities": "Key Responsibilities",
+          "requirements": "Requirements",
+          "preferredSkills": "Preferred Skills"
         }
       }
     },

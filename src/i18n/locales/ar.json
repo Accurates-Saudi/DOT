@@ -35,6 +35,10 @@
         "href": "/news"
       },
       {
+        "label": "الوظائف",
+        "href": "/careers"
+      },
+      {
         "label": "اتصل بنا",
         "href": "/contact"
       }
@@ -81,6 +85,10 @@
         {
           "label": "الأخبار",
           "href": "/news"
+        },
+        {
+          "label": "الوظائف",
+          "href": "/careers"
         },
         {
           "label": "اتصل بنا",
@@ -802,6 +810,135 @@
         "ctaPrimary": {
           "label": "تواصل مع فريقنا",
           "href": "/contact"
+        }
+      }
+    },
+    "careers": {
+      "meta": {
+        "title": "الوظائف",
+        "description": "ابنِ مسيرتك المهنية مع Dynamic Oil Tools. استكشف الوظائف الشاغرة في التصنيع والهندسة والجودة في المملكة العربية السعودية."
+      },
+      "hero": {
+        "label": "ابنِ مسيرتك المهنية مع DOT",
+        "title": "شكّل. ابتكر.",
+        "titleAccent": "أحدث تأثيرًا.",
+        "introduction": "انضم إلى فريق يقود الدقة والابتكار والتميز في قطاع النفط والغاز.",
+        "ctaPrimary": {
+          "label": "عرض الوظائف الشاغرة",
+          "href": "#careers-openings"
+        },
+        "backgroundImage": {
+          "alt": "فريق Dynamic Oil Tools أثناء العمل"
+        }
+      },
+      "benefits": {
+        "items": [
+          {
+            "title": "النمو والتطوير",
+            "description": "فرص تعلم مستمرة ومسارات واضحة للتقدم الوظيفي."
+          },
+          {
+            "title": "فريق متميز",
+            "description": "تعاون مع محترفين مهرة في بيئة داعمة."
+          },
+          {
+            "title": "السلامة والأمان",
+            "description": "ثقافة تضع السلامة أولًا مع مرافق حديثة وأفضل الممارسات."
+          },
+          {
+            "title": "عمل ذو معنى",
+            "description": "ساهم في هندسة دقيقة تدعم قطاع الطاقة."
+          }
+        ]
+      },
+      "openings": {
+        "label": "الوظائف الشاغرة",
+        "heading": "استكشف الفرص",
+        "columns": {
+          "position": "المنصب",
+          "department": "القسم",
+          "location": "الموقع",
+          "type": "النوع",
+          "action": "الإجراء"
+        },
+        "viewDetailsLabel": "عرض التفاصيل",
+        "generalApplication": {
+          "heading": "لم تجد الوظيفة المناسبة؟",
+          "body": "نبحث دائمًا عن المواهب. أرسل سيرتك الذاتية وسنضعك في الاعتبار للفرص المستقبلية.",
+          "ctaPrimary": {
+            "label": "أرسل سيرتك الذاتية",
+            "href": "/contact"
+          }
+        }
+      },
+      "hiringProcess": {
+        "label": "عملية التوظيف",
+        "heading": "خطوات بسيطة للانضمام إلى فريقنا",
+        "steps": [
+          {
+            "title": "تقديم الطلب",
+            "description": "أرسل سيرتك الذاتية وخطاب التقديم للوظيفة التي تهمك."
+          },
+          {
+            "title": "المراجعة الأولية",
+            "description": "يراجع فريق الموارد البشرية طلبك ومؤهلاتك."
+          },
+          {
+            "title": "المقابلة",
+            "description": "التقِ بفريق التوظيف لمناقشة خبرتك وملاءمتك للدور."
+          },
+          {
+            "title": "انضم إلى فريقنا",
+            "description": "استلم عرضك وابدأ رحلتك مع DOT."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "مستعد لبناء المستقبل؟",
+        "headingAccent": "لنبنِ معًا شيئًا استثنائيًا.",
+        "ctaPrimary": {
+          "label": "عرض الوظائف الشاغرة",
+          "href": "#careers-openings"
+        },
+        "backgroundImage": {
+          "alt": "منشأة تصنيع Dynamic Oil Tools"
+        }
+      },
+      "detailSidebar": {
+        "summaryHeading": "ملخص الوظيفة",
+        "whyJoinHeading": "لماذا تنضم إلينا؟",
+        "whyJoinItems": [
+          { "title": "راتب ومزايا تنافسية" },
+          { "title": "فرص للنمو الوظيفي" },
+          { "title": "التدريب وتطوير المهارات" },
+          { "title": "بيئة عمل آمنة ومهنية" },
+          { "title": "كن جزءًا من شركة تصنيع سعودية رائدة" }
+        ],
+        "ctaHeading": "مستعد لاتخاذ الخطوة التالية؟",
+        "ctaPrimary": {
+          "label": "قدّم الآن",
+          "href": "#"
+        }
+      },
+      "detailHero": {
+        "breadcrumbs": [
+          { "label": "الرئيسية", "href": "/" },
+          { "label": "الوظائف", "href": "/careers" }
+        ],
+        "backLabel": "العودة إلى الوظائف",
+        "applyLabel": "قدّم الآن",
+        "metaLabels": {
+          "position": "المنصب",
+          "department": "القسم",
+          "location": "الموقع",
+          "employmentType": "نوع التوظيف",
+          "experience": "الخبرة"
+        },
+        "sectionHeadings": {
+          "overview": "نظرة عامة على الوظيفة",
+          "responsibilities": "المسؤوليات الرئيسية",
+          "requirements": "المتطلبات",
+          "preferredSkills": "المهارات المفضلة"
         }
       }
     },

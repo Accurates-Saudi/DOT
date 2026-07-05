@@ -63,6 +63,7 @@ export async function loader({ request }: Route.LoaderArgs) {
       `footer.${locale}`,
       `products.${locale}`,
       `news.${locale}`,
+      `careers.${locale}`,
       `services.${locale}`,
       `catalogs.${locale}`,
       `not-found.${locale}`,

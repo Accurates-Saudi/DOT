@@ -777,6 +777,7 @@ export interface CareersCtaContent {
 }
 
 export interface CareersDetailSidebarContent {
+  summaryHeading: ContentValue<string>;
   whyJoinHeading: ContentValue<string>;
   whyJoinItems: CareersWhyJoinItem[];
   ctaHeading: ContentValue<string>;
@@ -788,6 +789,7 @@ export interface CareersDetailHeroContent {
   backLabel: ContentValue<string>;
   applyLabel: ContentValue<string>;
   metaLabels: {
+    position: ContentValue<string>;
     department: ContentValue<string>;
     location: ContentValue<string>;
     employmentType: ContentValue<string>;

@@ -14,6 +14,7 @@ import {
   buildHomeContent,
   buildMainNavigation,
   buildNewsContent,
+  buildCareersContent,
   buildNavigationUi,
   buildNotFoundContent,
   buildProductsContent,
@@ -153,6 +154,17 @@ export function useNewsPageContent() {
     return (
       getContentOverride<ReturnType<typeof buildNewsContent>>(`news.${locale}`) ??
       buildNewsContent(messages, locale)
+    );
+  }, [getContentOverride, locale, messages]);
+}
+
+export function useCareersPageContent() {
+  const { locale, messages } = useI18n();
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    return (
+      getContentOverride<ReturnType<typeof buildCareersContent>>(`careers.${locale}`) ??
+      buildCareersContent(messages, locale)
     );
   }, [getContentOverride, locale, messages]);
 }

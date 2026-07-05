@@ -1,4 +1,6 @@
 export { AboutPage } from "./AboutPage";
+export { CareersPage } from "./CareersPage";
+export { CareerDetailPage } from "./CareerDetailPage";
 export { CatalogsPage } from "./CatalogsPage";
 export { ContactPage } from "./ContactPage";
 export { HomePage } from "./HomePage";

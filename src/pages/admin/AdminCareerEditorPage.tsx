@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { FileText } from "lucide-react";
 
 import { AdminPreviewFrame } from "@/components/admin/collection/AdminPreviewFrame";
 import { CareerDetailView } from "@/components/careers/CareerDetailView";
@@ -18,6 +19,7 @@ import type { Locale } from "@/i18n/config";
 import type { CmsCareerPayload } from "@/types/cms-entities";
 import type { CareerJobDetail } from "@/types";
 import { getLocalizedPayload } from "@/utils/cms-entities";
+import { createCareerTemplatePayload } from "@/utils/cms-entity-defaults";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
 
 function CareerJobPreview({
@@ -116,6 +118,22 @@ export function AdminCareerEditorPage({
     });
   }
 
+  function loadTemplate() {
+    if (
+      isDirty &&
+      !window.confirm("Replace the current content with the starter template?")
+    ) {
+      return;
+    }
+
+    const template = createCareerTemplatePayload(slug);
+    setPayload((current) => ({
+      ...template,
+      listingOrder: current.listingOrder,
+      isActive: current.isActive !== false,
+    }));
+  }
+
   async function persist(publish: boolean, changeSummary: string) {
     try {
       setBusy(publish ? "publish" : "save");
@@ -151,7 +169,7 @@ export function AdminCareerEditorPage({
       onPublish={(changeSummary) => persist(true, changeSummary)}
     >
       {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         {(["en", "ar"] as const).map((option) => (
           <button
             key={option}
@@ -166,7 +184,18 @@ export function AdminCareerEditorPage({
             {option.toUpperCase()}
           </button>
         ))}
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 rounded-md border border-[#e5e5e5] bg-white px-3 py-1.5 text-sm text-[#333] hover:border-[#d4d4d4]"
+          onClick={loadTemplate}
+        >
+          <FileText className="size-4" />
+          Load Template
+        </button>
       </div>
+      <p className="mb-4 text-sm text-[#888]">
+        Use Load Template to fill EN and AR with placeholder fields you can replace.
+      </p>
       <div className="space-y-5">
         <AdminFieldGroup title="Visibility">
           <label className="flex items-center gap-3 text-sm text-[#333]">

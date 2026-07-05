@@ -90,6 +90,78 @@ export function createDefaultCareerPayload(slug: string): CmsCareerPayload {
   };
 }
 
+function buildCareerTemplateJob(slug: string, locale: Locale): CareerJobDetail {
+  if (locale === "ar") {
+    return {
+      id: slug,
+      slug,
+      title: "المسمى الوظيفي",
+      department: "اسم القسم",
+      location: "المدينة، المملكة العربية السعودية",
+      employmentType: "دوام كامل",
+      experience: "٢–٤ سنوات",
+      overview: "اكتب نبذة مختصرة عن الوظيفة والفريق والمسؤوليات الرئيسية هنا.",
+      responsibilities: [
+        "مسؤولية ١",
+        "مسؤولية ٢",
+        "مسؤولية ٣",
+        "مسؤولية ٤",
+      ],
+      requirements: [
+        "متطلب ١",
+        "متطلب ٢",
+        "متطلب ٣",
+        "متطلب ٤",
+      ],
+      preferredSkills: [
+        "مهارة ١",
+        "مهارة ٢",
+        "مهارة ٣",
+        "مهارة ٤",
+      ],
+      meta: {
+        title: "المسمى الوظيفي",
+        description: "وصف مختصر لهذه الوظيفة يظهر في نتائج البحث.",
+      },
+    };
+  }
+
+  return {
+    id: slug,
+    slug,
+    title: "Job Title",
+    department: "Department name",
+    location: "City, Saudi Arabia",
+    employmentType: "Full-Time",
+    experience: "2–4 Years",
+    overview:
+      "Write a short overview of the role, team, and main responsibilities here.",
+    responsibilities: [
+      "Responsibility 1",
+      "Responsibility 2",
+      "Responsibility 3",
+      "Responsibility 4",
+    ],
+    requirements: ["Requirement 1", "Requirement 2", "Requirement 3", "Requirement 4"],
+    preferredSkills: ["Skill 1", "Skill 2", "Skill 3", "Skill 4"],
+    meta: {
+      title: "Job Title",
+      description: "Short description of this role for search results.",
+    },
+  };
+}
+
+export function createCareerTemplatePayload(slug: string): CmsCareerPayload {
+  return {
+    ...createEmptyLocalizedPayload(
+      buildCareerTemplateJob(slug, "en"),
+      buildCareerTemplateJob(slug, "ar"),
+      0,
+    ),
+    isActive: true,
+  };
+}
+
 export function createDefaultCatalogPayload(id: string): CmsCatalogPayload {
   const emptyItem = {
     id,

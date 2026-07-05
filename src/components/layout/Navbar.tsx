@@ -163,7 +163,7 @@ export function Navbar() {
             "flex shrink-0 items-center",
             transitionPresets.default,
             "duration-500",
-            isElevated ? "gap-2.5 lg:gap-3" : "gap-2 lg:gap-2.5",
+            isElevated ? "gap-2 lg:gap-2.5" : "gap-1.5 lg:gap-2.5",
           )}
         >
           <div className="hidden items-center gap-2.5 lg:flex lg:gap-3">
@@ -187,36 +187,46 @@ export function Navbar() {
                 <LinkedInIcon className="size-[1.125rem]" />
               </a>
             )}
+          </div>
 
-            {isAuthenticated ? (
-              <>
-                {canEditWebsite ? (
-                  <CmsEditModeToggle
-                    isActive={isEditMode}
-                    onToggle={toggleEditMode}
-                    tone={isHeroState ? "dark" : "light"}
-                  />
-                ) : null}
-                <Button
-                  variant={isHeroState ? "inverse" : "outline"}
-                  size="sm"
-                  className="h-9 min-w-[6rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
-                  asChild
-                >
-                  <Link to={adminHref}>Dashboard</Link>
-                </Button>
-              </>
-            ) : (
+          {isAuthenticated ? (
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {canEditWebsite ? (
+                <CmsEditModeToggle
+                  isActive={isEditMode}
+                  onToggle={toggleEditMode}
+                  tone={isHeroState ? "dark" : "light"}
+                  compact
+                  className="lg:hidden"
+                />
+              ) : null}
+              {canEditWebsite ? (
+                <CmsEditModeToggle
+                  isActive={isEditMode}
+                  onToggle={toggleEditMode}
+                  tone={isHeroState ? "dark" : "light"}
+                  className="hidden lg:inline-flex"
+                />
+              ) : null}
               <Button
                 variant={isHeroState ? "inverse" : "outline"}
                 size="sm"
-                className="h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                className="h-9 rounded-full px-3 text-sm font-medium tracking-[0.02em] sm:min-w-[6rem] sm:px-4"
                 asChild
               >
-                <Link to="/admin/login">{navigationCopy.login}</Link>
+                <Link to={adminHref}>Dashboard</Link>
               </Button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <Button
+              variant={isHeroState ? "inverse" : "outline"}
+              size="sm"
+              className="hidden h-9 min-w-[5.5rem] rounded-full px-4 text-sm font-medium tracking-[0.02em] lg:inline-flex"
+              asChild
+            >
+              <Link to="/admin/login">{navigationCopy.login}</Link>
+            </Button>
+          )}
 
           <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />
           <NavbarMobileMenu isHeroState={isHeroState} />

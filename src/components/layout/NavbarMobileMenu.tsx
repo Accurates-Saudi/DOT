@@ -3,20 +3,14 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { forwardRef, useEffect, useState, type ComponentPropsWithoutRef } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 
-import { CmsEditModeToggle } from "@/components/cms/CmsEditModeToggle";
-import { LanguageSwitcher, LocalizedLink } from "@/components/i18n";
+import { LanguageSwitcher } from "@/components/i18n";
 import { Button } from "@/components/ui/button";
 import { useCmsExperience } from "@/contexts/cms-experience-context";
-import {
-  useFooterContent,
-  useMainNavigation,
-  useNavigationCopy,
-} from "@/i18n/content/hooks";
+import { useFooterContent, useMainNavigation, useNavigationCopy } from "@/i18n/content/hooks";
 import { useDirection } from "@/i18n/hooks";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { siteSettings } from "@/data/site";
 import { cn } from "@/lib/utils";
-import { buildAdminHref } from "@/utils/website-routing";
 
 import { LinkedInIcon } from "./NavbarIcons";
 
@@ -32,9 +26,7 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
   const footerContent = useFooterContent();
   const direction = useDirection();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { isAuthenticated, canEditWebsite, isEditMode, toggleEditMode } =
-    useCmsExperience();
-  const adminHref = buildAdminHref(location.pathname, location.search);
+  const { isAuthenticated } = useCmsExperience();
 
   useEffect(() => {
     setOpen(false);
@@ -166,27 +158,6 @@ export function NavbarMobileMenu({ isHeroState = false }: NavbarMobileMenuProps)
           >
             <div className="flex flex-col gap-3">
               <LanguageSwitcher isHeroState={false} className="w-full" />
-
-              {isAuthenticated ? (
-                <>
-                  {canEditWebsite ? (
-                    <CmsEditModeToggle
-                      isActive={isEditMode}
-                      onToggle={toggleEditMode}
-                      compact
-                    />
-                  ) : null}
-                  <Button
-                    variant="outline"
-                    className="h-11 w-full rounded-full text-sm font-medium"
-                    asChild
-                  >
-                    <Link to={adminHref} onClick={() => setOpen(false)}>
-                      Dashboard
-                    </Link>
-                  </Button>
-                </>
-              ) : null}
 
               {siteSettings.social.linkedin && (
                 <a

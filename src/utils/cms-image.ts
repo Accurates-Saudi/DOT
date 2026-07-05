@@ -1,5 +1,20 @@
 import type { ImageAsset } from "@/types";
 
+export function buildMediaFileUrl(
+  mediaId: string,
+  versionNumber: number,
+): string {
+  return `/api/cms/media/${mediaId}/file?v=${versionNumber}`;
+}
+
+export function resolveImagePreviewSrc(image: ImageAsset): string {
+  if (image.mediaId && image.mediaVersion) {
+    return buildMediaFileUrl(image.mediaId, image.mediaVersion);
+  }
+
+  return image.src;
+}
+
 export function getImageAltEn(image: ImageAsset): string {
   return image.localizedAlt?.en ?? image.alt ?? "";
 }
@@ -30,6 +45,7 @@ export function applyUploadedMediaToImage(
   input: {
     mediaId: string;
     src: string;
+    mediaVersion?: number;
     filename?: string;
     width?: number;
     height?: number;
@@ -39,11 +55,18 @@ export function applyUploadedMediaToImage(
   const localizedAlt = input.alt ?? image.localizedAlt;
   const altEn = localizedAlt?.en ?? getImageAltEn(image);
   const altAr = localizedAlt?.ar ?? getImageAltAr(image);
+  const mediaVersion =
+    input.mediaVersion ??
+    (() => {
+      const match = input.src.match(/[?&]v=(\d+)/);
+      return match ? Number(match[1]) : undefined;
+    })();
 
   return {
     ...image,
     src: input.src,
     mediaId: input.mediaId,
+    ...(mediaVersion ? { mediaVersion } : {}),
     ...(input.filename ? { filename: input.filename } : {}),
     ...(input.width ? { width: input.width } : {}),
     ...(input.height ? { height: input.height } : {}),
@@ -56,20 +79,32 @@ export function readImageDimensions(
   file: File,
 ): Promise<{ width?: number; height?: number }> {
   return new Promise((resolve) => {
+    if (!file.type.startsWith("image/")) {
+      resolve({});
+      return;
+    }
+
     const url = URL.createObjectURL(file);
     const img = new Image();
 
+    const finish = (result: { width?: number; height?: number }) => {
+      URL.revokeObjectURL(url);
+      resolve(result);
+    };
+
+    const timeoutId = window.setTimeout(() => finish({}), 1500);
+
     img.onload = () => {
-      resolve({
+      window.clearTimeout(timeoutId);
+      finish({
         width: img.naturalWidth || undefined,
         height: img.naturalHeight || undefined,
       });
-      URL.revokeObjectURL(url);
     };
 
     img.onerror = () => {
-      URL.revokeObjectURL(url);
-      resolve({});
+      window.clearTimeout(timeoutId);
+      finish({});
     };
 
     img.src = url;

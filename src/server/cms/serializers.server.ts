@@ -116,7 +116,7 @@ export function toCmsMediaVersion(
 
 export function toMediaLibraryItem(
   asset: MediaAssetWithCurrentVersion,
-  resolveUrl: (assetId: string) => string,
+  resolveUrl: (assetId: string, versionNumber: number) => string,
 ): MediaLibraryItem {
   return {
     id: asset.id,
@@ -127,7 +127,7 @@ export function toMediaLibraryItem(
       ? {
           currentVersion: toCmsMediaVersion(
             asset.currentVersion,
-            resolveUrl(asset.id),
+            resolveUrl(asset.id, asset.currentVersion.versionNumber),
           ),
         }
       : {}),

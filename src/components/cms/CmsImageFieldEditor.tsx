@@ -1,10 +1,9 @@
 import { Images, Loader2, Upload } from "lucide-react";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { CmsMediaLibrarySheet } from "@/components/cms/CmsMediaLibrarySheet";
 import { CmsPanelCard, CmsPanelField } from "@/components/cms/CmsPanelPrimitives";
-import { cn } from "@/lib/utils";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
 import type { ImageAsset } from "@/types";
 import {
@@ -13,6 +12,7 @@ import {
   getImageAltEn,
   patchImageLocalizedAlt,
   readImageDimensions,
+  resolveImagePreviewSrc,
 } from "@/utils/cms-image";
 
 export interface CmsPanelImageFieldProps {
@@ -30,10 +30,34 @@ export function CmsPanelImageField({
 }: CmsPanelImageFieldProps) {
   const inputId = useId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const instantPreviewRef = useRef<string | null>(null);
+  const [instantPreview, setInstantPreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [libraryOpen, setLibraryOpen] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (instantPreviewRef.current) {
+        URL.revokeObjectURL(instantPreviewRef.current);
+      }
+    };
+  }, []);
+
+  function clearInstantPreview() {
+    if (instantPreviewRef.current) {
+      URL.revokeObjectURL(instantPreviewRef.current);
+      instantPreviewRef.current = null;
+    }
+    setInstantPreview(null);
+  }
+
+  function setLocalPreview(file: File) {
+    clearInstantPreview();
+    const previewUrl = URL.createObjectURL(file);
+    instantPreviewRef.current = previewUrl;
+    setInstantPreview(previewUrl);
+  }
 
   async function handleFileSelected(file: File) {
     if (!file.type.startsWith("image/")) {
@@ -43,33 +67,29 @@ export function CmsPanelImageField({
 
     setError(null);
     setIsUploading(true);
-    setUploadProgress(12);
+    setLocalPreview(file);
 
     try {
-      const dimensions = await readImageDimensions(file);
-      setUploadProgress(35);
-
       const alt = {
         en: getImageAltEn(image),
         ar: getImageAltAr(image),
       };
 
-      const media = image.mediaId
-        ? await cmsClient.media.replace(image.mediaId, {
-            file,
-            fileName: file.name,
-            ...dimensions,
-            alt,
-          })
-        : await cmsClient.media.upload({
-            key: mediaKey,
-            file,
-            fileName: file.name,
-            ...dimensions,
-            alt,
-          });
-
-      setUploadProgress(85);
+      const [dimensions, media] = await Promise.all([
+        readImageDimensions(file),
+        image.mediaId
+          ? cmsClient.media.replace(image.mediaId, {
+              file,
+              fileName: file.name,
+              alt,
+            })
+          : cmsClient.media.upload({
+              key: mediaKey,
+              file,
+              fileName: file.name,
+              alt,
+            }),
+      ]);
 
       const uploadedVersion = media.currentVersion;
       if (!uploadedVersion) {
@@ -80,15 +100,17 @@ export function CmsPanelImageField({
         applyUploadedMediaToImage(image, {
           mediaId: media.id,
           src: uploadedVersion.url,
+          mediaVersion: uploadedVersion.versionNumber,
           filename: uploadedVersion.filename,
-          width: uploadedVersion.width,
-          height: uploadedVersion.height,
+          width: uploadedVersion.width ?? dimensions.width,
+          height: uploadedVersion.height ?? dimensions.height,
           alt: uploadedVersion.alt ?? alt,
         }),
       );
 
-      setUploadProgress(100);
+      clearInstantPreview();
     } catch (uploadError) {
+      clearInstantPreview();
       setError(
         uploadError instanceof CmsApiError
           ? uploadError.message
@@ -97,12 +119,12 @@ export function CmsPanelImageField({
             : "Unable to upload this image right now.",
       );
     } finally {
-      window.setTimeout(() => {
-        setIsUploading(false);
-        setUploadProgress(null);
-      }, 250);
+      setIsUploading(false);
     }
   }
+
+  const previewSrc = instantPreview ?? resolveImagePreviewSrc(image);
+  const previewKey = `${image.mediaId ?? "image"}-${image.mediaVersion ?? image.src}`;
 
   return (
     <>
@@ -113,9 +135,10 @@ export function CmsPanelImageField({
               Current Image
             </p>
             <div className="mt-3 overflow-hidden rounded-2xl border border-[#0c1524]/10 bg-white">
-              {image.src ? (
+              {previewSrc ? (
                 <img
-                  src={image.src}
+                  key={previewKey}
+                  src={previewSrc}
                   alt={getImageAltEn(image) || label}
                   className="max-h-56 w-full object-contain"
                 />
@@ -171,22 +194,7 @@ export function CmsPanelImageField({
           </div>
 
           {isUploading ? (
-            <div className="space-y-2">
-              <div className="h-2 overflow-hidden rounded-full bg-[#0c1524]/8">
-                <div
-                  className={cn(
-                    "h-full rounded-full bg-[var(--dot-orange)] transition-all duration-300",
-                    uploadProgress === null && "w-1/3 animate-pulse",
-                  )}
-                  style={
-                    uploadProgress !== null
-                      ? { width: `${uploadProgress}%` }
-                      : undefined
-                  }
-                />
-              </div>
-              <p className="text-sm text-[#0c1524]/56">Uploading image...</p>
-            </div>
+            <p className="text-sm text-[#0c1524]/56">Uploading image...</p>
           ) : null}
 
           {error ? <p className="text-sm text-red-600">{error}</p> : null}

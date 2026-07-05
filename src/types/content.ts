@@ -18,6 +18,8 @@ export interface ImageAsset {
   alt: string;
   /** CMS media asset ID when the image is managed through the media library */
   mediaId?: string;
+  /** CMS media version used for stable, cache-safe file URLs */
+  mediaVersion?: number;
   /** Original uploaded filename for editor previews */
   filename?: string;
   /** Bilingual alt text stored in CMS drafts */

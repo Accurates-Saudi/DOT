@@ -7,8 +7,11 @@ import { CmsHttpError } from "../http.server";
 import { toMediaLibraryItem } from "../serializers.server";
 import { readMediaVersionFile, saveMediaVersionFile } from "./storage.server";
 
-function mediaFileUrl(assetId: string): string {
-  return `/api/cms/media/${assetId}/file`;
+export function buildMediaFileUrl(
+  assetId: string,
+  versionNumber: number,
+): string {
+  return `/api/cms/media/${assetId}/file?v=${versionNumber}`;
 }
 
 const mediaVersionInclude = {
@@ -31,7 +34,11 @@ export async function listMediaAssets(): Promise<MediaLibraryItem[]> {
     orderBy: { updatedAt: "desc" },
   });
 
-  return assets.map((asset) => toMediaLibraryItem(asset, mediaFileUrl));
+  return assets.map((asset) =>
+    toMediaLibraryItem(asset, (assetId, versionNumber) =>
+      buildMediaFileUrl(assetId, versionNumber),
+    ),
+  );
 }
 
 export async function getMediaAssetById(id: string): Promise<MediaLibraryItem> {
@@ -45,7 +52,9 @@ export async function getMediaAssetById(id: string): Promise<MediaLibraryItem> {
     throw new CmsHttpError(404, "media_not_found", `No CMS media asset exists for "${id}".`);
   }
 
-  return toMediaLibraryItem(asset, mediaFileUrl);
+  return toMediaLibraryItem(asset, (assetId, versionNumber) =>
+    buildMediaFileUrl(assetId, versionNumber),
+  );
 }
 
 export async function createMediaAsset(input: {
@@ -108,7 +117,9 @@ export async function createMediaAsset(input: {
       include: mediaAssetInclude,
     });
 
-    return toMediaLibraryItem(updated, mediaFileUrl);
+    return toMediaLibraryItem(updated, (assetId, versionNumber) =>
+      buildMediaFileUrl(assetId, versionNumber),
+    );
   });
 }
 
@@ -166,14 +177,20 @@ export async function replaceMediaAsset(input: {
       include: mediaAssetInclude,
     });
 
-    return toMediaLibraryItem(updated, mediaFileUrl);
+    return toMediaLibraryItem(updated, (assetId, versionNumber) =>
+      buildMediaFileUrl(assetId, versionNumber),
+    );
   });
 }
 
-export async function getCurrentMediaFile(id: string): Promise<{
+export async function getMediaFile(
+  id: string,
+  versionNumber?: number,
+): Promise<{
   bytes: Uint8Array;
   mimeType: string;
   fileName: string;
+  versionNumber: number;
 }> {
   const prisma = getPrismaClient();
   const asset = await prisma.cmsMediaAsset.findUnique({
@@ -183,13 +200,41 @@ export async function getCurrentMediaFile(id: string): Promise<{
     },
   });
 
-  if (!asset || !asset.currentVersion) {
+  if (!asset) {
     throw new CmsHttpError(404, "media_not_found", `No CMS media asset exists for "${id}".`);
   }
 
+  const version =
+    versionNumber !== undefined
+      ? await prisma.cmsMediaVersion.findFirst({
+          where: {
+            assetId: id,
+            versionNumber,
+          },
+        })
+      : asset.currentVersion;
+
+  if (!version) {
+    throw new CmsHttpError(404, "media_not_found", `No CMS media version exists for "${id}".`);
+  }
+
   return {
-    bytes: await readMediaVersionFile(asset.currentVersion.storageKey),
-    mimeType: asset.currentVersion.mimeType,
-    fileName: asset.currentVersion.originalFilename,
+    bytes: await readMediaVersionFile(version.storageKey),
+    mimeType: version.mimeType,
+    fileName: version.originalFilename,
+    versionNumber: version.versionNumber,
+  };
+}
+
+export async function getCurrentMediaFile(id: string): Promise<{
+  bytes: Uint8Array;
+  mimeType: string;
+  fileName: string;
+}> {
+  const file = await getMediaFile(id);
+  return {
+    bytes: file.bytes,
+    mimeType: file.mimeType,
+    fileName: file.fileName,
   };
 }

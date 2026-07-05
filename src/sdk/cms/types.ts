@@ -160,8 +160,11 @@ export interface CmsMediaApi {
     input: CmsMediaMutationInput,
     options?: CmsRequestOptions,
   ): Promise<MediaLibraryItem>;
-  getFileUrl(id: string): string;
-  download(id: string, options?: CmsRequestOptions): Promise<Response>;
+  getFileUrl(id: string, versionNumber?: number): string;
+  download(
+    id: string,
+    options?: CmsRequestOptions & { versionNumber?: number },
+  ): Promise<Response>;
 }
 
 export interface CmsClient {

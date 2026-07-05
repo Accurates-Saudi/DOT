@@ -108,19 +108,26 @@ export function createCmsMediaApi(requester: CmsRequester): CmsMediaApi {
     });
   }
 
-  function getFileUrl(id: string): string {
-    return requester.buildUrl(`/api/cms/media/${encodeURIComponent(id)}/file`);
+  function getFileUrl(id: string, versionNumber?: number): string {
+    const base = `/api/cms/media/${encodeURIComponent(id)}/file`;
+    return versionNumber ? `${base}?v=${versionNumber}` : base;
   }
 
   async function download(
     id: string,
-    options?: CmsRequestOptions,
+    options?: CmsRequestOptions & { versionNumber?: number },
   ): Promise<Response> {
-    return requester.request<Response>(`/api/cms/media/${encodeURIComponent(id)}/file`, {
-      ...options,
-      method: "GET",
-      responseType: "response",
-    });
+    const versionQuery =
+      options?.versionNumber !== undefined ? `?v=${options.versionNumber}` : "";
+
+    return requester.request<Response>(
+      `/api/cms/media/${encodeURIComponent(id)}/file${versionQuery}`,
+      {
+        ...options,
+        method: "GET",
+        responseType: "response",
+      },
+    );
   }
 
   return {

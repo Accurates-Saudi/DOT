@@ -732,6 +732,7 @@ export interface CareerJobDetail {
   responsibilities: ContentValue<string>[];
   requirements: ContentValue<string>[];
   preferredSkills: ContentValue<string>[];
+  heroImage?: ImageAsset;
   meta: PageMeta;
   listingOrder?: number;
 }

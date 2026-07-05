@@ -73,6 +73,7 @@ export function CareerDetailView({
   });
 
   const applyHref = `mailto:${applicationEmail || siteSettings.contact.email}?subject=${encodeURIComponent(`Application: ${job.title}`)}`;
+  const heroSrc = job.heroImage?.src?.trim() ? job.heroImage.src : careerDetailHeroImage;
   const breadcrumbs = [
     ...detailHero.breadcrumbs,
     { label: job.title },
@@ -91,7 +92,7 @@ export function CareerDetailView({
           className="relative py-10 md:py-12"
         >
           <ParallaxBackgroundImage
-            src={careerDetailHeroImage}
+            src={heroSrc}
             targetRef={targetRef as Ref<HTMLImageElement>}
             priority
             objectPosition="center"

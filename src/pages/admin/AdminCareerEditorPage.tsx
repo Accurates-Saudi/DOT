@@ -11,6 +11,7 @@ import {
   AdminStringListEditor,
   AdminTextarea,
 } from "@/components/admin/collection/AdminEntityFormFields";
+import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
 import { useAdminWorkspace } from "@/contexts/admin-workspace-context";
 import { CmsExperienceProvider } from "@/contexts/cms-experience-context";
 import { localeContentMessages } from "@/content/shared";
@@ -115,6 +116,30 @@ export function AdminCareerEditorPage({
         ...current,
         locales: { ...current.locales, [activeLocale]: updater(localized) },
       };
+    });
+  }
+
+  function updateHeroImage(heroImage: { src: string; alt: string }) {
+    setPayload((current) => {
+      const nextLocales = { ...current.locales };
+
+      for (const option of ["en", "ar"] as const) {
+        const localized = getLocalizedPayload<CareerJobDetail>(current, option);
+        if (!localized) continue;
+
+        nextLocales[option] = {
+          ...localized,
+          heroImage: {
+            src: heroImage.src,
+            alt:
+              option === activeLocale
+                ? heroImage.alt
+                : localized.heroImage?.alt || heroImage.alt,
+          },
+        };
+      }
+
+      return { ...current, locales: nextLocales };
     });
   }
 
@@ -296,6 +321,16 @@ export function AdminCareerEditorPage({
               }
             />
           </AdminField>
+        </AdminFieldGroup>
+        <AdminFieldGroup title="Detail Page">
+          <AdminMediaPicker
+            label="Hero Background Image"
+            value={job.heroImage ?? { src: "", alt: job.title }}
+            onChange={updateHeroImage}
+          />
+          <p className="text-sm text-[#888]">
+            Shown at the top of the job detail page. Leave empty to use the default hero image.
+          </p>
         </AdminFieldGroup>
         <AdminFieldGroup title="Details">
           <AdminStringListEditor

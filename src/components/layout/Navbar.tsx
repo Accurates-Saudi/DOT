@@ -9,6 +9,7 @@ import {
   useMainNavigation,
   useNavigationCopy,
 } from "@/i18n/content/hooks";
+import { useDirection } from "@/i18n/hooks";
 import { siteSettings } from "@/data/site";
 import { useScrollThreshold } from "@/hooks";
 import { transitionPresets } from "@/lib/animations";
@@ -26,6 +27,7 @@ export function Navbar() {
   const mainNavigation = useMainNavigation();
   const navigationCopy = useNavigationCopy();
   const footerContent = useFooterContent();
+  const direction = useDirection();
   const { isAuthenticated, canEditWebsite, isEditMode, toggleEditMode } =
     useCmsExperience();
   const isHome = /\/(en|ar)\/?$/.test(location.pathname);
@@ -37,7 +39,6 @@ export function Navbar() {
   const isElevated = !isHome || isScrolled;
   const isHeroState = !isElevated;
   const adminHref = buildAdminHref(location.pathname, location.search);
-  const showCmsActions = isAuthenticated;
 
   return (
     <header
@@ -54,6 +55,7 @@ export function Navbar() {
         as="div"
         size="wide"
         className={cn(
+          "flex items-center justify-between gap-4 xl:gap-6",
           transitionPresets.default,
           "duration-500",
           isElevated
@@ -61,20 +63,22 @@ export function Navbar() {
             : "h-16 lg:h-20",
         )}
       >
-        <div
-          className={cn(
-            "grid h-full w-full items-center gap-x-3 sm:gap-x-4",
-            "grid-cols-[auto_minmax(0,1fr)]",
-            "lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-x-6 xl:gap-x-8",
-          )}
-        >
-          {/* Brand */}
+        {/* Logo + links — left cluster, never overlaps itself */}
+        <div className="flex min-w-0 items-center gap-5 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
           <LocalizedLink
             to="/"
             className={cn(
-              "group flex min-w-0 items-center justify-self-start",
+              "group flex shrink-0 items-center",
               transitionPresets.transform,
-              "gap-1.5 sm:gap-2 lg:gap-2.5",
+              "duration-500 ease-out",
+              isElevated
+                ? cn(
+                    "gap-1.5 sm:gap-2 lg:gap-3",
+                    direction === "rtl"
+                      ? "lg:translate-x-1 xl:translate-x-1.5"
+                      : "lg:-translate-x-1 xl:-translate-x-1.5",
+                  )
+                : "translate-x-0 gap-1.5 sm:gap-2 lg:gap-3",
             )}
             aria-label={navigationCopy.homeAria}
           >
@@ -113,13 +117,12 @@ export function Navbar() {
             />
           </LocalizedLink>
 
-          {/* Main navigation — balanced center column on desktop */}
           <nav
             className={cn(
-              "hidden min-w-0 items-center justify-center lg:flex lg:px-4 xl:px-6",
+              "hidden min-w-0 items-center lg:flex",
               transitionPresets.default,
               "duration-500",
-              "gap-0.5 xl:gap-1 2xl:gap-1.5",
+              isElevated ? "gap-0.5 xl:gap-1" : "gap-0",
             )}
             aria-label={navigationCopy.mainAria}
           >
@@ -130,7 +133,7 @@ export function Navbar() {
                 end={/\/(en|ar)$/.test(item.href)}
                 className={({ isActive }) =>
                   cn(
-                    "nav-link-underline relative whitespace-nowrap px-2 py-2 text-[0.8125rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out lg:px-2.5 xl:px-3 xl:text-[0.875rem] 2xl:px-3.5 2xl:text-[0.9375rem]",
+                    "nav-link-underline relative whitespace-nowrap px-3 py-2 text-[0.875rem] font-medium tracking-[0.01em] transition-colors duration-300 ease-out xl:px-4 xl:text-[0.9375rem] 2xl:px-[1.125rem] 2xl:text-base",
                     isHeroState
                       ? cn(
                           "text-white/75 hover:text-white",
@@ -140,7 +143,7 @@ export function Navbar() {
                           "text-foreground/70 hover:text-accent",
                           isActive && "text-foreground",
                         ),
-                    "after:absolute after:inset-x-2 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 xl:after:inset-x-3 rtl:after:origin-right",
+                    "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 xl:after:inset-x-4 rtl:after:origin-right",
                     isActive
                       ? "after:scale-x-100 after:bg-accent"
                       : cn(
@@ -156,106 +159,91 @@ export function Navbar() {
               </NavLink>
             ))}
           </nav>
+        </div>
 
-          {/* Utilities + CMS actions */}
-          <div
-            className={cn(
-              "flex min-w-0 items-center justify-self-end",
-              "col-start-2 lg:col-start-3",
-              transitionPresets.default,
-              "duration-500",
-              "gap-2 sm:gap-2.5 xl:gap-3",
-            )}
-          >
-            {/* Desktop */}
-            <div className="hidden items-center lg:flex lg:gap-2.5 xl:gap-3">
-              <div className="flex items-center gap-2 xl:gap-2.5">
-                <LanguageSwitcher isHeroState={isHeroState} />
+        {/* Utilities + CMS — far right */}
+        <div
+          className={cn(
+            "flex shrink-0 items-center",
+            transitionPresets.default,
+            "duration-500",
+            isElevated ? "gap-2.5 lg:gap-3 xl:gap-4" : "gap-2 lg:gap-3",
+          )}
+        >
+          <div className="hidden items-center lg:flex lg:gap-3 xl:gap-4">
+            <LanguageSwitcher isHeroState={isHeroState} />
 
-                {siteSettings.social.linkedin ? (
-                  <a
-                    href={siteSettings.social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={navigationCopy.linkedInAria}
-                    className={cn(
-                      "inline-flex size-9 shrink-0 items-center justify-center rounded-sm",
-                      transitionPresets.colors,
-                      "duration-300",
-                      isHeroState
-                        ? "text-white transition-[color,background-color] duration-250 ease-out hover:bg-white/10"
-                        : "text-foreground/60 transition-[color,background-color] duration-250 ease-out hover:bg-muted hover:text-foreground",
-                    )}
-                  >
-                    <LinkedInIcon className="size-[1.125rem]" />
-                  </a>
-                ) : null}
-              </div>
-
-              {showCmsActions ? (
-                <>
-                  <span
-                    className={cn(
-                      "h-5 w-px shrink-0",
-                      isHeroState ? "bg-white/20" : "bg-border/70",
-                    )}
-                    aria-hidden
-                  />
-                  <div className="flex items-center gap-2 xl:gap-2.5">
-                    {canEditWebsite ? (
-                      <CmsEditModeToggle
-                        isActive={isEditMode}
-                        onToggle={toggleEditMode}
-                        tone={isHeroState ? "dark" : "light"}
-                      />
-                    ) : null}
-                    <Button
-                      variant={isHeroState ? "inverse" : "outline"}
-                      size="sm"
-                      className="h-9 shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
-                      asChild
-                    >
-                      <Link to={adminHref}>Dashboard</Link>
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <Button
-                  variant={isHeroState ? "inverse" : "outline"}
-                  size="sm"
-                  className="h-9 min-w-[5.5rem] shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
-                  asChild
-                >
-                  <Link to="/admin/login">{navigationCopy.login}</Link>
-                </Button>
-              )}
-            </div>
-
-            {/* Mobile CMS shortcuts */}
-            {showCmsActions ? (
-              <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
-                {canEditWebsite ? (
-                  <CmsEditModeToggle
-                    isActive={isEditMode}
-                    onToggle={toggleEditMode}
-                    tone={isHeroState ? "dark" : "light"}
-                    compact
-                  />
-                ) : null}
-                <Button
-                  variant={isHeroState ? "inverse" : "outline"}
-                  size="sm"
-                  className="h-9 shrink-0 rounded-full px-3 text-sm font-medium tracking-[0.02em] sm:min-w-[6rem] sm:px-4"
-                  asChild
-                >
-                  <Link to={adminHref}>Dashboard</Link>
-                </Button>
-              </div>
+            {siteSettings.social.linkedin ? (
+              <a
+                href={siteSettings.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={navigationCopy.linkedInAria}
+                className={cn(
+                  "inline-flex size-9 shrink-0 items-center justify-center rounded-sm",
+                  transitionPresets.colors,
+                  "duration-300",
+                  isHeroState
+                    ? "text-white transition-[color,background-color] duration-250 ease-out hover:bg-white/10"
+                    : "text-foreground/60 transition-[color,background-color] duration-250 ease-out hover:bg-muted hover:text-foreground",
+                )}
+              >
+                <LinkedInIcon className="size-[1.125rem]" />
+              </a>
             ) : null}
 
-            <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />
-            <NavbarMobileMenu isHeroState={isHeroState} />
+            {isAuthenticated && canEditWebsite ? (
+              <CmsEditModeToggle
+                isActive={isEditMode}
+                onToggle={toggleEditMode}
+                tone={isHeroState ? "dark" : "light"}
+              />
+            ) : null}
+
+            {isAuthenticated ? (
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                asChild
+              >
+                <Link to={adminHref}>Dashboard</Link>
+              </Button>
+            ) : (
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 min-w-[5.5rem] shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
+                asChild
+              >
+                <Link to="/admin/login">{navigationCopy.login}</Link>
+              </Button>
+            )}
           </div>
+
+          {isAuthenticated ? (
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+              {canEditWebsite ? (
+                <CmsEditModeToggle
+                  isActive={isEditMode}
+                  onToggle={toggleEditMode}
+                  tone={isHeroState ? "dark" : "light"}
+                  compact
+                />
+              ) : null}
+              <Button
+                variant={isHeroState ? "inverse" : "outline"}
+                size="sm"
+                className="h-9 shrink-0 rounded-full px-3 text-sm font-medium tracking-[0.02em] sm:min-w-[6rem] sm:px-4"
+                asChild
+              >
+                <Link to={adminHref}>Dashboard</Link>
+              </Button>
+            </div>
+          ) : null}
+
+          <LanguageSwitcher isHeroState={isHeroState} className="lg:hidden" />
+          <NavbarMobileMenu isHeroState={isHeroState} />
         </div>
       </Container>
     </header>

@@ -57,6 +57,52 @@ export async function getMediaAssetById(id: string): Promise<MediaLibraryItem> {
   );
 }
 
+async function persistMediaVersion(input: {
+  assetId: string;
+  versionNumber: number;
+  actorId: string;
+  fileName: string;
+  mimeType: string;
+  bytes: Uint8Array;
+  storageKey: string;
+  width?: number;
+  height?: number;
+  alt?: CMSLocalizedValue<string>;
+}): Promise<MediaLibraryItem> {
+  const prisma = getPrismaClient();
+
+  return prisma.$transaction(async (tx) => {
+    const version = await tx.cmsMediaVersion.create({
+      data: {
+        assetId: input.assetId,
+        versionNumber: input.versionNumber,
+        storageKey: input.storageKey,
+        originalFilename: input.fileName,
+        mimeType: input.mimeType,
+        size: input.bytes.byteLength,
+        ...(input.width ? { width: input.width } : {}),
+        ...(input.height ? { height: input.height } : {}),
+        ...(input.alt ? { alt: normalizeAlt(input.alt) } : {}),
+        createdById: input.actorId,
+      },
+    });
+
+    const updated = await tx.cmsMediaAsset.update({
+      where: { id: input.assetId },
+      data: {
+        latestVersionNumber: input.versionNumber,
+        currentVersionId: version.id,
+        updatedById: input.actorId,
+      },
+      include: mediaAssetInclude,
+    });
+
+    return toMediaLibraryItem(updated, (assetId, versionNumber) =>
+      buildMediaFileUrl(assetId, versionNumber),
+    );
+  });
+}
+
 export async function createMediaAsset(input: {
   key: string;
   actorId: string;
@@ -72,54 +118,36 @@ export async function createMediaAsset(input: {
   }
 
   const prisma = getPrismaClient();
-  return prisma.$transaction(async (tx) => {
-    const asset = await tx.cmsMediaAsset.create({
-      data: {
-        key: input.key,
-        type: "IMAGE",
-        latestVersionNumber: 0,
-        createdById: input.actorId,
-        updatedById: input.actorId,
-      },
-    });
+  const asset = await prisma.cmsMediaAsset.create({
+    data: {
+      key: input.key,
+      type: "IMAGE",
+      latestVersionNumber: 0,
+      createdById: input.actorId,
+      updatedById: input.actorId,
+    },
+  });
 
-    const versionNumber = 1;
-    const file = await saveMediaVersionFile({
-      assetId: asset.id,
-      versionNumber,
-      fileName: input.fileName,
-      mimeType: input.mimeType,
-      bytes: input.bytes,
-    });
+  const versionNumber = 1;
+  const file = await saveMediaVersionFile({
+    assetId: asset.id,
+    versionNumber,
+    fileName: input.fileName,
+    mimeType: input.mimeType,
+    bytes: input.bytes,
+  });
 
-    const version = await tx.cmsMediaVersion.create({
-      data: {
-        assetId: asset.id,
-        versionNumber,
-        storageKey: file.storageKey,
-        originalFilename: input.fileName,
-        mimeType: input.mimeType,
-        size: input.bytes.byteLength,
-        ...(input.width ? { width: input.width } : {}),
-        ...(input.height ? { height: input.height } : {}),
-        ...(input.alt ? { alt: normalizeAlt(input.alt) } : {}),
-        createdById: input.actorId,
-      },
-    });
-
-    const updated = await tx.cmsMediaAsset.update({
-      where: { id: asset.id },
-      data: {
-        latestVersionNumber: versionNumber,
-        currentVersionId: version.id,
-        updatedById: input.actorId,
-      },
-      include: mediaAssetInclude,
-    });
-
-    return toMediaLibraryItem(updated, (assetId, versionNumber) =>
-      buildMediaFileUrl(assetId, versionNumber),
-    );
+  return persistMediaVersion({
+    assetId: asset.id,
+    versionNumber,
+    actorId: input.actorId,
+    fileName: input.fileName,
+    mimeType: input.mimeType,
+    bytes: input.bytes,
+    storageKey: file.storageKey,
+    ...(input.width ? { width: input.width } : {}),
+    ...(input.height ? { height: input.height } : {}),
+    ...(input.alt ? { alt: input.alt } : {}),
   });
 }
 
@@ -181,52 +209,34 @@ export async function replaceMediaAsset(input: {
   alt?: CMSLocalizedValue<string>;
 }): Promise<MediaLibraryItem> {
   const prisma = getPrismaClient();
-  return prisma.$transaction(async (tx) => {
-    const asset = await tx.cmsMediaAsset.findUnique({
-      where: { id: input.id },
-    });
+  const asset = await prisma.cmsMediaAsset.findUnique({
+    where: { id: input.id },
+  });
 
-    if (!asset) {
-      throw new CmsHttpError(404, "media_not_found", `No CMS media asset exists for "${input.id}".`);
-    }
+  if (!asset) {
+    throw new CmsHttpError(404, "media_not_found", `No CMS media asset exists for "${input.id}".`);
+  }
 
-    const versionNumber = asset.latestVersionNumber + 1;
-    const file = await saveMediaVersionFile({
-      assetId: asset.id,
-      versionNumber,
-      fileName: input.fileName,
-      mimeType: input.mimeType,
-      bytes: input.bytes,
-    });
+  const versionNumber = asset.latestVersionNumber + 1;
+  const file = await saveMediaVersionFile({
+    assetId: asset.id,
+    versionNumber,
+    fileName: input.fileName,
+    mimeType: input.mimeType,
+    bytes: input.bytes,
+  });
 
-    const version = await tx.cmsMediaVersion.create({
-      data: {
-        assetId: asset.id,
-        versionNumber,
-        storageKey: file.storageKey,
-        originalFilename: input.fileName,
-        mimeType: input.mimeType,
-        size: input.bytes.byteLength,
-        ...(input.width ? { width: input.width } : {}),
-        ...(input.height ? { height: input.height } : {}),
-        ...(input.alt ? { alt: normalizeAlt(input.alt) } : {}),
-        createdById: input.actorId,
-      },
-    });
-
-    const updated = await tx.cmsMediaAsset.update({
-      where: { id: asset.id },
-      data: {
-        latestVersionNumber: versionNumber,
-        currentVersionId: version.id,
-        updatedById: input.actorId,
-      },
-      include: mediaAssetInclude,
-    });
-
-    return toMediaLibraryItem(updated, (assetId, versionNumber) =>
-      buildMediaFileUrl(assetId, versionNumber),
-    );
+  return persistMediaVersion({
+    assetId: asset.id,
+    versionNumber,
+    actorId: input.actorId,
+    fileName: input.fileName,
+    mimeType: input.mimeType,
+    bytes: input.bytes,
+    storageKey: file.storageKey,
+    ...(input.width ? { width: input.width } : {}),
+    ...(input.height ? { height: input.height } : {}),
+    ...(input.alt ? { alt: input.alt } : {}),
   });
 }
 

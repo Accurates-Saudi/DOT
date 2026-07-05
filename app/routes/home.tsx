@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router";
 import type { Route } from "./+types/home";
 import { HomePage } from "@/pages";
 import { buildHomeContent } from "@/i18n/content";
+import { toNewsArticlePreview } from "@/i18n/content/news";
 import { createPageMeta } from "@/i18n/meta";
 import { defaultLocale, isValidLocale, type Locale } from "@/i18n";
 import { getLocaleRouteData } from "@/i18n/route-data";
@@ -12,12 +13,18 @@ export async function loader({ params }: Route.LoaderArgs) {
   const locale = isValidLocale(params.locale ?? defaultLocale)
     ? (params.locale as Locale)
     : defaultLocale;
-  const { getPublishedCertificates } = await import(
+  const { getPublishedCertificates, getPublishedNewsArticles } = await import(
     "@/server/cms/content/entity-content.server"
   );
-  const certificateItems = await getPublishedCertificates(locale);
+  const [certificateItems, newsArticles] = await Promise.all([
+    getPublishedCertificates(locale),
+    getPublishedNewsArticles(locale),
+  ]);
 
-  return { certificateItems };
+  return {
+    certificateItems,
+    newsArticles: newsArticles.map(toNewsArticlePreview).slice(0, 3),
+  };
 }
 
 export function meta({ matches }: Route.MetaArgs) {
@@ -39,5 +46,10 @@ export function meta({ matches }: Route.MetaArgs) {
 
 export default function Home() {
   const data = useLoaderData<typeof loader>();
-  return <HomePage certificateItems={data.certificateItems} />;
+  return (
+    <HomePage
+      certificateItems={data.certificateItems}
+      newsArticles={data.newsArticles}
+    />
+  );
 }

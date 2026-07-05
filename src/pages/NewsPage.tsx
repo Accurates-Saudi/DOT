@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { useLoaderData } from "react-router";
 
 import {
   CmsEditableSection,
@@ -13,30 +14,26 @@ import {
   NewsHeroSection,
 } from "@/components/news";
 import { useCmsExperience } from "@/contexts/cms-experience-context";
-import {
-  getLocalizedFeaturedNews,
-  getLocalizedNewsExcludingFeatured,
-  buildNewsContent,
-} from "@/i18n/content";
+import { buildNewsContent } from "@/i18n/content";
 import { useNewsPageContent } from "@/i18n/content/hooks";
 import { useI18n, useLocale } from "@/i18n/hooks";
 import type { Locale } from "@/i18n/config";
-import type { NewsPageContent } from "@/types";
+import type { NewsArticlePreview, NewsPageContent } from "@/types";
+
+interface NewsPageLoaderData {
+  featuredArticle?: NewsArticlePreview;
+  gridArticles: NewsArticlePreview[];
+}
 
 export function NewsPage() {
+  const loaderData = useLoaderData<NewsPageLoaderData | undefined>();
   const newsPageContent = useNewsPageContent();
   const { getContentOverride } = useCmsExperience();
   const { locale, messages } = useI18n();
   const sections = useMemo(() => createNewsPageSectionEditors(), []);
 
-  const featuredArticle = useMemo(
-    () => getLocalizedFeaturedNews(messages, locale),
-    [locale, messages],
-  );
-  const articles = useMemo(
-    () => getLocalizedNewsExcludingFeatured(messages, locale),
-    [locale, messages],
-  );
+  const featuredArticle = loaderData?.featuredArticle;
+  const articles = loaderData?.gridArticles ?? [];
 
   const getInitialContent = useCallback(
     (editingLocale: Locale) =>
@@ -69,17 +66,19 @@ export function NewsPage() {
         <NewsHeroSection content={displayContent.hero} />
       </CmsEditableSection>
 
-      <CmsEditableSection
-        sectionId="news-featured"
-        title="Featured News"
-        isSelected={editor.selectedSectionId === "news-featured"}
-        onSelect={editor.setSelectedSectionId}
-      >
-        <FeaturedNews
-          article={featuredArticle}
-          content={displayContent.featured}
-        />
-      </CmsEditableSection>
+      {featuredArticle ? (
+        <CmsEditableSection
+          sectionId="news-featured"
+          title="Featured News"
+          isSelected={editor.selectedSectionId === "news-featured"}
+          onSelect={editor.setSelectedSectionId}
+        >
+          <FeaturedNews
+            article={featuredArticle}
+            content={displayContent.featured}
+          />
+        </CmsEditableSection>
+      ) : null}
 
       <CmsEditableSection
         sectionId="news-grid"

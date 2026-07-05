@@ -29,13 +29,14 @@ export async function action({ request }: Route.ActionArgs) {
   const intent = String(formData.get("intent") ?? "");
 
   if (intent === "reorder") {
+    const url = new URL(request.url);
     const orderedKeys = JSON.parse(String(formData.get("orderedKeys") ?? "[]")) as string[];
     await saveCollectionOrder({
       orderKey: CMS_COLLECTION_ORDER_KEYS.product,
       orderedKeys,
       actorId: session.user.id,
     });
-    return { ok: true };
+    return redirect(`${url.pathname}${url.search}`);
   }
 
   const key = String(formData.get("key") ?? "");

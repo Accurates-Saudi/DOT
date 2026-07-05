@@ -24,12 +24,14 @@ import { buildHomeContent } from "@/i18n/content";
 import { useHomePageContent } from "@/i18n/content/hooks";
 import { useI18n, useLocale } from "@/i18n/hooks";
 import type { Locale } from "@/i18n/config";
-import type { CertificateItem, HomePageContent } from "@/types";
+import type { CertificateItem, HomePageContent, NewsArticlePreview } from "@/types";
 
 export function HomePage({
   certificateItems,
+  newsArticles,
 }: {
   certificateItems?: CertificateItem[];
+  newsArticles?: NewsArticlePreview[];
 }) {
   const homePageContent = useHomePageContent();
   const { getContentOverride } = useCmsExperience();
@@ -53,9 +55,19 @@ export function HomePage({
         };
       }
 
+      if (newsArticles?.length) {
+        base = {
+          ...base,
+          news: {
+            ...base.news,
+            articles: newsArticles,
+          },
+        };
+      }
+
       return base;
     },
-    [certificateItems, getContentOverride, messages],
+    [certificateItems, getContentOverride, messages, newsArticles],
   );
 
   const editor = useCmsVisualPageEditor({
@@ -66,7 +78,37 @@ export function HomePage({
     sections,
   });
 
-  const displayContent = editor.isInteractive ? editor.page : homePageContent;
+  const displayContent = useMemo(() => {
+    let content = editor.isInteractive ? editor.page : homePageContent;
+
+    if (certificateItems?.length) {
+      content = {
+        ...content,
+        certificates: {
+          ...content.certificates,
+          items: certificateItems,
+        },
+      };
+    }
+
+    if (newsArticles?.length) {
+      content = {
+        ...content,
+        news: {
+          ...content.news,
+          articles: newsArticles,
+        },
+      };
+    }
+
+    return content;
+  }, [
+    certificateItems,
+    editor.isInteractive,
+    editor.page,
+    homePageContent,
+    newsArticles,
+  ]);
 
   return (
     <>

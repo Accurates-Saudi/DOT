@@ -75,7 +75,7 @@ function getLocalizedArticles(
   );
 }
 
-function toPreview(article: NewsArticleDetail): NewsArticlePreview {
+export function toNewsArticlePreview(article: NewsArticleDetail): NewsArticlePreview {
   return {
     id: article.id,
     slug: article.slug,
@@ -98,7 +98,7 @@ export function buildNewsPreviews(
   messages: TranslationMessages,
   _locale: Locale,
 ): NewsArticlePreview[] {
-  return sortByDateDesc(getLocalizedArticles(messages).map(toPreview));
+  return sortByDateDesc(getLocalizedArticles(messages).map(toNewsArticlePreview));
 }
 
 export function getLocalizedNewsArticles(
@@ -127,17 +127,15 @@ export function getLocalizedNewsExcludingFeatured(
   return rest;
 }
 
-export function getLocalizedRelatedNews(
-  messages: TranslationMessages,
+export function getRelatedNewsPreviews(
+  articles: NewsArticlePreview[],
   slug: string,
   limit = 3,
 ): NewsArticlePreview[] {
-  const current = getLocalizedNewsBySlug(messages, slug);
+  const current = articles.find((article) => article.slug === slug);
   if (!current) return [];
 
-  const others = getLocalizedNewsArticles(messages).filter(
-    (article) => article.slug !== slug,
-  );
+  const others = articles.filter((article) => article.slug !== slug);
   const sameCategory = others.filter(
     (article) => article.category === current.category,
   );
@@ -146,4 +144,12 @@ export function getLocalizedRelatedNews(
   );
 
   return [...sameCategory, ...differentCategory].slice(0, limit);
+}
+
+export function getLocalizedRelatedNews(
+  messages: TranslationMessages,
+  slug: string,
+  limit = 3,
+): NewsArticlePreview[] {
+  return getRelatedNewsPreviews(getLocalizedNewsArticles(messages), slug, limit);
 }

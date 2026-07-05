@@ -26,12 +26,13 @@ export async function action({ request }: Route.ActionArgs) {
   const intent = String(formData.get("intent") ?? "");
 
   if (intent === "reorder") {
+    const url = new URL(request.url);
     await saveCollectionOrder({
       orderKey: CMS_COLLECTION_ORDER_KEYS.news,
       orderedKeys: JSON.parse(String(formData.get("orderedKeys") ?? "[]")) as string[],
       actorId: session.user.id,
     });
-    return { ok: true };
+    return redirect(`${url.pathname}${url.search}`);
   }
 
   const key = String(formData.get("key") ?? "");

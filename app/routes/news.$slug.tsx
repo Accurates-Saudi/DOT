@@ -14,7 +14,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(`/${defaultLocale}/news/${params.slug}`);
   }
 
-  const { getPublishedNewsBySlug } = await import(
+  const { getPublishedNewsBySlug, getPublishedNewsArticles } = await import(
     "@/server/cms/content/entity-content.server"
   );
   const article = await getPublishedNewsBySlug(locale, params.slug);
@@ -23,7 +23,15 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  return { article, locale };
+  const { toNewsArticlePreview, getRelatedNewsPreviews } = await import(
+    "@/i18n/content/news"
+  );
+  const allPreviews = (await getPublishedNewsArticles(locale)).map(
+    toNewsArticlePreview,
+  );
+  const relatedArticles = getRelatedNewsPreviews(allPreviews, params.slug);
+
+  return { article, relatedArticles, locale };
 }
 
 export function meta({ loaderData, matches }: Route.MetaArgs) {

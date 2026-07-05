@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 
 import { useCmsExperience } from "@/contexts/cms-experience-context";
+import { formatPhoneHref } from "@/data/site";
 import { useI18n } from "@/i18n/hooks";
+import type { CmsSiteSettingsPayload } from "@/types/cms-site-settings";
 
 import {
   buildAboutContent,
@@ -42,10 +44,48 @@ export function useFooterContent() {
   const { locale, messages } = useI18n();
   const { getContentOverride } = useCmsExperience();
   return useMemo(() => {
-    return (
+    const footer =
       getContentOverride<ReturnType<typeof buildFooter>>(`footer.${locale}`) ??
-      buildFooter(messages, locale)
-    );
+      buildFooter(messages, locale);
+    const site = getContentOverride<CmsSiteSettingsPayload>("site.settings");
+
+    if (!site) return footer;
+
+    return {
+      ...footer,
+      description: site.description || footer.description,
+      logos: site.logos,
+      contact: {
+        ...footer.contact,
+        items: footer.contact.items.map((item) => {
+          if (item.type === "email") {
+            return {
+              ...item,
+              value: site.contact.email,
+              href: `mailto:${site.contact.email}`,
+            };
+          }
+          if (item.type === "phone") {
+            return {
+              ...item,
+              value: site.contact.phone,
+              href: formatPhoneHref(site.contact.phone),
+            };
+          }
+          if (item.type === "address") {
+            return {
+              ...item,
+              value: `${site.contact.address}, ${site.contact.city}, ${site.contact.country}`,
+            };
+          }
+          return item;
+        }),
+      },
+      bottomBar: {
+        ...footer.bottomBar,
+        legalName: site.legalName,
+      },
+    };
   }, [getContentOverride, locale, messages]);
 }
 
@@ -192,11 +232,23 @@ export function useCookieConsentCopy() {
 }
 
 export function useSiteCopy() {
-  const { locale } = useI18n();
-  return useMemo(() => buildSiteCopy(locale) as {
-    companyName: string;
-    legalName: string;
-    tagline: string;
-    description: string;
-  }, [locale]);
+  const { locale, messages } = useI18n();
+  const { getContentOverride } = useCmsExperience();
+  return useMemo(() => {
+    const base = buildSiteCopy(locale) as {
+      companyName: string;
+      legalName: string;
+      tagline: string;
+      description: string;
+    };
+    const site = getContentOverride<CmsSiteSettingsPayload>("site.settings");
+    if (!site) return base;
+
+    return {
+      companyName: site.companyName || base.companyName,
+      legalName: site.legalName || base.legalName,
+      tagline: site.tagline || base.tagline,
+      description: site.description || base.description,
+    };
+  }, [getContentOverride, locale, messages]);
 }

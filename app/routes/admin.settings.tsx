@@ -1,85 +1,46 @@
-import type { LucideIcon } from "lucide-react";
-import { Globe, Mail, MapPin, Phone, Settings } from "lucide-react";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 
 import type { Route } from "./+types/admin.settings";
-import { AdminSurface } from "@/components/admin";
-import { siteSettings } from "@/data/site";
-import { localeLabels } from "@/i18n/config";
+import { AdminSettingsPage } from "@/pages/admin/AdminSettingsPage";
+import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
+import {
+  CMS_SITE_SETTINGS_KEY,
+  getDefaultSiteSettingsPayload,
+  getPublishedSiteSettings,
+} from "@/server/cms/content/site-settings.server";
+import { getContentEntryByKey } from "@/server/cms/content/service.server";
+import type { loader as adminLoader } from "./admin";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  await requireCmsAuthSession(request, ["editor"]);
+
+  try {
+    const detail = await getContentEntryByKey(CMS_SITE_SETTINGS_KEY);
+    const payload =
+      (detail.entry.currentVersion?.payload as ReturnType<typeof getDefaultSiteSettingsPayload>) ??
+      (await getPublishedSiteSettings());
+
+    return {
+      payload,
+      status: detail.entry.status,
+    };
+  } catch {
+    return {
+      payload: getDefaultSiteSettingsPayload(),
+      status: "static",
+    };
+  }
+}
 
 export default function AdminSettingsRoute() {
+  useRouteLoaderData<typeof adminLoader>("routes/admin");
+  const data = useLoaderData<typeof loader>();
+
   return (
-    <div className="space-y-4">
-      <AdminSurface
-        title="Settings"
-        description="Company details, contact information, and site configuration."
-      >
-        <div className="grid gap-4 lg:grid-cols-2">
-          <SettingsGroup
-            title="Company"
-            items={[
-              { icon: Settings, label: "Company name", value: siteSettings.companyName },
-              { icon: Settings, label: "Legal name", value: siteSettings.legalName },
-            ]}
-          />
-          <SettingsGroup
-            title="Contact"
-            items={[
-              { icon: Phone, label: "Phone", value: siteSettings.contact.phone },
-              { icon: Mail, label: "Email", value: siteSettings.contact.email },
-              { icon: MapPin, label: "Address", value: siteSettings.contact.address },
-            ]}
-          />
-          <SettingsGroup
-            title="Social"
-            items={[
-              { icon: Globe, label: "LinkedIn", value: siteSettings.social.linkedin ?? "Not set" },
-            ]}
-          />
-          <SettingsGroup
-            title="Languages"
-            items={Object.entries(localeLabels).map(([key, value]) => ({
-              icon: Globe,
-              label: key.toUpperCase(),
-              value,
-            }))}
-          />
-        </div>
-      </AdminSurface>
-    </div>
+    <AdminSettingsPage initialPayload={data.payload} initialStatus={data.status} />
   );
 }
 
 export const meta: Route.MetaFunction = () => [
   { title: "Settings | Admin | Dynamic Oil Tools" },
 ];
-
-function SettingsGroup({
-  title,
-  items,
-}: {
-  title: string;
-  items: Array<{
-    icon: LucideIcon;
-    label: string;
-    value: string;
-  }>;
-}) {
-  return (
-    <section className="rounded-md border border-[#e5e5e5] bg-[#f8f8f8] p-4">
-      <h2 className="text-sm font-semibold text-[#111]">{title}</h2>
-      <ul className="mt-3 divide-y divide-[#e5e5e5]">
-        {items.map((item) => (
-          <li
-            key={`${title}-${item.label}`}
-            className="flex justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
-          >
-            <span className="text-sm text-[#666]">{item.label}</span>
-            <span className="text-right text-sm font-medium text-[#111]">
-              {item.value}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}

@@ -211,3 +211,51 @@ export async function bootstrapCmsAdmin(input: {
     userAgent: input.userAgent,
   });
 }
+
+export async function createCmsUser(input: {
+  email: string;
+  password: string;
+  name: string;
+  role: CMSRoleDto;
+}): Promise<ReturnType<typeof toCmsUser>> {
+  if (input.password.length < 12) {
+    throw new CmsHttpError(
+      400,
+      "weak_password",
+      "Password must be at least 12 characters long.",
+    );
+  }
+
+  const prisma = getPrismaClient();
+  const email = input.email.trim().toLowerCase();
+  const existing = await prisma.cmsUser.findUnique({ where: { email } });
+
+  if (existing) {
+    throw new CmsHttpError(409, "user_exists", "A CMS user with this email already exists.");
+  }
+
+  const user = await prisma.cmsUser.create({
+    data: {
+      email,
+      passwordHash: hashPassword(input.password),
+      name: input.name.trim(),
+      role: toPrismaRole(input.role),
+      isActive: true,
+    },
+  });
+
+  return toCmsUser(user);
+}
+
+export async function setCmsUserActive(input: {
+  userId: string;
+  isActive: boolean;
+}): Promise<ReturnType<typeof toCmsUser>> {
+  const prisma = getPrismaClient();
+  const user = await prisma.cmsUser.update({
+    where: { id: input.userId },
+    data: { isActive: input.isActive },
+  });
+
+  return toCmsUser(user);
+}

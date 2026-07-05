@@ -1,7 +1,8 @@
 import type { Route } from "./+types/api.cms.media";
 
 import { requireCmsAuthSession } from "@/server/cms/auth/service.server";
-import { uploadMediaAsset, listMediaAssets } from "@/server/cms/media/service.server";
+import { listMediaGalleryItems } from "@/server/cms/media/gallery.server";
+import { uploadMediaAsset } from "@/server/cms/media/service.server";
 import {
   assertMethod,
   jsonResponse,
@@ -19,7 +20,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   try {
     assertMethod(request, ["GET"]);
     await requireCmsAuthSession(request, ["editor"]);
-    const data = await listMediaAssets();
+    const data = await listMediaGalleryItems();
     return jsonResponse({ data });
   } catch (error) {
     return toErrorResponse(error);
@@ -59,7 +60,18 @@ export async function action({ request }: Route.ActionArgs) {
         : {}),
     });
 
-    return jsonResponse({ data }, { status: 201 });
+    return jsonResponse(
+      {
+        data: {
+          id: data.id,
+          url: data.currentVersion?.url,
+          label: data.key,
+          source: "upload",
+          updatedAt: data.updatedAt,
+        },
+      },
+      { status: 201 },
+    );
   } catch (error) {
     return toErrorResponse(error);
   }

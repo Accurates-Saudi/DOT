@@ -52,7 +52,11 @@ export async function loader({ request }: Route.LoaderArgs) {
     const { getPublicContentPayloadByKey } = await import(
       "@/server/cms/content/service.server"
     );
+    const { CMS_SITE_SETTINGS_KEY } = await import(
+      "@/server/cms/content/site-settings.server"
+    );
     const keys = [
+      CMS_SITE_SETTINGS_KEY,
       `home.${locale}`,
       `contact.${locale}`,
       `about.${locale}`,

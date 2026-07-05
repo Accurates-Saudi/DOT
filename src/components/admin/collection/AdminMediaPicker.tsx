@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import type { MediaLibraryItem } from "@/types";
+import type { MediaGalleryItem } from "@/server/cms/media/gallery.server";
 import { cn } from "@/lib/utils";
 
 import { AdminField, AdminInput } from "./AdminEntityFormFields";
@@ -13,8 +13,10 @@ interface AdminMediaPickerProps {
 
 export function AdminMediaPicker({ label, value, onChange }: AdminMediaPickerProps) {
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState<MediaLibraryItem[]>([]);
+  const [items, setItems] = useState<MediaGalleryItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const uploadFormRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -36,6 +38,32 @@ export function AdminMediaPicker({ label, value, onChange }: AdminMediaPickerPro
       cancelled = true;
     };
   }, [open]);
+
+  async function handleUpload(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("key", file.name.replace(/\.[^.]+$/, ""));
+
+    const response = await fetch("/api/cms/media", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) return;
+
+    const body = await response.json();
+    const uploaded = body.data;
+    const url = uploaded?.url ?? uploaded?.currentVersion?.url;
+    if (url) {
+      onChange({
+        src: url,
+        alt: uploaded?.label ?? uploaded?.currentVersion?.filename ?? file.name,
+      });
+    }
+
+    const refreshed = await fetch("/api/cms/media").then((result) => result.json());
+    setItems(refreshed.data ?? []);
+  }
 
   return (
     <div className="space-y-3">
@@ -67,13 +95,34 @@ export function AdminMediaPicker({ label, value, onChange }: AdminMediaPickerPro
               }
               placeholder="Alt text"
             />
-            <button
-              type="button"
-              className="rounded-md border border-[#e5e5e5] px-3 py-2 text-sm text-[#333] hover:border-[#d4d4d4]"
-              onClick={() => setOpen((current) => !current)}
-            >
-              {open ? "Hide Media Library" : "Choose from Media Library"}
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="rounded-md border border-[#e5e5e5] px-3 py-2 text-sm text-[#333] hover:border-[#d4d4d4]"
+                onClick={() => setOpen((current) => !current)}
+              >
+                {open ? "Hide Media Library" : "Choose from Media Library"}
+              </button>
+              <button
+                type="button"
+                className="rounded-md border border-[#e5e5e5] px-3 py-2 text-sm text-[#333] hover:border-[#d4d4d4]"
+                onClick={() => uploadInputRef.current?.click()}
+              >
+                Upload New
+              </button>
+            </div>
+            <form ref={uploadFormRef} className="hidden">
+              <input
+                ref={uploadInputRef}
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  const file = event.currentTarget.files?.[0];
+                  if (file) void handleUpload(file);
+                  event.currentTarget.value = "";
+                }}
+              />
+            </form>
           </div>
         </div>
       </AdminField>
@@ -81,43 +130,38 @@ export function AdminMediaPicker({ label, value, onChange }: AdminMediaPickerPro
       {open ? (
         <div className="rounded-md border border-[#e5e5e5] bg-[#f8f8f8] p-4">
           {loading ? (
-            <p className="text-sm text-[#666]">Loading media...</p>
+            <p className="text-sm text-[#666]">Loading media library...</p>
           ) : items.length === 0 ? (
-            <p className="text-sm text-[#666]">No media assets found.</p>
+            <p className="text-sm text-[#666]">No images found.</p>
           ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-              {items.map((item) => {
-                const url = item.currentVersion?.url;
-                if (!url) return null;
-
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={cn(
-                      "overflow-hidden rounded-md border bg-white text-left transition hover:border-[var(--dot-orange)]",
-                      value?.src === url
-                        ? "border-[var(--dot-orange)]"
-                        : "border-[#e5e5e5]",
-                    )}
-                    onClick={() =>
-                      onChange({
-                        src: url,
-                        alt: item.currentVersion?.filename ?? item.key,
-                      })
-                    }
-                  >
-                    <img
-                      src={url}
-                      alt={item.key}
-                      className="aspect-square w-full object-cover"
-                    />
-                    <span className="block truncate px-2 py-1 text-xs text-[#666]">
-                      {item.key}
-                    </span>
-                  </button>
-                );
-              })}
+            <div className="grid max-h-80 grid-cols-2 gap-3 overflow-y-auto sm:grid-cols-4 lg:grid-cols-6">
+              {items.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={cn(
+                    "overflow-hidden rounded-md border bg-white text-left transition hover:border-[var(--dot-orange)]",
+                    value?.src === item.url
+                      ? "border-[var(--dot-orange)]"
+                      : "border-[#e5e5e5]",
+                  )}
+                  onClick={() =>
+                    onChange({
+                      src: item.url,
+                      alt: item.label,
+                    })
+                  }
+                >
+                  <img
+                    src={item.url}
+                    alt={item.label}
+                    className="aspect-square w-full object-cover"
+                  />
+                  <span className="block truncate px-2 py-1 text-xs text-[#666]">
+                    {item.label}
+                  </span>
+                </button>
+              ))}
             </div>
           )}
         </div>

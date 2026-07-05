@@ -7,7 +7,7 @@ import {
   jsonResponse,
   toErrorResponse,
 } from "@/server/cms/http.server";
-import { readUploadedFile } from "@/server/cms/request.server";
+import { readUploadedFile, assertImageUpload } from "@/server/cms/request.server";
 
 function toOptionalNumber(value: FormDataEntryValue | null): number | undefined {
   if (typeof value !== "string" || value.trim() === "") return undefined;
@@ -32,6 +32,7 @@ export async function action({ request }: Route.ActionArgs) {
     const session = await requireCmsAuthSession(request, ["editor"]);
     const formData = await request.formData();
     const upload = await readUploadedFile(formData.get("file"));
+    assertImageUpload(upload.mimeType);
     const key = String(formData.get("key") ?? "").trim();
 
     const data = await createMediaAsset({

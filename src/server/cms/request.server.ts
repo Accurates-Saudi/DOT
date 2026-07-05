@@ -1,5 +1,22 @@
 import { CmsHttpError } from "./http.server";
 
+const IMAGE_MIME_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/svg+xml",
+]);
+
+export function assertImageUpload(mimeType: string): void {
+  if (!IMAGE_MIME_TYPES.has(mimeType)) {
+    throw new CmsHttpError(
+      400,
+      "invalid_image_type",
+      "Only PNG, JPEG, WebP, and SVG image uploads are supported.",
+    );
+  }
+}
+
 export function getRequestMetadata(request: Request): {
   ipAddress?: string;
   userAgent?: string;

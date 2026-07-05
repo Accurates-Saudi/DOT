@@ -16,6 +16,15 @@ export type ContentValue<T> = T;
 export interface ImageAsset {
   src: string;
   alt: string;
+  /** CMS media asset ID when the image is managed through the media library */
+  mediaId?: string;
+  /** Original uploaded filename for editor previews */
+  filename?: string;
+  /** Bilingual alt text stored in CMS drafts */
+  localizedAlt?: {
+    en: string;
+    ar: string;
+  };
   width?: number;
   height?: number;
   /** CSS object-position for background / cover images (e.g. "center", "60% center") */

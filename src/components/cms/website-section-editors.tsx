@@ -8,7 +8,7 @@ import type {
 import {
   CmsPanelCard,
   CmsPanelField,
-  CmsPanelImageFields,
+  CmsPanelImageField,
   CmsPanelStringList,
   CmsPanelTextarea,
   type CmsVisualSectionDefinition,
@@ -74,15 +74,12 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
                   )
                 }
               />
-              <CmsPanelImageFields
+              <CmsPanelImageField
                 label="Background image"
-                src={slide.background.src}
-                alt={slide.background.alt}
-                onSrcChange={(value) =>
-                  setValueAtPath(["hero", "slides", index, "background", "src"], value)
-                }
-                onAltChange={(value) =>
-                  setValueAtPath(["hero", "slides", index, "background", "alt"], value)
+                image={slide.background}
+                mediaKey={`home.hero.slide-${index + 1}.background`}
+                onImageChange={(next) =>
+                  setValueAtPath(["hero", "slides", index, "background"], next)
                 }
               />
             </CmsPanelCard>
@@ -132,15 +129,12 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
             }
           />
           {page.about.media.image ? (
-            <CmsPanelImageFields
+            <CmsPanelImageField
               label="Section image"
-              src={page.about.media.image.src}
-              alt={page.about.media.image.alt}
-              onSrcChange={(value) =>
-                setValueAtPath(["about", "media", "image", "src"], value)
-              }
-              onAltChange={(value) =>
-                setValueAtPath(["about", "media", "image", "alt"], value)
+              image={page.about.media.image}
+              mediaKey="home.about.media.image"
+              onImageChange={(next) =>
+                setValueAtPath(["about", "media", "image"], next)
               }
             />
           ) : null}
@@ -154,15 +148,12 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
         "Update the supporting statistics and background image used in the company metrics section.",
       renderPanel: ({ page, setValueAtPath }) => (
         <>
-          <CmsPanelImageFields
+          <CmsPanelImageField
             label="Background image"
-            src={page.companyStatistics.backgroundImage.src}
-            alt={page.companyStatistics.backgroundImage.alt}
-            onSrcChange={(value) =>
-              setValueAtPath(["companyStatistics", "backgroundImage", "src"], value)
-            }
-            onAltChange={(value) =>
-              setValueAtPath(["companyStatistics", "backgroundImage", "alt"], value)
+            image={page.companyStatistics.backgroundImage}
+            mediaKey="home.company-statistics.background"
+            onImageChange={(next) =>
+              setValueAtPath(["companyStatistics", "backgroundImage"], next)
             }
           />
           {page.companyStatistics.items.map((item, index) => (
@@ -263,15 +254,12 @@ export function createHomePageSectionEditors(): CmsVisualSectionDefinition<HomeP
             }
             rows={3}
           />
-          <CmsPanelImageFields
+          <CmsPanelImageField
             label="Featured image"
-            src={page.whyChooseUs.featuredImage.src}
-            alt={page.whyChooseUs.featuredImage.alt}
-            onSrcChange={(value) =>
-              setValueAtPath(["whyChooseUs", "featuredImage", "src"], value)
-            }
-            onAltChange={(value) =>
-              setValueAtPath(["whyChooseUs", "featuredImage", "alt"], value)
+            image={page.whyChooseUs.featuredImage}
+            mediaKey="home.why-choose-us.featured-image"
+            onImageChange={(next) =>
+              setValueAtPath(["whyChooseUs", "featuredImage"], next)
             }
           />
           <CmsPanelTextarea
@@ -485,15 +473,12 @@ export function createAboutPageSectionEditors(): CmsVisualSectionDefinition<Abou
             rows={4}
           />
           {page.hero.backgroundImage ? (
-            <CmsPanelImageFields
+            <CmsPanelImageField
               label="Background image"
-              src={page.hero.backgroundImage.src}
-              alt={page.hero.backgroundImage.alt}
-              onSrcChange={(value) =>
-                setValueAtPath(["hero", "backgroundImage", "src"], value)
-              }
-              onAltChange={(value) =>
-                setValueAtPath(["hero", "backgroundImage", "alt"], value)
+              image={page.hero.backgroundImage}
+              mediaKey="about.hero.background"
+              onImageChange={(next) =>
+                setValueAtPath(["hero", "backgroundImage"], next)
               }
             />
           ) : null}
@@ -526,15 +511,12 @@ export function createAboutPageSectionEditors(): CmsVisualSectionDefinition<Abou
               setValueAtPath(["companyOverview", "body"], values)
             }
           />
-          <CmsPanelImageFields
+          <CmsPanelImageField
             label="Overview image"
-            src={page.companyOverview.image.src}
-            alt={page.companyOverview.image.alt}
-            onSrcChange={(value) =>
-              setValueAtPath(["companyOverview", "image", "src"], value)
-            }
-            onAltChange={(value) =>
-              setValueAtPath(["companyOverview", "image", "alt"], value)
+            image={page.companyOverview.image}
+            mediaKey="about.company-overview.image"
+            onImageChange={(next) =>
+              setValueAtPath(["companyOverview", "image"], next)
             }
           />
         </>

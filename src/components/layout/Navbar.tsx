@@ -66,17 +66,12 @@ export function Navbar() {
         <LocalizedLink
           to="/"
           className={cn(
-            "group relative z-10 flex min-w-0 shrink-0 items-center",
+            "group relative z-10 flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2 lg:gap-4 xl:gap-5",
             transitionPresets.transform,
             "duration-500 ease-out",
-            isElevated
-              ? cn(
-                  "gap-1.5 sm:gap-2 lg:gap-3",
-                  direction === "rtl"
-                    ? "lg:translate-x-1 xl:translate-x-1.5"
-                    : "lg:-translate-x-1 xl:-translate-x-1.5",
-                )
-              : "translate-x-0 gap-1.5 sm:gap-2 lg:gap-3",
+            direction === "rtl"
+              ? "lg:translate-x-4 xl:translate-x-50"
+              : "lg:-translate-x-4 xl:-translate-x-50",
           )}
           aria-label={navigationCopy.homeAria}
         >

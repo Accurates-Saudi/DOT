@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CmsMediaLibrarySheet } from "@/components/cms/CmsMediaLibrarySheet";
 import { CmsPanelCard, CmsPanelField } from "@/components/cms/CmsPanelPrimitives";
 import { cmsClient, CmsApiError } from "@/sdk/cms";
+import type { MediaGalleryItem } from "@/server/cms/media/gallery.server";
 import type { ImageAsset } from "@/types";
 import {
   applyUploadedMediaToImage,
@@ -142,6 +143,43 @@ export function CmsPanelImageField({
   const previewSrc = instantPreview ?? resolveImagePreviewSrc(image);
   const displayFilename = pendingFilename ?? image.filename;
 
+  function handleLibrarySelect(item: MediaGalleryItem) {
+    setError(null);
+
+    if (item.source === "upload") {
+      const versionMatch = item.url.match(/[?&]v=(\d+)/);
+      const nextImage = applyUploadedMediaToImage(sourceImageRef.current, {
+        mediaId: item.id,
+        src: item.url,
+        ...(versionMatch ? { mediaVersion: Number(versionMatch[1]) } : {}),
+        filename: item.label,
+        alt: {
+          en: item.label || getImageAltEn(sourceImageRef.current),
+          ar: getImageAltAr(sourceImageRef.current),
+        },
+      });
+      onImageChange(nextImage);
+      clearInstantPreview();
+      setPendingFilename(item.label);
+      return;
+    }
+
+    onImageChange({
+      ...sourceImageRef.current,
+      src: item.url,
+      alt: item.label || sourceImageRef.current.alt,
+      localizedAlt: {
+        en: item.label || getImageAltEn(sourceImageRef.current),
+        ar: getImageAltAr(sourceImageRef.current),
+      },
+      filename: item.label,
+      mediaId: undefined,
+      mediaVersion: undefined,
+    });
+    clearInstantPreview();
+    setPendingFilename(item.label);
+  }
+
   return (
     <>
       <CmsPanelCard title={label}>
@@ -232,7 +270,12 @@ export function CmsPanelImageField({
         </div>
       </CmsPanelCard>
 
-      <CmsMediaLibrarySheet open={libraryOpen} onOpenChange={setLibraryOpen} />
+      <CmsMediaLibrarySheet
+        open={libraryOpen}
+        onOpenChange={setLibraryOpen}
+        selectedUrl={previewSrc}
+        onSelect={handleLibrarySelect}
+      />
     </>
   );
 }

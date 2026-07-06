@@ -2,7 +2,7 @@ import type { CmsRole } from "@/generated/prisma/client";
 
 import type { CMSAuthSession, CMSRole as CMSRoleDto } from "@/types";
 
-import { getPrismaClient } from "../db.server";
+import { prisma } from "../db.server";
 import { CmsHttpError } from "../http.server";
 import { toCmsUser } from "../serializers.server";
 import { hashPassword, verifyPassword } from "./password.server";
@@ -40,7 +40,6 @@ async function createCmsSessionForUser(input: {
   ipAddress?: string | null;
   userAgent?: string | null;
 }): Promise<{ session: CMSAuthSession; setCookie: string }> {
-  const prisma = getPrismaClient();
   const rawToken = createSessionToken();
   const expiresAt = new Date(Date.now() + resolveSessionTtlMs(input.rememberMe));
 
@@ -65,7 +64,7 @@ async function createCmsSessionForUser(input: {
 }
 
 export async function getCmsUserCount(): Promise<number> {
-  return getPrismaClient().cmsUser.count();
+  return prisma.cmsUser.count();
 }
 
 export async function hasCmsUsers(): Promise<boolean> {
@@ -75,7 +74,6 @@ export async function hasCmsUsers(): Promise<boolean> {
 export async function getCmsAuthSession(
   request: Request,
 ): Promise<CMSAuthSession | null> {
-  const prisma = getPrismaClient();
   const rawToken = getSessionTokenFromRequest(request);
   if (!rawToken) return null;
 
@@ -134,7 +132,6 @@ export async function loginCmsUser(input: {
   ipAddress?: string | null;
   userAgent?: string | null;
 }): Promise<{ session: CMSAuthSession; setCookie: string }> {
-  const prisma = getPrismaClient();
   const email = input.email.trim().toLowerCase();
 
   const user = await prisma.cmsUser.findUnique({ where: { email } });
@@ -153,7 +150,6 @@ export async function loginCmsUser(input: {
 }
 
 export async function logoutCmsUser(request: Request): Promise<string> {
-  const prisma = getPrismaClient();
   const rawToken = getSessionTokenFromRequest(request);
 
   if (rawToken) {
@@ -173,7 +169,6 @@ export async function bootstrapCmsAdmin(input: {
   ipAddress?: string | null;
   userAgent?: string | null;
 }): Promise<{ session: CMSAuthSession; setCookie: string }> {
-  const prisma = getPrismaClient();
   const existingUsers = await getCmsUserCount();
 
   if (existingUsers > 0) {
@@ -226,7 +221,6 @@ export async function createCmsUser(input: {
     );
   }
 
-  const prisma = getPrismaClient();
   const email = input.email.trim().toLowerCase();
   const existing = await prisma.cmsUser.findUnique({ where: { email } });
 
@@ -251,7 +245,6 @@ export async function setCmsUserActive(input: {
   userId: string;
   isActive: boolean;
 }): Promise<ReturnType<typeof toCmsUser>> {
-  const prisma = getPrismaClient();
   const user = await prisma.cmsUser.update({
     where: { id: input.userId },
     data: { isActive: input.isActive },

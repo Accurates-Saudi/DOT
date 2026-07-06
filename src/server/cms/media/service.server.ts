@@ -2,7 +2,7 @@ import type { Prisma } from "@/generated/prisma/client";
 
 import type { CMSLocalizedValue, MediaLibraryItem } from "@/types";
 
-import { getPrismaClient } from "../db.server";
+import { prisma } from "../db.server";
 import { CmsHttpError } from "../http.server";
 import { toMediaLibraryItem } from "../serializers.server";
 import { readMediaVersionFile, saveMediaVersionFile } from "./storage.server";
@@ -28,7 +28,6 @@ function normalizeAlt(alt?: CMSLocalizedValue<string>): Prisma.InputJsonValue | 
 }
 
 export async function listMediaAssets(): Promise<MediaLibraryItem[]> {
-  const prisma = getPrismaClient();
   const assets = await prisma.cmsMediaAsset.findMany({
     include: mediaAssetInclude,
     orderBy: { updatedAt: "desc" },
@@ -42,7 +41,6 @@ export async function listMediaAssets(): Promise<MediaLibraryItem[]> {
 }
 
 export async function getMediaAssetById(id: string): Promise<MediaLibraryItem> {
-  const prisma = getPrismaClient();
   const asset = await prisma.cmsMediaAsset.findUnique({
     where: { id },
     include: mediaAssetInclude,
@@ -69,8 +67,6 @@ async function persistMediaVersion(input: {
   height?: number;
   alt?: CMSLocalizedValue<string>;
 }): Promise<MediaLibraryItem> {
-  const prisma = getPrismaClient();
-
   return prisma.$transaction(async (tx) => {
     const version = await tx.cmsMediaVersion.create({
       data: {
@@ -117,7 +113,6 @@ export async function createMediaAsset(input: {
     throw new CmsHttpError(400, "invalid_media_key", "Media key is required.");
   }
 
-  const prisma = getPrismaClient();
   const asset = await prisma.cmsMediaAsset.create({
     data: {
       key: input.key,
@@ -162,8 +157,6 @@ export async function uploadMediaAsset(input: {
   alt?: CMSLocalizedValue<string>;
   mediaId?: string;
 }): Promise<MediaLibraryItem> {
-  const prisma = getPrismaClient();
-
   if (input.mediaId) {
     return replaceMediaAsset({
       id: input.mediaId,
@@ -208,7 +201,6 @@ export async function replaceMediaAsset(input: {
   height?: number;
   alt?: CMSLocalizedValue<string>;
 }): Promise<MediaLibraryItem> {
-  const prisma = getPrismaClient();
   const asset = await prisma.cmsMediaAsset.findUnique({
     where: { id: input.id },
   });
@@ -249,7 +241,6 @@ export async function getMediaFile(
   fileName: string;
   versionNumber: number;
 }> {
-  const prisma = getPrismaClient();
   const asset = await prisma.cmsMediaAsset.findUnique({
     where: { id },
     include: {

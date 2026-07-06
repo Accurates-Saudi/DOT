@@ -3,7 +3,7 @@ import { defaultLocale } from "@/i18n/config";
 import type { CMSContentRecord, CMSContentType } from "@/types";
 import { getRowMetaExtractor, extractCareerRowMeta, extractCatalogRowMeta, extractPartnerRowMeta } from "@/utils/cms-entities";
 
-import { getPrismaClient } from "../db.server";
+import { prisma } from "../db.server";
 import { toCmsContentRecord } from "../serializers.server";
 
 import {
@@ -97,8 +97,6 @@ function toDashboardItem(
 }
 
 export async function getAdminDashboardCounts(locale: Locale = defaultLocale) {
-  const prisma = getPrismaClient();
-
   const [productRows, newsRows, careerRows, certificateRows, catalogRows, partnerRows, media, users] =
     await Promise.all([
       buildAdminProductRows(locale),
@@ -130,8 +128,6 @@ export async function getAdminRecentUpdates(
   locale: Locale = defaultLocale,
   limit = 8,
 ): Promise<AdminDashboardItem[]> {
-  const prisma = getPrismaClient();
-
   const entries = await prisma.cmsContentEntry.findMany({
     where: {
       status: { not: "ARCHIVED" },

@@ -11,7 +11,7 @@ import type {
   CMSContentVersion,
 } from "@/types";
 
-import { getPrismaClient } from "../db.server";
+import { prisma } from "../db.server";
 import { CmsHttpError } from "../http.server";
 import {
   toCmsContentRecord,
@@ -49,7 +49,6 @@ export interface CMSContentEntryDetail {
 export async function getPublicContentPayloadByKey(
   key: string,
 ): Promise<unknown | null> {
-  const prisma = getPrismaClient();
   const entry = await prisma.cmsContentEntry.findUnique({
     where: { key },
     include: {
@@ -84,7 +83,6 @@ export async function listContentEntries(filters?: {
   status?: CMSContentStatusDto;
   search?: string;
 }): Promise<CMSContentRecord[]> {
-  const prisma = getPrismaClient();
   const entries = await prisma.cmsContentEntry.findMany({
     where: {
       ...(filters?.type ? { type: toPrismaContentType(filters.type) } : {}),
@@ -110,7 +108,6 @@ export async function listContentEntries(filters?: {
 export async function getContentEntryByKey(
   key: string,
 ): Promise<CMSContentEntryDetail> {
-  const prisma = getPrismaClient();
   const entry = await prisma.cmsContentEntry.findUnique({
     where: { key },
     include: contentEntryInclude,
@@ -136,7 +133,6 @@ export async function upsertContentEntry(input: {
     throw new CmsHttpError(400, "invalid_content_key", "Content key is required.");
   }
 
-  const prisma = getPrismaClient();
   return prisma.$transaction(async (tx) => {
     const now = new Date();
     const existing = await tx.cmsContentEntry.findUnique({
@@ -201,7 +197,6 @@ export async function archiveContentEntry(input: {
   key: string;
   actorId: string;
 }): Promise<CMSContentEntryDetail> {
-  const prisma = getPrismaClient();
   const existing = await prisma.cmsContentEntry.findUnique({
     where: { key: input.key },
   });
@@ -226,7 +221,6 @@ export async function unarchiveContentEntry(input: {
   key: string;
   actorId: string;
 }): Promise<CMSContentEntryDetail> {
-  const prisma = getPrismaClient();
   const existing = await prisma.cmsContentEntry.findUnique({
     where: { key: input.key },
   });

@@ -2,7 +2,7 @@ import { redirect, useActionData, useLoaderData, useRouteLoaderData } from "reac
 
 import type { Route } from "./+types/admin.users";
 import { AdminUsersPage } from "@/pages/admin/AdminUsersPage";
-import { getPrismaClient } from "@/server/cms/db.server";
+import { prisma } from "@/server/cms/db.server";
 import {
   createCmsUser,
   requireCmsAuthSession,
@@ -24,7 +24,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   const url = new URL(request.url);
   const q = (url.searchParams.get("q") ?? "").toLowerCase();
-  const prisma = getPrismaClient();
   const rows = await prisma.cmsUser.findMany({
     orderBy: { createdAt: "desc" },
   });

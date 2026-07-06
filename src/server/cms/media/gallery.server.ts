@@ -9,7 +9,7 @@ import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content
 import { getDefaultSiteSettingsPayload } from "@/server/cms/content/site-settings.server";
 import type { MediaLibraryItem } from "@/types";
 
-import { listContentEntries, getPublicContentPayloadByKey } from "../content/service.server";
+import { listPublishedContentPayloads } from "../content/service.server";
 import { listMediaAssets } from "./service.server";
 
 export interface MediaGalleryItem {
@@ -111,11 +111,10 @@ async function collectStaticWebsiteImages(): Promise<Map<string, MediaGalleryIte
 
 async function collectPublishedCmsImages(): Promise<Map<string, MediaGalleryItem>> {
   const map = new Map<string, MediaGalleryItem>();
-  const entries = await listContentEntries({ status: "published" });
+  const entries = await listPublishedContentPayloads();
 
   for (const entry of entries) {
-    const payload = await getPublicContentPayloadByKey(entry.key);
-    if (payload) collectImageUrls(payload, map);
+    collectImageUrls(entry.payload, map);
   }
 
   return map;

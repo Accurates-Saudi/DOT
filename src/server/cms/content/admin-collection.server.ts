@@ -164,13 +164,15 @@ export async function buildAdminCatalogRows(
   search = "",
 ): Promise<AdminCollectionRowMeta[]> {
   const staticItems = buildCatalogsPageContent(localeContentMessages[locale], locale).library.items;
-  const cmsRecords = await listContentEntries({
-    type: "page",
-    ...(search ? { search } : {}),
-  });
+  const [cmsRecords, order] = await Promise.all([
+    listContentEntries({
+      type: "page",
+      ...(search ? { search } : {}),
+    }),
+    getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.catalog),
+  ]);
   const filtered = cmsRecords.filter((record) => record.key.startsWith("catalog."));
   const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.catalog);
   const rows: AdminCollectionRowMeta[] = [];
 
   for (const item of staticItems) {
@@ -205,13 +207,15 @@ export async function buildAdminCareerRows(
   locale: Locale = defaultLocale,
   search = "",
 ): Promise<AdminCollectionRowMeta[]> {
-  const cmsRecords = await listContentEntries({
-    type: "page",
-    ...(search ? { search } : {}),
-  });
+  const [cmsRecords, order] = await Promise.all([
+    listContentEntries({
+      type: "page",
+      ...(search ? { search } : {}),
+    }),
+    getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career),
+  ]);
   const filtered = cmsRecords.filter((record) => record.key.startsWith("career."));
   const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
   const staticJobs = getLocalizedCareerJobs(localeContentMessages[locale], locale);
   const rows: AdminCollectionRowMeta[] = [];
 
@@ -250,13 +254,15 @@ export async function buildAdminPartnerRows(
   search = "",
 ): Promise<AdminCollectionRowMeta[]> {
   const staticLogos = buildTrustedPartnersContent(localeContentMessages[locale]).logos;
-  const cmsRecords = await listContentEntries({
-    type: "page",
-    ...(search ? { search } : {}),
-  });
+  const [cmsRecords, order] = await Promise.all([
+    listContentEntries({
+      type: "page",
+      ...(search ? { search } : {}),
+    }),
+    getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.partner),
+  ]);
   const filtered = cmsRecords.filter((record) => record.key.startsWith("partner."));
   const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.partner);
   const rows: AdminCollectionRowMeta[] = [];
 
   for (const logo of staticLogos) {

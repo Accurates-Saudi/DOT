@@ -66,6 +66,75 @@ export async function getPublicContentPayloadByKey(
   return version?.payload ?? null;
 }
 
+export async function getPublicContentPayloadsByKeys(
+  keys: string[],
+): Promise<Record<string, unknown>> {
+  if (keys.length === 0) {
+    return {};
+  }
+
+  const entries = await prisma.cmsContentEntry.findMany({
+    where: { key: { in: keys } },
+    select: {
+      key: true,
+      publishedVersion: { select: { payload: true } },
+    },
+  });
+
+  const overrides: Record<string, unknown> = {};
+
+  for (const entry of entries) {
+    const payload = entry.publishedVersion?.payload;
+    if (payload != null) {
+      overrides[entry.key] = payload;
+    }
+  }
+
+  return overrides;
+}
+
+export async function isContentEntryArchived(key: string): Promise<boolean> {
+  const entry = await prisma.cmsContentEntry.findUnique({
+    where: { key },
+    select: { status: true },
+  });
+
+  return entry?.status === "ARCHIVED";
+}
+
+export async function listPublishedContentPayloads(filters?: {
+  type?: CMSContentTypeDto;
+  keyPrefix?: string;
+}): Promise<Array<{ key: string; slug?: string; payload: unknown }>> {
+  const entries = await prisma.cmsContentEntry.findMany({
+    where: {
+      status: "PUBLISHED",
+      ...(filters?.type ? { type: toPrismaContentType(filters.type) } : {}),
+      ...(filters?.keyPrefix ? { key: { startsWith: filters.keyPrefix } } : {}),
+    },
+    select: {
+      key: true,
+      slug: true,
+      publishedVersion: { select: { payload: true } },
+    },
+  });
+
+  const results: Array<{ key: string; slug?: string; payload: unknown }> = [];
+
+  for (const entry of entries) {
+    const payload = entry.publishedVersion?.payload;
+    if (payload == null) continue;
+
+    results.push({
+      key: entry.key,
+      ...(entry.slug ? { slug: entry.slug } : {}),
+      payload,
+    });
+  }
+
+  return results;
+}
+
 function toDetail(
   entry: Prisma.CmsContentEntryGetPayload<{ include: typeof contentEntryInclude }>,
 ): CMSContentEntryDetail {

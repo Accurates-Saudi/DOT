@@ -14,22 +14,25 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw redirect(`/${defaultLocale}/news/${params.slug}`);
   }
 
-  const { getPublishedNewsBySlug, getPublishedNewsArticles } = await import(
-    "@/server/cms/content/entity-content.server"
-  );
-  const article = await getPublishedNewsBySlug(locale, params.slug);
+  const [{ getPublishedNewsBySlug, getPublishedNewsArticles }, newsUtils] =
+    await Promise.all([
+      import("@/server/cms/content/entity-content.server"),
+      import("@/i18n/content/news"),
+    ]);
+
+  const [article, allArticles] = await Promise.all([
+    getPublishedNewsBySlug(locale, params.slug),
+    getPublishedNewsArticles(locale),
+  ]);
 
   if (!article) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const { toNewsArticlePreview, getRelatedNewsPreviews } = await import(
-    "@/i18n/content/news"
+  const relatedArticles = newsUtils.getRelatedNewsPreviews(
+    allArticles.map(newsUtils.toNewsArticlePreview),
+    params.slug,
   );
-  const allPreviews = (await getPublishedNewsArticles(locale)).map(
-    toNewsArticlePreview,
-  );
-  const relatedArticles = getRelatedNewsPreviews(allPreviews, params.slug);
 
   return { article, relatedArticles, locale };
 }

@@ -14,7 +14,6 @@ import {
   buildAdminPartnerRows,
   buildAdminProductRows,
 } from "./admin-collection.server";
-import { listContentEntries } from "./service.server";
 
 export interface AdminDashboardItem {
   id: string;
@@ -147,29 +146,36 @@ export async function listAdminDraftItems(
   locale: Locale = defaultLocale,
   search = "",
 ): Promise<AdminDashboardItem[]> {
-  const drafts = await listContentEntries({
-    status: "draft",
-    ...(search ? { search } : {}),
+  const entries = await prisma.cmsContentEntry.findMany({
+    where: {
+      key: { not: { endsWith: ".order" } },
+      AND: [
+        {
+          OR: [
+            { status: "DRAFT" },
+            {
+              status: "PUBLISHED",
+              currentVersion: { isPublished: false },
+            },
+          ],
+        },
+        ...(search
+          ? [
+              {
+                OR: [
+                  { key: { contains: search, mode: "insensitive" as const } },
+                  { slug: { contains: search, mode: "insensitive" as const } },
+                ],
+              },
+            ]
+          : []),
+      ],
+    },
+    include: {
+      currentVersion: { include: contentVersionInclude },
+    },
+    orderBy: { updatedAt: "desc" },
   });
 
-  const publishedWithPendingChanges = await listContentEntries(
-    search ? { search } : undefined,
-  );
-
-  const pending = publishedWithPendingChanges.filter(
-    (record) =>
-      record.status === "published" &&
-      record.currentVersion &&
-      !record.currentVersion.isPublished,
-  );
-
-  const merged = new Map<string, CMSContentRecord>();
-  for (const record of [...drafts, ...pending]) {
-    if (record.key.endsWith(".order")) continue;
-    merged.set(record.key, record);
-  }
-
-  return [...merged.values()]
-    .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
-    .map((record) => toDashboardItem(record, locale));
+  return entries.map((entry) => toDashboardItem(toCmsContentRecord(entry), locale));
 }

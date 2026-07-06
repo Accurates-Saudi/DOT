@@ -47,10 +47,14 @@ import {
   archiveContentEntry,
   getContentEntryByKey,
   getPublicContentPayloadByKey,
+  isContentEntryArchived,
+  listPublishedContentPayloads,
   listContentEntries,
   unarchiveContentEntry,
   upsertContentEntry,
 } from "./service.server";
+import { dedupeInflight } from "../query-cache.server";
+import { prisma } from "../db.server";
 
 function resolveStaticProduct(locale: Locale, slug: string): ProductDetailContent | undefined {
   return getLocalizedProductBySlug(localeContentMessages[locale], locale, slug);
@@ -65,22 +69,35 @@ function resolveStaticCareer(locale: Locale, slug: string): CareerJobDetail | un
 }
 
 export async function getArchivedEntityKeys(): Promise<Set<string>> {
-  const entries = await listContentEntries({ status: "archived" });
-  return new Set(entries.map((entry) => entry.key));
+  return dedupeInflight("cms:archived-keys", async () => {
+    const entries = await prisma.cmsContentEntry.findMany({
+      where: { status: "ARCHIVED" },
+      select: { key: true },
+    });
+
+    return new Set(entries.map((entry) => entry.key));
+  });
 }
 
-export async function getCollectionOrder(
-  orderKey: string,
-): Promise<string[]> {
-  try {
-    const detail = await getContentEntryByKey(orderKey);
-    const payload =
-      detail.publishedVersion?.payload ?? detail.entry.currentVersion?.payload;
-    return parseCollectionOrderPayload(payload);
-  } catch {
+export async function getCollectionOrder(orderKey: string): Promise<string[]> {
+  return dedupeInflight(`cms:collection-order:${orderKey}`, async () => {
     const payload = await getPublicContentPayloadByKey(orderKey);
     return parseCollectionOrderPayload(payload);
-  }
+  });
+}
+
+async function loadPublishedCollectionData<T>(
+  type: CMSContentTypeDto,
+  orderKey: string,
+  keyPrefix?: string,
+) {
+  const [cmsEntries, order, archivedKeys] = await Promise.all([
+    listPublishedEntityPayloads<T>(type, keyPrefix),
+    getCollectionOrder(orderKey),
+    getArchivedEntityKeys(),
+  ]);
+
+  return { cmsEntries, order, archivedKeys };
 }
 
 export async function saveCollectionOrder(input: {
@@ -102,36 +119,26 @@ export async function listPublishedEntityPayloads<T>(
   type: CMSContentTypeDto,
   keyPrefix?: string,
 ): Promise<Array<{ key: string; slug?: string; payload: T }>> {
-  const entries = await listContentEntries({
+  const entries = await listPublishedContentPayloads({
     type,
-    status: "published",
-    ...(keyPrefix ? { search: keyPrefix } : {}),
+    ...(keyPrefix ? { keyPrefix } : {}),
   });
-  const results: Array<{ key: string; slug?: string; payload: T }> = [];
 
-  for (const entry of entries) {
-    if (keyPrefix && !entry.key.startsWith(keyPrefix)) continue;
-
-    const payload = (await getPublicContentPayloadByKey(entry.key)) as T | null;
-    if (!payload) continue;
-
-    results.push({
-      key: entry.key,
-      ...(entry.slug ? { slug: entry.slug } : {}),
-      payload,
-    });
-  }
-
-  return results;
+  return entries.map((entry) => ({
+    key: entry.key,
+    ...(entry.slug ? { slug: entry.slug } : {}),
+    payload: entry.payload as T,
+  }));
 }
 
 export async function getPublishedProductDetails(
   locale: Locale,
 ): Promise<ProductDetailContent[]> {
   const staticProducts = productRecords.map((record) => createProductDetail(record));
-  const cmsEntries = await listPublishedEntityPayloads<CmsProductPayload>("product");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.product);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } = await loadPublishedCollectionData<CmsProductPayload>(
+    "product",
+    CMS_COLLECTION_ORDER_KEYS.product,
+  );
 
   const cmsBySlug = new Map<string, ProductDetailContent>();
 
@@ -164,8 +171,7 @@ export async function getPublishedProductBySlug(
   slug: string,
 ): Promise<ProductDetailContent | undefined> {
   const key = buildEntityKey("product", slug);
-  const archivedKeys = await getArchivedEntityKeys();
-  if (archivedKeys.has(key)) return undefined;
+  if (await isContentEntryArchived(key)) return undefined;
 
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
@@ -185,9 +191,10 @@ export async function getPublishedNewsArticles(
     .map((preview) => resolveStaticNews(locale, preview.slug))
     .filter((article): article is NewsArticleDetail => Boolean(article));
 
-  const cmsEntries = await listPublishedEntityPayloads<CmsNewsPayload>("news");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.news);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } = await loadPublishedCollectionData<CmsNewsPayload>(
+    "news",
+    CMS_COLLECTION_ORDER_KEYS.news,
+  );
   const cmsBySlug = new Map<string, NewsArticleDetail>();
 
   for (const entry of cmsEntries) {
@@ -214,8 +221,7 @@ export async function getPublishedNewsBySlug(
   slug: string,
 ): Promise<NewsArticleDetail | undefined> {
   const key = buildEntityKey("news", slug);
-  const archivedKeys = await getArchivedEntityKeys();
-  if (archivedKeys.has(key)) return undefined;
+  if (await isContentEntryArchived(key)) return undefined;
 
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
@@ -232,9 +238,11 @@ export async function getPublishedCareerJobs(
 ): Promise<CareerJobDetail[]> {
   const messages = localeContentMessages[locale];
   const staticJobs = getLocalizedCareerJobs(messages, locale);
-  const cmsEntries = await listPublishedEntityPayloads<CmsCareerPayload>("page", "career.");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.career);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } = await loadPublishedCollectionData<CmsCareerPayload>(
+    "page",
+    CMS_COLLECTION_ORDER_KEYS.career,
+    "career.",
+  );
   const cmsBySlug = new Map<string, { job: CareerJobDetail; isActive: boolean }>();
 
   for (const entry of cmsEntries) {
@@ -274,8 +282,7 @@ export async function getPublishedCareerJobBySlug(
   slug: string,
 ): Promise<CareerJobDetail | undefined> {
   const key = buildEntityKey("career", slug);
-  const archivedKeys = await getArchivedEntityKeys();
-  if (archivedKeys.has(key)) return undefined;
+  if (await isContentEntryArchived(key)) return undefined;
 
   const cmsPayload = await getPublicContentPayloadByKey(key);
 
@@ -334,9 +341,11 @@ export async function getPublishedCertificates(
 ): Promise<CertificateItem[]> {
   const staticItems = buildHomeContent(localeContentMessages[locale], locale).certificates
     .items;
-  const cmsEntries = await listPublishedEntityPayloads<CmsCertificatePayload>("certificate");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.certificate);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } =
+    await loadPublishedCollectionData<CmsCertificatePayload>(
+      "certificate",
+      CMS_COLLECTION_ORDER_KEYS.certificate,
+    );
 
   const cmsById = new Map<string, CertificateItem>();
   for (const entry of cmsEntries) {
@@ -360,9 +369,11 @@ export async function getPublishedCertificates(
 
 export async function getPublishedCatalogItems(locale: Locale): Promise<CatalogItem[]> {
   const staticItems = buildCatalogsPageContent(localeContentMessages[locale], locale).library.items;
-  const cmsEntries = await listPublishedEntityPayloads<CmsCatalogPayload>("page", "catalog.");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.catalog);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } = await loadPublishedCollectionData<CmsCatalogPayload>(
+    "page",
+    CMS_COLLECTION_ORDER_KEYS.catalog,
+    "catalog.",
+  );
 
   const cmsById = new Map<string, CatalogItem>();
   for (const entry of cmsEntries) {
@@ -388,9 +399,11 @@ export async function getPublishedPartnerLogos(
   locale: Locale,
 ): Promise<ClientLogoItem[]> {
   const staticLogos = buildTrustedPartnersContent(localeContentMessages[locale]).logos;
-  const cmsEntries = await listPublishedEntityPayloads<CmsPartnerPayload>("page", "partner.");
-  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.partner);
-  const archivedKeys = await getArchivedEntityKeys();
+  const { cmsEntries, order, archivedKeys } = await loadPublishedCollectionData<CmsPartnerPayload>(
+    "page",
+    CMS_COLLECTION_ORDER_KEYS.partner,
+    "partner.",
+  );
 
   const cmsById = new Map<string, ClientLogoItem>();
   for (const entry of cmsEntries) {

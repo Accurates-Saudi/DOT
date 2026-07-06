@@ -3,6 +3,7 @@ import { createProductDetail } from "@/data/products/factory";
 import { productRecords } from "@/data/products/registry";
 import { buildHomeContent } from "@/i18n/content";
 import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
+import { buildTrustedPartnersContent } from "@/i18n/content/pages/trusted-partners";
 import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
 import {
   getLocalizedCareerJobs,
@@ -14,6 +15,7 @@ import type {
   CatalogItem,
   CertificateItem,
   CareerJobDetail,
+  ClientLogoItem,
   NewsArticleDetail,
   ProductDetailContent,
 } from "@/types";
@@ -24,6 +26,7 @@ import type {
   CmsCertificatePayload,
   CmsCollectionOrderPayload,
   CmsNewsPayload,
+  CmsPartnerPayload,
   CmsProductPayload,
 } from "@/types/cms-entities";
 import {
@@ -381,6 +384,34 @@ export async function getPublishedCatalogItems(locale: Locale): Promise<CatalogI
   return sortByCollectionOrder(keyed, order).map((entry) => entry.item);
 }
 
+export async function getPublishedPartnerLogos(
+  locale: Locale,
+): Promise<ClientLogoItem[]> {
+  const staticLogos = buildTrustedPartnersContent(localeContentMessages[locale]).logos;
+  const cmsEntries = await listPublishedEntityPayloads<CmsPartnerPayload>("page", "partner.");
+  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.partner);
+  const archivedKeys = await getArchivedEntityKeys();
+
+  const cmsById = new Map<string, ClientLogoItem>();
+  for (const entry of cmsEntries) {
+    const localized = getLocalizedPayload<ClientLogoItem>(entry.payload, locale);
+    if (localized) cmsById.set(localized.id, localized);
+  }
+
+  const merged = staticLogos.map((logo) => cmsById.get(logo.id) ?? logo);
+  const staticIds = new Set(staticLogos.map((logo) => logo.id));
+  const cmsOnly = [...cmsById.values()].filter((logo) => !staticIds.has(logo.id));
+
+  const keyed = [...merged, ...cmsOnly]
+    .filter((logo) => !archivedKeys.has(buildEntityKey("partner", logo.id)))
+    .map((logo) => ({
+      key: buildEntityKey("partner", logo.id),
+      logo,
+    }));
+
+  return sortByCollectionOrder(keyed, order).map((entry) => entry.logo);
+}
+
 export async function archiveEntityContent(input: {
   key: string;
   type: CMSContentTypeDto;
@@ -514,6 +545,18 @@ export async function getStaticCertificatePayload(
   );
 }
 
+export async function getStaticPartnerPayload(id: string): Promise<CmsPartnerPayload | null> {
+  const en = buildTrustedPartnersContent(localeContentMessages.en).logos.find(
+    (logo) => logo.id === id,
+  );
+  const ar = buildTrustedPartnersContent(localeContentMessages.ar).logos.find(
+    (logo) => logo.id === id,
+  );
+  if (!en || !ar) return null;
+
+  return createEmptyLocalizedPayload(en, ar, 0);
+}
+
 export async function getStaticCatalogPayload(id: string): Promise<CmsCatalogPayload | null> {
   const en = buildCatalogsPageContent(localeContentMessages.en, "en").library.items.find(
     (item) => item.id === id,
@@ -536,7 +579,7 @@ export async function getStaticCareerPayload(slug: string): Promise<CmsCareerPay
 
 export async function resolveArchivePayload(
   key: string,
-  entityType: "product" | "news" | "certificate" | "catalog" | "career",
+  entityType: "product" | "news" | "certificate" | "catalog" | "career" | "partner",
 ): Promise<{ payload?: unknown; slug?: string }> {
   try {
     await getContentEntryByKey(key);
@@ -556,6 +599,8 @@ export async function resolveArchivePayload(
         return { payload: await getStaticCatalogPayload(id), slug: id };
       case "career":
         return { payload: await getStaticCareerPayload(id), slug: id };
+      case "partner":
+        return { payload: await getStaticPartnerPayload(id), slug: id };
       default:
         return {};
     }

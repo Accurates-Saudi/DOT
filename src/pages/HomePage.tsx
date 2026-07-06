@@ -24,16 +24,18 @@ import { buildHomeContent } from "@/i18n/content";
 import { useHomePageContent } from "@/i18n/content/hooks";
 import { useI18n, useLocale } from "@/i18n/hooks";
 import type { Locale } from "@/i18n/config";
-import type { CertificateItem, HomePageContent, NewsArticlePreview, ProductItem } from "@/types";
+import type { CertificateItem, ClientLogoItem, HomePageContent, NewsArticlePreview, ProductItem } from "@/types";
 
 export function HomePage({
   certificateItems,
   newsArticles,
   featuredProductItems,
+  partnerLogos,
 }: {
   certificateItems?: CertificateItem[];
   newsArticles?: NewsArticlePreview[];
   featuredProductItems?: ProductItem[];
+  partnerLogos?: ClientLogoItem[];
 }) {
   const homePageContent = useHomePageContent();
   const { getContentOverride } = useCmsExperience();
@@ -77,9 +79,19 @@ export function HomePage({
         };
       }
 
+      if (partnerLogos?.length) {
+        base = {
+          ...base,
+          trustedPartners: {
+            ...base.trustedPartners,
+            logos: partnerLogos,
+          },
+        };
+      }
+
       return base;
     },
-    [certificateItems, featuredProductItems, getContentOverride, messages, newsArticles],
+    [certificateItems, featuredProductItems, getContentOverride, messages, newsArticles, partnerLogos],
   );
 
   const editor = useCmsVisualPageEditor({
@@ -123,6 +135,16 @@ export function HomePage({
       };
     }
 
+    if (partnerLogos?.length) {
+      content = {
+        ...content,
+        trustedPartners: {
+          ...content.trustedPartners,
+          logos: partnerLogos,
+        },
+      };
+    }
+
     return content;
   }, [
     certificateItems,
@@ -131,6 +153,7 @@ export function HomePage({
     featuredProductItems,
     homePageContent,
     newsArticles,
+    partnerLogos,
   ]);
 
   return (

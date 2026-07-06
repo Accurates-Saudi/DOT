@@ -14,18 +14,20 @@ export async function loader({ params }: Route.LoaderArgs) {
   const locale = isValidLocale(params.locale ?? defaultLocale)
     ? (params.locale as Locale)
     : defaultLocale;
-  const { getPublishedCertificates, getPublishedNewsArticles, getPublishedProductDetails } =
+  const { getPublishedCertificates, getPublishedNewsArticles, getPublishedProductDetails, getPublishedPartnerLogos } =
     await import("@/server/cms/content/entity-content.server");
-  const [certificateItems, newsArticles, featuredProductItems] = await Promise.all([
+  const [certificateItems, newsArticles, featuredProductItems, partnerLogos] = await Promise.all([
     getPublishedCertificates(locale),
     getPublishedNewsArticles(locale),
     getPublishedProductDetails(locale),
+    getPublishedPartnerLogos(locale),
   ]);
 
   return {
     certificateItems,
     newsArticles: newsArticles.map(toNewsArticlePreview).slice(0, 3),
     featuredProductItems: featuredProductItems.map(toProductItem).slice(0, 8),
+    partnerLogos,
   };
 }
 
@@ -53,6 +55,7 @@ export default function Home() {
       certificateItems={data.certificateItems}
       newsArticles={data.newsArticles}
       featuredProductItems={data.featuredProductItems}
+      partnerLogos={data.partnerLogos}
     />
   );
 }

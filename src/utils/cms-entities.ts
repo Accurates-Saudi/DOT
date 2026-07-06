@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import type { CareerJobDetail, CMSContentRecord, CMSContentType, ProductDetailContent } from "@/types";
+import type { CareerJobDetail, ClientLogoItem, CMSContentRecord, CMSContentType, ProductDetailContent } from "@/types";
 import type {
   CmsCareerPayload,
   CmsCatalogPayload,
@@ -7,6 +7,7 @@ import type {
   CmsCollectionOrderPayload,
   CmsLocalizedPayload,
   CmsNewsPayload,
+  CmsPartnerPayload,
   CmsProductPayload,
 } from "@/types/cms-entities";
 
@@ -207,6 +208,26 @@ export function extractCatalogRowMeta(
     updatedAt: record.updatedAt,
     listingOrder: getPayloadListingOrder(payload),
     href: `/${locale}/catalogs`,
+  };
+}
+
+export function extractPartnerRowMeta(
+  record: CMSContentRecord,
+  locale: Locale,
+): AdminCollectionRowMeta {
+  const payload = record.currentVersion?.payload as CmsPartnerPayload | undefined;
+  const item = getLocalizedPayload<ClientLogoItem>(payload, locale);
+
+  return {
+    key: record.key,
+    cmsKey: record.key,
+    title: item?.name ?? record.key,
+    subtitle: item?.href,
+    thumbnail: item?.logo?.src,
+    status: record.status,
+    updatedAt: record.updatedAt,
+    listingOrder: getPayloadListingOrder(payload),
+    href: `/${locale}`,
   };
 }
 

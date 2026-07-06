@@ -16,6 +16,7 @@ const pageTitles: Record<string, string> = {
   "/admin/news": "News",
   "/admin/careers": "Careers",
   "/admin/certificates": "Certificates",
+  "/admin/partners": "Partners",
   "/admin/catalogs": "Catalogs",
   "/admin/media": "Media Library",
   "/admin/settings": "Settings",
@@ -28,6 +29,7 @@ function getPageTitle(pathname: string) {
   if (pathname.startsWith("/admin/news/")) return "Edit News";
   if (pathname.startsWith("/admin/careers/")) return "Edit Job Posting";
   if (pathname.startsWith("/admin/certificates/")) return "Edit Certificate";
+  if (pathname.startsWith("/admin/partners/")) return "Edit Partner Logo";
   if (pathname.startsWith("/admin/catalogs/")) return "Edit Catalog";
   return "Admin";
 }

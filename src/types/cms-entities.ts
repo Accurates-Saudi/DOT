@@ -3,6 +3,7 @@ import type {
   CatalogItem,
   CertificateItem,
   CareerJobDetail,
+  ClientLogoItem,
   NewsArticleDetail,
   ProductDetailContent,
 } from "@/types";
@@ -28,6 +29,8 @@ export type CmsCareerPayload = CmsLocalizedPayload<CareerJobDetail> & {
   isActive?: boolean;
 };
 
+export type CmsPartnerPayload = CmsLocalizedPayload<ClientLogoItem>;
+
 export interface CmsCollectionOrderPayload {
   orderedKeys: string[];
 }
@@ -38,6 +41,7 @@ export const CMS_COLLECTION_ORDER_KEYS = {
   career: "careers.order",
   certificate: "certificates.order",
   catalog: "catalogs.order",
+  partner: "partners.order",
 } as const;
 
 export const CMS_ENTITY_KEY_PREFIX = {
@@ -46,6 +50,7 @@ export const CMS_ENTITY_KEY_PREFIX = {
   career: "career.",
   certificate: "certificate.",
   catalog: "catalog.",
+  partner: "partner.",
 } as const;
 
 export function buildEntityKey(

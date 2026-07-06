@@ -11,10 +11,13 @@ export type AdminCollectionEntityType =
   | "news"
   | "certificate"
   | "catalog"
-  | "career";
+  | "career"
+  | "partner";
 
 function toCmsContentType(entityType: AdminCollectionEntityType): CMSContentTypeDto {
-  return entityType === "catalog" || entityType === "career" ? "page" : entityType;
+  return entityType === "catalog" || entityType === "career" || entityType === "partner"
+    ? "page"
+    : entityType;
 }
 
 export async function processCollectionArchiveAction(

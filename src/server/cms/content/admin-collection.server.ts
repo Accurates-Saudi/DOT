@@ -4,6 +4,7 @@ import { localeContentMessages } from "@/content/shared";
 import { defaultLocale, type Locale } from "@/i18n/config";
 import { buildHomeContent } from "@/i18n/content";
 import { buildCatalogsPageContent } from "@/i18n/content/pages/catalogs";
+import { buildTrustedPartnersContent } from "@/i18n/content/pages/trusted-partners";
 import { getLocalizedCareerJobs } from "@/i18n/content/careers";
 import { getLocalizedNewsArticles, getLocalizedNewsBySlug } from "@/i18n/content/news";
 import {
@@ -17,6 +18,7 @@ import {
   extractCatalogRowMeta,
   extractCertificateRowMeta,
   extractNewsRowMeta,
+  extractPartnerRowMeta,
   extractProductRowMeta,
   sortByCollectionOrder,
 } from "@/utils/cms-entities";
@@ -238,6 +240,47 @@ export async function buildAdminCareerRows(
     const id = parseEntityId("career", cms.key);
     if (!id || staticJobs.some((job) => job.slug === id)) continue;
     rows.push(extractCareerRowMeta(cms, locale));
+  }
+
+  return sortByCollectionOrder(rows, order);
+}
+
+export async function buildAdminPartnerRows(
+  locale: Locale = defaultLocale,
+  search = "",
+): Promise<AdminCollectionRowMeta[]> {
+  const staticLogos = buildTrustedPartnersContent(localeContentMessages[locale]).logos;
+  const cmsRecords = await listContentEntries({
+    type: "page",
+    ...(search ? { search } : {}),
+  });
+  const filtered = cmsRecords.filter((record) => record.key.startsWith("partner."));
+  const cmsByKey = new Map(filtered.map((record) => [record.key, record]));
+  const order = await getCollectionOrder(CMS_COLLECTION_ORDER_KEYS.partner);
+  const rows: AdminCollectionRowMeta[] = [];
+
+  for (const logo of staticLogos) {
+    const key = buildEntityKey("partner", logo.id);
+    const cms = cmsByKey.get(key);
+
+    if (cms) {
+      rows.push(extractPartnerRowMeta(cms, locale));
+      continue;
+    }
+
+    rows.push({
+      key,
+      title: logo.name,
+      thumbnail: logo.logo.src,
+      status: "static",
+      href: `/${locale}`,
+    });
+  }
+
+  for (const cms of filtered) {
+    const id = parseEntityId("partner", cms.key);
+    if (!id || staticLogos.some((logo) => logo.id === id)) continue;
+    rows.push(extractPartnerRowMeta(cms, locale));
   }
 
   return sortByCollectionOrder(rows, order);

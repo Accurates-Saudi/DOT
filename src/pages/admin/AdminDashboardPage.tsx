@@ -4,6 +4,7 @@ import {
   Briefcase,
   ChevronRight,
   FilePenLine,
+  Handshake,
   Images,
   Newspaper,
   Package2,
@@ -40,6 +41,12 @@ const contentRows = [
     to: "/admin/certificates",
     icon: Award,
     countKey: "certificates" as const,
+  },
+  {
+    label: "Partners",
+    to: "/admin/partners",
+    icon: Handshake,
+    countKey: "partners" as const,
   },
   {
     label: "Catalogs",
@@ -80,6 +87,7 @@ const quickActions = [
 
 function formatTypeLabel(type: string, key?: string) {
   if (type === "page" && key?.startsWith("career.")) return "career";
+  if (type === "page" && key?.startsWith("partner.")) return "partner";
   if (type === "page") return "catalog";
   return type;
 }
@@ -98,6 +106,7 @@ export function AdminDashboardPage({
     careers: number;
     certificates: number;
     catalogs: number;
+    partners: number;
     media: number;
     users: number;
   };

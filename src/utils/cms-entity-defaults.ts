@@ -3,6 +3,7 @@ import type {
   CmsCatalogPayload,
   CmsCertificatePayload,
   CmsNewsPayload,
+  CmsPartnerPayload,
   CmsProductPayload,
 } from "@/types/cms-entities";
 import type { Locale } from "@/i18n/config";
@@ -63,6 +64,16 @@ export function createDefaultCertificatePayload(id: string): CmsCertificatePaylo
     id,
     title: "",
     image: { src: "", alt: "" },
+  };
+
+  return createEmptyLocalizedPayload(emptyItem, emptyItem, 0);
+}
+
+export function createDefaultPartnerPayload(id: string): CmsPartnerPayload {
+  const emptyItem = {
+    id,
+    name: "",
+    logo: { src: "", alt: "" },
   };
 
   return createEmptyLocalizedPayload(emptyItem, emptyItem, 0);

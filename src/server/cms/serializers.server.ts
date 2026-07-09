@@ -57,6 +57,7 @@ export function toCmsUser(user: CmsUser): CMSUser {
     email: user.email,
     name: user.name,
     role: toRole(user.role),
+    ...(user.mustChangePassword ? { mustChangePassword: true } : {}),
   };
 }
 

@@ -1,4 +1,5 @@
 import type { CmsRole } from "@/generated/prisma/client";
+import { generateTemporaryPassword } from "@/lib/generate-temporary-password";
 
 import type { CMSAuthSession, CMSRole as CMSRoleDto } from "@/types";
 
@@ -31,6 +32,66 @@ function hasRequiredRole(userRole: CMSRoleDto, requiredRoles: CMSRoleDto[]): boo
 
 function resolveSessionTtlMs(rememberMe?: boolean): number {
   return rememberMe ? REMEMBER_ME_SESSION_TTL_MS : DEFAULT_SESSION_TTL_MS;
+}
+
+async function countActiveAdmins(excludeUserId?: string): Promise<number> {
+  return prisma.cmsUser.count({
+    where: {
+      role: "ADMIN",
+      isActive: true,
+      ...(excludeUserId ? { id: { not: excludeUserId } } : {}),
+    },
+  });
+}
+
+async function assertCanDeleteAdmin(userId: string): Promise<void> {
+  const user = await prisma.cmsUser.findUnique({
+    where: { id: userId },
+    select: { role: true },
+  });
+
+  if (!user || user.role !== "ADMIN") {
+    return;
+  }
+
+  const remainingAdmins = await prisma.cmsUser.count({
+    where: {
+      role: "ADMIN",
+      id: { not: userId },
+    },
+  });
+
+  if (remainingAdmins === 0) {
+    throw new CmsHttpError(
+      409,
+      "last_admin",
+      "At least one admin account must remain.",
+    );
+  }
+}
+
+async function assertCanDeactivateAdmin(userId: string): Promise<void> {
+  const user = await prisma.cmsUser.findUnique({
+    where: { id: userId },
+    select: { role: true },
+  });
+
+  if (!user || user.role !== "ADMIN") {
+    return;
+  }
+
+  const remainingAdmins = await countActiveAdmins(userId);
+  if (remainingAdmins === 0) {
+    throw new CmsHttpError(
+      409,
+      "last_admin",
+      "At least one active admin account must remain.",
+    );
+  }
+}
+
+async function invalidateCmsUserSessions(userId: string): Promise<void> {
+  await prisma.cmsSession.deleteMany({ where: { userId } });
 }
 
 async function createCmsSessionForUser(input: {
@@ -235,20 +296,113 @@ export async function createCmsUser(input: {
       name: input.name.trim(),
       role: toPrismaRole(input.role),
       isActive: true,
+      mustChangePassword: true,
     },
   });
 
   return toCmsUser(user);
 }
 
+export async function changeOwnCmsPassword(input: {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+}): Promise<ReturnType<typeof toCmsUser>> {
+  if (input.newPassword.length < 12) {
+    throw new CmsHttpError(
+      400,
+      "weak_password",
+      "Password must be at least 12 characters long.",
+    );
+  }
+
+  if (input.currentPassword === input.newPassword) {
+    throw new CmsHttpError(
+      400,
+      "same_password",
+      "Choose a new password that is different from your current one.",
+    );
+  }
+
+  const user = await prisma.cmsUser.findUnique({ where: { id: input.userId } });
+
+  if (!user || !user.isActive) {
+    throw new CmsHttpError(401, "unauthorized", "CMS authentication is required.");
+  }
+
+  if (!verifyPassword(input.currentPassword, user.passwordHash)) {
+    throw new CmsHttpError(400, "invalid_password", "Current password is incorrect.");
+  }
+
+  const updated = await prisma.cmsUser.update({
+    where: { id: input.userId },
+    data: {
+      passwordHash: hashPassword(input.newPassword),
+      mustChangePassword: false,
+    },
+  });
+
+  return toCmsUser(updated);
+}
+
+export async function resetCmsUserPasswordByAdmin(input: {
+  userId: string;
+  password?: string;
+}): Promise<{ user: ReturnType<typeof toCmsUser>; temporaryPassword: string }> {
+  const temporaryPassword = input.password?.trim() || generateTemporaryPassword();
+  if (temporaryPassword.length < 12) {
+    throw new CmsHttpError(
+      400,
+      "weak_password",
+      "Password must be at least 12 characters long.",
+    );
+  }
+
+  const user = await prisma.cmsUser.update({
+    where: { id: input.userId },
+    data: {
+      passwordHash: hashPassword(temporaryPassword),
+      mustChangePassword: true,
+    },
+  });
+
+  await invalidateCmsUserSessions(input.userId);
+
+  return {
+    user: toCmsUser(user),
+    temporaryPassword,
+  };
+}
+
+export async function deleteCmsUser(input: {
+  userId: string;
+  actorId: string;
+}): Promise<void> {
+  if (input.userId === input.actorId) {
+    throw new CmsHttpError(400, "self_delete", "You cannot delete your own account.");
+  }
+
+  await assertCanDeleteAdmin(input.userId);
+
+  await prisma.cmsUser.delete({ where: { id: input.userId } });
+}
+
 export async function setCmsUserActive(input: {
   userId: string;
   isActive: boolean;
 }): Promise<ReturnType<typeof toCmsUser>> {
+  if (!input.isActive) {
+    await assertCanDeactivateAdmin(input.userId);
+  }
+
   const user = await prisma.cmsUser.update({
     where: { id: input.userId },
     data: { isActive: input.isActive },
   });
+
+  if (!input.isActive) {
+    await invalidateCmsUserSessions(input.userId);
+  }
 
   return toCmsUser(user);
 }

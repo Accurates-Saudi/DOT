@@ -88,8 +88,8 @@ async function main() {
     const deleted = await client.query(`DELETE FROM "CmsUser"`);
 
     await client.query(
-      `INSERT INTO "CmsUser" (id, email, "passwordHash", name, role, "isActive", "createdAt", "updatedAt")
-       VALUES (gen_random_uuid()::text, $1, $2, $3, 'ADMIN', true, NOW(), NOW())`,
+      `INSERT INTO "CmsUser" (id, email, "passwordHash", name, role, "isActive", "mustChangePassword", "createdAt", "updatedAt")
+       VALUES (gen_random_uuid()::text, $1, $2, $3, 'ADMIN', true, true, NOW(), NOW())`,
       [email, passwordHash, name],
     );
 

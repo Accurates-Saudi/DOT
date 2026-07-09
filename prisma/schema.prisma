@@ -43,6 +43,7 @@ model CmsUser {
   name                  String
   role                  CmsRole
   isActive              Boolean             @default(true)
+  mustChangePassword    Boolean             @default(false)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   sessions              CmsSession[]

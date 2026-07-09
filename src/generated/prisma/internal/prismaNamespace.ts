@@ -899,6 +899,7 @@ export const CmsUserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   isActive: 'isActive',
+  mustChangePassword: 'mustChangePassword',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

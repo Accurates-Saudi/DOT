@@ -1,15 +1,19 @@
 import { redirect, useActionData, useLoaderData, useRouteLoaderData } from "react-router";
 
 import type { Route } from "./+types/admin.users";
-import { AdminUsersPage } from "@/pages/admin/AdminUsersPage";
+import { AdminUsersPage, type AdminUsersActionData } from "@/pages/admin/AdminUsersPage";
 import { prisma } from "@/server/cms/db.server";
 import {
   createCmsUser,
+  deleteCmsUser,
   requireCmsAuthSession,
+  resetCmsUserPasswordByAdmin,
   setCmsUserActive,
 } from "@/server/cms/auth/service.server";
 import { CmsHttpError } from "@/server/cms/http.server";
 import type { loader as adminLoader } from "./admin";
+
+export type { AdminUsersActionData } from "@/pages/admin/AdminUsersPage";
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
@@ -43,27 +47,67 @@ export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const intent = String(formData.get("intent") ?? "");
 
-  if (intent === "create") {
-    await createCmsUser({
-      email: String(formData.get("email") ?? ""),
-      password: String(formData.get("password") ?? ""),
-      name: String(formData.get("name") ?? ""),
-      role: String(formData.get("role") ?? "editor") === "admin" ? "admin" : "editor",
-    });
-    return redirect("/admin/users");
-  }
+  try {
+    if (intent === "create") {
+      const password = String(formData.get("password") ?? "");
+      const user = await createCmsUser({
+        email: String(formData.get("email") ?? ""),
+        password,
+        name: String(formData.get("name") ?? ""),
+        role: String(formData.get("role") ?? "editor") === "admin" ? "admin" : "editor",
+      });
 
-  const userId = String(formData.get("userId") ?? "");
-  if (!userId || userId === session.user.id) {
-    return redirect("/admin/users");
-  }
+      return {
+        ok: true,
+        intent: "create",
+        userEmail: user.email,
+        userName: user.name,
+        temporaryPassword: password,
+        message: "User created. Share this temporary password once — it will not be shown again.",
+      } satisfies AdminUsersActionData;
+    }
 
-  if (intent === "activate") {
-    await setCmsUserActive({ userId, isActive: true });
-  }
+    const userId = String(formData.get("userId") ?? "");
+    if (!userId) {
+      return { ok: false, error: "User not found." } satisfies AdminUsersActionData;
+    }
 
-  if (intent === "deactivate") {
-    await setCmsUserActive({ userId, isActive: false });
+    if (userId === session.user.id) {
+      return { ok: false, error: "You cannot modify your own account from this screen." } satisfies AdminUsersActionData;
+    }
+
+    if (intent === "activate") {
+      await setCmsUserActive({ userId, isActive: true });
+      return redirect("/admin/users");
+    }
+
+    if (intent === "deactivate") {
+      await setCmsUserActive({ userId, isActive: false });
+      return redirect("/admin/users");
+    }
+
+    if (intent === "delete") {
+      await deleteCmsUser({ userId, actorId: session.user.id });
+      return redirect("/admin/users");
+    }
+
+    if (intent === "reset-password") {
+      const result = await resetCmsUserPasswordByAdmin({ userId });
+      return {
+        ok: true,
+        intent: "reset-password",
+        userEmail: result.user.email,
+        userName: result.user.name,
+        temporaryPassword: result.temporaryPassword,
+        message: "Password reset. Share this temporary password once — it will not be shown again.",
+      } satisfies AdminUsersActionData;
+    }
+  } catch (error) {
+    if (error instanceof CmsHttpError) {
+      return { ok: false, error: error.message } satisfies AdminUsersActionData;
+    }
+
+    throw error;
   }
 
   return redirect("/admin/users");
@@ -72,7 +116,7 @@ export async function action({ request }: Route.ActionArgs) {
 export default function AdminUsersRoute() {
   const adminData = useRouteLoaderData<typeof adminLoader>("routes/admin");
   const { q, rows } = useLoaderData<typeof loader>();
-  useActionData<typeof action>();
+  const actionData = useActionData<typeof action>();
 
   return (
     <AdminUsersPage
@@ -82,10 +126,12 @@ export default function AdminUsersRoute() {
         email: row.email,
         role: row.role.toLowerCase() as "admin" | "editor",
         isActive: row.isActive,
+        mustChangePassword: row.mustChangePassword,
         createdAt: row.createdAt.toISOString(),
       }))}
       searchValue={q}
       currentUserId={adminData?.session.user.id ?? ""}
+      actionData={actionData}
     />
   );
 }

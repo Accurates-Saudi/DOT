@@ -1,3 +1,4 @@
+export { AdminPasswordChangeDialog } from "./AdminPasswordChangeDialog";
 export { AdminAuthLayout } from "./AdminAuthLayout";
 export { AdminBackToWebsiteLink } from "./AdminBackToWebsiteLink";
 export { AdminCheckboxField } from "./AdminCheckboxField";

@@ -27,6 +27,7 @@ export interface CMSUser {
   email: string;
   name: string;
   role: CMSRole;
+  mustChangePassword?: boolean;
 }
 
 export interface CMSAuthSession {

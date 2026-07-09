@@ -183,14 +183,7 @@ export function Navbar() {
                   <LinkedInIcon className="size-[1.125rem]" />
                 </a>
               ) : null}
-              <Button
-                variant={isHeroState ? "inverse" : "outline"}
-                size="sm"
-                className="h-9 min-w-[5.5rem] shrink-0 rounded-full px-4 text-sm font-medium tracking-[0.02em]"
-                asChild
-              >
-                <Link to="/admin/login">{navigationCopy.login}</Link>
-              </Button>
+
             </div>
           ) : null}
 

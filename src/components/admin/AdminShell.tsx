@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { CMSAuthSession } from "@/types";
 import { AdminWorkspaceProvider } from "@/contexts/admin-workspace-context";
 
+import { AdminPasswordChangeDialog } from "./AdminPasswordChangeDialog";
 import { AdminHeader } from "./AdminHeader";
 import { AdminSidebar } from "./AdminSidebar";
 
@@ -22,6 +23,9 @@ export function AdminShell({ session, children }: AdminShellProps) {
             <main className="flex-1 px-8 py-8">{children}</main>
           </div>
         </div>
+        {session.user.mustChangePassword ? (
+          <AdminPasswordChangeDialog userEmail={session.user.email} />
+        ) : null}
       </div>
     </AdminWorkspaceProvider>
   );

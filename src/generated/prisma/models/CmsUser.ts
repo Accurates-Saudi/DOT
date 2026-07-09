@@ -31,6 +31,7 @@ export type CmsUserMinAggregateOutputType = {
   name: string | null
   role: $Enums.CmsRole | null
   isActive: boolean | null
+  mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +43,7 @@ export type CmsUserMaxAggregateOutputType = {
   name: string | null
   role: $Enums.CmsRole | null
   isActive: boolean | null
+  mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +55,7 @@ export type CmsUserCountAggregateOutputType = {
   name: number
   role: number
   isActive: number
+  mustChangePassword: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -66,6 +69,7 @@ export type CmsUserMinAggregateInputType = {
   name?: true
   role?: true
   isActive?: true
+  mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +81,7 @@ export type CmsUserMaxAggregateInputType = {
   name?: true
   role?: true
   isActive?: true
+  mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +93,7 @@ export type CmsUserCountAggregateInputType = {
   name?: true
   role?: true
   isActive?: true
+  mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -172,6 +178,7 @@ export type CmsUserGroupByOutputType = {
   name: string
   role: $Enums.CmsRole
   isActive: boolean
+  mustChangePassword: boolean
   createdAt: Date
   updatedAt: Date
   _count: CmsUserCountAggregateOutputType | null
@@ -204,6 +211,7 @@ export type CmsUserWhereInput = {
   name?: Prisma.StringFilter<"CmsUser"> | string
   role?: Prisma.EnumCmsRoleFilter<"CmsUser"> | $Enums.CmsRole
   isActive?: Prisma.BoolFilter<"CmsUser"> | boolean
+  mustChangePassword?: Prisma.BoolFilter<"CmsUser"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CmsUser"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CmsUser"> | Date | string
   sessions?: Prisma.CmsSessionListRelationFilter
@@ -222,6 +230,7 @@ export type CmsUserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.CmsSessionOrderByRelationAggregateInput
@@ -243,6 +252,7 @@ export type CmsUserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"CmsUser"> | string
   role?: Prisma.EnumCmsRoleFilter<"CmsUser"> | $Enums.CmsRole
   isActive?: Prisma.BoolFilter<"CmsUser"> | boolean
+  mustChangePassword?: Prisma.BoolFilter<"CmsUser"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CmsUser"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CmsUser"> | Date | string
   sessions?: Prisma.CmsSessionListRelationFilter
@@ -261,6 +271,7 @@ export type CmsUserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CmsUserCountOrderByAggregateInput
@@ -278,6 +289,7 @@ export type CmsUserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"CmsUser"> | string
   role?: Prisma.EnumCmsRoleWithAggregatesFilter<"CmsUser"> | $Enums.CmsRole
   isActive?: Prisma.BoolWithAggregatesFilter<"CmsUser"> | boolean
+  mustChangePassword?: Prisma.BoolWithAggregatesFilter<"CmsUser"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CmsUser"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CmsUser"> | Date | string
 }
@@ -289,6 +301,7 @@ export type CmsUserCreateInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -307,6 +320,7 @@ export type CmsUserUncheckedCreateInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -325,6 +339,7 @@ export type CmsUserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -343,6 +358,7 @@ export type CmsUserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -361,6 +377,7 @@ export type CmsUserCreateManyInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -372,6 +389,7 @@ export type CmsUserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -383,6 +401,7 @@ export type CmsUserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -394,6 +413,7 @@ export type CmsUserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -405,6 +425,7 @@ export type CmsUserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -416,6 +437,7 @@ export type CmsUserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -563,6 +585,7 @@ export type CmsUserCreateWithoutSessionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   contentVersions?: Prisma.CmsContentVersionCreateNestedManyWithoutCreatedByInput
@@ -580,6 +603,7 @@ export type CmsUserUncheckedCreateWithoutSessionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   contentVersions?: Prisma.CmsContentVersionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -613,6 +637,7 @@ export type CmsUserUpdateWithoutSessionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contentVersions?: Prisma.CmsContentVersionUpdateManyWithoutCreatedByNestedInput
@@ -630,6 +655,7 @@ export type CmsUserUncheckedUpdateWithoutSessionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contentVersions?: Prisma.CmsContentVersionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -647,6 +673,7 @@ export type CmsUserCreateWithoutCreatedContentEntriesInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -664,6 +691,7 @@ export type CmsUserUncheckedCreateWithoutCreatedContentEntriesInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -686,6 +714,7 @@ export type CmsUserCreateWithoutUpdatedContentEntriesInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -703,6 +732,7 @@ export type CmsUserUncheckedCreateWithoutUpdatedContentEntriesInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -736,6 +766,7 @@ export type CmsUserUpdateWithoutCreatedContentEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -753,6 +784,7 @@ export type CmsUserUncheckedUpdateWithoutCreatedContentEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -781,6 +813,7 @@ export type CmsUserUpdateWithoutUpdatedContentEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -798,6 +831,7 @@ export type CmsUserUncheckedUpdateWithoutUpdatedContentEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -815,6 +849,7 @@ export type CmsUserCreateWithoutContentVersionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -832,6 +867,7 @@ export type CmsUserUncheckedCreateWithoutContentVersionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -865,6 +901,7 @@ export type CmsUserUpdateWithoutContentVersionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -882,6 +919,7 @@ export type CmsUserUncheckedUpdateWithoutContentVersionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -899,6 +937,7 @@ export type CmsUserCreateWithoutCreatedMediaAssetsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -916,6 +955,7 @@ export type CmsUserUncheckedCreateWithoutCreatedMediaAssetsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -938,6 +978,7 @@ export type CmsUserCreateWithoutUpdatedMediaAssetsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -955,6 +996,7 @@ export type CmsUserUncheckedCreateWithoutUpdatedMediaAssetsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -988,6 +1030,7 @@ export type CmsUserUpdateWithoutCreatedMediaAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -1005,6 +1048,7 @@ export type CmsUserUncheckedUpdateWithoutCreatedMediaAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1033,6 +1077,7 @@ export type CmsUserUpdateWithoutUpdatedMediaAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -1050,6 +1095,7 @@ export type CmsUserUncheckedUpdateWithoutUpdatedMediaAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1067,6 +1113,7 @@ export type CmsUserCreateWithoutMediaVersionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionCreateNestedManyWithoutUserInput
@@ -1084,6 +1131,7 @@ export type CmsUserUncheckedCreateWithoutMediaVersionsInput = {
   name: string
   role: $Enums.CmsRole
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.CmsSessionUncheckedCreateNestedManyWithoutUserInput
@@ -1117,6 +1165,7 @@ export type CmsUserUpdateWithoutMediaVersionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUpdateManyWithoutUserNestedInput
@@ -1134,6 +1183,7 @@ export type CmsUserUncheckedUpdateWithoutMediaVersionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumCmsRoleFieldUpdateOperationsInput | $Enums.CmsRole
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.CmsSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1236,6 +1286,7 @@ export type CmsUserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name?: boolean
   role?: boolean
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   sessions?: boolean | Prisma.CmsUser$sessionsArgs<ExtArgs>
@@ -1255,6 +1306,7 @@ export type CmsUserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   role?: boolean
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["cmsUser"]>
@@ -1266,6 +1318,7 @@ export type CmsUserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   role?: boolean
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["cmsUser"]>
@@ -1277,11 +1330,12 @@ export type CmsUserSelectScalar = {
   name?: boolean
   role?: boolean
   isActive?: boolean
+  mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CmsUserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["cmsUser"]>
+export type CmsUserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "role" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt", ExtArgs["result"]["cmsUser"]>
 export type CmsUserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.CmsUser$sessionsArgs<ExtArgs>
   contentVersions?: boolean | Prisma.CmsUser$contentVersionsArgs<ExtArgs>
@@ -1313,6 +1367,7 @@ export type $CmsUserPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     name: string
     role: $Enums.CmsRole
     isActive: boolean
+    mustChangePassword: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cmsUser"]>
@@ -1751,6 +1806,7 @@ export interface CmsUserFieldRefs {
   readonly name: Prisma.FieldRef<"CmsUser", 'String'>
   readonly role: Prisma.FieldRef<"CmsUser", 'CmsRole'>
   readonly isActive: Prisma.FieldRef<"CmsUser", 'Boolean'>
+  readonly mustChangePassword: Prisma.FieldRef<"CmsUser", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"CmsUser", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CmsUser", 'DateTime'>
 }

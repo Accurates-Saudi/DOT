@@ -82,6 +82,44 @@ export const contactPageContent: ContactPageContent = {
       submitLabel: "Send Inquiry",
     },
   },
+  feedback: {
+    label: "Feedback",
+    heading: "Share Your Feedback",
+    form: {
+      heading: "We Value Your Input",
+      description:
+        "Tell us about your experience with our products, services, or website. Your feedback helps us improve.",
+      fields: {
+        name: "Name",
+        email: "Email",
+        category: "Feedback Category",
+        rating: "Overall Rating",
+        message: "Your Feedback",
+      },
+      placeholders: {
+        name: "Your full name",
+        email: "you@company.com",
+        category: "Select a category",
+        message: "Share your comments, suggestions, or experience",
+      },
+      categories: [
+        { id: "general", label: "General Feedback" },
+        { id: "website", label: "Website Experience" },
+        { id: "products", label: "Products" },
+        { id: "services", label: "Services" },
+        { id: "support", label: "Customer Support" },
+      ],
+      ratings: [
+        { value: "5", label: "Excellent" },
+        { value: "4", label: "Good" },
+        { value: "3", label: "Average" },
+        { value: "2", label: "Below Average" },
+        { value: "1", label: "Poor" },
+      ],
+      ratingPlaceholder: "Select a rating (optional)",
+      submitLabel: "Submit Feedback",
+    },
+  },
   location: {
     label: "Our Location",
     heading: "Visit Our Facility",

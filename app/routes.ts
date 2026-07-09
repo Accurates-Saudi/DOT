@@ -17,6 +17,8 @@ export default [
   route("api/cms/media", "routes/api.cms.media.ts"),
   route("api/cms/media/:id", "routes/api.cms.media.$id.ts"),
   route("api/cms/media/:id/file", "routes/api.cms.media.$id.file.ts"),
+  route("api/contact", "routes/api.contact.ts"),
+  route("api/feedback", "routes/api.feedback.ts"),
   route("admin/login", "routes/admin.login.tsx"),
   route("admin/setup", "routes/admin.setup.tsx"),
   route("admin", "routes/admin.tsx", [

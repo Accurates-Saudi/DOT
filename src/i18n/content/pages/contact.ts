@@ -60,6 +60,7 @@ export function buildContactPageContent(
       },
       form: page.main.form,
     },
+    feedback: page.feedback,
     location: {
       ...page.location,
       map: {

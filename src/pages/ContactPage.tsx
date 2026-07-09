@@ -9,6 +9,7 @@ import {
 import { createContactPageSectionEditors } from "@/components/cms/website-section-editors";
 import {
   ContactEngineeringCtaSection,
+  ContactFeedbackSection,
   ContactHeroSection,
   ContactLocationSection,
   ContactMainSection,
@@ -63,6 +64,14 @@ export function ContactPage() {
         onSelect={editor.setSelectedSectionId}
       >
         <ContactMainSection content={displayContent.main} />
+      </CmsEditableSection>
+      <CmsEditableSection
+        sectionId="contact-feedback"
+        title="Feedback Section"
+        isSelected={editor.selectedSectionId === "contact-feedback"}
+        onSelect={editor.setSelectedSectionId}
+      >
+        <ContactFeedbackSection content={displayContent.feedback} />
       </CmsEditableSection>
       <CmsEditableSection
         sectionId="contact-location"

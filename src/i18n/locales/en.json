@@ -699,7 +699,91 @@
             "subject": "Brief subject line",
             "message": "Describe your inquiry or project requirements"
           },
-          "submitLabel": "Send Inquiry"
+          "submitLabel": "Send Inquiry",
+          "validation": {
+            "nameRequired": "Name is required.",
+            "nameTooShort": "Name must be at least 2 characters.",
+            "nameTooLong": "Name must be 100 characters or fewer.",
+            "companyTooLong": "Company name must be 150 characters or fewer.",
+            "emailRequired": "Email is required.",
+            "emailInvalid": "Enter a valid email address.",
+            "emailTooLong": "Email must be 254 characters or fewer.",
+            "phoneTooLong": "Phone must be 30 characters or fewer.",
+            "phoneInvalid": "Enter a valid phone number.",
+            "subjectRequired": "Subject is required.",
+            "subjectTooShort": "Subject must be at least 3 characters.",
+            "subjectTooLong": "Subject must be 200 characters or fewer.",
+            "messageRequired": "Message is required.",
+            "messageTooShort": "Message must be at least 10 characters.",
+            "messageTooLong": "Message must be 5,000 characters or fewer."
+          },
+          "feedback": {
+            "success": "Your inquiry has been sent successfully. Our team will respond shortly.",
+            "submitError": "We could not submit your inquiry. Please review the form and try again.",
+            "rateLimited": "Too many submissions. Please wait a few minutes and try again.",
+            "smtpNotConfigured": "Contact form email delivery is not configured yet. Please contact us directly by phone or email.",
+            "sendFailed": "We could not send your inquiry right now. Please try again shortly or contact us directly.",
+            "networkError": "A network error occurred. Please check your connection and try again."
+          }
+        }
+      },
+      "feedback": {
+        "label": "Feedback",
+        "heading": "Share Your Feedback",
+        "form": {
+          "heading": "We Value Your Input",
+          "description": "Tell us about your experience with our products, services, or website. Your feedback helps us improve.",
+          "fields": {
+            "name": "Name",
+            "email": "Email",
+            "category": "Feedback Category",
+            "rating": "Overall Rating",
+            "message": "Your Feedback"
+          },
+          "placeholders": {
+            "name": "Your full name",
+            "email": "you@company.com",
+            "category": "Select a category",
+            "message": "Share your comments, suggestions, or experience"
+          },
+          "categories": [
+            { "id": "general", "label": "General Feedback" },
+            { "id": "website", "label": "Website Experience" },
+            { "id": "products", "label": "Products" },
+            { "id": "services", "label": "Services" },
+            { "id": "support", "label": "Customer Support" }
+          ],
+          "ratings": [
+            { "value": "5", "label": "Excellent" },
+            { "value": "4", "label": "Good" },
+            { "value": "3", "label": "Average" },
+            { "value": "2", "label": "Below Average" },
+            { "value": "1", "label": "Poor" }
+          ],
+          "ratingPlaceholder": "Select a rating (optional)",
+          "submitLabel": "Submit Feedback",
+          "validation": {
+            "nameRequired": "Name is required.",
+            "nameTooShort": "Name must be at least 2 characters.",
+            "nameTooLong": "Name must be 100 characters or fewer.",
+            "emailRequired": "Email is required.",
+            "emailInvalid": "Enter a valid email address.",
+            "emailTooLong": "Email must be 254 characters or fewer.",
+            "categoryRequired": "Please select a feedback category.",
+            "categoryInvalid": "Please select a valid feedback category.",
+            "ratingInvalid": "Please select a valid rating.",
+            "messageRequired": "Feedback message is required.",
+            "messageTooShort": "Feedback must be at least 10 characters.",
+            "messageTooLong": "Feedback must be 3,000 characters or fewer."
+          },
+          "responses": {
+            "success": "Thank you for your feedback. We appreciate your input.",
+            "submitError": "We could not submit your feedback. Please review the form and try again.",
+            "rateLimited": "Too many submissions. Please wait a few minutes and try again.",
+            "smtpNotConfigured": "Feedback email delivery is not configured yet. Please contact us directly by phone or email.",
+            "sendFailed": "We could not send your feedback right now. Please try again shortly.",
+            "networkError": "A network error occurred. Please check your connection and try again."
+          }
         }
       },
       "location": {

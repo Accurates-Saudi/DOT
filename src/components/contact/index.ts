@@ -1,7 +1,11 @@
 export { ContactEngineeringCtaSection } from "./ContactEngineeringCtaSection";
 export type { ContactEngineeringCtaSectionProps } from "./ContactEngineeringCtaSection";
+export { ContactFeedbackSection } from "./ContactFeedbackSection";
+export type { ContactFeedbackSectionProps } from "./ContactFeedbackSection";
 export { ContactForm } from "./ContactForm";
 export type { ContactFormProps } from "./ContactForm";
+export { FeedbackForm } from "./FeedbackForm";
+export type { FeedbackFormProps } from "./FeedbackForm";
 export { ContactHeroSection } from "./ContactHeroSection";
 export type { ContactHeroSectionProps } from "./ContactHeroSection";
 export { ContactInfo } from "./ContactInfo";

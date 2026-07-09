@@ -441,6 +441,49 @@ export interface ContactMainSectionContent {
   form: ContactFormContent;
 }
 
+export interface FeedbackCategoryOption {
+  id: string;
+  label: ContentValue<string>;
+}
+
+export interface FeedbackRatingOption {
+  value: string;
+  label: ContentValue<string>;
+}
+
+export interface FeedbackFormFieldLabels {
+  name: ContentValue<string>;
+  email: ContentValue<string>;
+  category: ContentValue<string>;
+  rating: ContentValue<string>;
+  message: ContentValue<string>;
+}
+
+export interface FeedbackFormContent {
+  heading: ContentValue<string>;
+  description?: ContentValue<string>;
+  fields: FeedbackFormFieldLabels;
+  placeholders?: Partial<FeedbackFormFieldLabels>;
+  categories: FeedbackCategoryOption[];
+  ratings: FeedbackRatingOption[];
+  ratingPlaceholder?: ContentValue<string>;
+  submitLabel: ContentValue<string>;
+}
+
+export interface ContactFeedbackSectionContent {
+  label: ContentValue<string>;
+  heading: ContentValue<string>;
+  form: FeedbackFormContent;
+}
+
+export interface FeedbackFormValues {
+  name: string;
+  email: string;
+  category: string;
+  rating: string;
+  message: string;
+}
+
 export interface ContactLocationContent {
   label: ContentValue<string>;
   heading: ContentValue<string>;
@@ -460,6 +503,7 @@ export interface ContactEngineeringCtaContent {
 export interface ContactPageContent extends PageContent {
   hero: ContactHeroContent;
   main: ContactMainSectionContent;
+  feedback: ContactFeedbackSectionContent;
   location: ContactLocationContent;
   engineeringCta: ContactEngineeringCtaContent;
 }

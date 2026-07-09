@@ -3,6 +3,8 @@ import { ArrowRight, Mail } from "lucide-react";
 import { LocalizedLink } from "@/components/i18n";
 import { Container, Section } from "@/components/shared";
 import { Button } from "@/components/ui";
+import { siteSettings } from "@/data/site";
+import { useApplicationEmail } from "@/i18n/content/hooks";
 import type { CareerJobDetail, CareersOpeningsContent } from "@/types";
 import { resolveDepartmentIcon } from "@/utils/career-icons";
 import { cn } from "@/lib/utils";
@@ -16,6 +18,9 @@ export function CareersOpeningsSection({
   content,
   jobs,
 }: CareersOpeningsSectionProps) {
+  const applicationEmail = useApplicationEmail();
+  const submitCvHref = `mailto:${applicationEmail || siteSettings.contact.email}?subject=${encodeURIComponent("General Application")}`;
+
   return (
     <Section
       id="careers-openings"
@@ -129,9 +134,9 @@ export function CareersOpeningsSection({
             className="mt-5 h-11 w-full shrink-0 rounded-sm px-6 text-[0.75rem] font-bold tracking-[0.08em] uppercase sm:mt-0 sm:w-auto"
             asChild
           >
-            <LocalizedLink to={content.generalApplication.ctaPrimary.href}>
+            <a href={submitCvHref}>
               {content.generalApplication.ctaPrimary.label}
-            </LocalizedLink>
+            </a>
           </Button>
         </div>
       </Container>

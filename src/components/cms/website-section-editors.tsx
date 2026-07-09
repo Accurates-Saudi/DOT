@@ -1175,6 +1175,50 @@ export function createContactPageSectionEditors(): CmsVisualSectionDefinition<Co
       ),
     },
     {
+      id: "contact-feedback",
+      title: "Feedback Section",
+      description:
+        "Edit the feedback section heading and form copy from the properties panel.",
+      renderPanel: ({ page, setValueAtPath }) => (
+        <>
+          <CmsPanelField
+            label="Label"
+            value={page.feedback.label}
+            onChange={(value) => setValueAtPath(["feedback", "label"], value)}
+          />
+          <CmsPanelField
+            label="Heading"
+            value={page.feedback.heading}
+            onChange={(value) => setValueAtPath(["feedback", "heading"], value)}
+          />
+          <CmsPanelCard title="Feedback form">
+            <CmsPanelField
+              label="Form heading"
+              value={page.feedback.form.heading}
+              onChange={(value) =>
+                setValueAtPath(["feedback", "form", "heading"], value)
+              }
+            />
+            <CmsPanelTextarea
+              label="Form description"
+              value={page.feedback.form.description ?? ""}
+              onChange={(value) =>
+                setValueAtPath(["feedback", "form", "description"], value)
+              }
+              rows={3}
+            />
+            <CmsPanelField
+              label="Submit button"
+              value={page.feedback.form.submitLabel}
+              onChange={(value) =>
+                setValueAtPath(["feedback", "form", "submitLabel"], value)
+              }
+            />
+          </CmsPanelCard>
+        </>
+      ),
+    },
+    {
       id: "contact-location",
       title: "Contact Location",
       description:
@@ -1241,6 +1285,7 @@ export function createContactPageSectionEditors(): CmsVisualSectionDefinition<Co
     {
       "contact-hero": "hero",
       "contact-main": "main",
+      "contact-feedback": "feedback",
       "contact-location": "location",
       "contact-engineering-cta": "engineeringCta",
     },

@@ -2,72 +2,66 @@ import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import { useMemo, useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui";
-import { submitContactInquiry } from "@/lib/contact/client";
+import { submitFeedback } from "@/lib/feedback/client";
 import {
-  getContactFormFeedbackMessages,
-  getContactValidationMessages,
-} from "@/lib/contact/messages";
+  getFeedbackResponseMessages,
+  getFeedbackValidationMessages,
+} from "@/lib/feedback/messages";
 import {
-  CONTACT_HONEYPOT_FIELD,
-  type ContactFieldErrors,
-  type ContactFieldName,
-  type ContactInquiryErrorResponse,
-} from "@/lib/contact/types";
+  FEEDBACK_HONEYPOT_FIELD,
+  type FeedbackErrorResponse,
+  type FeedbackFieldErrors,
+  type FeedbackFieldName,
+} from "@/lib/feedback/types";
 import {
   resolveFieldValidationMessage,
-  validateContactInquiry,
-} from "@/lib/contact/validation";
-import { useI18n, useLocale, useNumberFormat } from "@/i18n/hooks";
-import type { ContactFormContent, ContactFormValues } from "@/types";
+  validateFeedbackSubmission,
+} from "@/lib/feedback/validation";
+import { useI18n, useLocale } from "@/i18n/hooks";
+import type { FeedbackFormContent, FeedbackFormValues } from "@/types";
 import { cn } from "@/lib/utils";
 
-const INITIAL_VALUES: ContactFormValues = {
+const INITIAL_VALUES: FeedbackFormValues = {
   name: "",
-  company: "",
   email: "",
-  phone: "",
-  subject: "",
+  category: "",
+  rating: "",
   message: "",
 };
 
-export interface ContactFormProps {
-  content: ContactFormContent;
-  onSubmit?: (values: ContactFormValues) => void | Promise<void>;
-  isSubmitting?: boolean;
+export interface FeedbackFormProps {
+  content: FeedbackFormContent;
   className?: string;
 }
 
 const inputClassName =
   "form-input-interactive h-11 w-full rounded-sm border border-[#0c1524]/12 bg-white px-3.5 text-sm text-[#0c1524] placeholder:text-[#0c1524]/40 focus:outline-none";
 
-export function ContactForm({
-  content,
-  onSubmit,
-  isSubmitting: isSubmittingProp = false,
-  className,
-}: ContactFormProps) {
+export function FeedbackForm({ content, className }: FeedbackFormProps) {
   const locale = useLocale();
   const { messages } = useI18n();
-  const { formatNumericTextPlain } = useNumberFormat();
   const validationMessages = useMemo(
-    () => getContactValidationMessages(messages),
+    () => getFeedbackValidationMessages(messages),
     [messages],
   );
-  const feedbackMessages = useMemo(
-    () => getContactFormFeedbackMessages(messages),
+  const responseMessages = useMemo(
+    () => getFeedbackResponseMessages(messages),
     [messages],
   );
 
-  const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
+  const [values, setValues] = useState<FeedbackFormValues>(INITIAL_VALUES);
   const [honeypot, setHoneypot] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+  const [fieldErrors, setFieldErrors] = useState<FeedbackFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submitting = isSubmittingProp || isSubmitting;
+  const allowedCategories = useMemo(
+    () => content.categories.map((category) => category.id),
+    [content.categories],
+  );
 
-  function updateField(field: keyof ContactFormValues, value: string) {
+  function updateField(field: keyof FeedbackFormValues, value: string) {
     setValues((current) => ({ ...current, [field]: value }));
     setFieldErrors((current) => {
       if (!current[field]) return current;
@@ -79,30 +73,24 @@ export function ContactForm({
     setSuccessMessage(null);
   }
 
-  function mapServerFieldErrors(
-    serverFieldErrors: ContactFieldErrors,
-  ): ContactFieldErrors {
-    return serverFieldErrors;
-  }
-
-  function resolveDisplayedFieldError(field: ContactFieldName): string | undefined {
+  function resolveDisplayedFieldError(field: FeedbackFieldName): string | undefined {
     const code = fieldErrors[field];
     if (!code) return undefined;
     return resolveFieldValidationMessage(field, code, validationMessages);
   }
 
-  function resolveApiErrorMessage(error: ContactInquiryErrorResponse["error"]): string {
+  function resolveApiErrorMessage(error: FeedbackErrorResponse["error"]): string {
     switch (error.code) {
       case "rate_limited":
-        return feedbackMessages.rateLimited;
+        return responseMessages.rateLimited;
       case "smtp_not_configured":
-        return feedbackMessages.smtpNotConfigured;
+        return responseMessages.smtpNotConfigured;
       case "send_failed":
-        return feedbackMessages.sendFailed;
+        return responseMessages.sendFailed;
       case "validation_failed":
-        return error.message || feedbackMessages.submitError;
+        return error.message || responseMessages.submitError;
       default:
-        return feedbackMessages.submitError;
+        return responseMessages.submitError;
     }
   }
 
@@ -111,9 +99,10 @@ export function ContactForm({
     setFormError(null);
     setSuccessMessage(null);
 
-    const validation = validateContactInquiry(
-      { ...values, [CONTACT_HONEYPOT_FIELD]: honeypot, locale },
+    const validation = validateFeedbackSubmission(
+      { ...values, [FEEDBACK_HONEYPOT_FIELD]: honeypot, locale },
       validationMessages,
+      allowedCategories,
     );
 
     if (!validation.ok) {
@@ -123,23 +112,17 @@ export function ContactForm({
     }
 
     setFieldErrors({});
-
-    if (onSubmit) {
-      await onSubmit(validation.data);
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      const result = await submitContactInquiry({
+      const result = await submitFeedback({
         ...validation.data,
-        [CONTACT_HONEYPOT_FIELD]: honeypot,
+        [FEEDBACK_HONEYPOT_FIELD]: honeypot,
       });
 
       if (!result.ok) {
         if (result.error.fieldErrors) {
-          setFieldErrors(mapServerFieldErrors(result.error.fieldErrors));
+          setFieldErrors(result.error.fieldErrors);
         }
         setFormError(resolveApiErrorMessage(result.error));
         return;
@@ -147,25 +130,15 @@ export function ContactForm({
 
       setValues(INITIAL_VALUES);
       setHoneypot("");
-      setSuccessMessage(result.message || feedbackMessages.success);
+      setSuccessMessage(result.message || responseMessages.success);
     } catch {
-      setFormError(feedbackMessages.networkError);
+      setFormError(responseMessages.networkError);
     } finally {
       setIsSubmitting(false);
     }
   }
 
   const placeholders = content.placeholders ?? {};
-  const localizedPlaceholders = {
-    name: placeholders.name,
-    company: placeholders.company,
-    email: placeholders.email,
-    phone: placeholders.phone
-      ? formatNumericTextPlain(placeholders.phone)
-      : undefined,
-    subject: placeholders.subject,
-    message: placeholders.message,
-  };
 
   return (
     <div
@@ -174,9 +147,9 @@ export function ContactForm({
         className,
       )}
     >
-      <h2 className="text-xl font-bold tracking-tight text-[#0c1524] sm:text-2xl">
+      <h3 className="text-xl font-bold tracking-tight text-[#0c1524] sm:text-2xl">
         {content.heading}
-      </h2>
+      </h3>
       {content.description && (
         <p className="mt-2 text-[0.9375rem] leading-relaxed text-[#0c1524]/65 sm:text-base">
           {content.description}
@@ -204,7 +177,7 @@ export function ContactForm({
       )}
 
       <form
-        id="contact-form"
+        id="feedback-form"
         onSubmit={handleSubmit}
         className="relative mt-8 space-y-5"
         noValidate
@@ -213,10 +186,10 @@ export function ContactForm({
           className="absolute start-[-9999px] top-auto h-px w-px overflow-hidden"
           aria-hidden
         >
-          <label htmlFor="contact-website">Website</label>
+          <label htmlFor="feedback-company-website">Company website</label>
           <input
-            id="contact-website"
-            name={CONTACT_HONEYPOT_FIELD}
+            id="feedback-company-website"
+            name={FEEDBACK_HONEYPOT_FIELD}
             type="text"
             tabIndex={-1}
             autoComplete="off"
@@ -227,9 +200,9 @@ export function ContactForm({
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <FormField
-            id="contact-name"
+            id="feedback-name"
             label={content.fields.name}
-            placeholder={localizedPlaceholders.name}
+            placeholder={placeholders.name}
             value={values.name}
             onChange={(value) => updateField("name", value)}
             autoComplete="name"
@@ -237,70 +210,128 @@ export function ContactForm({
             error={resolveDisplayedFieldError("name")}
           />
           <FormField
-            id="contact-company"
-            label={content.fields.company}
-            placeholder={localizedPlaceholders.company}
-            value={values.company}
-            onChange={(value) => updateField("company", value)}
-            autoComplete="organization"
-            error={resolveDisplayedFieldError("company")}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <FormField
-            id="contact-email"
+            id="feedback-email"
             label={content.fields.email}
             type="email"
-            placeholder={localizedPlaceholders.email}
+            placeholder={placeholders.email}
             value={values.email}
             onChange={(value) => updateField("email", value)}
             autoComplete="email"
             required
             error={resolveDisplayedFieldError("email")}
           />
-          <FormField
-            id="contact-phone"
-            label={content.fields.phone}
-            type="tel"
-            placeholder={localizedPlaceholders.phone}
-            value={values.phone}
-            onChange={(value) => updateField("phone", value)}
-            autoComplete="tel"
-            dir={locale === "ar" ? "ltr" : undefined}
-            error={resolveDisplayedFieldError("phone")}
-          />
         </div>
 
-        <FormField
-          id="contact-subject"
-          label={content.fields.subject}
-          placeholder={localizedPlaceholders.subject}
-          value={values.subject}
-          onChange={(value) => updateField("subject", value)}
-          required
-          error={resolveDisplayedFieldError("subject")}
-        />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="feedback-category"
+              className="mb-2 block text-[0.6875rem] font-bold tracking-[0.12em] text-[#0c1524]/70 uppercase sm:text-xs"
+            >
+              {content.fields.category}
+            </label>
+            <select
+              id="feedback-category"
+              name="category"
+              value={values.category}
+              onChange={(event) => updateField("category", event.target.value)}
+              required
+              aria-invalid={Boolean(resolveDisplayedFieldError("category"))}
+              aria-describedby={
+                resolveDisplayedFieldError("category")
+                  ? "feedback-category-error"
+                  : undefined
+              }
+              className={cn(
+                inputClassName,
+                resolveDisplayedFieldError("category") &&
+                  "border-red-300 focus:border-red-400 focus:ring-red-100",
+              )}
+            >
+              <option value="" disabled>
+                {placeholders.category ?? content.fields.category}
+              </option>
+              {content.categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+            {resolveDisplayedFieldError("category") && (
+              <p
+                id="feedback-category-error"
+                className="mt-2 text-xs text-red-700"
+                role="alert"
+              >
+                {resolveDisplayedFieldError("category")}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="feedback-rating"
+              className="mb-2 block text-[0.6875rem] font-bold tracking-[0.12em] text-[#0c1524]/70 uppercase sm:text-xs"
+            >
+              {content.fields.rating}
+            </label>
+            <select
+              id="feedback-rating"
+              name="rating"
+              value={values.rating}
+              onChange={(event) => updateField("rating", event.target.value)}
+              aria-invalid={Boolean(resolveDisplayedFieldError("rating"))}
+              aria-describedby={
+                resolveDisplayedFieldError("rating")
+                  ? "feedback-rating-error"
+                  : undefined
+              }
+              className={cn(
+                inputClassName,
+                resolveDisplayedFieldError("rating") &&
+                  "border-red-300 focus:border-red-400 focus:ring-red-100",
+              )}
+            >
+              <option value="">
+                {content.ratingPlaceholder ?? placeholders.rating ?? ""}
+              </option>
+              {content.ratings.map((rating) => (
+                <option key={rating.value} value={rating.value}>
+                  {rating.label}
+                </option>
+              ))}
+            </select>
+            {resolveDisplayedFieldError("rating") && (
+              <p
+                id="feedback-rating-error"
+                className="mt-2 text-xs text-red-700"
+                role="alert"
+              >
+                {resolveDisplayedFieldError("rating")}
+              </p>
+            )}
+          </div>
+        </div>
 
         <div>
           <label
-            htmlFor="contact-message"
+            htmlFor="feedback-message"
             className="mb-2 block text-[0.6875rem] font-bold tracking-[0.12em] text-[#0c1524]/70 uppercase sm:text-xs"
           >
             {content.fields.message}
           </label>
           <textarea
-            id="contact-message"
+            id="feedback-message"
             name="message"
             rows={5}
             value={values.message}
             onChange={(event) => updateField("message", event.target.value)}
-            placeholder={localizedPlaceholders.message}
+            placeholder={placeholders.message}
             required
             aria-invalid={Boolean(resolveDisplayedFieldError("message"))}
             aria-describedby={
               resolveDisplayedFieldError("message")
-                ? "contact-message-error"
+                ? "feedback-message-error"
                 : undefined
             }
             className={cn(
@@ -312,7 +343,7 @@ export function ContactForm({
           />
           {resolveDisplayedFieldError("message") && (
             <p
-              id="contact-message-error"
+              id="feedback-message-error"
               className="mt-2 text-xs text-red-700"
               role="alert"
             >
@@ -324,7 +355,7 @@ export function ContactForm({
         <Button
           type="submit"
           variant="accent"
-          disabled={submitting}
+          disabled={isSubmitting}
           className="h-12 w-full rounded-sm px-7 text-[0.8125rem] font-bold tracking-[0.08em] uppercase sm:w-auto"
         >
           <Send className="size-4" strokeWidth={2.25} />
@@ -340,11 +371,10 @@ interface FormFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  type?: "text" | "email" | "tel";
+  type?: "text" | "email";
   placeholder?: string;
   autoComplete?: string;
   required?: boolean;
-  dir?: "ltr" | "rtl";
   error?: string;
 }
 
@@ -357,7 +387,6 @@ function FormField({
   placeholder,
   autoComplete,
   required,
-  dir,
   error,
 }: FormFieldProps) {
   const errorId = error ? `${id}-error` : undefined;
@@ -372,14 +401,13 @@ function FormField({
       </label>
       <input
         id={id}
-        name={id.replace("contact-", "")}
+        name={id.replace("feedback-", "")}
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
         required={required}
-        dir={dir}
         aria-invalid={Boolean(error)}
         aria-describedby={errorId}
         className={cn(

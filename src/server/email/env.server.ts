@@ -1,73 +1,49 @@
 import "dotenv/config";
 
-export interface SmtpConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  pass: string;
+export interface EmailDeliveryConfig {
+  accessKeyId: string;
+  secretAccessKey: string;
+  region: string;
   from: string;
-  inquiryTo: string;
-  feedbackTo: string;
+  mailTo: string;
 }
 
-const REQUIRED_SMTP_ENV_KEYS = [
-  "SMTP_HOST",
-  "SMTP_PORT",
-  "SMTP_USER",
-  "SMTP_PASS",
-  "SMTP_FROM",
-  "CONTACT_INQUIRY_TO",
+const REQUIRED_EMAIL_ENV_KEYS = [
+  "AWS_ACCESS_KEY_ID",
+  "AWS_SECRET_ACCESS_KEY",
+  "AWS_REGION",
+  "MAIL_FROM",
+  "MAIL_TO",
 ] as const;
 
-export function getMissingSmtpEnvKeys(): string[] {
-  return REQUIRED_SMTP_ENV_KEYS.filter((key) => !process.env[key]?.trim());
+export function getMissingEmailEnvKeys(): string[] {
+  return REQUIRED_EMAIL_ENV_KEYS.filter((key) => !process.env[key]?.trim());
 }
 
-export function getSmtpConfig(): SmtpConfig | null {
-  const host = process.env.SMTP_HOST?.trim();
-  const portValue = process.env.SMTP_PORT?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  const from = process.env.SMTP_FROM?.trim();
-  const inquiryTo = process.env.CONTACT_INQUIRY_TO?.trim();
-  const feedbackTo =
-    process.env.CONTACT_FEEDBACK_TO?.trim() || inquiryTo;
+export function getEmailDeliveryConfig(): EmailDeliveryConfig | null {
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID?.trim();
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY?.trim();
+  const region = process.env.AWS_SES_REGION?.trim() || process.env.AWS_REGION?.trim();
+  const from = process.env.MAIL_FROM?.trim();
+  const mailTo = process.env.MAIL_TO?.trim();
 
-  if (!host || !portValue || !user || !pass || !from || !inquiryTo) {
+  if (!accessKeyId || !secretAccessKey || !region || !from || !mailTo) {
     return null;
   }
-
-  const port = Number.parseInt(portValue, 10);
-  if (!Number.isFinite(port) || port <= 0) {
-    return null;
-  }
-
-  const secure =
-    process.env.SMTP_SECURE?.trim().toLowerCase() === "true" || port === 465;
 
   return {
-    host,
-    port,
-    secure,
-    user,
-    pass,
+    accessKeyId,
+    secretAccessKey,
+    region,
     from,
-    inquiryTo,
-    feedbackTo: feedbackTo ?? inquiryTo,
+    mailTo,
   };
 }
 
-export function getSmtpConfigurationError(): string | null {
-  const missingKeys = getMissingSmtpEnvKeys();
+export function getEmailConfigurationError(): string | null {
+  const missingKeys = getMissingEmailEnvKeys();
   if (missingKeys.length > 0) {
-    return `SMTP is not configured. Missing environment variables: ${missingKeys.join(", ")}.`;
-  }
-
-  const portValue = process.env.SMTP_PORT?.trim();
-  const port = Number.parseInt(portValue ?? "", 10);
-  if (!Number.isFinite(port) || port <= 0) {
-    return "SMTP is not configured. SMTP_PORT must be a valid port number.";
+    return `Email delivery is not configured. Missing environment variables: ${missingKeys.join(", ")}.`;
   }
 
   return null;

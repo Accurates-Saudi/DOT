@@ -1,8 +1,12 @@
-import nodemailer from "nodemailer";
+import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 
 import type { SanitizedContactInquiry } from "@/lib/contact/types";
 import type { SanitizedFeedback } from "@/lib/feedback/types";
-import { getSmtpConfig, getSmtpConfigurationError } from "./env.server";
+import {
+  getEmailConfigurationError,
+  getEmailDeliveryConfig,
+  type EmailDeliveryConfig,
+} from "./env.server";
 
 export class EmailConfigurationError extends Error {
   constructor(message: string) {
@@ -128,37 +132,72 @@ function buildFeedbackEmail(feedback: SanitizedFeedback) {
   return { subject, replyTo, text, html };
 }
 
+function createSesClient(config: EmailDeliveryConfig): SESClient {
+  return new SESClient({
+    region: config.region,
+    credentials: {
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
+    },
+  });
+}
+
+async function sendEmail(input: {
+  config: EmailDeliveryConfig;
+  subject: string;
+  replyTo: string;
+  text: string;
+  html: string;
+}) {
+  const client = createSesClient(input.config);
+
+  await client.send(
+    new SendEmailCommand({
+      Source: sanitizeHeaderValue(input.config.from),
+      Destination: {
+        ToAddresses: [sanitizeHeaderValue(input.config.mailTo)],
+      },
+      ReplyToAddresses: [input.replyTo],
+      Message: {
+        Subject: {
+          Charset: "UTF-8",
+          Data: input.subject,
+        },
+        Body: {
+          Text: {
+            Charset: "UTF-8",
+            Data: input.text,
+          },
+          Html: {
+            Charset: "UTF-8",
+            Data: input.html,
+          },
+        },
+      },
+    }),
+  );
+}
+
 export async function sendContactInquiryEmail(
   inquiry: SanitizedContactInquiry,
 ): Promise<void> {
-  const configurationError = getSmtpConfigurationError();
+  const configurationError = getEmailConfigurationError();
   if (configurationError) {
     throw new EmailConfigurationError(configurationError);
   }
 
-  const smtpConfig = getSmtpConfig();
-  if (!smtpConfig) {
+  const emailConfig = getEmailDeliveryConfig();
+  if (!emailConfig) {
     throw new EmailConfigurationError(
-      "SMTP is not configured. Contact form email delivery is unavailable.",
+      "Email delivery is not configured. Contact form email delivery is unavailable.",
     );
   }
-
-  const transporter = nodemailer.createTransport({
-    host: smtpConfig.host,
-    port: smtpConfig.port,
-    secure: smtpConfig.secure,
-    auth: {
-      user: smtpConfig.user,
-      pass: smtpConfig.pass,
-    },
-  });
 
   const email = buildInquiryEmail(inquiry);
 
   try {
-    await transporter.sendMail({
-      from: smtpConfig.from,
-      to: smtpConfig.inquiryTo,
+    await sendEmail({
+      config: emailConfig,
       replyTo: email.replyTo,
       subject: email.subject,
       text: email.text,
@@ -172,34 +211,23 @@ export async function sendContactInquiryEmail(
 }
 
 export async function sendFeedbackEmail(feedback: SanitizedFeedback): Promise<void> {
-  const configurationError = getSmtpConfigurationError();
+  const configurationError = getEmailConfigurationError();
   if (configurationError) {
     throw new EmailConfigurationError(configurationError);
   }
 
-  const smtpConfig = getSmtpConfig();
-  if (!smtpConfig) {
+  const emailConfig = getEmailDeliveryConfig();
+  if (!emailConfig) {
     throw new EmailConfigurationError(
-      "SMTP is not configured. Feedback email delivery is unavailable.",
+      "Email delivery is not configured. Feedback email delivery is unavailable.",
     );
   }
-
-  const transporter = nodemailer.createTransport({
-    host: smtpConfig.host,
-    port: smtpConfig.port,
-    secure: smtpConfig.secure,
-    auth: {
-      user: smtpConfig.user,
-      pass: smtpConfig.pass,
-    },
-  });
 
   const email = buildFeedbackEmail(feedback);
 
   try {
-    await transporter.sendMail({
-      from: smtpConfig.from,
-      to: smtpConfig.feedbackTo,
+    await sendEmail({
+      config: emailConfig,
       replyTo: email.replyTo,
       subject: email.subject,
       text: email.text,

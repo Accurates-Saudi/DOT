@@ -66,7 +66,7 @@ export async function processContactInquirySubmission(input: {
     await sendContactInquiryEmail(validation.data);
   } catch (error) {
     if (error instanceof EmailConfigurationError) {
-      console.error("[contact] SMTP configuration error:", error.message);
+      console.error("[contact] Email configuration error:", error.message);
       return {
         ok: false,
         error: {
@@ -78,7 +78,7 @@ export async function processContactInquirySubmission(input: {
     }
 
     if (error instanceof EmailDeliveryError) {
-      console.error("[contact] SMTP delivery error:", error.message, error.cause);
+      console.error("[contact] Email delivery error:", error.message, error.cause);
       return {
         ok: false,
         error: {

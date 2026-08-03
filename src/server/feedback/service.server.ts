@@ -71,7 +71,7 @@ export async function processFeedbackSubmission(input: {
     await sendFeedbackEmail(validation.data);
   } catch (error) {
     if (error instanceof EmailConfigurationError) {
-      console.error("[feedback] SMTP configuration error:", error.message);
+      console.error("[feedback] Email configuration error:", error.message);
       return {
         ok: false,
         error: {
@@ -83,7 +83,7 @@ export async function processFeedbackSubmission(input: {
     }
 
     if (error instanceof EmailDeliveryError) {
-      console.error("[feedback] SMTP delivery error:", error.message, error.cause);
+      console.error("[feedback] Email delivery error:", error.message, error.cause);
       return {
         ok: false,
         error: {

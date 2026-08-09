@@ -82,75 +82,77 @@ function FooterView({ content }: { content: FooterContent }) {
   return (
     <footer className="bg-[#0c1524] text-white">
       <Container size="wide" className="py-[72px]">
-        <div className="sm:col-span-2 lg:col-span-4">
-          <div className="flex items-center gap-3">
-            <img
-              src={content.logos.dot.src}
-              alt={content.logos.dot.alt}
-              className="h-9 w-auto object-contain brightness-0 invert sm:h-10"
-            />
-            <span className="h-7 w-px bg-white/20" aria-hidden />
-            <img
-              src={content.logos.saudiMade.src}
-              alt={content.logos.saudiMade.alt}
-              className="h-8 w-auto object-contain sm:h-9"
-            />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="sm:col-span-2 lg:col-span-4">
+            <div className="flex items-center gap-3">
+              <img
+                src={content.logos.dot.src}
+                alt={content.logos.dot.alt}
+                className="h-9 w-auto object-contain brightness-0 invert sm:h-10"
+              />
+              <span className="h-7 w-px bg-white/20" aria-hidden />
+              <img
+                src={content.logos.saudiMade.src}
+                alt={content.logos.saudiMade.alt}
+                className="h-8 w-auto object-contain sm:h-9"
+              />
+            </div>
+
+            <p className="mt-5 max-w-sm text-[0.875rem] leading-relaxed text-white/68 sm:text-sm">
+              {content.description}
+            </p>
           </div>
 
-          <p className="mt-5 max-w-sm text-[0.875rem] leading-relaxed text-white/68 sm:text-sm">
-            {content.description}
-          </p>
-        </div>
+          <FooterLinkColumn
+            title={content.quickLinks.title}
+            items={content.quickLinks.items}
+            className="lg:col-span-2"
+          />
 
-        <FooterLinkColumn
-          title={content.quickLinks.title}
-          items={content.quickLinks.items}
-          className="mt-10 sm:mt-12"
-        />
+          <FooterLinkColumn
+            title={content.services.title}
+            items={content.services.items}
+            className="lg:col-span-3"
+          />
 
-        <FooterLinkColumn
-          title={content.services.title}
-          items={content.services.items}
-          className="mt-10 sm:mt-12"
-        />
-
-        <div className="mt-10 sm:mt-12">
-          <FooterColumnTitle>{content.contact.title}</FooterColumnTitle>
-          <ul className="mt-5 space-y-4">
-            {content.contact.items.map((item) => {
-              const Icon = CONTACT_ICONS[item.type] ?? Phone;
-              const contentNode = (
-                <>
-                  <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-white/10 text-[#F68E05]">
-                    <Icon className="size-3.5" aria-hidden />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-[0.6875rem] font-medium tracking-wide text-white/45 uppercase">
-                      {item.label}
+          <div className="lg:col-span-3">
+            <FooterColumnTitle>{content.contact.title}</FooterColumnTitle>
+            <ul className="mt-5 space-y-4">
+              {content.contact.items.map((item) => {
+                const Icon = CONTACT_ICONS[item.type] ?? Phone;
+                const contentNode = (
+                  <>
+                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-white/10 text-[#F68E05]">
+                      <Icon className="size-3.5" aria-hidden />
                     </span>
-                    <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
-                      <FormattedNumericText value={item.value} />
+                    <span className="min-w-0">
+                      <span className="block text-[0.6875rem] font-medium tracking-wide text-white/45 uppercase">
+                        {item.label}
+                      </span>
+                      <span className="mt-0.5 block text-[0.875rem] leading-relaxed text-white/78">
+                        <FormattedNumericText value={item.value} />
+                      </span>
                     </span>
-                  </span>
-                </>
-              );
+                  </>
+                );
 
-              return (
-                <li key={`${item.type}-${item.label}`}>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="group text-link-hover flex gap-3 hover:text-[#F68E05]"
-                    >
-                      {contentNode}
-                    </a>
-                  ) : (
-                    <div className="flex gap-3">{contentNode}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li key={`${item.type}-${item.label}`}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        className="group text-link-hover flex gap-3 hover:text-[#F68E05]"
+                      >
+                        {contentNode}
+                      </a>
+                    ) : (
+                      <div className="flex gap-3">{contentNode}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:pt-7">

@@ -21,11 +21,13 @@ import { stripLocaleFromPath, localizePath } from "@/i18n/utils";
 export interface LanguageSwitcherProps {
   isHeroState?: boolean;
   className?: string;
+  compact?: boolean;
 }
 
 export function LanguageSwitcher({
   isHeroState = false,
   className,
+  compact = false,
 }: LanguageSwitcherProps) {
   const { locale } = useI18n();
   const direction = useDirection();
@@ -99,7 +101,8 @@ export function LanguageSwitcher({
         aria-label={t("current", { language: localeLabels[locale] })}
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-[0.8125rem] font-medium tracking-[0.01em]",
+          "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border text-[0.8125rem] font-medium tracking-[0.01em]",
+          compact ? "px-2" : "px-3",
           transitionPresets.colors,
           "duration-300",
           isHeroState
@@ -108,7 +111,7 @@ export function LanguageSwitcher({
         )}
       >
         <Globe className="size-3.5 shrink-0 opacity-80" aria-hidden />
-        <span>{localeLabels[locale]}</span>
+        {compact ? null : <span>{localeLabels[locale]}</span>}
         <ChevronDown
           className={cn(
             "size-3.5 shrink-0 opacity-70 transition-transform duration-200",

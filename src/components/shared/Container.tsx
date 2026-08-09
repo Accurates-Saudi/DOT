@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -23,15 +23,15 @@ export interface ContainerProps extends VariantProps<typeof containerVariants> {
   as?: "div" | "section" | "article" | "main" | "header" | "footer";
 }
 
-export function Container({
-  children,
-  className,
-  size,
-  as: Component = "div",
-}: ContainerProps) {
-  return (
-    <Component className={cn(containerVariants({ size }), className)}>
-      {children}
-    </Component>
-  );
-}
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  function Container({ children, className, size, as: Component = "div" }, ref) {
+    return (
+      <Component
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cn(containerVariants({ size }), className)}
+      >
+        {children}
+      </Component>
+    );
+  },
+);

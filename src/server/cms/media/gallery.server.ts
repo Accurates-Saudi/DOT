@@ -138,6 +138,10 @@ export async function listMediaGalleryItems(search = ""): Promise<MediaGalleryIt
   }
 
   for (const upload of uploads) {
+    // The gallery/picker only renders images; skip non-image assets (e.g. PDFs)
+    // so they don't appear as broken thumbnails.
+    if (upload.type !== "image") continue;
+
     const url = upload.currentVersion?.url;
     if (!url) continue;
 

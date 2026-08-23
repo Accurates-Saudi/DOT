@@ -99,6 +99,8 @@ async function persistMediaVersion(input: {
   });
 }
 
+type CmsMediaAssetType = "IMAGE" | "DOCUMENT" | "VIDEO" | "OTHER";
+
 export async function createMediaAsset(input: {
   key: string;
   actorId: string;
@@ -108,6 +110,7 @@ export async function createMediaAsset(input: {
   width?: number;
   height?: number;
   alt?: CMSLocalizedValue<string>;
+  type?: CmsMediaAssetType;
 }): Promise<MediaLibraryItem> {
   if (!input.key.trim()) {
     throw new CmsHttpError(400, "invalid_media_key", "Media key is required.");
@@ -116,7 +119,7 @@ export async function createMediaAsset(input: {
   const asset = await prisma.cmsMediaAsset.create({
     data: {
       key: input.key,
-      type: "IMAGE",
+      type: input.type ?? "IMAGE",
       latestVersionNumber: 0,
       createdById: input.actorId,
       updatedById: input.actorId,
@@ -156,6 +159,7 @@ export async function uploadMediaAsset(input: {
   height?: number;
   alt?: CMSLocalizedValue<string>;
   mediaId?: string;
+  type?: CmsMediaAssetType;
 }): Promise<MediaLibraryItem> {
   if (input.mediaId) {
     return replaceMediaAsset({

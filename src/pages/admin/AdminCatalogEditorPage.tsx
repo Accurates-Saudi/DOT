@@ -8,6 +8,7 @@ import {
   AdminTextarea,
 } from "@/components/admin/collection/AdminEntityFormFields";
 import { AdminMediaPicker } from "@/components/admin/collection/AdminMediaPicker";
+import { AdminPdfPicker } from "@/components/admin/collection/AdminPdfPicker";
 import type { Locale } from "@/i18n/config";
 import type { CmsCatalogPayload } from "@/types/cms-entities";
 import type { CatalogItem } from "@/types";
@@ -122,34 +123,12 @@ export function AdminCatalogEditorPage({
           value={item.cover}
           onChange={(cover) => updateItem((current) => ({ ...current, cover }))}
         />
-        <AdminField label="Download Link">
-          <AdminInput
-            value={item.pdf?.href ?? ""}
-            onChange={(event) =>
-              updateItem((current) => ({
-                ...current,
-                pdf: {
-                  href: event.target.value,
-                  fileName: current.pdf?.fileName ?? "",
-                },
-              }))
-            }
-          />
-        </AdminField>
-        <AdminField label="Download File Name">
-          <AdminInput
-            value={item.pdf?.fileName ?? ""}
-            onChange={(event) =>
-              updateItem((current) => ({
-                ...current,
-                pdf: {
-                  href: current.pdf?.href ?? "",
-                  fileName: event.target.value,
-                },
-              }))
-            }
-          />
-        </AdminField>
+        <AdminPdfPicker
+          label="Download Link"
+          value={item.pdf}
+          keyHint={contentKey.replace(/[^a-zA-Z0-9]+/g, "-")}
+          onChange={(pdf) => updateItem((current) => ({ ...current, pdf }))}
+        />
       </AdminFieldGroup>
     </AdminEntityEditorShell>
   );

@@ -17,6 +17,18 @@ export function assertImageUpload(mimeType: string): void {
   }
 }
 
+const DOCUMENT_MIME_TYPES = new Set(["application/pdf"]);
+
+export function assertDocumentUpload(mimeType: string): void {
+  if (!DOCUMENT_MIME_TYPES.has(mimeType)) {
+    throw new CmsHttpError(
+      400,
+      "invalid_document_type",
+      "Only PDF document uploads are supported.",
+    );
+  }
+}
+
 export function getRequestMetadata(request: Request): {
   ipAddress?: string;
   userAgent?: string;

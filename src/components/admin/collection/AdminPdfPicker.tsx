@@ -2,6 +2,9 @@ import { useRef, useState } from "react";
 
 import { AdminField, AdminInput } from "./AdminEntityFormFields";
 
+/** Keep in sync with the proxy's max request body size (nginx client_max_body_size). */
+const MAX_PDF_BYTES = 25 * 1024 * 1024;
+
 interface AdminPdfPickerProps {
   label: string;
   value?: { href: string; fileName?: string };
@@ -25,6 +28,15 @@ export function AdminPdfPicker({
   const [error, setError] = useState<string | null>(null);
 
   async function handleUpload(file: File) {
+    if (file.size > MAX_PDF_BYTES) {
+      setError(
+        `This PDF is ${(file.size / 1024 / 1024).toFixed(1)} MB. The maximum is ${
+          MAX_PDF_BYTES / 1024 / 1024
+        } MB — please compress it and try again.`,
+      );
+      return;
+    }
+
     setStatus("uploading");
     setError(null);
 
@@ -43,7 +55,17 @@ export function AdminPdfPicker({
       const body = await response.json().catch(() => null);
 
       if (!response.ok) {
-        setError(body?.error?.message ?? "Unable to upload PDF.");
+        if (body?.error?.message) {
+          setError(body.error.message);
+        } else if (response.status === 413) {
+          setError(
+            "The server rejected this PDF because it is too large (413). Please compress it or ask your administrator to raise the upload limit.",
+          );
+        } else {
+          setError(
+            `Unable to upload PDF (HTTP ${response.status} ${response.statusText}).`,
+          );
+        }
         return;
       }
 
@@ -55,8 +77,12 @@ export function AdminPdfPicker({
       }
 
       onChange({ href: url, fileName: value?.fileName || file.name });
-    } catch {
-      setError("Unable to upload PDF.");
+    } catch (cause) {
+      setError(
+        `Unable to upload PDF — the request did not complete${
+          cause instanceof Error && cause.message ? `: ${cause.message}` : "."
+        }`,
+      );
     } finally {
       setStatus("idle");
     }
